@@ -25,8 +25,6 @@ export default function Upload() {
       try {
         const response = await axios.post("upload", formData);
         setAssetData(response.data);
-
-        console.log(response.data);
         alert("上傳成功");
       } catch (error) {
         console.error("Error uploading the file:", error);
@@ -63,7 +61,6 @@ export default function Upload() {
 
       try {
         const res = await axios.post(`${resource_type}/destroy`, postData);
-        console.log(res.data);
         setAssetData(null);
         alert("刪除成功");
       } catch (error) {
