@@ -3,7 +3,6 @@ import crypto from "crypto";
 import axios from "axios";
 
 const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_NAME!;
-const upload_preset = process.env.NEXT_PUBLIC_UPLOAD_PRESRT!;
 
 axios.defaults.baseURL = `https://api.cloudinary.com/v1_1/${cloudName}/`;
 
@@ -17,6 +16,7 @@ export default function Upload() {
 
   const handleUpload = async () => {
     if (file) {
+      const upload_preset = process.env.NEXT_PUBLIC_UPLOAD_PRESRT!;
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", upload_preset);
