@@ -1,4 +1,4 @@
-import Upload from "@/components/Upload";
+import Upload from "@/components/test/Upload";
 
 export default function Home() {
   return (

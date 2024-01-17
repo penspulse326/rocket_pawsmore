@@ -1,14 +1,12 @@
 import { useState } from "react";
 import crypto from "crypto";
 import axios from "axios";
-
-const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_NAME!;
-
-axios.defaults.baseURL = `https://api.cloudinary.com/v1_1/${cloudName}/`;
+import { mediaUpload } from "@/common/helpers/mediaManager";
 
 export default function Upload() {
   const [file, setFile] = useState<File | null>(null);
   const [assestData, setAssetData] = useState<any>(null);
+  const [preview, setPreview] = useState<any>(null);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.currentTarget.files;
     if (files) setFile(files[0]);
@@ -16,16 +14,14 @@ export default function Upload() {
 
   const handleUpload = async () => {
     if (file) {
-      const upload_preset = process.env.NEXT_PUBLIC_UPLOAD_PRESRT!;
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", upload_preset);
-      formData.append("tags", "test");
+      // 設定預覽
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => setPreview(reader.result);
 
       try {
-        const response = await axios.post("upload", formData);
-        setAssetData(response.data);
-        alert("上傳成功");
+        const response = await mediaUpload(file);
+        setAssetData(response);
       } catch (error) {
         console.error("Error uploading the file:", error);
       }
@@ -86,7 +82,11 @@ export default function Upload() {
           刪除圖片
         </button>
       </div>
-      <div>public_id: {assestData?.public_id}</div>
+      <div>
+        預覽圖片：
+        {preview && <img src={preview} alt="preview" />}
+      </div>
+      回傳圖片：
       {assestData &&
         (assestData.resource_type === "image" ? (
           <img src={assestData.secure_url} alt="圖片" />
