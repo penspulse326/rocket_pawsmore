@@ -7,16 +7,23 @@ export default function Upload() {
   const [preview, setPreview] = useState<any>(null);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.currentTarget.files;
-    if (files) setFile(files[0]);
+    if (files) {
+      setFile(files[0]);
+      // 設定預覽
+      const reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+      reader.onload = () => {
+        const fileType = files[0].type.split("/")[0];
+        setPreview({
+          src: reader.result,
+          type: fileType,
+        });
+      };
+    }
   };
 
   const handleUpload = async () => {
     if (file) {
-      // 設定預覽
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => setPreview(reader.result);
-
       try {
         const response = await mediaUpload(file);
         setAssetData(response);
@@ -59,18 +66,27 @@ export default function Upload() {
         </button>
       </div>
       <div>
-        預覽圖片：
-        {preview && <img src={preview} alt="preview" />}
+        預覽資源：
+        {preview && preview.type === "image" && (
+          <img src={preview.src} alt="preview" />
+        )}
+        {preview && preview.type === "video" && (
+          <video controls>
+            <source src={preview.src} type="video/mp4"></source>
+          </video>
+        )}
       </div>
-      回傳圖片：
-      {assestData &&
-        (assestData.resource_type === "image" ? (
+      <div>
+        回傳圖片：
+        {assestData && assestData.resource_type === "image" && (
           <img src={assestData.secure_url} alt="圖片" />
-        ) : (
-          <video controls autoPlay={true}>
+        )}
+        {assestData && assestData.resource_type === "video" && (
+          <video controls>
             <source src={assestData.secure_url} type="video/mp4"></source>
           </video>
-        ))}
+        )}
+      </div>
     </div>
   );
 }
