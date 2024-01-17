@@ -11,8 +11,6 @@ export default async function handler(
   formData.append("upload_preset", process.env.UPLOAD_PRESRT!);
   formData.append("tags", "test");
 
-  console.log(data);
-
   const options = {
     method: "POST",
     body: formData,

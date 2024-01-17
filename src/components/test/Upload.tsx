@@ -1,7 +1,5 @@
 import { useState } from "react";
-import crypto from "crypto";
-import axios from "axios";
-import { mediaUpload } from "@/common/helpers/mediaManager";
+import { mediaDelete, mediaUpload } from "@/common/helpers/mediaManager";
 
 export default function Upload() {
   const [file, setFile] = useState<File | null>(null);
@@ -29,38 +27,16 @@ export default function Upload() {
   };
 
   const handleDelete = async () => {
-    const generateSHA1 = (data: any) => {
-      const hash = crypto.createHash("sha1");
-      hash.update(data);
-      return hash.digest("hex");
-    };
-
-    const generateSignature = (publicId: string, apiSecret: string) => {
-      const timestamp = new Date().getTime();
-      return `public_id=${publicId}&timestamp=${timestamp}${apiSecret}`;
-    };
-
     if (assestData) {
-      const { resource_type, public_id } = assestData;
-
-      const api_secret = process.env.NEXT_PUBLIC_API_SECRET!;
-      const api_key = process.env.NEXT_PUBLIC_API_KEY!;
-      const timestamp = new Date().getTime();
-      const signature = generateSHA1(generateSignature(public_id, api_secret));
-
-      const postData = {
-        public_id,
-        timestamp,
-        signature,
-        api_key,
-      };
-
       try {
-        const res = await axios.post(`${resource_type}/destroy`, postData);
+        const response = await mediaDelete(
+          assestData.public_id,
+          assestData.resource_type
+        );
+        console.log(response);
         setAssetData(null);
-        alert("刪除成功");
       } catch (error) {
-        console.error(error);
+        console.error("Error deleting the file:", error);
       }
     }
   };

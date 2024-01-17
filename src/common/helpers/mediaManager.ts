@@ -24,6 +24,22 @@ export const mediaUpload = async (file: File): Promise<ResponseType> => {
   });
 };
 
+export const mediaDelete = async (publicId: string, resourceType: string) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch("/api/cld/delete", {
+        method: "POST",
+        body: JSON.stringify({ publicId, resourceType }),
+      });
+      const result = await response.json();
+      resolve(result);
+    } catch (error) {
+      console.error("Error deleting the file:", error);
+      reject(error);
+    }
+  });
+};
+
 type ResponseType = {
   public_id: string;
   resource_type: string;
