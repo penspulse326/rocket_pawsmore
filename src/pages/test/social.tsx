@@ -4,8 +4,8 @@ import SideBarRight from "@/components/SocialSideBarRight";
 
 export default function Social() {
   return (
-    <section className="outer h-[calc] bg-orange-200">
-      <div className="inner grid grid-cols-12">
+    <section className="outer bg-orange-200">
+      <div className="inner pt-16 h-screen grid grid-cols-12">
         <SideBarLeft />
         <SocialPostList />
         <SideBarRight />
