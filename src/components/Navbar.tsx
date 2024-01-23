@@ -81,7 +81,7 @@ export default function Navbar() {
         <ul
           className={`${
             isMenuOpen ? "tenkai" : "fuuin"
-          } absolute right-0 flex flex-col mt-2 w-40 h-auto p-3 border border-stroke rounded-[20px] bg-white shadow-[0_0px_10px_0_rgba(0,0,0,0.15)]`}
+          } absolute right-0 flex flex-col mt-2 w-40 p-3 rounded-[24px] bg-white shadow-[0_0px_10px_0_rgba(0,0,0,0.15)] box-border`}
         >
           <li className="px-3 py-1 rounded-[30px] hover:bg-secondary duration-300">
             <Link href="#" className="inline-block w-full">
