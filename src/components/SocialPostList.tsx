@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function SocialPostList() {
   return (
     <div className="scrollbar-none col-span-6 p-8 border-x border-stroke bg-white overflow-y-scroll">
@@ -10,9 +12,33 @@ export default function SocialPostList() {
         />
         <div className="flex justify-between items-center mt-6">
           <div className="flex gap-8 text-note">
-            <span>附上照片</span>
-            <span>附上影片</span>
-            <span>附上里程碑</span>
+            <button type="button" className="flex items-center gap-2">
+              <Image
+                src="/icons/icon-photo.svg"
+                width={24}
+                height={24}
+                alt="upload-photo"
+              />
+              附上照片
+            </button>
+            <button type="button" className="flex items-center gap-2">
+              <Image
+                src="/icons/icon-video.svg"
+                width={24}
+                height={24}
+                alt="upload-video"
+              />
+              附上影片
+            </button>
+            <button type="button" className="flex items-center gap-2">
+              <Image
+                src="/icons/icon-medal.svg"
+                width={24}
+                height={24}
+                alt="upload-milestone"
+              />
+              附上里程碑
+            </button>
           </div>
           <button
             type="button"
