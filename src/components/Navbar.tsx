@@ -34,7 +34,12 @@ export default function Navbar() {
             className="flex gap-2 px-8 pt-6 pb-5"
             onClick={() => setPage(0)}
           >
-            <Image src="/icons/home.svg" alt="home" width={24} height={24} />
+            <Image
+              src="/icons/icon-home.svg"
+              alt="home"
+              width={24}
+              height={24}
+            />
             社群首頁
           </Link>
           <Link
@@ -43,7 +48,7 @@ export default function Navbar() {
             onClick={() => setPage(1)}
           >
             <Image
-              src="/icons/analytics.svg"
+              src="/icons/icon-analytics.svg"
               alt="home"
               width={24}
               height={24}
@@ -77,7 +82,7 @@ export default function Navbar() {
               />
             </div>
             <Image
-              src="/icons/burger.svg"
+              src="/icons/icon-burger.svg"
               alt="menu"
               width={16}
               height={16}
