@@ -49,7 +49,31 @@ export default function SocialPostList() {
         </div>
       </div>
       <h2 className="mt-8 text-note">動態消息</h2>
-      <ul className="mt-4 h-[2000px]">我是貼文列表</ul>
+      {/* 貼文列表 */}
+      <div className="mt-4 h-[2000px]">
+        {" "}
+        {/* 貼文卡片 */}
+        <div className="flex flex-col gap-4 p-8 border border-stroke rounded-[32px]">
+          <Image
+            src="/test/post-dog-1.png"
+            width={528}
+            height={528}
+            alt="貼文照片"
+            className="rounded-[26px]"
+          />
+          <div className="flex justify-between">
+            <div className="flex gap-2">
+              <Image
+                src="/test/photo-dog-test.png"
+                width={48}
+                height={48}
+                alt="發文者頭貼"
+                className="rounded-[50%]"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
       <h2 className="mt-8 text-note">熱門貼文</h2>
     </div>
   );
