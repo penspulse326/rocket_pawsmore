@@ -86,7 +86,7 @@ export default function Navbar() {
           </button>
           <ul
             className={`${
-              isMenuOpen ? "tenkai" : "fuuin"
+              isMenuOpen ? "tenkai-t-r" : "fuuin-t-r"
             } absolute right-0 flex flex-col mt-2 w-40 p-3 rounded-[24px] bg-white shadow-[0_0px_10px_0_rgba(0,0,0,0.15)] box-border`}
           >
             <li className="px-3 py-1 rounded-[30px] hover:bg-secondary duration-300">

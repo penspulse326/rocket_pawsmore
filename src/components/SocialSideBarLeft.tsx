@@ -52,7 +52,7 @@ export default function SocialSideBarLeft() {
       <div className="relative">
         <ul
           className={`${
-            isMenuOpen ? "tenkai" : "fuuin"
+            isMenuOpen ? "tenkai-b-l" : "fuuin-b-l"
           } absolute left-0 bottom-[68px] flex flex-col mt-2 w-40 p-3 rounded-[24px] bg-white shadow-[0_0px_10px_0_rgba(0,0,0,0.15)] box-border`}
         >
           <li className="px-3 py-1 rounded-[30px] hover:bg-secondary duration-300">
