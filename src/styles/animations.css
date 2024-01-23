@@ -1,8 +1,8 @@
-/* 選單展開 */
-.tenkai {
-  animation: tenkai 0.1s linear;
+/* 選單展開 top right */
+.tenkai-t-r {
+  animation: tenkai-t-r 0.1s linear;
 }
-@keyframes tenkai {
+@keyframes tenkai-t-r {
   0% {
     transform: scale(0);
     transform-origin: top right;
@@ -13,11 +13,11 @@
     transform-origin: top right;
   }
 }
-/* 選單收回 */
-.fuuin {
-  animation: fuuin 0.1s linear forwards;
+/* 選單收回 top right */
+.fuuin-t-r {
+  animation: fuuin-t-r 0.1s linear forwards;
 }
-@keyframes fuuin {
+@keyframes fuuin-t-r {
   0% {
     transform: scale(1);
     transform-origin: top right;
@@ -26,6 +26,36 @@
   100% {
     transform: scale(0);
     transform-origin: top right;
+  }
+}
+/* 選單展開 bottom left */
+.tenkai-b-l {
+  animation: tenkai-b-l 0.1s linear;
+}
+@keyframes tenkai-b-l {
+  0% {
+    transform: scale(0);
+    transform-origin: bottom left;
+  }
+
+  100% {
+    transform: scale(1);
+    transform-origin: bottom left;
+  }
+}
+/* 選單收回 top right */
+.fuuin-b-l {
+  animation: fuuin-b-l 0.1s linear forwards;
+}
+@keyframes fuuin-b-l {
+  0% {
+    transform: scale(1);
+    transform-origin: bottom left;
+  }
+
+  100% {
+    transform: scale(0);
+    transform-origin: bottom left;
   }
 }
 /* 頁面切換往右 */
