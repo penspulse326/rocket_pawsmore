@@ -10,3 +10,9 @@
     @apply mx-auto max-w-[1440px];
   }
 }
+
+@layer utilities {
+  .scrollbar-none::-webkit-scrollbar {
+    width: 0px;
+  }
+}
