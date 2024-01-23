@@ -1,12 +1,15 @@
-import Navbar from "@/components/Navbar";
+import SocialPostList from "@/components/SocialPostList";
+import SideBarLeft from "@/components/SocialSideBarLeft";
+import SideBarRight from "@/components/SocialSideBarRight";
 
 export default function Social() {
   return (
-    <>
-      <Navbar></Navbar>
-      <main className="flex flex-col items-center justify-between p-24 min-h-screen">
-        我是社群頁面
-      </main>
-    </>
+    <section className="outer bg-orange-200">
+      <div className="inner pt-16 h-screen grid grid-cols-12">
+        <SideBarLeft />
+        <SocialPostList />
+        <SideBarRight />
+      </div>
+    </section>
   );
 }
