@@ -57,14 +57,14 @@ export default function SocialSideBarLeft() {
         >
           <li className="px-3 py-1 rounded-[30px] hover:bg-secondary duration-300">
             <Link href="#" className="inline-block w-full">
-              訊息
+              常見問答
             </Link>
           </li>
           <li className="px-3 py-1 rounded-[30px] hover:bg-secondary duration-300">
-            <Link href="#">通知</Link>
+            <Link href="#">網站介紹</Link>
           </li>
           <li className="px-3 py-1 rounded-[30px] hover:bg-secondary duration-300">
-            <Link href="#">按過喜歡的貼文</Link>
+            <Link href="#">關於我們</Link>
           </li>
         </ul>
         <button
@@ -73,7 +73,7 @@ export default function SocialSideBarLeft() {
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <Image
-            src="/icons/burger.svg"
+            src="/icons/icon-burger.svg"
             alt="menu"
             width={16}
             height={16}
