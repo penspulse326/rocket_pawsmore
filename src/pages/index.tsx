@@ -1,18 +1,9 @@
-import Link from "next/link";
+import Upload from "@/components/Upload";
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center gap-3 p-24 min-h-screen bg-blue-300">
-      <h1 className="text-xl">靜態頁面展示</h1>
-      <Link href="/test/social" className="underline">
-        社群頁面
-      </Link>
-      <Link href="/test/pet_profile" className="underline">
-        寵物檔案
-      </Link>
-      <Link href="/test/upload" className="underline ">
-        檔案上傳
-      </Link>
+    <main className="flex flex-col items-center justify-between p-24 min-h-screen bg-slate-400">
+      <Upload />
     </main>
   );
 }
