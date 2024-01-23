@@ -73,7 +73,7 @@ export default function SocialSideBarLeft() {
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <Image
-            src="/icons/burger.svg"
+            src="/icons/icon-burger.svg"
             alt="menu"
             width={16}
             height={16}
