@@ -48,6 +48,41 @@ export default function SocialSideBarLeft() {
           <p className="text-note">@chichi1992126</p>
         </div>
       </Link>
+      {/* 選單 */}
+      <div className="relative">
+        <ul
+          className={`${
+            isMenuOpen ? "tenkai" : "fuuin"
+          } absolute left-0 bottom-[68px] flex flex-col mt-2 w-40 p-3 rounded-[24px] bg-white shadow-[0_0px_10px_0_rgba(0,0,0,0.15)] box-border`}
+        >
+          <li className="px-3 py-1 rounded-[30px] hover:bg-secondary duration-300">
+            <Link href="#" className="inline-block w-full">
+              訊息
+            </Link>
+          </li>
+          <li className="px-3 py-1 rounded-[30px] hover:bg-secondary duration-300">
+            <Link href="#">通知</Link>
+          </li>
+          <li className="px-3 py-1 rounded-[30px] hover:bg-secondary duration-300">
+            <Link href="#">按過喜歡的貼文</Link>
+          </li>
+        </ul>
+        <button
+          type="button"
+          className="flex items-center gap-2 py-8"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          <Image
+            src="/icons/burger.svg"
+            alt="menu"
+            width={16}
+            height={16}
+            className={`${isMenuOpen && "-rotate-90"} duration-300`}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          />
+          更多
+        </button>
+      </div>
     </aside>
   );
 }
