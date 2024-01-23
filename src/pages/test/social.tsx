@@ -1,6 +1,6 @@
-import SocialPostList from "@/components/SocialPostList";
-import SideBarLeft from "@/components/SocialSideBarLeft";
-import SideBarRight from "@/components/SocialSideBarRight";
+import SocialPostList from "@/components/social/SocialPostList";
+import SideBarLeft from "@/components/social/SocialSideBarLeft";
+import SideBarRight from "@/components/social/SocialSideBarRight";
 
 export default function Social() {
   return (

@@ -48,7 +48,9 @@ export default function SocialPostList() {
           </button>
         </div>
       </div>
-      <ul className="h-[2000px]">我是貼文列表</ul>
+      <h2 className="mt-8 text-note">動態消息</h2>
+      <ul className="mt-4 h-[2000px]">我是貼文列表</ul>
+      <h2 className="mt-8 text-note">熱門貼文</h2>
     </div>
   );
 }
