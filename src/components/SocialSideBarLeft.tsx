@@ -31,6 +31,23 @@ export default function SocialSideBarLeft() {
           </Link>
         </div>
       </div>
+      {/* 個人連結 */}
+      <Link
+        href="#"
+        className="flex gap-4 p-4 border border-stroke bg-white  rounded-[30px] duration-300 hover:bg-stroke"
+      >
+        <Image
+          src="/test/user-chichi.png"
+          width={48}
+          height={48}
+          alt="user"
+          className="rounded-[50%]"
+        />
+        <div>
+          <p>琪琪</p>
+          <p className="text-note">@chichi1992126</p>
+        </div>
+      </Link>
     </aside>
   );
 }
