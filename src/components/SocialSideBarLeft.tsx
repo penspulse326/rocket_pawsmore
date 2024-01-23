@@ -19,9 +19,9 @@ export default function SocialSideBarLeft() {
             alt="寵物照片"
             className="rounded-[30px] object-cover"
           />
-          <div>
-            <p>角龍寶寶</p>
-            <p>@littleprincess126</p>
+          <div className="flex flex-col gap-1">
+            <span>角龍寶寶</span>
+            <span>@littleprincess126</span>
           </div>
           <Link
             href="#"
