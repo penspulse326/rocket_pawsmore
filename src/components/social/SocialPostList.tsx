@@ -146,9 +146,10 @@ export default function SocialPostList() {
               />
               <input
                 type="text"
+                placeholder="留言⋯⋯"
+                className="w-full bg-transparent outline-none"
                 onFocus={() => setIsInputFocus(true)}
                 onBlur={() => setIsInputFocus(false)}
-                className="w-full bg-transparent outline-none"
               />
             </div>
             <button
