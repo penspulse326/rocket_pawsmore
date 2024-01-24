@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { IconHeart } from "@tabler/icons-react";
 
 export default function SocialPostList() {
   const [isInputFocus, setIsInputFocus] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
   return (
     <div className="scrollbar-none col-span-6 p-8 border-x border-stroke bg-white overflow-y-scroll">
@@ -66,7 +68,18 @@ export default function SocialPostList() {
               priority={false}
               className="rounded-[26px]"
             />
-            <button type="button"></button>
+            <button
+              type="button"
+              className="absolute bottom-8 right-8"
+              onClick={() => setIsLiked(!isLiked)}
+            >
+              <IconHeart
+                size={70}
+                className={`${
+                  isLiked ? "fill-tertiary" : "fill-stroke"
+                } stroke-white stroke-1 filter drop-shadow-md duration-300`}
+              />
+            </button>
           </section>
           {/* 個人資訊 */}
           <section className="flex justify-between items-center">
@@ -89,6 +102,7 @@ export default function SocialPostList() {
               </Link>
             </div>
             <div className="flex gap-2 items-center">
+              <IconHeart fill="#808080" color="#808080" />
               <span className="text-note">234</span>
               <button type="button">
                 <Image
