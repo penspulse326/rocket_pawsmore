@@ -1,7 +1,13 @@
-export default function Social() {
+import ProfileCard from "@/components/petProfile/ProfileCard";
+import ProfileGallery from "@/components/petProfile/ProfileGallery";
+import Footer from "@/components/petProfile/Footer";
+
+export default function PetProfile() {
   return (
-    <main className="flex flex-col items-center justify-between p-24 min-h-screen bg-slate-400">
-      我是寵物檔案頁面
+    <main className="flex flex-col gap-y-12 items-center mt-[64px]">
+      <ProfileCard />
+      <ProfileGallery />
+      <Footer />
     </main>
   );
 }
