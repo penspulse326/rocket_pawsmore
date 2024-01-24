@@ -24,7 +24,7 @@ export default function SocialSideBarLeft() {
             <span>@littleprincess126</span>
           </div>
           <Link
-            href="#"
+            href="/test/pet_profile"
             className="mb-4 py-2 rounded-[30px] bg-primary text-white text-center hover:bg-primary/70 duration-300"
           >
             寵物檔案
