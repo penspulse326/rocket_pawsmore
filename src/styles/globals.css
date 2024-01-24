@@ -9,6 +9,10 @@
   .outter {
     @apply mx-auto max-w-[1440px];
   }
+  .gallery-card:hover .overlay {
+    opacity: 1;
+    z-index: 1;
+  }
 }
 
 @layer utilities {
