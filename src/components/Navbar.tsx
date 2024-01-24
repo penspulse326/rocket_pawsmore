@@ -7,7 +7,7 @@ export default function Navbar() {
   const [page, setPage] = useState(0);
 
   return (
-    <nav className="fixed top-0 w-full border-b border-stroke bg-white">
+    <nav className="fixed top-0 z-50 w-full border-b border-stroke bg-white">
       <div className="outter flex justify-between items-center pl-8 pr-6 h-16">
         {/* Logo 連結 */}
         <Link href="/test/social" className="flex items-center">
