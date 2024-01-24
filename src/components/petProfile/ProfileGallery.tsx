@@ -1,15 +1,27 @@
 import { useState } from "react";
 import Image from "next/image";
-import * as Icons from "@tabler/icons-react";
+import {
+  IconLayoutGrid,
+  IconMedal,
+  IconPinned,
+  IconHeartFilled,
+  IconMessageCircle2Filled,
+  IconChevronUp,
+  IconChevronDown,
+} from "@tabler/icons-react";
 
 const ProfileGallery = () => {
   const [selectedTab, setSelectedTab] = useState("貼文");
 
   const GalleryTabs = () => {
-    const tabs = [
-      { title: "貼文", icon: "IconLayoutGrid" },
-      { title: "里程碑", icon: "IconMedal" },
-      { title: "回顧", icon: "IconPinned" },
+    interface TabType {
+      title: string;
+      icon: React.ComponentType<any>;
+    }
+    const tabs: TabType[] = [
+      { title: "貼文", icon: IconLayoutGrid },
+      { title: "里程碑", icon: IconMedal },
+      { title: "回顧", icon: IconPinned },
     ];
     const handleToggleTab = (tab: string) => {
       setSelectedTab(tab);
@@ -17,7 +29,8 @@ const ProfileGallery = () => {
     return (
       <section className="flex justify-center">
         {tabs.map((tab, index) => {
-          const IconComponent = Icons[tab.icon];
+          // correct: record, key & type
+          const IconComponent = tab.icon;
           return (
             <div
               className="flex justify-center items-center gap-x-1 w-[132px] py-8"
@@ -78,11 +91,11 @@ const ProfileGallery = () => {
               {/* show favorite icon & comments */}
               <ul className="overlay absolute top-0 -z-10 flex gap-x-4 justify-center items-center bg-black/50 w-full h-full text-white rounded-[30px]">
                 <li className="flex gap-x-1 items-center">
-                  <Icons.IconHeartFilled size={26} />
+                  <IconHeartFilled size={26} />
                   <div>4</div>
                 </li>
                 <li className="flex gap-x-1 items-center">
-                  <Icons.IconMessageCircle2Filled size={26} />
+                  <IconMessageCircle2Filled size={26} />
                   <div>1</div>
                 </li>
               </ul>
@@ -166,13 +179,13 @@ const ProfileGallery = () => {
           <div className="flex gap-x-1 text-note">
             <div>未獲得</div>
             {isExpanded ? (
-              <Icons.IconChevronUp
+              <IconChevronUp
                 size={24}
                 className="hover:cursor-pointer"
                 onClick={() => setIsExpanded(!isExpanded)}
               />
             ) : (
-              <Icons.IconChevronDown
+              <IconChevronDown
                 size={24}
                 className="hover:cursor-pointer"
                 onClick={() => setIsExpanded(!isExpanded)}
