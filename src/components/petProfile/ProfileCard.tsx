@@ -84,7 +84,21 @@ const ProfileCard = () => {
     );
   };
   const Button = () => {
+    // show report button
+    const [isShown, setIsShown] = useState(false);
     const isMyPet: boolean = false;
+
+    const Report = () => {
+      return (
+        <button
+          className="px-6 py-4 text-error bg-white rounded-3xl absolute -right-[120px] -bottom-[61.5px] shadow-[0_0_10px_0_rgba(0,0,0,0.15)] hover:cursor-pointer"
+          type="button"
+        >
+          檢舉寵物檔案
+        </button>
+      );
+    };
+
     return (
       <>
         {isMyPet ? (
@@ -95,7 +109,7 @@ const ProfileCard = () => {
             編輯寵物檔案
           </button>
         ) : (
-          <div className="flex gap-x-[15px] items-center w-full">
+          <div className="flex gap-x-[15px] items-center w-full relative">
             <button
               className="max-w-[157px] w-full hover:bg-primary hover:text-white border border-stroke hover:border-primary rounded-[300px] py-2"
               type="button"
@@ -108,7 +122,12 @@ const ProfileCard = () => {
             >
               發送訊息
             </button>
-            <IconDotsVertical size={24} className="hover:cursor-pointer" />
+            <IconDotsVertical
+              size={24}
+              className="hover:cursor-pointer"
+              onClick={() => setIsShown(!isShown)}
+            />
+            {isShown ? <Report /> : null}
           </div>
         )}
       </>
