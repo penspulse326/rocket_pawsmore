@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { IconMenu2 } from "@tabler/icons-react";
+
 import PetCards from "./PetCards";
 
 export default function SocialSideBarLeft() {
