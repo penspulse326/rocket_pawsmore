@@ -29,7 +29,6 @@ const ProfileGallery = () => {
     return (
       <section className="flex justify-center">
         {tabs.map((tab, index) => {
-          // correct: record, key & type
           const IconComponent = tab.icon;
           return (
             <div
@@ -165,7 +164,7 @@ const ProfileGallery = () => {
                   />
                   {/* {item.svg} */}
                 </div>
-                <ul className="flex flex-col justify-center gap-y-1 font-normal max-w-[184px] w-full h-full pl-2 py-8">
+                <ul className="flex flex-col justify-center gap-y-1 max-w-[184px] w-full h-full pl-2 py-8">
                   <li className="text-2xl">{item.title}</li>
                   <li>{item.content}</li>
                   <li className="text-xs text-note">{item.created_at}</li>
@@ -210,7 +209,7 @@ const ProfileGallery = () => {
                       />
                       {/* {item.svg} */}
                     </div>
-                    <ul className="flex flex-col justify-center gap-y-1 font-normal max-w-[184px] w-full h-full pl-2 py-8">
+                    <ul className="flex flex-col justify-center gap-y-1 max-w-[184px] w-full h-full pl-2 py-8">
                       <li className="text-2xl">{item.title}</li>
                       <li>{item.content}</li>
                       <li className="text-xs text-note">{item.created_at}</li>
@@ -224,8 +223,28 @@ const ProfileGallery = () => {
       </section>
     );
   };
+  const Moments = () => {
+    return (
+      <section>
+        <NoContent />
+      </section>
+    );
+  };
+  const NoContent = () => {
+    return (
+      <div className="flex flex-col items-center gap-y-4 pt-[64px]">
+        <Image
+          src="/test/icon-paw.svg"
+          width={162}
+          height={162}
+          alt="no content"
+        />
+        <div className="text-2xl">尚無內容</div>
+      </div>
+    );
+  };
   return (
-    <section className="flex flex-col items-center border-t max-w-[1088px] w-full">
+    <section className="flex flex-col items-center mb-4 border-t max-w-[1088px] w-full">
       <GalleryTabs />
       {(() => {
         switch (selectedTab) {
@@ -234,7 +253,7 @@ const ProfileGallery = () => {
           case "里程碑":
             return <Milestones />;
           case "回顧":
-            return null;
+            return <Moments />;
           default:
             return null;
         }
