@@ -165,7 +165,7 @@ const ProfileGallery = () => {
                   />
                   {/* {item.svg} */}
                 </div>
-                <ul className="flex flex-col justify-center gap-y-1 font-normal max-w-[184px] w-full h-full pl-2 py-8">
+                <ul className="flex flex-col justify-center gap-y-1 max-w-[184px] w-full h-full pl-2 py-8">
                   <li className="text-2xl">{item.title}</li>
                   <li>{item.content}</li>
                   <li className="text-xs text-note">{item.created_at}</li>
@@ -210,7 +210,7 @@ const ProfileGallery = () => {
                       />
                       {/* {item.svg} */}
                     </div>
-                    <ul className="flex flex-col justify-center gap-y-1 font-normal max-w-[184px] w-full h-full pl-2 py-8">
+                    <ul className="flex flex-col justify-center gap-y-1 max-w-[184px] w-full h-full pl-2 py-8">
                       <li className="text-2xl">{item.title}</li>
                       <li>{item.content}</li>
                       <li className="text-xs text-note">{item.created_at}</li>

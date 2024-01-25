@@ -3,7 +3,7 @@ import Image from "next/image";
 const ProfileCard = () => {
   const PetData = () => {
     return (
-      <div className="flex flex-col max-w-[368px] w-full gap-y-6 font-normal">
+      <div className="flex flex-col max-w-[368px] w-full gap-y-6">
         <ul className="flex flex-col gap-y-3">
           <ol>
             <li className="text-[32px]">角龍寶寶</li>
@@ -17,10 +17,10 @@ const ProfileCard = () => {
         </ul>
         <ul className="flex gap-x-4">
           <li>
-            <span className="pr-1">6</span>貼文
+            <span className="font-bold pr-1">6</span>貼文
           </li>
           <li>
-            <span className="pr-1">24</span>粉絲
+            <span className="font-bold pr-1">24</span>粉絲
           </li>
         </ul>
         <ol className="flex flex-col gap-y-2">
@@ -67,8 +67,8 @@ const ProfileCard = () => {
           height={48}
           alt="owner avatar"
         />
-        <div className="font-normal">
-          已和 <span className="font-semibold">琪琪</span> 相伴
+        <div>
+          已和 <span className="font-bold">琪琪</span> 相伴
           <br />
           64 天
         </div>
@@ -78,7 +78,7 @@ const ProfileCard = () => {
   const Button = () => {
     return (
       <button
-        className="w-full max-h-[39px] bg-primary text-white font-normal rounded-[300px] py-2"
+        className="w-full max-h-[39px] bg-primary text-white rounded-[300px] py-2"
         type="button"
       >
         編輯寵物檔案
