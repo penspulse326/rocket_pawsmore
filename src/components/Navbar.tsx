@@ -1,3 +1,8 @@
+import {
+  IconHome,
+  IconBrandGoogleAnalytics,
+  IconMenu2,
+} from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -34,25 +39,15 @@ export default function Navbar() {
             className="flex gap-2 px-8 pt-6 pb-5"
             onClick={() => setPage(0)}
           >
-            <Image
-              src="/icons/icon-home.svg"
-              alt="home"
-              width={24}
-              height={24}
-            />
+            <IconHome />
             社群首頁
           </Link>
           <Link
-            href="/test/social"
+            href="#"
             className="flex gap-2 px-8 pt-6 pb-5"
             onClick={() => setPage(1)}
           >
-            <Image
-              src="/icons/icon-analytics.svg"
-              alt="home"
-              width={24}
-              height={24}
-            />
+            <IconBrandGoogleAnalytics />
             數據紀錄
           </Link>
           <div
@@ -67,12 +62,13 @@ export default function Navbar() {
         <div className="relative">
           <button
             type="button"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
             className={`${
               isMenuOpen && "shadow-[0_0px_10px_0_rgba(0,0,0,0.15)]"
-            } flex items-center gap-2 p-2 w-20 border border-stroke rounded-[30px]`}
+            } flex items-center gap-2 p-2 w-20 border border-stroke rounded-[30px] duration-300`}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onBlur={() => setIsMenuOpen(false)}
           >
-            <div className="w-[32px] h-[32px] rounded-[50%] overflow-hidden ">
+            <div className="w-8 h-8 rounded-[50%] overflow-hidden ">
               <Image
                 src="/test/user-chichi.png"
                 alt="user"
@@ -81,12 +77,8 @@ export default function Navbar() {
                 className="scale-110"
               />
             </div>
-            <Image
-              src="/icons/icon-burger.svg"
-              alt="menu"
-              width={16}
-              height={16}
-              className={`${isMenuOpen && "rotate-90"} duration-300`}
+            <IconMenu2
+              className={`${isMenuOpen && "rotate-90"} w-4 h-4 duration-300`}
             />
           </button>
           <ul
