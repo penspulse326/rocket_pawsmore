@@ -1,7 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { IconHeart } from "@tabler/icons-react";
+import {
+  IconPhoto,
+  IconMovie,
+  IconMedal,
+  IconHeart,
+  IconMessageCircle,
+  IconDotsVertical,
+} from "@tabler/icons-react";
 
 export default function SocialPostList() {
   const [isInputFocus, setIsInputFocus] = useState(false);
@@ -19,30 +26,15 @@ export default function SocialPostList() {
         <div className="flex justify-between items-center mt-6">
           <div className="flex gap-8 text-note">
             <button type="button" className="flex items-center gap-2">
-              <Image
-                src="/icons/icon-photo.svg"
-                width={24}
-                height={24}
-                alt="upload-photo"
-              />
+              <IconPhoto className="stroke-black" />
               附上照片
             </button>
             <button type="button" className="flex items-center gap-2">
-              <Image
-                src="/icons/icon-video.svg"
-                width={24}
-                height={24}
-                alt="upload-video"
-              />
+              <IconMovie className="stroke-black" />
               附上影片
             </button>
             <button type="button" className="flex items-center gap-2">
-              <Image
-                src="/icons/icon-medal.svg"
-                width={24}
-                height={24}
-                alt="upload-milestone"
-              />
+              <IconMedal className="stroke-black" />
               附上里程碑
             </button>
           </div>
@@ -105,12 +97,7 @@ export default function SocialPostList() {
               <IconHeart fill="#808080" color="#808080" />
               <span className="text-note">234</span>
               <button type="button">
-                <Image
-                  src="/icons/icon-more.svg"
-                  width={24}
-                  height={24}
-                  alt="更多選項"
-                />
+                <IconDotsVertical />
               </button>
             </div>
           </section>
@@ -138,12 +125,7 @@ export default function SocialPostList() {
             } flex gap-2 justify-between items-center rounded-[30px] duration-200`}
           >
             <div className="flex-grow flex gap-2">
-              <Image
-                src="/icons/icon-comment.svg"
-                width={24}
-                height={24}
-                alt="更多選項"
-              />
+              <IconMessageCircle />
               <input
                 type="text"
                 placeholder="留言⋯⋯"
@@ -210,12 +192,7 @@ export default function SocialPostList() {
               <IconHeart fill="#808080" color="#808080" />
               <span className="text-note">234</span>
               <button type="button">
-                <Image
-                  src="/icons/icon-more.svg"
-                  width={24}
-                  height={24}
-                  alt="更多選項"
-                />
+                <IconDotsVertical />
               </button>
             </div>
           </section>
@@ -243,12 +220,7 @@ export default function SocialPostList() {
             } flex gap-2 justify-between items-center rounded-[30px] duration-200`}
           >
             <div className="flex-grow flex gap-2">
-              <Image
-                src="/icons/icon-comment.svg"
-                width={24}
-                height={24}
-                alt="更多選項"
-              />
+              <IconMessageCircle />
               <input
                 type="text"
                 placeholder="留言⋯⋯"

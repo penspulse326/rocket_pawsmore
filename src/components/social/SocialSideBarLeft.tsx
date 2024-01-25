@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { IconMenu2 } from "@tabler/icons-react";
 
 export default function SocialSideBarLeft() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -72,13 +73,8 @@ export default function SocialSideBarLeft() {
           className="flex items-center gap-2 py-8"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          <Image
-            src="/icons/icon-burger.svg"
-            alt="menu"
-            width={16}
-            height={16}
-            className={`${isMenuOpen && "-rotate-90"} duration-300`}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          <IconMenu2
+            className={`${isMenuOpen && "-rotate-90"} w-4 h-4 duration-300`}
           />
           更多
         </button>
