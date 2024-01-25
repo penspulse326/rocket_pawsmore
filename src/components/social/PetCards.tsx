@@ -1,20 +1,28 @@
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { EffectCards } from "swiper/modules";
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRef, useState } from "react";
 
 export default function PetCards() {
+  const testArr = [1, 2, 3];
+  const swiperRef = useRef<SwiperClass>();
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  console.log(activeIndex);
+
   return (
     <div className="flex-grow">
       <Swiper
         effect={"cards"}
         grabCursor={true}
         modules={[EffectCards]}
-        className="bg-transparent"
+        onTransitionEnd={(swiper) => setActiveIndex(swiper.activeIndex)}
       >
-        {[1, 2, 3].map(() => (
+        {testArr.map(() => (
           <SwiperSlide key={Math.random()}>
             <div className="flex flex-col gap-4 mx-auto p-4 max-w-[204px] border border-stroke rounded-[30px] bg-white">
               <Image
@@ -39,6 +47,26 @@ export default function PetCards() {
           </SwiperSlide>
         ))}
       </Swiper>
+      {testArr.length > 1 && (
+        <div className="flex justify-center gap-4 mt-6 mx-auto">
+          <button type="button" onClick={() => swiperRef.current?.slidePrev()}>
+            <IconChevronLeft />
+          </button>
+          <div className="flex items-center gap-2">
+            {testArr.map((item, index) => (
+              <span
+                key={index}
+                className={`${
+                  activeIndex === index ? "bg-primary" : "bg-stroke"
+                } inline-block w-[10px] h-[10px] rounded-full duration-100`}
+              ></span>
+            ))}
+          </div>
+          <button type="button" onClick={() => swiperRef.current?.slideNext()}>
+            <IconChevronRight />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
