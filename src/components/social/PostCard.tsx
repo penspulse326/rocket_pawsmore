@@ -19,7 +19,7 @@ export default function PostCard() {
     <div className="flex flex-col gap-4 p-8 border border-stroke rounded-[32px]">
       <section className="relative">
         {isMaskOpen && (
-          <Mask setIsOpen={setIsMaskOpen}>
+          <Mask setIsOpen={setIsMaskOpen} maskType="post">
             <div className="w-40 h-40 bg-primary text-white">123</div>
           </Mask>
         )}
