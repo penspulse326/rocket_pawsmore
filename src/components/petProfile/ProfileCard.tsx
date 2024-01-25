@@ -1,6 +1,10 @@
+import { useState } from "react";
 import Image from "next/image";
+import ShowNetworkListCard from "./ShowNetworkListCard";
 
 const ProfileCard = () => {
+  const [isDisplayed, setIsDisplayed] = useState(false);
+
   const PetData = () => {
     return (
       <div className="flex flex-col max-w-[368px] w-full gap-y-6">
@@ -19,7 +23,10 @@ const ProfileCard = () => {
           <li>
             <span className="font-bold pr-1">6</span>貼文
           </li>
-          <li>
+          <li
+            className="hover:cursor-pointer"
+            onClick={() => setIsDisplayed(!isDisplayed)}
+          >
             <span className="font-bold pr-1">24</span>粉絲
           </li>
         </ul>
@@ -103,6 +110,14 @@ const ProfileCard = () => {
         <Companionship />
         <Button />
       </div>
+      {/* show fans list */}
+      {isDisplayed ? (
+        <ShowNetworkListCard
+          title="粉絲"
+          isClosed={isDisplayed}
+          setIsClosed={setIsDisplayed}
+        />
+      ) : null}
     </section>
   );
 };
