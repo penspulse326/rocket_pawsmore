@@ -12,14 +12,13 @@ export default function PetCards() {
   const swiperRef = useRef<SwiperClass>();
   const [activeIndex, setActiveIndex] = useState(0);
 
-  console.log(activeIndex);
-
   return (
     <div className="flex-grow">
       <Swiper
         effect={"cards"}
         grabCursor={true}
         modules={[EffectCards]}
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
         onTransitionEnd={(swiper) => setActiveIndex(swiper.activeIndex)}
       >
         {testArr.map(() => (
@@ -47,6 +46,7 @@ export default function PetCards() {
           </SwiperSlide>
         ))}
       </Swiper>
+      {/* pagination */}
       {testArr.length > 1 && (
         <div className="flex justify-center gap-4 mt-6 mx-auto">
           <button type="button" onClick={() => swiperRef.current?.slidePrev()}>

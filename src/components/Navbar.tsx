@@ -68,7 +68,7 @@ export default function Navbar() {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             onBlur={() => setIsMenuOpen(false)}
           >
-            <div className="w-8 h-8 rounded-[50%] overflow-hidden ">
+            <div className="w-8 h-8 rounded-full overflow-hidden ">
               <Image
                 src="/test/user-chichi.png"
                 alt="user"

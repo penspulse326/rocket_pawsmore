@@ -21,7 +21,7 @@ export default function SocialSideBarLeft() {
           width={48}
           height={48}
           alt="user"
-          className="rounded-[50%]"
+          className="rounded-full"
         />
         <div>
           <p>琪琪</p>
