@@ -9,7 +9,7 @@ export default function SocialSideBarLeft() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <aside className="col-span-3 flex flex-col py-8 h-full">
+    <aside className="relative z-50 col-span-3 flex flex-col py-8 h-full">
       <PetCards />
       {/* 個人連結 */}
       <Link
@@ -21,7 +21,7 @@ export default function SocialSideBarLeft() {
           width={48}
           height={48}
           alt="user"
-          className="rounded-[50%]"
+          className="rounded-full"
         />
         <div>
           <p>琪琪</p>
