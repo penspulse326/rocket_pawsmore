@@ -244,7 +244,7 @@ const ProfileGallery = () => {
     );
   };
   return (
-    <section className="flex flex-col items-center border-t max-w-[1088px] w-full">
+    <section className="flex flex-col items-center mb-4 border-t max-w-[1088px] w-full">
       <GalleryTabs />
       {(() => {
         switch (selectedTab) {
