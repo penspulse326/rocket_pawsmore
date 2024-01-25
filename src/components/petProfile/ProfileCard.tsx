@@ -17,10 +17,10 @@ const ProfileCard = () => {
         </ul>
         <ul className="flex gap-x-4">
           <li>
-            <span className="font-serif pr-1">6</span>貼文
+            <span className="pr-1">6</span>貼文
           </li>
           <li>
-            <span className="font-serif pr-1">24</span>粉絲
+            <span className="pr-1">24</span>粉絲
           </li>
         </ul>
         <ol className="flex flex-col gap-y-2">
