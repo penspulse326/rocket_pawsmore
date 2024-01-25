@@ -29,7 +29,6 @@ const ProfileGallery = () => {
     return (
       <section className="flex justify-center">
         {tabs.map((tab, index) => {
-          // correct: record, key & type
           const IconComponent = tab.icon;
           return (
             <div
@@ -224,6 +223,26 @@ const ProfileGallery = () => {
       </section>
     );
   };
+  const Moments = () => {
+    return (
+      <section>
+        <NoContent />
+      </section>
+    );
+  };
+  const NoContent = () => {
+    return (
+      <div className="flex flex-col items-center gap-y-4 pt-[64px]">
+        <Image
+          src="/test/icon-paw.svg"
+          width={162}
+          height={162}
+          alt="no content"
+        />
+        <div className="text-2xl">尚無內容</div>
+      </div>
+    );
+  };
   return (
     <section className="flex flex-col items-center border-t max-w-[1088px] w-full">
       <GalleryTabs />
@@ -234,7 +253,7 @@ const ProfileGallery = () => {
           case "里程碑":
             return <Milestones />;
           case "回顧":
-            return null;
+            return <Moments />;
           default:
             return null;
         }
