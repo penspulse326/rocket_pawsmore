@@ -27,38 +27,36 @@ const ShowNetworkListCard: FC<PropsType> = (props) => {
     { imgUrl: "/test/photo-user-2.jpg", userName: "怡昕", userId: "@yisin___" },
   ];
   return (
-    <section className="bg-black/50 fixed w-full h-full z-10 top-0 left-0 flex justify-center items-center">
-      <div className="flex flex-col gap-y-5 max-w-[322px] w-full max-h-[427px] h-full bg-white border border-stroke rounded-[32px] p-8">
-        <div className="flex justify-between items-center">
-          <div className="text-2xl font-bold">{title}</div>
-          <IconX
-            size={24}
-            color={"#808080"}
-            className="hover:cursor-pointer"
-            onClick={() => setIsClosed(!isClosed)}
-          />
-        </div>
-        <ul className="flex flex-col gap-y-4 max-h-[304px] overflow-y-auto">
-          {networkList.map((item, index) => {
-            return (
-              <li className="flex gap-x-4" key={`${index}-${item.userName}`}>
-                <Image
-                  className="rounded-[53.3px]"
-                  src={item.imgUrl}
-                  width={48}
-                  height={48}
-                  alt="close"
-                />
-                <ol>
-                  <li>{item.userName}</li>
-                  <li>{item.userId}</li>
-                </ol>
-              </li>
-            );
-          })}
-        </ul>
+    <div className="flex flex-col gap-y-5 max-w-[322px] w-full max-h-[427px] h-full bg-white border border-stroke rounded-[32px] p-8">
+      <div className="flex justify-between items-center">
+        <div className="text-2xl font-bold">{title}</div>
+        <IconX
+          size={24}
+          color={"#808080"}
+          className="hover:cursor-pointer"
+          onClick={() => setIsClosed(!isClosed)}
+        />
       </div>
-    </section>
+      <ul className="flex flex-col gap-y-4 max-h-[304px] overflow-y-auto">
+        {networkList.map((item, index) => {
+          return (
+            <li className="flex gap-x-4" key={`${index}-${item.userName}`}>
+              <Image
+                className="rounded-[53.3px]"
+                src={item.imgUrl}
+                width={48}
+                height={48}
+                alt="close"
+              />
+              <ol>
+                <li>{item.userName}</li>
+                <li>{item.userId}</li>
+              </ol>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 };
 

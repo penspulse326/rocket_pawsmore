@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
+import Mask from "../Mask";
 import ShowNetworkListCard from "./ShowNetworkListCard";
 import { IconDotsVertical } from "@tabler/icons-react";
 
@@ -153,11 +154,13 @@ const ProfileCard = () => {
       </div>
       {/* show fans list */}
       {isDisplayed ? (
-        <ShowNetworkListCard
-          title="粉絲"
-          isClosed={isDisplayed}
-          setIsClosed={setIsDisplayed}
-        />
+        <Mask setIsOpen={setIsDisplayed} maskType={"fans"}>
+          <ShowNetworkListCard
+            title="粉絲"
+            isClosed={isDisplayed}
+            setIsClosed={setIsDisplayed}
+          />
+        </Mask>
       ) : null}
     </section>
   );
