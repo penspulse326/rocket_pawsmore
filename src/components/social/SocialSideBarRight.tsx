@@ -1,6 +1,6 @@
-import { IconSearch } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
+import { IconSearch } from "@tabler/icons-react";
 
 export default function SocialSideBarRight() {
   return (

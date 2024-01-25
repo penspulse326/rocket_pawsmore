@@ -1,4 +1,5 @@
-/* 選單展開 top right */
+/* 選單動畫 */
+/* top right */
 .tenkai-t-r {
   animation: tenkai-t-r 0.1s linear;
 }
@@ -13,7 +14,7 @@
     transform-origin: top right;
   }
 }
-/* 選單收回 top right */
+
 .fuuin-t-r {
   animation: fuuin-t-r 0.1s linear forwards;
 }
@@ -28,7 +29,39 @@
     transform-origin: top right;
   }
 }
-/* 選單展開 bottom left */
+
+/* top left */
+.tenkai-t-l {
+  animation: tenkai-t-r 0.1s linear;
+}
+@keyframes tenkai-t-l {
+  0% {
+    transform: scale(0);
+    transform-origin: top left;
+  }
+
+  100% {
+    transform: scale(1);
+    transform-origin: top left;
+  }
+}
+
+.fuuin-t-l {
+  animation: fuuin-t-l 0.1s linear forwards;
+}
+@keyframes fuuin-t-l {
+  0% {
+    transform: scale(1);
+    transform-origin: top left;
+  }
+
+  100% {
+    transform: scale(0);
+    transform-origin: top left;
+  }
+}
+
+/* bottom left */
 .tenkai-b-l {
   animation: tenkai-b-l 0.1s linear;
 }
@@ -43,7 +76,6 @@
     transform-origin: bottom left;
   }
 }
-/* 選單收回 top right */
 .fuuin-b-l {
   animation: fuuin-b-l 0.1s linear forwards;
 }
@@ -58,6 +90,8 @@
     transform-origin: bottom left;
   }
 }
+
+/* slidebar */
 /* 頁面切換往右 */
 .slide-r {
   animation: slide-r 0.3s ease-out forwards;
@@ -90,3 +124,5 @@
     transform: translateX(0) scaleX(1);
   }
 }
+
+/* swiper */
