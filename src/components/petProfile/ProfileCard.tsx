@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import ShowNetworkListCard from "./ShowNetworkListCard";
+import { IconDotsVertical } from "@tabler/icons-react";
 
 const ProfileCard = () => {
   const [isDisplayed, setIsDisplayed] = useState(false);
@@ -83,13 +84,34 @@ const ProfileCard = () => {
     );
   };
   const Button = () => {
+    const isMyPet: boolean = false;
     return (
-      <button
-        className="w-full max-h-[39px] bg-primary text-white rounded-[300px] py-2"
-        type="button"
-      >
-        編輯寵物檔案
-      </button>
+      <>
+        {isMyPet ? (
+          <button
+            className="w-full bg-primary text-white rounded-[300px] py-2"
+            type="button"
+          >
+            編輯寵物檔案
+          </button>
+        ) : (
+          <div className="flex gap-x-[15px] items-center w-full">
+            <button
+              className="max-w-[157px] w-full hover:bg-primary hover:text-white border border-stroke hover:border-primary rounded-[300px] py-2"
+              type="button"
+            >
+              追蹤
+            </button>
+            <button
+              className="max-w-[157px] w-full hover:bg-primary hover:text-white border border-stroke hover:border-primary rounded-[300px] py-2"
+              type="button"
+            >
+              發送訊息
+            </button>
+            <IconDotsVertical size={24} className="hover:cursor-pointer" />
+          </div>
+        )}
+      </>
     );
   };
   return (
