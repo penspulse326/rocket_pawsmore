@@ -9,7 +9,7 @@ export default function SocialSideBarLeft() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <aside className="relative z-50 col-span-3 flex flex-col py-8 h-full">
+    <aside className="col-span-3 flex flex-col py-8 h-full">
       <PetCards />
       {/* 個人連結 */}
       <Link
