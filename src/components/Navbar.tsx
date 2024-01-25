@@ -62,10 +62,11 @@ export default function Navbar() {
         <div className="relative">
           <button
             type="button"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
             className={`${
               isMenuOpen && "shadow-[0_0px_10px_0_rgba(0,0,0,0.15)]"
-            } flex items-center gap-2 p-2 w-20 border border-stroke rounded-[30px]`}
+            } flex items-center gap-2 p-2 w-20 border border-stroke rounded-[30px] duration-300`}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onBlur={() => setIsMenuOpen(false)}
           >
             <div className="w-8 h-8 rounded-[50%] overflow-hidden ">
               <Image
