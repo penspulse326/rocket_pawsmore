@@ -40,7 +40,7 @@ export default function SocialPostList() {
           </div>
           <button
             type="button"
-            className="px-8 py-2 rounded-[30px] bg-primary text-white duration-300 hover:bg-primary/70"
+            className="px-8 py-2 rounded-[30px] bg-primary text-white font-bold"
           >
             Pawk!
           </button>
