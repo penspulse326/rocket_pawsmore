@@ -8,6 +8,7 @@ import Mask from "../Mask";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import PostView from "./PostView";
 
 export default function PostCard() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,7 +21,7 @@ export default function PostCard() {
       <section className="relative">
         {isMaskOpen && (
           <Mask setIsOpen={setIsMaskOpen} maskType="post">
-            <div className="w-40 h-40 bg-primary text-white">123</div>
+            <PostView />
           </Mask>
         )}
         <Image
