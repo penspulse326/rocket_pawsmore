@@ -25,7 +25,7 @@ const AlertCard = ({
     title: string;
     content: string;
     buttonText: string;
-    onClick?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
+    handleButton?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
   }
 
   function handleUnFollowAndClose() {
@@ -42,28 +42,28 @@ const AlertCard = ({
       content:
         "此帳號的貼文將不會再出現在您的動態消息，除非他們的貼文受到保護，否則你仍可以查看其個人資料。",
       buttonText: "取消追蹤",
-      onClick: handleUnFollowAndClose,
+      handleButton: handleUnFollowAndClose,
     },
     {
       type: "reportPost",
       title: "檢舉",
       content: "確定要檢舉這篇貼文？",
       buttonText: "檢舉",
-      onClick: () => setIsReported(true),
+      handleButton: () => setIsReported(true),
     },
     {
       type: "reportPet",
       title: "檢舉",
       content: "確定要檢舉此寵物檔案？",
       buttonText: "檢舉",
-      onClick: () => setIsReported(true),
+      handleButton: () => setIsReported(true),
     },
     {
       type: "reportUser",
       title: "檢舉",
       content: "確定要檢舉此個人檔案？",
       buttonText: "檢舉",
-      onClick: () => setIsReported(true),
+      handleButton: () => setIsReported(true),
     },
     {
       type: "yetPost",
@@ -144,7 +144,7 @@ const AlertCard = ({
                 selectedCard.type === "unFollow" ? "bg-primary" : "bg-error"
               }`}
               type="button"
-              onClick={selectedCard.onClick}
+              onClick={selectedCard.handleButton}
             >
               {selectedCard.buttonText}
             </button>
