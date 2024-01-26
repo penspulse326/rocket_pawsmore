@@ -5,12 +5,7 @@ export default function Mask({ setIsOpen, children, maskType }: MaskPropsType) {
   const handleCloseClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
 
-    if (
-      target.classList.contains("mask") ||
-      target.classList.contains("close-btn")
-    ) {
-      setIsOpen(false);
-    }
+    if (target.classList.contains("mask")) setIsOpen(false);
   };
 
   return (
@@ -20,7 +15,10 @@ export default function Mask({ setIsOpen, children, maskType }: MaskPropsType) {
     >
       {maskType === "post" && (
         <button type="button" className="fixed top-12 right-12">
-          <IconX className="close-btn w-10 h-10 text-white fill-white " />
+          <IconX
+            onClick={() => setIsOpen(false)}
+            className="close-btn w-10 h-10 text-white fill-white"
+          />
         </button>
       )}
       {children}
@@ -31,5 +29,5 @@ export default function Mask({ setIsOpen, children, maskType }: MaskPropsType) {
 type MaskPropsType = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   children: ReactNode;
-  maskType: "post" | "report" | "followers" | "fans";
+  maskType: "post" | string;
 };

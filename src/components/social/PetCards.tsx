@@ -18,6 +18,11 @@ export default function PetCards() {
         effect={"cards"}
         grabCursor={true}
         modules={[EffectCards]}
+        cardsEffect={{
+          slideShadows: false,
+          perSlideRotate: 2,
+          perSlideOffset: 15,
+        }}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         onTransitionEnd={(swiper) => setActiveIndex(swiper.activeIndex)}
       >
