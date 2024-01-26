@@ -234,7 +234,7 @@ const ProfileGallery = () => {
     return (
       <div className="flex flex-col items-center gap-y-4 pt-[64px]">
         <Image
-          src="/test/icon-paw.svg"
+          src="/icons/icon-paw-gradient.svg"
           width={162}
           height={162}
           alt="no content"
