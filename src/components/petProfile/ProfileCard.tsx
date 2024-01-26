@@ -98,13 +98,29 @@ const ProfileCard = () => {
     const [buttonText, setButtonText] = useState("追蹤中");
 
     const Report = () => {
+      const [isAlertShown, setIsAlertShown] = useState(false);
+
       return (
-        <button
-          className="px-6 py-4 text-error bg-white rounded-3xl absolute -right-[120px] -bottom-[61.5px] shadow-[0_0_10px_0_rgba(0,0,0,0.15)] hover:cursor-pointer"
-          type="button"
-        >
-          檢舉寵物檔案
-        </button>
+        <>
+          <button
+            className="px-6 py-4 text-error bg-white rounded-3xl absolute -right-[120px] -bottom-[61.5px] shadow-[0_0_10px_0_rgba(0,0,0,0.15)] hover:cursor-pointer"
+            type="button"
+            onClick={() => {
+              setIsAlertShown(true);
+              // setIsShown(false);
+            }}
+          >
+            檢舉寵物檔案
+          </button>
+          {isAlertShown && (
+            <Mask setIsOpen={setIsAlertShown} maskType="report">
+              <AlertCard
+                setIsDisplayed={setIsAlertShown}
+                cardType="reportPet"
+              />
+            </Mask>
+          )}
+        </>
       );
     };
 

@@ -3,11 +3,12 @@ import { IconX, IconCircleCheck } from "@tabler/icons-react";
 
 interface AlertCardPropsType {
   setIsDisplayed: React.Dispatch<React.SetStateAction<boolean>>;
-  handleUnFollow: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  handleUnFollow?: () => void;
   cardType:
     | "unFollow"
     | "reportPost"
     | "reportUser"
+    | "reportPet"
     | "yetPost"
     | "yetSave"
     | "deletePost";
@@ -28,8 +29,10 @@ const AlertCard = ({
   }
 
   function handleUnFollowAndClose() {
-    handleUnFollow();
-    setIsDisplayed(false);
+    if (handleUnFollow) {
+      handleUnFollow();
+      setIsDisplayed(false);
+    }
   }
 
   const cardContent: ContentType[] = [
