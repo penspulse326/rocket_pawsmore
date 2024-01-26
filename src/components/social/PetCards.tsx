@@ -13,7 +13,7 @@ export default function PetCards() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <div className="relative z-50 flex-grow">
+    <div className="flex-grow">
       <Swiper
         effect={"cards"}
         grabCursor={true}
