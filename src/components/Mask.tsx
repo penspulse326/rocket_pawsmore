@@ -3,8 +3,9 @@ import { ReactNode } from "react";
 
 export default function Mask({ setIsOpen, children, maskType }: MaskPropsType) {
   const handleCloseClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     const target = e.target as HTMLElement;
-
+    console.log(target.classList.contains("mask"));
     if (target.classList.contains("mask")) setIsOpen(false);
   };
 

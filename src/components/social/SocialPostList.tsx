@@ -1,13 +1,25 @@
+import { useState } from "react";
 import { IconPhoto, IconMovie, IconMedal } from "@tabler/icons-react";
 import PostCard from "./PostCard";
+import Mask from "../Mask";
+import UploadView from "./UploadView";
 
 export default function SocialPostList() {
   const testArr = [1, 2, 3];
+  const [isUploadOpen, setIsUploadOpen] = useState(false);
 
   return (
     <div className="scrollbar-none col-span-6 p-8 border-x border-stroke bg-white overflow-y-scroll">
       {/* 貼文按鈕 */}
-      <div className="px-8 pt-8 pb-6 border border-stroke rounded-[30px]">
+      <div
+        className="px-8 pt-8 pb-6 border border-stroke rounded-[30px]"
+        onClick={() => setIsUploadOpen(!isUploadOpen)}
+      >
+        {isUploadOpen && (
+          <Mask maskType="upload" setIsOpen={setIsUploadOpen}>
+            <UploadView />
+          </Mask>
+        )}
         <input
           type="text"
           placeholder="在想些什麼呢？"
