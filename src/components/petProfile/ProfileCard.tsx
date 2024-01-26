@@ -84,10 +84,14 @@ const ProfileCard = () => {
       </div>
     );
   };
+
+  const [isMyPet, setIsMyPet] = useState(false);
+  const [isAlertShown, setIsAlertShown] = useState(false);
+
   const Button = () => {
-    // show report button
     const [isShown, setIsShown] = useState(false);
-    const isMyPet: boolean = false;
+    const [isFollowing, setIsFollowing] = useState(true);
+    const [buttonText, setButtonText] = useState("追蹤中");
 
     const Report = () => {
       return (
@@ -112,13 +116,26 @@ const ProfileCard = () => {
         ) : (
           <div className="flex gap-x-[15px] items-center w-full relative">
             <button
-              className="max-w-[157px] w-full hover:bg-primary hover:text-white border border-stroke hover:border-primary rounded-[300px] py-2"
+              className={`max-w-[157px] w-full rounded-[300px] py-2 ${
+                isFollowing
+                  ? "border border-stroke hover:border-error hover:text-error hover:bg-error/10"
+                  : "bg-primary text-white"
+              }`}
               type="button"
+              onClick={() => {
+                if (isFollowing) {
+                  alert("提示");
+                  setIsAlertShown(!isAlertShown);
+                }
+                // setIsFollowing(!isFollowing);
+              }}
+              onMouseOver={() => setButtonText("取消追蹤")}
+              onMouseOut={() => setButtonText("追蹤中")}
             >
-              追蹤
+              {isFollowing ? buttonText : "追蹤"}
             </button>
             <button
-              className="max-w-[157px] w-full hover:bg-primary hover:text-white border border-stroke hover:border-primary rounded-[300px] py-2"
+              className="max-w-[157px] w-full border border-stroke rounded-[300px] py-2"
               type="button"
             >
               發送訊息
@@ -128,7 +145,7 @@ const ProfileCard = () => {
               className="hover:cursor-pointer"
               onClick={() => setIsShown(!isShown)}
             />
-            {isShown ? <Report /> : null}
+            {isShown && <Report />}
           </div>
         )}
       </>
@@ -152,16 +169,27 @@ const ProfileCard = () => {
         <Companionship />
         <Button />
       </div>
+      {/* only for demo */}
+      <div>
+        切換狀態：
+        <button
+          type="button"
+          className="border rounded-2xl p-2 ml-2"
+          onClick={() => setIsMyPet(!isMyPet)}
+        >
+          自己／其他使用者的寵物
+        </button>
+      </div>
       {/* show fans list */}
-      {isDisplayed ? (
-        <Mask setIsOpen={setIsDisplayed} maskType={"fans"}>
+      {isDisplayed && (
+        <Mask setIsOpen={setIsDisplayed} maskType="fans">
           <ShowNetworkListCard
             title="粉絲"
             isClosed={isDisplayed}
             setIsClosed={setIsDisplayed}
           />
         </Mask>
-      ) : null}
+      )}
     </section>
   );
 };
