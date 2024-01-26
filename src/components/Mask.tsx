@@ -29,5 +29,5 @@ export default function Mask({ setIsOpen, children, maskType }: MaskPropsType) {
 type MaskPropsType = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   children: ReactNode;
-  maskType: "post" | "report" | "followers" | "fans";
+  maskType: "post" | string;
 };
