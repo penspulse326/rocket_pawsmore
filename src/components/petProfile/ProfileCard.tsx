@@ -2,6 +2,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Mask from "../Mask";
 import ShowNetworkListCard from "./ShowNetworkListCard";
+import AlertCard from "../AlertCard";
 import { IconDotsVertical } from "@tabler/icons-react";
 
 const ProfileCard = () => {
@@ -87,10 +88,13 @@ const ProfileCard = () => {
 
   const [isMyPet, setIsMyPet] = useState(false);
   const [isAlertShown, setIsAlertShown] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(true);
+  function handleUnFollow() {
+    setIsFollowing(!isFollowing);
+  }
 
   const Button = () => {
     const [isShown, setIsShown] = useState(false);
-    const [isFollowing, setIsFollowing] = useState(true);
     const [buttonText, setButtonText] = useState("追蹤中");
 
     const Report = () => {
@@ -124,10 +128,10 @@ const ProfileCard = () => {
               type="button"
               onClick={() => {
                 if (isFollowing) {
-                  alert("提示");
                   setIsAlertShown(!isAlertShown);
+                } else {
+                  setIsFollowing(!isFollowing);
                 }
-                // setIsFollowing(!isFollowing);
               }}
               onMouseOver={() => setButtonText("取消追蹤")}
               onMouseOut={() => setButtonText("追蹤中")}
@@ -187,6 +191,15 @@ const ProfileCard = () => {
             title="粉絲"
             isClosed={isDisplayed}
             setIsClosed={setIsDisplayed}
+          />
+        </Mask>
+      )}
+      {isAlertShown && (
+        <Mask setIsOpen={setIsAlertShown} maskType="fans">
+          <AlertCard
+            setIsDisplayed={setIsAlertShown}
+            cardType="unFollow"
+            handleUnFollow={handleUnFollow}
           />
         </Mask>
       )}
