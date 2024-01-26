@@ -13,6 +13,9 @@ export default function Home() {
       <Link href="/test/upload" className="underline ">
         檔案上傳
       </Link>
+      <Link href="/test/record_dashboard" className="underline">
+        數據頁面
+      </Link>
     </main>
   );
 }
