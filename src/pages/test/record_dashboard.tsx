@@ -1,7 +1,19 @@
+import Calendar from "@/components/recordDashboard/Calendar";
+import Upcoming from "@/components/recordDashboard/Upcoming";
+import PetAccount from "@/components/recordDashboard/PetAccount";
+import RecordCard from "@/components/recordDashboard/RecordCard";
+
 export default function RecordDashboard() {
   return (
-    <section className="mt-[64px]">
-      <div>數據頁面</div>
+    <section className="inner mt-[88px] flex justify-between">
+      <div className="flex flex-col gap-y-4">
+        <Calendar />
+        <Upcoming />
+      </div>
+      <div className="flex flex-col gap-y-4">
+        <PetAccount />
+        <RecordCard />
+      </div>
     </section>
   );
 }
