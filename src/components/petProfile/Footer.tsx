@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <section className="my-8 text-note font-normal">
+    <section className="my-8 text-note">
       <ul className="flex flex-col gap-y-4">
         <ol className="flex justify-center gap-x-4">
           <li>常見問答</li>

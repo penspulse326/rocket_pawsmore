@@ -1,9 +1,15 @@
+import { useState } from "react";
 import Image from "next/image";
+import Mask from "../Mask";
+import ShowNetworkListCard from "./ShowNetworkListCard";
+import { IconDotsVertical } from "@tabler/icons-react";
 
 const ProfileCard = () => {
+  const [isDisplayed, setIsDisplayed] = useState(false);
+
   const PetData = () => {
     return (
-      <div className="flex flex-col max-w-[368px] w-full gap-y-6 font-normal">
+      <div className="flex flex-col max-w-[368px] w-full gap-y-6">
         <ul className="flex flex-col gap-y-3">
           <ol>
             <li className="text-[32px]">角龍寶寶</li>
@@ -17,10 +23,13 @@ const ProfileCard = () => {
         </ul>
         <ul className="flex gap-x-4">
           <li>
-            <span className="font-serif pr-1">6</span>貼文
+            <span className="font-bold pr-1">6</span>貼文
           </li>
-          <li>
-            <span className="font-serif pr-1">24</span>粉絲
+          <li
+            className="hover:cursor-pointer"
+            onClick={() => setIsDisplayed(!isDisplayed)}
+          >
+            <span className="font-bold pr-1">24</span>粉絲
           </li>
         </ul>
         <ol className="flex flex-col gap-y-2">
@@ -67,8 +76,8 @@ const ProfileCard = () => {
           height={48}
           alt="owner avatar"
         />
-        <div className="font-normal">
-          已和 <span className="font-semibold">琪琪</span> 相伴
+        <div>
+          已和 <span className="font-bold">琪琪</span> 相伴
           <br />
           64 天
         </div>
@@ -76,13 +85,53 @@ const ProfileCard = () => {
     );
   };
   const Button = () => {
+    // show report button
+    const [isShown, setIsShown] = useState(false);
+    const isMyPet: boolean = false;
+
+    const Report = () => {
+      return (
+        <button
+          className="px-6 py-4 text-error bg-white rounded-3xl absolute -right-[120px] -bottom-[61.5px] shadow-[0_0_10px_0_rgba(0,0,0,0.15)] hover:cursor-pointer"
+          type="button"
+        >
+          檢舉寵物檔案
+        </button>
+      );
+    };
+
     return (
-      <button
-        className="w-full max-h-[39px] bg-primary text-white font-normal rounded-[300px] py-2"
-        type="button"
-      >
-        編輯寵物檔案
-      </button>
+      <>
+        {isMyPet ? (
+          <button
+            className="w-full bg-primary text-white rounded-[300px] py-2"
+            type="button"
+          >
+            編輯寵物檔案
+          </button>
+        ) : (
+          <div className="flex gap-x-[15px] items-center w-full relative">
+            <button
+              className="max-w-[157px] w-full hover:bg-primary hover:text-white border border-stroke hover:border-primary rounded-[300px] py-2"
+              type="button"
+            >
+              追蹤
+            </button>
+            <button
+              className="max-w-[157px] w-full hover:bg-primary hover:text-white border border-stroke hover:border-primary rounded-[300px] py-2"
+              type="button"
+            >
+              發送訊息
+            </button>
+            <IconDotsVertical
+              size={24}
+              className="hover:cursor-pointer"
+              onClick={() => setIsShown(!isShown)}
+            />
+            {isShown ? <Report /> : null}
+          </div>
+        )}
+      </>
     );
   };
   return (
@@ -103,6 +152,16 @@ const ProfileCard = () => {
         <Companionship />
         <Button />
       </div>
+      {/* show fans list */}
+      {isDisplayed ? (
+        <Mask setIsOpen={setIsDisplayed} maskType={"fans"}>
+          <ShowNetworkListCard
+            title="粉絲"
+            isClosed={isDisplayed}
+            setIsClosed={setIsDisplayed}
+          />
+        </Mask>
+      ) : null}
     </section>
   );
 };
