@@ -60,7 +60,10 @@ const PetAccount = () => {
             return (
               <ul
                 className="flex gap-x-2 items-center rounded-[60px] p-2 hover:bg-secondary hover:cursor-pointer"
-                onClick={() => setSelectedPet(petAccounts[index])}
+                onClick={() => {
+                  setSelectedPet(petAccounts[index]);
+                  setIsExpanded(!isExpanded);
+                }}
                 key={`${index}-${account.name}`}
               >
                 <Image
