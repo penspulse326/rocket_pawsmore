@@ -24,8 +24,8 @@ const PetAccount = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedPet, setSelectedPet] = useState(petAccounts[0]);
 
-  return (
-    <section className="relative min-w-[258px] w-full">
+  const AccountCard = () => {
+    return (
       <div className="flex gap-x-2 items-center border border-stroke rounded-[60px] p-2">
         <Image
           src={selectedPet.photo}
@@ -54,34 +54,43 @@ const PetAccount = () => {
           )}
         </div>
       </div>
-      {isExpanded && (
-        <div className="absolute top-[76px] bg-white border border-stroke rounded-[30px] p-2 min-w-[242px] w-full">
-          {petAccounts.map((account, index) => {
-            return (
-              <ul
-                className="flex gap-x-2 items-center rounded-[60px] p-2 hover:bg-secondary hover:cursor-pointer"
-                onClick={() => {
-                  setSelectedPet(petAccounts[index]);
-                  setIsExpanded(!isExpanded);
-                }}
-                key={`${index}-${account.name}`}
-              >
-                <Image
-                  src={account.photo}
-                  width={48}
-                  height={48}
-                  className="rounded-full"
-                  alt="pet avatar"
-                />
-                <ol className="mr-2">
-                  <li>{account.name}</li>
-                  <li className="text-note">@{account.pet_id}</li>
-                </ol>
-              </ul>
-            );
-          })}
-        </div>
-      )}
+    );
+  };
+  const ExpandedCard = () => {
+    return (
+      <div className="absolute top-[76px] bg-white border border-stroke rounded-[30px] p-2 min-w-[242px] w-full">
+        {petAccounts.map((account, index) => {
+          return (
+            <ul
+              className="flex gap-x-2 items-center rounded-[60px] p-2 hover:bg-secondary hover:cursor-pointer"
+              onClick={() => {
+                setSelectedPet(petAccounts[index]);
+                setIsExpanded(!isExpanded);
+              }}
+              key={`${index}-${account.name}`}
+            >
+              <Image
+                src={account.photo}
+                width={48}
+                height={48}
+                className="rounded-full"
+                alt="pet avatar"
+              />
+              <ol className="mr-2">
+                <li>{account.name}</li>
+                <li className="text-note">@{account.pet_id}</li>
+              </ol>
+            </ul>
+          );
+        })}
+      </div>
+    );
+  };
+
+  return (
+    <section className="relative min-w-[258px] w-full">
+      <AccountCard />
+      {isExpanded && <ExpandedCard />}
     </section>
   );
 };
