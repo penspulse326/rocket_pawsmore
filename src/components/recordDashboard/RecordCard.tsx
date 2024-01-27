@@ -25,13 +25,13 @@ const RecordCard = () => {
           className="hover:cursor-pointer"
           onClick={handlePreviousDay}
         />
-        <ul className="flex gap-x-2 text-2xl">
+        <ul className="flex gap-x-2 text-2xl justify-center font-medium max-w-[124px] w-full">
           <ol className="flex gap-x-1">
-            <li>{currentTime.format("M")}</li>
+            <li className="font-['futura']">{currentTime.format("M")}</li>
             <li>月</li>
           </ol>
           <ol className="flex gap-x-1">
-            <li>{currentTime.format("D")}</li>
+            <li className="font-['futura']">{currentTime.format("D")}</li>
             <li>日</li>
           </ol>
         </ul>
