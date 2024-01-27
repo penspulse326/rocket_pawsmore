@@ -12,7 +12,7 @@ export default function RecordDashboard() {
           <Calendar />
           <Upcoming />
         </div>
-        <div className="flex flex-col gap-y-8">
+        <div className="flex flex-col gap-y-8 max-w-[480px] items-end">
           <PetAccount />
           <RecordCard />
         </div>

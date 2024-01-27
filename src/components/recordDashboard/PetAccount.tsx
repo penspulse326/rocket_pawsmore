@@ -58,7 +58,7 @@ const PetAccount = () => {
   };
   const ExpandedCard = () => {
     return (
-      <div className="absolute top-[76px] bg-white border border-stroke rounded-[30px] p-2 min-w-[242px] w-full">
+      <div className="absolute top-[76px] bg-white shadow-[0_0_10px_0_rgba(0,0,0,0.15)] rounded-[30px] p-2  w-full z-10">
         {petAccounts.map((account, index) => {
           return (
             <ul
@@ -86,9 +86,8 @@ const PetAccount = () => {
       </div>
     );
   };
-
   return (
-    <section className="relative min-w-[258px] w-full">
+    <section className="relative min-w-[258px] max-w-[258px]">
       <AccountCard />
       {isExpanded && <ExpandedCard />}
     </section>
