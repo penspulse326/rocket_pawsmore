@@ -1,7 +1,18 @@
 import Image from "next/image";
 import moment from "moment";
 
-const eventData = [
+interface DataType {
+  card: string;
+  created_at: string;
+  category?: string;
+  content?: string;
+  type?: string;
+  remind_at?: string;
+  reserve_type?: string;
+  reserve_at?: string;
+}
+
+const eventData: DataType[] = [
   {
     card: "重要時刻",
     created_at: "2024/01/17",
@@ -16,13 +27,13 @@ const eventData = [
   },
   {
     card: "重要時刻",
-    created_at: "2024/01/23",
+    created_at: "2024/01/28",
     category: "社交",
     content: "交到新朋友",
   },
   {
     card: "醫療紀錄",
-    create_at: "2024-01-20",
+    created_at: "2024-01-20",
     type: "醫療提醒",
     remind_at: "2024-01-25",
     reserve_type: "健檢",
@@ -30,7 +41,7 @@ const eventData = [
   },
   {
     card: "醫療紀錄",
-    create_at: "2024-01-20",
+    created_at: "2024-01-20",
     type: "醫療提醒",
     remind_at: "2024-02-01",
     reserve_type: "看診",
@@ -38,7 +49,7 @@ const eventData = [
   },
   {
     card: "醫療紀錄",
-    create_at: "2024-01-20",
+    created_at: "2024-01-20",
     type: "醫療提醒",
     remind_at: "2024-02-10",
     reserve_type: "打疫苗",
@@ -89,7 +100,7 @@ const Upcoming = () => {
           .map((event, index) => (
             <ul className="flex gap-x-4" key={index}>
               <li className="w-[42px]">
-                {moment(event.create_at).format("M/D")}
+                {moment(event.created_at).format("M/D")}
               </li>
               <li className="flex gap-x-1">
                 <span
