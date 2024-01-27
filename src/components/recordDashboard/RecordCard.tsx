@@ -112,7 +112,7 @@ const RecordCard = () => {
     };
     return (
       <div
-        className="relative flex gap-x-2 justify-center items-center border border-stroke rounded-[30px] min-w-[416px] min-h-[161px] hover:bg-secondary hover:cursor-pointer"
+        className="relative flex gap-x-2 justify-center items-center border border-stroke rounded-[30px] min-w-[416px] max-w-[416px] min-h-[161px] hover:bg-secondary hover:cursor-pointer"
         onClick={() => setIsShown(!isShown)}
       >
         <div className="text-primary">點擊以新增紀錄</div>
@@ -122,7 +122,7 @@ const RecordCard = () => {
     );
   };
   return (
-    <section className="flex flex-col gap-y-8 border border-stroke rounded-[30px] p-8">
+    <section className="flex flex-col gap-y-8 border border-stroke rounded-[30px] p-8 max-w-[480px]">
       <Date />
       <AddRecordBtn />
     </section>
