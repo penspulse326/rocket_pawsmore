@@ -18,6 +18,11 @@ const petAccounts: AccountType[] = [
     photo: "/test/pet-avatar-2.jpg",
     pet_id: "beibeiiiii",
   },
+  {
+    name: "貝貝",
+    photo: "/test/pet-avatar-2.jpg",
+    pet_id: "beibeiiiii",
+  },
 ];
 
 const PetAccount = () => {
@@ -26,7 +31,10 @@ const PetAccount = () => {
 
   const AccountCard = () => {
     return (
-      <div className="flex gap-x-2 items-center border border-stroke rounded-[60px] p-2">
+      <div
+        className="flex gap-x-2 items-center border border-stroke rounded-[60px] p-2 hover:cursor-pointer"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
         <Image
           src={selectedPet.photo}
           width={48}
@@ -40,17 +48,9 @@ const PetAccount = () => {
             <li className="text-note">@{selectedPet.pet_id}</li>
           </ul>
           {isExpanded ? (
-            <IconChevronUp
-              size={24}
-              className="hover:cursor-pointer"
-              onClick={() => setIsExpanded(!isExpanded)}
-            />
+            <IconChevronUp size={24} />
           ) : (
-            <IconChevronDown
-              size={24}
-              className="hover:cursor-pointer"
-              onClick={() => setIsExpanded(!isExpanded)}
-            />
+            <IconChevronDown size={24} />
           )}
         </div>
       </div>
