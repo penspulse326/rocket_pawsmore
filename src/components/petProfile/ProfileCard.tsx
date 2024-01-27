@@ -2,6 +2,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Mask from "../Mask";
 import ShowNetworkListCard from "./ShowNetworkListCard";
+import AlertCard from "../AlertCard";
 import { IconDotsVertical } from "@tabler/icons-react";
 
 const ProfileCard = () => {
@@ -84,19 +85,42 @@ const ProfileCard = () => {
       </div>
     );
   };
+
+  const [isMyPet, setIsMyPet] = useState(false);
+  const [isAlertShown, setIsAlertShown] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(true);
+  function handleUnFollow() {
+    setIsFollowing(!isFollowing);
+  }
+
   const Button = () => {
-    // show report button
     const [isShown, setIsShown] = useState(false);
-    const isMyPet: boolean = false;
+    const [buttonText, setButtonText] = useState("追蹤中");
 
     const Report = () => {
+      const [isAlertShown, setIsAlertShown] = useState(false);
+
       return (
-        <button
-          className="px-6 py-4 text-error bg-white rounded-3xl absolute -right-[120px] -bottom-[61.5px] shadow-[0_0_10px_0_rgba(0,0,0,0.15)] hover:cursor-pointer"
-          type="button"
-        >
-          檢舉寵物檔案
-        </button>
+        <>
+          <button
+            className="px-6 py-4 text-error bg-white rounded-3xl absolute -right-[120px] -bottom-[61.5px] shadow-[0_0_10px_0_rgba(0,0,0,0.15)] hover:cursor-pointer"
+            type="button"
+            onClick={() => {
+              setIsAlertShown(true);
+              // setIsShown(false);
+            }}
+          >
+            檢舉寵物檔案
+          </button>
+          {isAlertShown && (
+            <Mask setIsOpen={setIsAlertShown} maskType="report">
+              <AlertCard
+                setIsDisplayed={setIsAlertShown}
+                cardType="reportPet"
+              />
+            </Mask>
+          )}
+        </>
       );
     };
 
@@ -112,13 +136,26 @@ const ProfileCard = () => {
         ) : (
           <div className="flex gap-x-[15px] items-center w-full relative">
             <button
-              className="max-w-[157px] w-full hover:bg-primary hover:text-white border border-stroke hover:border-primary rounded-[300px] py-2"
+              className={`max-w-[157px] w-full rounded-[300px] py-2 ${
+                isFollowing
+                  ? "border border-stroke hover:border-error hover:text-error hover:bg-error/10"
+                  : "bg-primary text-white"
+              }`}
               type="button"
+              onClick={() => {
+                if (isFollowing) {
+                  setIsAlertShown(!isAlertShown);
+                } else {
+                  setIsFollowing(!isFollowing);
+                }
+              }}
+              onMouseOver={() => setButtonText("取消追蹤")}
+              onMouseOut={() => setButtonText("追蹤中")}
             >
-              追蹤
+              {isFollowing ? buttonText : "追蹤"}
             </button>
             <button
-              className="max-w-[157px] w-full hover:bg-primary hover:text-white border border-stroke hover:border-primary rounded-[300px] py-2"
+              className="max-w-[157px] w-full border border-stroke rounded-[300px] py-2"
               type="button"
             >
               發送訊息
@@ -128,7 +165,7 @@ const ProfileCard = () => {
               className="hover:cursor-pointer"
               onClick={() => setIsShown(!isShown)}
             />
-            {isShown ? <Report /> : null}
+            {isShown && <Report />}
           </div>
         )}
       </>
@@ -152,16 +189,36 @@ const ProfileCard = () => {
         <Companionship />
         <Button />
       </div>
+      {/* only for demo */}
+      <div>
+        切換狀態：
+        <button
+          type="button"
+          className="border rounded-2xl p-2 ml-2"
+          onClick={() => setIsMyPet(!isMyPet)}
+        >
+          自己／其他使用者的寵物
+        </button>
+      </div>
       {/* show fans list */}
-      {isDisplayed ? (
-        <Mask setIsOpen={setIsDisplayed} maskType={"fans"}>
+      {isDisplayed && (
+        <Mask setIsOpen={setIsDisplayed} maskType="fans">
           <ShowNetworkListCard
             title="粉絲"
             isClosed={isDisplayed}
             setIsClosed={setIsDisplayed}
           />
         </Mask>
-      ) : null}
+      )}
+      {isAlertShown && (
+        <Mask setIsOpen={setIsAlertShown} maskType="fans">
+          <AlertCard
+            setIsDisplayed={setIsAlertShown}
+            cardType="unFollow"
+            handleUnFollow={handleUnFollow}
+          />
+        </Mask>
+      )}
     </section>
   );
 };

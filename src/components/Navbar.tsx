@@ -43,7 +43,7 @@ export default function Navbar() {
             社群首頁
           </Link>
           <Link
-            href="#"
+            href="/test/record_dashboard"
             className="flex gap-2 px-8 pt-6 pb-5"
             onClick={() => setPage(1)}
           >
