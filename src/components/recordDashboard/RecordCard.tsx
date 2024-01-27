@@ -8,22 +8,30 @@ import moment from "moment";
 
 const RecordCard = () => {
   const Date = () => {
-    const currentMonth = moment().format("M");
-    const currentDate = moment().format("DD");
+    const [currentTime, setCurrentTime] = useState(moment());
+
+    const handlePreviousDay = () => {
+      setCurrentTime(currentTime.clone().subtract(1, "day"));
+    };
+    const handleNextDay = () => {
+      setCurrentTime(currentTime.clone().add(1, "day"));
+    };
+
     return (
       <div className="flex justify-center items-center gap-x-4">
         <IconChevronLeft
           size={24}
           color={"#808080"}
           className="hover:cursor-pointer"
+          onClick={handlePreviousDay}
         />
         <ul className="flex gap-x-2 text-2xl">
           <ol className="flex gap-x-1">
-            <li>{currentMonth}</li>
+            <li>{currentTime.format("M")}</li>
             <li>月</li>
           </ol>
           <ol className="flex gap-x-1">
-            <li>{currentDate}</li>
+            <li>{currentTime.format("D")}</li>
             <li>日</li>
           </ol>
         </ul>
@@ -31,12 +39,13 @@ const RecordCard = () => {
           size={24}
           color={"#808080"}
           className="hover:cursor-pointer"
+          onClick={handleNextDay}
         />
       </div>
     );
   };
   const AddRecordBtn = () => {
-    const [isShown, setIsShown] = useState(true);
+    const [isShown, setIsShown] = useState(false);
     const ShowRecordType = () => {
       const recordType = [
         {
