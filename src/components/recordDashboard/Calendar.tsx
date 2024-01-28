@@ -9,7 +9,7 @@ import { useState } from "react";
 const Calendar = () => {
   const Header = () => {
     const [currentDate, setCurrentDate] = useState(moment());
-    const [isExpanded, setIsExpanded] = useState(true);
+    const [isExpanded, setIsExpanded] = useState(false);
     const category: string[] = ["日常紀錄", "醫療紀錄", "重要時刻"];
     return (
       <div className="flex justify-between h-[34px]">
@@ -51,6 +51,8 @@ const Calendar = () => {
         <div
           className="relative flex gap-x-1 items-center border border-stroke px-4 py-1 rounded-[300px] hover:cursor-pointer"
           onClick={() => setIsExpanded(!isExpanded)}
+          onBlur={() => setIsExpanded(false)}
+          tabIndex={-1}
         >
           <div>紀錄類型</div>
           <IconChevronDown size={24} />
