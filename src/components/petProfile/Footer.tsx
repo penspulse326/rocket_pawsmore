@@ -7,7 +7,7 @@ const Footer = () => {
           <li>網站介紹</li>
           <li>關於我們</li>
         </ol>
-        <li>
+        <li className="text-center">
           Pawsmore(2024) from <span className="underline">火箭隊</span> 14th
         </li>
       </ul>
