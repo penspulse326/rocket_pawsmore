@@ -13,14 +13,14 @@ export default function PetCards() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <div className="flex-grow">
+    <div className="relative flex-grow">
       <Swiper
+        className="absolute z-50"
         effect={"cards"}
-        grabCursor={true}
         modules={[EffectCards]}
         cardsEffect={{
           slideShadows: false,
-          perSlideRotate: 2,
+          perSlideRotate: 3,
           perSlideOffset: 15,
         }}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
