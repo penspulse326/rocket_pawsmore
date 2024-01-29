@@ -140,12 +140,49 @@ const Calendar = () => {
     return today.format("YYYYMM") === moment(prop).format("YYYYMM");
   };
   const [filterEvent, setFilterEvent] = useState("紀錄類型");
+  const [selectedDate, setSelectedDate] = useState("");
 
   const Header = () => {
     const [currentDate, setCurrentDate] = useState(moment());
     const [isExpanded, setIsExpanded] = useState(false);
     const category: string[] = ["全部類型", "日常紀錄", "醫療紀錄", "重要時刻"];
 
+    const CalendarTitle = () => {
+      return (
+        <ul className="flex gap-x-2 text-2xl font-medium">
+          <ol className="flex gap-x-1">
+            <li className="font-[Futura]">{currentDate.format("YYYY")}</li>
+            <li>年</li>
+          </ol>
+          <ol className="flex gap-x-1">
+            <li className="font-[Futura] text-center w-[30px]">
+              {currentDate.format("M")}
+            </li>
+            <li>月</li>
+          </ol>
+        </ul>
+      );
+    };
+    const HandleMonth = () => {
+      return (
+        <div className="flex gap-x-4">
+          <IconChevronLeft
+            size={24}
+            color={"#808080"}
+            className="hover:cursor-pointer"
+            onClick={() =>
+              setCurrentDate(currentDate.clone().subtract(1, "month"))
+            }
+          />
+          <IconChevronRight
+            size={24}
+            color={"#808080"}
+            className="hover:cursor-pointer"
+            onClick={() => setCurrentDate(currentDate.clone().add(1, "month"))}
+          />
+        </div>
+      );
+    };
     const EventFilter = () => {
       const handleEventFilter = (prop: string) => {
         switch (prop) {
@@ -163,8 +200,6 @@ const Calendar = () => {
         <div
           className="relative flex gap-x-1 items-center border border-stroke px-4 py-1 rounded-[300px] hover:cursor-pointer"
           onClick={() => setIsExpanded(!isExpanded)}
-          onBlur={() => setIsExpanded(false)}
-          tabIndex={-1}
         >
           <div>{filterEvent}</div>
           <IconChevronDown size={24} />
@@ -189,44 +224,16 @@ const Calendar = () => {
         </div>
       );
     };
-
     return (
-      <div className="flex justify-between h-[34px]">
+      <div
+        className="flex justify-between h-[34px]"
+        onBlur={() => setIsExpanded(false)}
+        tabIndex={-1}
+      >
         <div className="flex gap-x-8 items-center">
-          {/* date */}
-          <ul className="flex gap-x-2 text-2xl font-medium">
-            <ol className="flex gap-x-1">
-              <li className="font-[Futura]">{currentDate.format("YYYY")}</li>
-              <li>年</li>
-            </ol>
-            <ol className="flex gap-x-1">
-              <li className="font-[Futura] text-center w-[30px]">
-                {currentDate.format("M")}
-              </li>
-              <li>月</li>
-            </ol>
-          </ul>
-          {/* switch month */}
-          <div className="flex gap-x-4">
-            <IconChevronLeft
-              size={24}
-              color={"#808080"}
-              className="hover:cursor-pointer"
-              onClick={() =>
-                setCurrentDate(currentDate.clone().subtract(1, "month"))
-              }
-            />
-            <IconChevronRight
-              size={24}
-              color={"#808080"}
-              className="hover:cursor-pointer"
-              onClick={() =>
-                setCurrentDate(currentDate.clone().add(1, "month"))
-              }
-            />
-          </div>
+          <CalendarTitle />
+          <HandleMonth />
         </div>
-        {/* select category */}
         <EventFilter />
       </div>
     );
@@ -300,7 +307,7 @@ const Calendar = () => {
     const allDates: React.ReactNode[] = [];
 
     return (
-      <div className="flex flex-col gap-y-4 border border-stroke rounded-[30px] p-8 max-h-[789px] min-h-[789px]">
+      <div className="flex flex-col gap-y-4">
         {/* header: days of week */}
         <ul className="flex gap-x-4 justify-between text-center font-['Futura'] font-medium">
           {daysOfWeek.map((name, index) => {
@@ -323,23 +330,25 @@ const Calendar = () => {
             const everyWeek = week.map((day, dayIndex) => (
               // container of every days
               <div
-                className="flex flex-col flex-1 h-[100px]"
+                className="flex flex-col flex-1 h-[100px] hover:cursor-pointer"
+                onClick={() => {
+                  setSelectedDate(day.date);
+                }}
                 key={`${dayIndex}-${day.date}`}
               >
                 {/* top bar */}
                 <div
-                  className={`h-1 ${
-                    isCurrentMonth(day.date) ? "bg-stroke" : ""
-                  } 
+                  className={`h-1 ${isCurrentMonth(day.date) ? "bg-stroke" : ""}
                    ${isToday(day.date) && "!bg-secondary"}`}
                 ></div>
                 {/* day block */}
                 <span
-                  className={`w-[35px] h-5 ml-1 mt-1 px-2 py-1 flex justify-center items-center self-start font-['Futura'] hover:cursor-pointer
+                  className={`w-[35px] h-5 ml-1 mt-1 px-2 py-1 flex justify-center items-center self-start font-['Futura']
                   ${isCurrentMonth(day.date) || "text-[#CCCCCC]"}
-                  ${isToday(day.date) && "bg-secondary rounded-[30px]"}`}
+                  ${selectedDate === day.date && "bg-secondary rounded-[30px]"}
+                  `}
                 >
-                  {day.number === 0 ? "" : day.number}
+                  {day.number}
                 </span>
                 {/* events block */}
                 <EventCard prop={day.date} />
@@ -458,7 +467,7 @@ const Calendar = () => {
   };
 
   return (
-    <section className="flex flex-col gap-y-8 mt-8 max-w-[832px]">
+    <section className="flex flex-col gap-y-8 max-w-[832px] border border-stroke rounded-[30px] p-8">
       <Header />
       <Calendar />
     </section>
