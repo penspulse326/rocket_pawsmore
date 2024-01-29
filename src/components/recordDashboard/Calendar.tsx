@@ -300,7 +300,7 @@ const Calendar = () => {
     const allDates: React.ReactNode[] = [];
 
     return (
-      <div className="flex flex-col gap-y-4 border border-stroke rounded-[30px] p-8 max-h-[789px] min-h-[789px]">
+      <div className="flex flex-col gap-y-4">
         {/* header: days of week */}
         <ul className="flex gap-x-4 justify-between text-center font-['Futura'] font-medium">
           {daysOfWeek.map((name, index) => {
@@ -458,7 +458,7 @@ const Calendar = () => {
   };
 
   return (
-    <section className="flex flex-col gap-y-8 mt-8 max-w-[832px]">
+    <section className="flex flex-col gap-y-8 mt-8 max-w-[832px] border border-stroke rounded-[30px] p-8">
       <Header />
       <Calendar />
     </section>
