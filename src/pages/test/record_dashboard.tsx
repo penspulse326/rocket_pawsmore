@@ -12,8 +12,16 @@ export default function RecordDashboard() {
           <Calendar />
           <Upcoming />
         </div>
-        <div className="flex flex-col gap-y-8 max-w-[480px] items-end">
-          <PetAccount />
+        <div className="flex flex-col gap-y-8 max-w-[480px]">
+          <div className="flex justify-between">
+            <PetAccount />
+            <button
+              className="text-primary font-bold border border-stroke rounded-[30px] px-8 py-4 hover:cursor-pointer"
+              type="button"
+            >
+              查看數據總覽
+            </button>
+          </div>
           <RecordCard />
         </div>
       </div>
