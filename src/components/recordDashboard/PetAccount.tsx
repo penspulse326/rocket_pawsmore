@@ -33,7 +33,9 @@ const PetAccount = () => {
     return (
       <div
         className="flex gap-x-2 items-center border border-stroke rounded-[60px] p-2 hover:cursor-pointer"
-        onClick={() => setIsExpanded(!isExpanded)}
+        onMouseDown={() => setIsExpanded(!isExpanded)}
+        onBlur={() => setIsExpanded(false)}
+        tabIndex={-1}
       >
         <Image
           src={selectedPet.photo}
@@ -65,7 +67,7 @@ const PetAccount = () => {
               className="flex gap-x-2 items-center rounded-[60px] p-2 hover:bg-secondary hover:cursor-pointer"
               onClick={() => {
                 setSelectedPet(petAccounts[index]);
-                setIsExpanded(!isExpanded);
+                setIsExpanded(false);
               }}
               key={`${index}-${account.name}`}
             >

@@ -118,6 +118,8 @@ const RecordCard = () => {
       <div
         className="relative flex gap-x-2 justify-center items-center border border-stroke rounded-[30px] min-w-[416px] max-w-[416px] min-h-[161px] hover:bg-secondary hover:cursor-pointer"
         onClick={() => setIsShown(!isShown)}
+        onBlur={() => setIsShown(false)}
+        tabIndex={-1}
       >
         <div className="text-primary">點擊以新增紀錄</div>
         <IconCirclePlus size={24} color={"#203170"} />
