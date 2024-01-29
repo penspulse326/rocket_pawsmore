@@ -199,8 +199,6 @@ const Calendar = () => {
         <div
           className="relative flex gap-x-1 items-center border border-stroke px-4 py-1 rounded-[300px] hover:cursor-pointer"
           onClick={() => setIsExpanded(!isExpanded)}
-          onBlur={() => setIsExpanded(false)}
-          tabIndex={0}
         >
           <div>{filterEvent}</div>
           <IconChevronDown size={24} />
@@ -226,7 +224,11 @@ const Calendar = () => {
       );
     };
     return (
-      <div className="flex justify-between h-[34px]">
+      <div
+        className="flex justify-between h-[34px]"
+        onBlur={() => setIsExpanded(false)}
+        tabIndex={-1}
+      >
         <div className="flex gap-x-8 items-center">
           <CalendarTitle />
           <HandleMonth />
