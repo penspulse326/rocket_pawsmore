@@ -66,7 +66,7 @@ export default function SocialSideBarRight() {
         <h2 className="mt-8 text-note">探索</h2>
         <div className="mt-4 px-5 text-center">
           <div className="flex gap-4">
-            <Link href="#">
+            <Link href="/test/social/explore?type=dog">
               <Image
                 src="/test/photo-dog-test-1.png"
                 width={80}
