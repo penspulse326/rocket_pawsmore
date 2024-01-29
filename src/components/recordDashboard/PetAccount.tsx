@@ -31,12 +31,7 @@ const PetAccount = () => {
 
   const AccountCard = () => {
     return (
-      <div
-        className="flex gap-x-2 items-center border border-stroke rounded-[60px] p-2 hover:cursor-pointer"
-        onMouseDown={() => setIsExpanded(!isExpanded)}
-        onBlur={() => setIsExpanded(false)}
-        tabIndex={-1}
-      >
+      <div className="flex gap-x-2 items-center border border-stroke rounded-[60px] p-2 hover:cursor-pointer">
         <Image
           src={selectedPet.photo}
           width={48}
@@ -89,7 +84,12 @@ const PetAccount = () => {
     );
   };
   return (
-    <section className="relative min-w-[258px] max-w-[258px]">
+    <section
+      className="relative min-w-[258px] max-w-[258px]"
+      onClick={() => setIsExpanded(!isExpanded)}
+      onBlur={() => setIsExpanded(false)}
+      tabIndex={1}
+    >
       <AccountCard />
       {isExpanded && <ExpandedCard />}
     </section>
