@@ -3,6 +3,7 @@ import { IconPhoto, IconMovie, IconMedal } from "@tabler/icons-react";
 import PostCard from "./PostCard";
 import Mask from "../Mask";
 import UploadView from "./UploadView";
+import MorePostHint from "./MorePostHint";
 
 export default function SocialPostList() {
   const testArr = [1, 2, 3];
@@ -50,12 +51,13 @@ export default function SocialPostList() {
       </div>
       <h2 className="mt-8 text-note">動態消息</h2>
       {/* 貼文列表 */}
-      <div className="flex flex-col gap-8 mt-4 h-[2000px]">
+      <div className="flex flex-col gap-8 mt-4">
         {/* 貼文卡片 */}
         {testArr.map((item, index) => (
           <PostCard key={new Date().getTime() + index} />
         ))}
       </div>
+      <MorePostHint />
     </div>
   );
 }
