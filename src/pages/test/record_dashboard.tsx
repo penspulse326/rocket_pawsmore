@@ -6,7 +6,7 @@ import Footer from "@/components/petProfile/Footer";
 
 export default function RecordDashboard() {
   return (
-    <section className="inner mt-[88px] flex flex-col gap-y-[64px]">
+    <section className="inner mt-[96px] flex flex-col gap-y-[64px]">
       <div className="flex justify-between gap-x-8">
         <div className="flex flex-col gap-y-4 max-w-[896px] w-full">
           <Calendar />
