@@ -146,6 +146,42 @@ const Calendar = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const category: string[] = ["全部類型", "日常紀錄", "醫療紀錄", "重要時刻"];
 
+    const CalendarTitle = () => {
+      return (
+        <ul className="flex gap-x-2 text-2xl font-medium">
+          <ol className="flex gap-x-1">
+            <li className="font-[Futura]">{currentDate.format("YYYY")}</li>
+            <li>年</li>
+          </ol>
+          <ol className="flex gap-x-1">
+            <li className="font-[Futura] text-center w-[30px]">
+              {currentDate.format("M")}
+            </li>
+            <li>月</li>
+          </ol>
+        </ul>
+      );
+    };
+    const HandleMonth = () => {
+      return (
+        <div className="flex gap-x-4">
+          <IconChevronLeft
+            size={24}
+            color={"#808080"}
+            className="hover:cursor-pointer"
+            onClick={() =>
+              setCurrentDate(currentDate.clone().subtract(1, "month"))
+            }
+          />
+          <IconChevronRight
+            size={24}
+            color={"#808080"}
+            className="hover:cursor-pointer"
+            onClick={() => setCurrentDate(currentDate.clone().add(1, "month"))}
+          />
+        </div>
+      );
+    };
     const EventFilter = () => {
       const handleEventFilter = (prop: string) => {
         switch (prop) {
@@ -164,7 +200,7 @@ const Calendar = () => {
           className="relative flex gap-x-1 items-center border border-stroke px-4 py-1 rounded-[300px] hover:cursor-pointer"
           onClick={() => setIsExpanded(!isExpanded)}
           onBlur={() => setIsExpanded(false)}
-          tabIndex={-1}
+          tabIndex={0}
         >
           <div>{filterEvent}</div>
           <IconChevronDown size={24} />
@@ -189,44 +225,12 @@ const Calendar = () => {
         </div>
       );
     };
-
     return (
       <div className="flex justify-between h-[34px]">
         <div className="flex gap-x-8 items-center">
-          {/* date */}
-          <ul className="flex gap-x-2 text-2xl font-medium">
-            <ol className="flex gap-x-1">
-              <li className="font-[Futura]">{currentDate.format("YYYY")}</li>
-              <li>年</li>
-            </ol>
-            <ol className="flex gap-x-1">
-              <li className="font-[Futura] text-center w-[30px]">
-                {currentDate.format("M")}
-              </li>
-              <li>月</li>
-            </ol>
-          </ul>
-          {/* switch month */}
-          <div className="flex gap-x-4">
-            <IconChevronLeft
-              size={24}
-              color={"#808080"}
-              className="hover:cursor-pointer"
-              onClick={() =>
-                setCurrentDate(currentDate.clone().subtract(1, "month"))
-              }
-            />
-            <IconChevronRight
-              size={24}
-              color={"#808080"}
-              className="hover:cursor-pointer"
-              onClick={() =>
-                setCurrentDate(currentDate.clone().add(1, "month"))
-              }
-            />
-          </div>
+          <CalendarTitle />
+          <HandleMonth />
         </div>
-        {/* select category */}
         <EventFilter />
       </div>
     );
