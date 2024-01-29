@@ -18,7 +18,7 @@ interface DataType {
   reserve_at?: string | null;
   title?: string;
 }
-const eventData: DataType[] = [
+const originalDataset: DataType[] = [
   {
     card: "日常紀錄",
     created_at: "2023-12-31",
@@ -129,6 +129,8 @@ const eventData: DataType[] = [
   },
 ];
 
+let eventData = originalDataset;
+
 const Calendar = () => {
   const today = moment();
   const isToday = (prop: string) => {
@@ -137,11 +139,57 @@ const Calendar = () => {
   const isCurrentMonth = (prop: string) => {
     return today.format("YYYYMM") === moment(prop).format("YYYYMM");
   };
+  const [filterEvent, setFilterEvent] = useState("紀錄類型");
 
   const Header = () => {
     const [currentDate, setCurrentDate] = useState(moment());
     const [isExpanded, setIsExpanded] = useState(false);
-    const category: string[] = ["日常紀錄", "醫療紀錄", "重要時刻"];
+    const category: string[] = ["全部類型", "日常紀錄", "醫療紀錄", "重要時刻"];
+
+    const EventFilter = () => {
+      const handleEventFilter = (prop: string) => {
+        switch (prop) {
+          case "全部類型":
+            eventData = originalDataset;
+            setFilterEvent(prop);
+            break;
+          default:
+            eventData = originalDataset.filter((event) => event.card === prop);
+            setFilterEvent(prop);
+            break;
+        }
+      };
+      return (
+        <div
+          className="relative flex gap-x-1 items-center border border-stroke px-4 py-1 rounded-[300px] hover:cursor-pointer"
+          onClick={() => setIsExpanded(!isExpanded)}
+          onBlur={() => setIsExpanded(false)}
+          tabIndex={-1}
+        >
+          <div>{filterEvent}</div>
+          <IconChevronDown size={24} />
+          {isExpanded && (
+            <ul className="absolute top-10 left-0.5 bg-white rounded-3xl p-2 w-[124px] shadow-[0_0_10px_0_rgba(0,0,0,0.15)]">
+              {category.map((item, index) => {
+                return (
+                  <li
+                    className="text-center px-3 py-1 rounded-3xl hover:cursor-pointer hover:bg-secondary"
+                    key={index}
+                    onClick={() => {
+                      handleEventFilter(item);
+                      setIsExpanded(!isExpanded);
+                    }}
+                  >
+                    {item}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
+      );
+    };
+
     return (
       <div className="flex justify-between h-[34px]">
         <div className="flex gap-x-8 items-center">
@@ -158,7 +206,7 @@ const Calendar = () => {
               <li>月</li>
             </ol>
           </ul>
-          {/* switcher */}
+          {/* switch month */}
           <div className="flex gap-x-4">
             <IconChevronLeft
               size={24}
@@ -179,42 +227,7 @@ const Calendar = () => {
           </div>
         </div>
         {/* select category */}
-        <div
-          className="relative flex gap-x-1 items-center border border-stroke px-4 py-1 rounded-[300px] hover:cursor-pointer"
-          onClick={() => setIsExpanded(!isExpanded)}
-          onBlur={() => setIsExpanded(false)}
-          tabIndex={-1}
-        >
-          <div>紀錄類型</div>
-          <IconChevronDown size={24} />
-          {isExpanded && (
-            <ul className="absolute top-10 left-0.5 bg-white rounded-3xl p-2 w-[124px] shadow-[0_0_10px_0_rgba(0,0,0,0.15)]">
-              {category.map((item, index) => {
-                return (
-                  <li
-                    className="text-center px-3 py-1 rounded-3xl hover:cursor-pointer hover:bg-secondary"
-                    key={index}
-                    onClick={() => setIsExpanded(!isExpanded)}
-                  >
-                    {item}
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </div>
-        {/* sample */}
-        <select
-          name="selection"
-          className="appearance-none border border-stroke pl-4 py-1 pr-11 rounded-full bg-[url('/test/select-arrow.svg')] bg-no-repeat bg-right"
-        >
-          <option value="record types" disabled selected>
-            紀錄類型
-          </option>
-          <option value="routine records">日常紀錄</option>
-          <option value="medical records">醫療紀錄</option>
-          <option value="moments">重要時刻</option>
-        </select>
+        <EventFilter />
       </div>
     );
   };
@@ -318,7 +331,7 @@ const Calendar = () => {
                   className={`h-1 ${
                     isCurrentMonth(day.date) ? "bg-stroke" : ""
                   } 
-                   ${isToday(day.date) && "bg-secondary"}`}
+                   ${isToday(day.date) && "!bg-secondary"}`}
                 ></div>
                 {/* day block */}
                 <span
