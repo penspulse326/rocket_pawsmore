@@ -140,6 +140,7 @@ const Calendar = () => {
     return today.format("YYYYMM") === moment(prop).format("YYYYMM");
   };
   const [filterEvent, setFilterEvent] = useState("紀錄類型");
+  const [selectedDate, setSelectedDate] = useState("");
 
   const Header = () => {
     const [currentDate, setCurrentDate] = useState(moment());
@@ -329,23 +330,25 @@ const Calendar = () => {
             const everyWeek = week.map((day, dayIndex) => (
               // container of every days
               <div
-                className="flex flex-col flex-1 h-[100px]"
+                className="flex flex-col flex-1 h-[100px] hover:cursor-pointer"
+                onClick={() => {
+                  setSelectedDate(day.date);
+                }}
                 key={`${dayIndex}-${day.date}`}
               >
                 {/* top bar */}
                 <div
-                  className={`h-1 ${
-                    isCurrentMonth(day.date) ? "bg-stroke" : ""
-                  } 
+                  className={`h-1 ${isCurrentMonth(day.date) ? "bg-stroke" : ""}
                    ${isToday(day.date) && "!bg-secondary"}`}
                 ></div>
                 {/* day block */}
                 <span
-                  className={`w-[35px] h-5 ml-1 mt-1 px-2 py-1 flex justify-center items-center self-start font-['Futura'] hover:cursor-pointer
+                  className={`w-[35px] h-5 ml-1 mt-1 px-2 py-1 flex justify-center items-center self-start font-['Futura']
                   ${isCurrentMonth(day.date) || "text-[#CCCCCC]"}
-                  ${isToday(day.date) && "bg-secondary rounded-[30px]"}`}
+                  ${selectedDate === day.date && "bg-secondary rounded-[30px]"}
+                  `}
                 >
-                  {day.number === 0 ? "" : day.number}
+                  {day.number}
                 </span>
                 {/* events block */}
                 <EventCard prop={day.date} />
