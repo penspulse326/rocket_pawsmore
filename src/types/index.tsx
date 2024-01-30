@@ -1,3 +1,11 @@
+interface UserDataType {
+  id: string;
+  username: string;
+  account: string;
+  photoUrl: string;
+  introduction: string;
+}
+
 interface PostDataType {
   created_at: string;
   content: string;
@@ -14,4 +22,4 @@ interface CommentDataType {
   time: string;
 }
 
-export type { CommentDataType, PostDataType };
+export type { UserDataType, CommentDataType, PostDataType };
