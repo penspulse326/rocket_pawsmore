@@ -4,10 +4,10 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center gap-3 p-24 min-h-screen bg-blue-300">
       <h1 className="text-xl">靜態頁面展示</h1>
-      <Link href="/test/social" className="underline">
+      <Link href="/social" className="underline">
         社群頁面
       </Link>
-      <Link href="/test/pet_profile" className="underline">
+      <Link href="/pet_profile" className="underline">
         寵物檔案
       </Link>
       <Link href="/test/upload" className="underline ">
@@ -15,6 +15,9 @@ export default function Home() {
       </Link>
       <Link href="/test/record_dashboard" className="underline">
         數據頁面
+      </Link>
+      <Link href="/login" className="underline">
+        登入
       </Link>
     </main>
   );
