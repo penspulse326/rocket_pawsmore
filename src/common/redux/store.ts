@@ -4,7 +4,7 @@ import userInfoReducer from "./userInfoSlice";
 
 export const store = configureStore({
   reducer: {
-    useInfo: userInfoReducer,
+    userInfo: userInfoReducer,
   },
 });
 
