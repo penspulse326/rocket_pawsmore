@@ -1,7 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 
+import userInfoReducer from "./userInfoSlice";
+
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    useInfo: userInfoReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
