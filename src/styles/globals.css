@@ -6,7 +6,7 @@
   .inner {
     @apply mx-auto max-w-[1344px];
   }
-  .outter {
+  .outer {
     @apply mx-auto max-w-[1440px];
   }
   .gallery-card:hover .overlay {

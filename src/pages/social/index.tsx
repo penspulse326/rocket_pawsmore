@@ -1,15 +1,15 @@
-import PageLayout from "@/containers/social/PageLayout";
-import SocialPostList from "@/containers/social/PostList/List";
+import SocialLayout from "@/containers/social/SocialLayout";
+import SocialPostList from "@/containers/social/PostList";
 
 import type { ReactElement } from "react";
-import type { NextPageWithLayout } from "../../_app";
+import type { NextPageWithLayout } from "../_app";
 
 const SocialPage: NextPageWithLayout = () => {
   return <SocialPostList />;
 };
 
 SocialPage.getLayout = function getLayout(page: ReactElement) {
-  return <PageLayout>{page}</PageLayout>;
+  return <SocialLayout>{page}</SocialLayout>;
 };
 
 export default SocialPage;

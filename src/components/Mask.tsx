@@ -32,7 +32,7 @@ const Mask: React.FC<MaskPropsType> = ({ setIsOpen, children, maskType }) => {
         <button type="button" className="fixed top-12 right-12">
           <IconX
             onClick={() => setIsOpen(false)}
-            className="close-btn w-10 h-10 text-white fill-white"
+            className="w-10 h-10 text-white fill-white"
           />
         </button>
       )}
