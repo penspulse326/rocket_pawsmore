@@ -68,7 +68,7 @@ const BodyLayout = () => {
                 ${selectedDate === date && "bg-secondary rounded-[30px]"}
                 `}
               >
-                {moment(date).format("D")}
+                {moment(date).date()}
               </span>
               {/* events block */}
               <EventCard prop={date} />
