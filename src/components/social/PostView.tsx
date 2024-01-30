@@ -8,12 +8,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 
-interface CommentDataType {
-  photoUrl: string;
-  username: string;
-  content: string;
-  time: string;
-}
+import { CommentDataType } from "@/types";
+import InputComment from "./InputComment";
 
 const testData: CommentDataType[] = [
   {
@@ -70,7 +66,6 @@ export default function PostView() {
   const resouse_type = "image";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  const [commentText, setCommentText] = useState("");
   const [hoveredCommentIndex, setHoveredCommentIndex] = useState(-1);
   const [comments, setComments] = useState(testData);
   const scrollRef = useRef<HTMLLIElement | null>(null);
@@ -79,23 +74,6 @@ export default function PostView() {
   useEffect(() => {
     scrollRef.current!.scrollIntoView({ behavior: "smooth" });
   }, [comments]);
-
-  const handleAddComment = () => {
-    if (commentText === "") {
-      return;
-    }
-
-    setComments((prev) => [
-      ...prev,
-      {
-        photoUrl: "/test/user-chichi.png",
-        username: "mrafternoon",
-        content: commentText,
-        time: "2022-01-03 14:00",
-      },
-    ]);
-    setCommentText("");
-  };
 
   return (
     <section className="flex gap-8 p-8 rounded-[32px] bg-white">
@@ -230,27 +208,7 @@ export default function PostView() {
             10
           </span>
         </div>
-        <section className="flex gap-2 justify-between items-center px-4 py-2 border border-stroke rounded-[30px] duration-200">
-          <div className="flex-grow flex gap-2">
-            <IconMessageCircle size={24} className="shrink-0" />
-            <input
-              type="text"
-              placeholder="留言⋯⋯"
-              className={`w-full bg-transparent outline-none`}
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-            />
-          </div>
-          <button
-            type="button"
-            className={`${
-              commentText ? "bg-primary" : "bg-note"
-            } px-4 py-[6px] rounded-[30px]  text-white`}
-            onClick={handleAddComment}
-          >
-            發佈
-          </button>
-        </section>
+        <InputComment />
       </section>
     </section>
   );
