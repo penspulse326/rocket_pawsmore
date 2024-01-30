@@ -27,7 +27,7 @@ const LoginPage: NextPage = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("/api/auth/signup", {
         method: "POST",
         body: JSON.stringify(data),
       });
