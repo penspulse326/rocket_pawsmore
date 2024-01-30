@@ -83,7 +83,9 @@ const LoginPage: NextPage = () => {
               </div>
               <form onSubmit={handleLogin} className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
-                  <div className="flex justify-between items-center">Email</div>
+                  <span className="flex justify-between items-center">
+                    Email
+                  </span>
                   <input
                     type="text"
                     name="email"
@@ -92,7 +94,9 @@ const LoginPage: NextPage = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <div className="flex justify-between items-center">密碼</div>
+                  <span className="flex justify-between items-center">
+                    密碼
+                  </span>
                   <input
                     type="password"
                     name="password"

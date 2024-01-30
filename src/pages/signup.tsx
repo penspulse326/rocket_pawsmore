@@ -33,17 +33,17 @@ const LoginPage: NextPage = () => {
       });
 
       if (!response.ok) {
-        throw new Error("登入失敗");
+        throw new Error("註冊失敗");
       }
       const result = await response.json();
 
       dispatch(setUserInfo(result.user));
       setIsLoading(false);
-      alert("登入成功");
+      alert("註冊成功");
       router.push("/social");
     } catch (error) {
       setIsLoading(false);
-      alert("登入失敗");
+      alert("註冊失敗");
     }
   };
 
@@ -83,7 +83,9 @@ const LoginPage: NextPage = () => {
               </div>
               <form onSubmit={handleLogin} className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1">
-                  <div className="flex justify-between items-center">Email</div>
+                  <span className="flex justify-between items-center">
+                    Email
+                  </span>
                   <input
                     type="text"
                     name="email"
@@ -92,9 +94,9 @@ const LoginPage: NextPage = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <div className="flex justify-between items-center">
-                    確認密碼
-                  </div>
+                  <span className="flex justify-between items-center">
+                    密碼
+                  </span>
                   <input
                     type="password"
                     name="password"
@@ -103,7 +105,9 @@ const LoginPage: NextPage = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <div className="flex justify-between items-center">密碼</div>
+                  <span className="flex justify-between items-center">
+                    確認密碼
+                  </span>
                   <input
                     type="password"
                     name="password"
