@@ -1,4 +1,4 @@
-import PageLayout from "@/containers/social/PageLayout";
+import SocialLayout from "@/containers/social/SocialLayout";
 import SocialPostList from "@/containers/social/PostList";
 
 import type { ReactElement } from "react";
@@ -9,7 +9,7 @@ const SocialPage: NextPageWithLayout = () => {
 };
 
 SocialPage.getLayout = function getLayout(page: ReactElement) {
-  return <PageLayout>{page}</PageLayout>;
+  return <SocialLayout>{page}</SocialLayout>;
 };
 
 export default SocialPage;

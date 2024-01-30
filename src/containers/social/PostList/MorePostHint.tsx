@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FC } from "react";
 
-const MorePostHint: FC = () => {
+const MorePostHint: React.FC = () => {
   return (
     <section className="flex flex-col items-center gap-4 my-16 text-center">
       <Image
