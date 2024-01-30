@@ -17,6 +17,7 @@
 
 .fuuin-t-r {
   animation: fuuin-t-r 0.1s linear forwards;
+  animation-delay: 0.1s;
 }
 @keyframes fuuin-t-r {
   0% {
@@ -48,6 +49,7 @@
 
 .fuuin-t-l {
   animation: fuuin-t-l 0.1s linear forwards;
+  animation-delay: 0.1s;
 }
 @keyframes fuuin-t-l {
   0% {
@@ -78,6 +80,7 @@
 }
 .fuuin-b-l {
   animation: fuuin-b-l 0.1s linear forwards;
+  animation-delay: 0.1s;
 }
 @keyframes fuuin-b-l {
   0% {
