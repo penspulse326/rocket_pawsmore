@@ -6,10 +6,14 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "@/common/redux/userInfoSlice";
 import Footer from "@/components/petProfile/Footer";
+import Loading from "@/components/Loading";
+import { useState } from "react";
 
 const LoginPage: NextPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -19,6 +23,8 @@ const LoginPage: NextPage = () => {
       email: email.value,
       password: password.value,
     };
+
+    setIsLoading(true);
 
     try {
       const response = await fetch("/api/auth/login", {
@@ -32,8 +38,11 @@ const LoginPage: NextPage = () => {
       const result = await response.json();
 
       dispatch(setUserInfo(result.user));
+      setIsLoading(false);
+      alert("登入成功");
       router.push("/social");
     } catch (error) {
+      setIsLoading(false);
       alert("登入失敗");
     }
   };
@@ -115,6 +124,7 @@ const LoginPage: NextPage = () => {
           <Footer />
         </footer>
       </div>
+      {isLoading && <Loading />}
     </section>
   );
 };
