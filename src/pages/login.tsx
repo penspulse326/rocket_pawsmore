@@ -1,10 +1,10 @@
 import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "@/common/redux/userInfoSlice";
-import { useRouter } from "next/router";
 
 const LoginPage: NextPage = () => {
   const dispatch = useDispatch();
