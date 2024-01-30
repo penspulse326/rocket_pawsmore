@@ -139,7 +139,7 @@ const Calendar = () => {
   const isCurrentMonth = (prop: string) => {
     return today.format("YYYYMM") === moment(prop).format("YYYYMM");
   };
-  const [filterEvent, setFilterEvent] = useState("紀錄類型");
+  const [filterEvent, setFilterEvent] = useState("全部類型");
   const [selectedDate, setSelectedDate] = useState("");
 
   const Header = () => {
@@ -196,9 +196,24 @@ const Calendar = () => {
             break;
         }
       };
+
+      // helper
+      const iconFillColor = (prop: string) => {
+        switch (prop) {
+          case "日常紀錄":
+            return "#969AFF";
+          case "重要時刻":
+            return "#FFA959";
+          case "醫療紀錄":
+            return "#FF6D80";
+          default:
+            return "";
+        }
+      };
+
       return (
         <div
-          className="relative flex gap-x-1 items-center border border-stroke px-4 py-1 rounded-[300px] hover:cursor-pointer"
+          className="relative flex gap-x-1 justify-between items-center w-[158px] border border-stroke px-4 py-1 rounded-[300px] hover:cursor-pointer"
           onClick={() => setIsExpanded(!isExpanded)}
         >
           <div>{filterEvent}</div>
@@ -208,13 +223,31 @@ const Calendar = () => {
               {category.map((item, index) => {
                 return (
                   <li
-                    className="text-center px-3 py-1 rounded-3xl hover:cursor-pointer hover:bg-secondary"
+                    className="flex items-center gap-x-1 px-3 py-1 rounded-3xl hover:cursor-pointer hover:bg-secondary"
                     key={index}
                     onClick={() => {
                       handleEventFilter(item);
                       setIsExpanded(!isExpanded);
                     }}
                   >
+                    {item === "全部類型" ? (
+                      ""
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="6"
+                        height="6"
+                        viewBox="0 0 6 6"
+                        fill="none"
+                      >
+                        <circle
+                          cx="3"
+                          cy="3"
+                          r="3"
+                          fill={iconFillColor(item)}
+                        />
+                      </svg>
+                    )}
                     {item}
                   </li>
                 );
