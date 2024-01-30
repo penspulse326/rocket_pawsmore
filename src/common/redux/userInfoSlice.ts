@@ -1,11 +1,27 @@
+import { UserDataType } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
+
+const initialState: UserDataType = {
+  id: "",
+  username: "",
+  account: "",
+  photoUrl: "",
+  introduction: "",
+};
 
 export const userInfoSlice = createSlice({
   name: "userInfo",
-  initialState: {},
+  initialState,
   reducers: {
-    setUserInfo: () => {},
-    clearUserInfo: () => {},
+    setUserInfo: (state, action) => {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    },
+    clearUserInfo: () => {
+      return initialState;
+    },
   },
 });
 
