@@ -1,18 +1,15 @@
-import {
-  IconHeart,
-  IconMessageCircle,
-  IconDotsVertical,
-} from "@tabler/icons-react";
-import Mask from "../Mask";
+import { IconHeart, IconDotsVertical } from "@tabler/icons-react";
 
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import PostView from "./PostView";
 
-export default function PostCard() {
+import Mask from "../../../components/Mask";
+import PostView from "../../../components/social/PostView";
+import InputComment from "@/components/social/InputComment";
+
+const Card: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isInputFocus, setIsInputFocus] = useState(false);
   const [isMaskOpen, setIsMaskOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
@@ -115,30 +112,9 @@ export default function PostCard() {
           查看所有留言
         </button>
       </section>
-      <section
-        className={`${
-          isInputFocus && "px-4 py-2 border border-stroke"
-        } flex gap-2 justify-between items-center rounded-[30px] duration-200`}
-      >
-        <div className="flex-grow flex gap-2">
-          <IconMessageCircle />
-          <input
-            type="text"
-            placeholder="留言⋯⋯"
-            className="w-full bg-transparent outline-none"
-            onFocus={() => setIsInputFocus(true)}
-            onBlur={() => setIsInputFocus(false)}
-          />
-        </div>
-        {isInputFocus && (
-          <button
-            type="button"
-            className="px-4 py-[6px] rounded-[30px] bg-primary text-white"
-          >
-            發佈
-          </button>
-        )}
-      </section>
+      <InputComment isEffect />
     </div>
   );
-}
+};
+
+export default Card;

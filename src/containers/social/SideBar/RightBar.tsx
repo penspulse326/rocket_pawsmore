@@ -2,9 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { IconSearch } from "@tabler/icons-react";
 
-export default function SocialSideBarRight() {
+import Recommend from "./Recommend";
+
+const SideBarRight: React.FC = () => {
   return (
-    <div className="col-span-3 bg-white">
+    <aside className="col-span-3 flex flex-col gap-8 bg-white">
       <section className="flex items-center gap-2 mt-8 px-8 py-4 rounded-full bg-stroke">
         <input
           type="text"
@@ -13,57 +15,9 @@ export default function SocialSideBarRight() {
         />
         <IconSearch size={24} />
       </section>
-      <section className="mt-8">
-        <h2 className="text-note">為您推薦</h2>
-        <ul className="flex flex-col gap-6 mt-4">
-          <li className="flex justify-between items-center">
-            <div className="flex items-center gap-4">
-              <Link href="#">
-                <Image
-                  src="/test/photo-cat-test-2.png"
-                  width={48}
-                  height={48}
-                  alt="user-photo"
-                  className="rounded-full"
-                />
-              </Link>
-              <Link href="#">
-                <p>黑角龍</p>
-                <p>@blk_diablos</p>
-              </Link>
-            </div>
-            <button
-              type="button"
-              className="px-8 py-2 rounded-[30px] bg-primary text-white"
-            >
-              追蹤
-            </button>
-          </li>
-          <li className="flex justify-between items-center">
-            <div className="flex items-center gap-4">
-              <Link href="#">
-                <Image
-                  src="/test/photo-dog-test-2.png"
-                  width={48}
-                  height={48}
-                  alt="user-photo"
-                  className="rounded-full"
-                />
-              </Link>
-              <Link href="#">
-                <p>陳嘟嘟</p>
-                <p>@duduchen123</p>
-              </Link>
-            </div>
-            <button
-              type="button"
-              className="px-8 py-2 rounded-[30px] bg-primary text-white"
-            >
-              追蹤
-            </button>
-          </li>
-        </ul>
-        <h2 className="mt-8 text-note">探索</h2>
+      <Recommend />
+      <section>
+        <h2 className=" text-note">探索</h2>
         <div className="mt-4 px-5 text-center">
           <div className="flex gap-4">
             <Link href="/test/social/explore?type=dog">
@@ -109,6 +63,8 @@ export default function SocialSideBarRight() {
           </Link>
         </div>
       </section>
-    </div>
+    </aside>
   );
-}
+};
+
+export default SideBarRight;

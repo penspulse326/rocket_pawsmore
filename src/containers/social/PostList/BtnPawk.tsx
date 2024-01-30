@@ -1,16 +1,14 @@
-import { useState } from "react";
 import { IconPhoto, IconMovie, IconMedal } from "@tabler/icons-react";
-import PostCard from "./PostCard";
-import Mask from "../Mask";
-import UploadView from "./UploadView";
-import MorePostHint from "./MorePostHint";
+import { useState } from "react";
 
-export default function SocialPostList() {
-  const testArr = [1, 2, 3];
+import Mask from "../../../components/Mask";
+import UploadView from "../../../components/social/UploadView";
+
+const BtnPawk = () => {
   const [isUploadOpen, setIsUploadOpen] = useState(false);
 
   return (
-    <div className="scrollbar-none col-span-6 p-8 border-x border-stroke bg-white overflow-y-scroll">
+    <section>
       {/* 貼文按鈕 */}
       <div
         className="px-8 pt-8 pb-6 border border-stroke rounded-[30px]"
@@ -18,7 +16,7 @@ export default function SocialPostList() {
       >
         {isUploadOpen && (
           <Mask maskType="upload" setIsOpen={setIsUploadOpen}>
-            <UploadView />
+            <UploadView setIsOpen={setIsUploadOpen} />
           </Mask>
         )}
         <input
@@ -49,15 +47,8 @@ export default function SocialPostList() {
           </button>
         </div>
       </div>
-      <h2 className="mt-8 text-note">動態消息</h2>
-      {/* 貼文列表 */}
-      <div className="flex flex-col gap-8 mt-4">
-        {/* 貼文卡片 */}
-        {testArr.map((item, index) => (
-          <PostCard key={new Date().getTime() + index} />
-        ))}
-      </div>
-      <MorePostHint />
-    </div>
+    </section>
   );
-}
+};
+
+export default BtnPawk;

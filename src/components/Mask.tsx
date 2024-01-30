@@ -1,11 +1,25 @@
 import { IconX } from "@tabler/icons-react";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
-export default function Mask({ setIsOpen, children, maskType }: MaskPropsType) {
+interface MaskPropsType {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  children: ReactNode;
+  maskType?: "post" | string;
+}
+
+const Mask: React.FC<MaskPropsType> = ({ setIsOpen, children, maskType }) => {
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    document.addEventListener("keydown", handleEsc);
+    return () => document.removeEventListener("keydown", handleEsc);
+  });
+
   const handleCloseClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+
     const target = e.target as HTMLElement;
-    console.log(target.classList.contains("mask"));
     if (target.classList.contains("mask")) setIsOpen(false);
   };
 
@@ -25,10 +39,6 @@ export default function Mask({ setIsOpen, children, maskType }: MaskPropsType) {
       {children}
     </div>
   );
-}
-
-type MaskPropsType = {
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  children: ReactNode;
-  maskType: "post" | string;
 };
+
+export default Mask;

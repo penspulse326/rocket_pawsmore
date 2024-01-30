@@ -11,10 +11,10 @@ const MorePostHint: FC = () => {
         height={162}
         alt="no content"
       />
-      <p>
+      <div>
         <p className="text-2xl">沒有其他新動態了</p>
         <p className="text-note">你已看完過去3天所有追蹤中的貼文</p>
-      </p>
+      </div>
       <p>
         瞧瞧我們的{" "}
         <Link href="/test/explore" className="text-primary font-bold">
