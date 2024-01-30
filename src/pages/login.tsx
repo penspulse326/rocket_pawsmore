@@ -3,6 +3,32 @@ import Image from "next/image";
 import Link from "next/link";
 
 const LoginPage: NextPage = () => {
+  const handleLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const { email, password } = event.target as HTMLFormElement;
+    const data = {
+      email: email.value,
+      password: password.value,
+    };
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("登入失敗");
+      }
+
+      const result = await response.json();
+      console.log(result);
+    } catch (error) {
+      alert("登入失敗");
+    }
+  };
+
   return (
     <section className="outter flex justify-center items-center gap-20 h-screen">
       <section className="flex items-center gap-8">
@@ -22,18 +48,16 @@ const LoginPage: NextPage = () => {
       </section>
       <section className="flex flex-col justify-center items-center gap-8 p-8 w-[30%] border border-note rounded-[30px] shadow-lg">
         <h2 className="text-3xl font-bold">登入</h2>
-        <form className="flex flex-col gap-4 w-full">
+        <form className="flex flex-col gap-4 w-full" onSubmit={handleLogin}>
           <input
             type="text"
-            name=""
-            id=""
+            name="email"
             placeholder="電子信箱"
             className="p-3 w-full border border-stroke rounded-md outline-note"
           />
           <input
             type="password"
-            name=""
-            id=""
+            name="password"
             placeholder="密碼"
             className="p-3 w-full border border-stroke rounded-md"
           />
