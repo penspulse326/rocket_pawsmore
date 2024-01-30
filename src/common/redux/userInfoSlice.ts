@@ -1,7 +1,7 @@
-import { UserDataType } from "@/types";
+import { UserInfoType } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: UserDataType = {
+const initialState: UserInfoType = {
   id: "",
   username: "",
   account: "",

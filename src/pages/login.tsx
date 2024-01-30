@@ -2,7 +2,14 @@ import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "@/common/redux/userInfoSlice";
+import { useRouter } from "next/router";
+
 const LoginPage: NextPage = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -23,7 +30,10 @@ const LoginPage: NextPage = () => {
       }
 
       const result = await response.json();
-      console.log(result);
+      console.log(result.user);
+
+      dispatch(setUserInfo(result.user));
+      router.push("/social");
     } catch (error) {
       alert("登入失敗");
     }

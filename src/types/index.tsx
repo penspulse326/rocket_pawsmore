@@ -1,4 +1,4 @@
-interface UserDataType {
+interface UserInfoType {
   id: string;
   username: string;
   account: string;
@@ -22,4 +22,4 @@ interface CommentDataType {
   time: string;
 }
 
-export type { UserDataType, CommentDataType, PostDataType };
+export type { UserInfoType, CommentDataType, PostDataType };

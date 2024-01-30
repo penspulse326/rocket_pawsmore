@@ -1,9 +1,9 @@
-import { UserDataType } from "@/types";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { UserInfoType } from "@/types";
 
 interface responseType {
   message: string;
-  user?: UserDataType;
+  user?: UserInfoType;
 }
 
 export default function handler(
