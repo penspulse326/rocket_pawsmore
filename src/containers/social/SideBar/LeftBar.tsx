@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import PetCards from "@/components/social/PetCards";
-import More from "@/components/social/menu/More";
+import More from "@/containers/social/SideBar/More";
 
 const userData = {
   id: "123",
@@ -11,7 +11,8 @@ const userData = {
   photoUrl: "/test/user-chichi.png",
 };
 
-const SideBarLeft = () => {
+const SideBarLeft: React.FC = () => {
+  const { photoUrl, username, account } = userData;
   return (
     <aside className="col-span-3 flex flex-col py-8 h-full">
       {/* 寵物檔案卡片 */}
@@ -22,15 +23,15 @@ const SideBarLeft = () => {
         className="flex gap-4 p-4 border border-stroke bg-white  rounded-[30px] duration-300 hover:bg-stroke"
       >
         <Image
-          src={`${userData.photoUrl}`}
-          alt={`${userData.username}`}
+          src={photoUrl}
+          alt={username}
           width={48}
           height={48}
           className="rounded-full"
         />
         <div>
-          <p>{userData.username}</p>
-          <p className="text-note">{userData.account}</p>
+          <p>{username}</p>
+          <p className="text-note">{account}</p>
         </div>
       </Link>
       {/* 選單 */}
