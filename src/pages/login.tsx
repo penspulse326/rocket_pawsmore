@@ -2,8 +2,8 @@ import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
 
+import { useDispatch } from "react-redux";
 import { setUserInfo } from "@/common/redux/userInfoSlice";
 
 const LoginPage: NextPage = () => {
@@ -28,8 +28,8 @@ const LoginPage: NextPage = () => {
       if (!response.ok) {
         throw new Error("登入失敗");
       }
-
       const result = await response.json();
+
       dispatch(setUserInfo(result.user));
       router.push("/social");
     } catch (error) {
@@ -38,7 +38,7 @@ const LoginPage: NextPage = () => {
   };
 
   return (
-    <section className="outter flex justify-center items-center gap-20 h-screen">
+    <section className="outer flex justify-center items-center gap-20 h-screen">
       <section className="flex items-center gap-8">
         <Image
           src="/images/logo-rounded.svg"
