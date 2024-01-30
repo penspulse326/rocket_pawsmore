@@ -1,4 +1,4 @@
-import CalendarLayout from "@/containers/recordDashboard/CalendarLayout";
+import CalendarLayout from "@/components/recordDashboard/CalendarLayout";
 import Upcoming from "@/components/recordDashboard/Upcoming";
 import PetAccount from "@/components/recordDashboard/PetAccount";
 import RecordCard from "@/components/recordDashboard/RecordCard";

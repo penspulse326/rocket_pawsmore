@@ -57,6 +57,12 @@ export const originalData: DataType[] = [
   },
   {
     card: "重要時刻",
+    created_at: "2024-02-06",
+    category: "驚喜",
+    content: "收到「禮物」",
+  },
+  {
+    card: "重要時刻",
     created_at: "2024-02-13",
     category: "技能",
     content: "學會翻滾",
