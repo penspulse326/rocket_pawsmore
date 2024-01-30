@@ -8,8 +8,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 
-import { CommentDataType } from "@/types";
 import InputComment from "./InputComment";
+import { CommentDataType } from "@/types";
 
 const testData: CommentDataType[] = [
   {

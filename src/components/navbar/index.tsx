@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-stroke bg-white">
-      <div className="outter grid grid-cols-3 pl-8 pr-6 h-16">
+      <div className="outer grid grid-cols-3 pl-8 pr-6 h-16">
         {/* Logo 連結 */}
         <Link href="/social" className="col-span-1 flex items-center">
           <Image

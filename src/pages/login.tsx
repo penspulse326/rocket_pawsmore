@@ -1,10 +1,10 @@
 import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
-
-import { useDispatch } from "react-redux";
-import { setUserInfo } from "@/common/redux/userInfoSlice";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+
+import { setUserInfo } from "@/common/redux/userInfoSlice";
 
 const LoginPage: NextPage = () => {
   const dispatch = useDispatch();
@@ -30,8 +30,6 @@ const LoginPage: NextPage = () => {
       }
 
       const result = await response.json();
-      console.log(result.user);
-
       dispatch(setUserInfo(result.user));
       router.push("/social");
     } catch (error) {
