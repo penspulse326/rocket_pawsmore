@@ -1,13 +1,15 @@
+import "@/styles/globals.css";
+import "@/styles/animations.css";
+
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 
-import "@/styles/globals.css";
-import "@/styles/animations.css";
 import { Noto_Sans_TC } from "next/font/google";
 
 import { Provider } from "react-redux";
 import { store } from "@/common/redux/store";
+
 import Navbar from "@/components/navbar";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {

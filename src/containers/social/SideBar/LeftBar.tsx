@@ -14,7 +14,7 @@ const userData = {
 const SideBarLeft: React.FC = () => {
   const { photoUrl, username, account } = userData;
   return (
-    <aside className="w-[100px] flex flex-col py-8 h-full">
+    <aside className="col-span-3 flex flex-col py-8 h-full">
       {/* 寵物檔案卡片 */}
       <PetCards />
       {/* 個人連結 */}
