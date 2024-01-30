@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 
 import type { NextPageWithLayout } from "../_app";
-import PageLayout from "@/containers/social/PageLayout";
+import PageLayout from "@/containers/social/SocialLayout";
 import PostExploration from "@/containers/social/PostExploration";
 
 const ExplorePage: NextPageWithLayout = () => {
