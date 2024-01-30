@@ -3,8 +3,20 @@ import moment from "moment";
 import { originalData } from "@/common/lib/test/eventData";
 
 const Upcoming = () => {
-  let eventData = originalData;
   const Reminders = () => {
+    let eventData = originalData
+      // 篩選即將到來事件
+      .filter(
+        (event) =>
+          event.type === "醫療提醒" &&
+          event.reserve_at &&
+          moment(event.reserve_at).isAfter(moment())
+      )
+      // 由日期近到遠進行排列
+      .sort((a, b) => moment(a.reserve_at).diff(b.reserve_at))
+      // 只顯示前三筆
+      .slice(0, 3);
+
     return (
       <div className="flex flex-col gap-y-2 w-1/2">
         <div className="flex gap-x-1 items-center">
@@ -16,20 +28,31 @@ const Upcoming = () => {
           />
           <div>醫療提醒</div>
         </div>
-        {eventData
-          .filter((event) => event.type === "醫療提醒")
-          .map((event, index) => (
-            <ul className="flex gap-x-4" key={index}>
-              <li className="w-[42px]">
-                {moment(event.reserve_at).format("M/D")}
-              </li>
-              <li>{event.reserve_type}</li>
-            </ul>
-          ))}
+        {eventData.map((event, index) => (
+          <ul className="flex gap-x-4" key={index}>
+            <li className="w-[42px]">
+              {moment(event.reserve_at).format("M/D")}
+            </li>
+            <li>{event.reserve_type}</li>
+          </ul>
+        ))}
       </div>
     );
   };
   const Moments = () => {
+    const eventData = originalData
+      // 篩選即將到來事件
+      .filter(
+        (event) =>
+          event.card === "重要時刻" &&
+          event.created_at &&
+          moment(event.created_at).isAfter(moment())
+      )
+      // 由日期近到遠進行排列
+      .sort((a, b) => moment(a.created_at).diff(b.created_at))
+      // 只顯示前三筆
+      .slice(0, 3);
+
     return (
       <div className="flex flex-col gap-y-2 w-1/2">
         <div className="flex gap-x-1 items-center">
@@ -41,16 +64,14 @@ const Upcoming = () => {
           />
           <div>重要時刻</div>
         </div>
-        {eventData
-          .filter((event) => event.card === "重要時刻")
-          .map((event, index) => (
-            <ul className="flex gap-x-4" key={index}>
-              <li className="w-[42px]">
-                {moment(event.created_at).format("M/D")}
-              </li>
-              <li className="flex gap-x-1">
-                <span
-                  className={`px-2 rounded-[30px] 
+        {eventData.map((event, index) => (
+          <ul className="flex gap-x-4" key={index}>
+            <li className="w-[42px]">
+              {moment(event.created_at).format("M/D")}
+            </li>
+            <li className="flex gap-x-1">
+              <span
+                className={`px-2 rounded-[30px] 
                 ${(() => {
                   switch (event.category) {
                     case "行為表現":
@@ -67,13 +88,13 @@ const Upcoming = () => {
                       return "";
                   }
                 })()}`}
-                >
-                  {event.category}
-                </span>
-                {event.content}
-              </li>
-            </ul>
-          ))}
+              >
+                {event.category}
+              </span>
+              {event.content}
+            </li>
+          </ul>
+        ))}
       </div>
     );
   };
