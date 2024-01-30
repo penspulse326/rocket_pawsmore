@@ -121,17 +121,16 @@ const LoginPage: NextPage = () => {
               <div className="flex justify-center gap-4">
                 已有帳號？
                 <Link href="/login" className="text-primary underline">
-                  加入
+                  登入
                 </Link>
               </div>
             </section>
           </section>
-          {/* footer */}
         </section>
-        <footer>
-          <Footer />
-        </footer>
       </div>
+      <footer>
+        <Footer />
+      </footer>
       {isLoading && <Loading />}
     </section>
   );

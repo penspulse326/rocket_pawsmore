@@ -118,12 +118,11 @@ const LoginPage: NextPage = () => {
               </div>
             </section>
           </section>
-          {/* footer */}
         </section>
-        <footer>
-          <Footer />
-        </footer>
       </div>
+      <footer>
+        <Footer />
+      </footer>
       {isLoading && <Loading />}
     </section>
   );
