@@ -12,14 +12,18 @@ import { useState } from "react";
 
 import List from "../milestone/List";
 
-export default function UploadView() {
+interface UploadViewPropsType {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
   const [isMilestoneOpen, setIsMilestoneOpen] = useState(false);
 
   return (
     <section className="grid grid-cols-10 gap-x-8 gap-y-4 p-8 max-w-[1041px] rounded-[30px] bg-white">
       <div className="col-span-10 flex justify-between items-center">
         <h2 className="text-2xl font-bold">新增貼文</h2>
-        <button type="button">
+        <button type="button" onClick={() => setIsOpen(false)}>
           <IconX size={40} stroke={1} />
         </button>
       </div>
@@ -93,4 +97,6 @@ export default function UploadView() {
       </section>
     </section>
   );
-}
+};
+
+export default UploadView;
