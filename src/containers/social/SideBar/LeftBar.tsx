@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import PetCards from "@/components/social/PetCards";
+import PetCards from "@/containers/social/SideBar/PetCards";
 import More from "@/containers/social/SideBar/More";
 
 const userData = {

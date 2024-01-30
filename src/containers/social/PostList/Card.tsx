@@ -3,14 +3,15 @@ import {
   IconMessageCircle,
   IconDotsVertical,
 } from "@tabler/icons-react";
-import Mask from "../Mask";
 
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import PostView from "./PostView";
 
-export default function PostCard() {
+import Mask from "../../../components/Mask";
+import PostView from "../../../components/social/PostView";
+
+const Card: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isInputFocus, setIsInputFocus] = useState(false);
   const [isMaskOpen, setIsMaskOpen] = useState(false);
@@ -141,4 +142,6 @@ export default function PostCard() {
       </section>
     </div>
   );
-}
+};
+
+export default Card;
