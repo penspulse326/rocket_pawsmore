@@ -14,7 +14,7 @@ const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
 type MonthAction = { type: "PREVIOUS_MONTH" | "NEXT_MONTH" };
 
-// switch month
+// change month
 const monthReducer = (state: Moment, action: MonthAction) => {
   switch (action.type) {
     case "PREVIOUS_MONTH":
