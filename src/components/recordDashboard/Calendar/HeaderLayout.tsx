@@ -5,26 +5,25 @@ import {
   IconChevronRight,
   IconChevronDown,
 } from "@tabler/icons-react";
-import { CategoryContext } from "../CalendarLayout";
+import { CategoryContext, MonthContext } from "../CalendarLayout";
 
 const HeaderLayout = () => {
   const { filterEvent, setFilterEvent } = useContext(CategoryContext);
+  const { monthState, dispatch } = useContext(MonthContext);
 
-  const [currentDate, setCurrentDate] = useState(moment());
   const [isExpanded, setIsExpanded] = useState(false);
-
   const category: string[] = ["全部類型", "日常紀錄", "醫療紀錄", "重要時刻"];
 
   const CalendarTitle = () => {
     return (
       <ul className="flex gap-x-2 text-2xl font-medium">
         <ol className="flex gap-x-1">
-          <li className="font-[Futura]">{currentDate.format("YYYY")}</li>
+          <li className="font-[Futura]">{moment(monthState).format("YYYY")}</li>
           <li>年</li>
         </ol>
         <ol className="flex gap-x-1">
           <li className="font-[Futura] text-center w-[30px]">
-            {currentDate.format("M")}
+            {moment(monthState).format("M")}
           </li>
           <li>月</li>
         </ol>
@@ -38,15 +37,13 @@ const HeaderLayout = () => {
           size={24}
           color={"#808080"}
           className="hover:cursor-pointer"
-          onClick={() =>
-            setCurrentDate(currentDate.clone().subtract(1, "month"))
-          }
+          onClick={() => dispatch({ type: "PREVIOUS_MONTH" })}
         />
         <IconChevronRight
           size={24}
           color={"#808080"}
           className="hover:cursor-pointer"
-          onClick={() => setCurrentDate(currentDate.clone().add(1, "month"))}
+          onClick={() => dispatch({ type: "NEXT_MONTH" })}
         />
       </div>
     );

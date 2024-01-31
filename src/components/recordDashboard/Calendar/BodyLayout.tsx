@@ -1,18 +1,22 @@
 import moment from "moment";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import calendarLogic from "@/common/helpers/calendarLogic";
 import EventCard from "./EventCard";
+import { MonthContext } from "../CalendarLayout";
 
 const BodyLayout = () => {
+  const { monthState } = useContext(MonthContext);
+  const [selectedDate, setSelectedDate] = useState("");
+
   const today = moment();
+  const selectedMonth = moment(monthState);
+
   const isToday = (prop: string) => {
     return today.format("YYYYMMDD") === moment(prop).format("YYYYMMDD");
   };
   const isCurrentMonth = (prop: string) => {
-    return today.format("YYYYMM") === moment(prop).format("YYYYMM");
+    return selectedMonth.format("YYYYMM") === moment(prop).format("YYYYMM");
   };
-
-  const [selectedDate, setSelectedDate] = useState("");
 
   const daysOfWeek: string[] = [
     "Sun",
@@ -23,7 +27,9 @@ const BodyLayout = () => {
     "Fri",
     "Sat",
   ];
-  const calendarArray: string[][] = calendarLogic();
+  const calendarArray: string[][] = calendarLogic(
+    moment(monthState).format("YYYY-MM-DD")
+  );
   const allDates: React.ReactNode[] = [];
 
   return (

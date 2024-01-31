@@ -1,11 +1,11 @@
 import moment from "moment";
 
-const calendarLogic = () => {
+const calendarLogic = (prop: string) => {
   const calendarArray = [];
   const totalDays = 42;
 
   // 取得當前月份第一天的日期
-  const firstDayOfMonth = moment().startOf("month");
+  const firstDayOfMonth = moment(prop).startOf("month");
   // 取得當前月份第一天所在的那一週的第一天(星期天)的日期
   const firstDateOfCalendar = firstDayOfMonth.clone().startOf("week");
 
