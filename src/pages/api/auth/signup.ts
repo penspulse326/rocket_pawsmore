@@ -18,7 +18,7 @@ export default async function handler(
   };
 
   try {
-    const response = await fetch("http://4.224.41.94/api/petlogin/general", {
+    const response = await fetch("http://4.224.41.94/api/petregister", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -39,6 +39,6 @@ export default async function handler(
       },
     });
   } catch (error) {
-    res.status(401).json({ message: "登入失敗" });
+    res.status(401).json({ message: "註冊失敗" });
   }
 }
