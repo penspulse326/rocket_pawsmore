@@ -1,6 +1,6 @@
 import ProfileCard from "@/components/petProfile/ProfileCard";
 import ProfileGallery from "@/components/petProfile/ProfileGallery";
-import Footer from "@/components/petProfile/Footer";
+import Footer from "@/components/Footer";
 
 export default function PetProfile() {
   return (
