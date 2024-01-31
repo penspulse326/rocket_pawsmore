@@ -4,7 +4,7 @@ import calendarLogic from "@/common/helpers/calendarLogic";
 import EventCard from "./EventCard";
 
 const BodyLayout = () => {
-  const today = moment().clone();
+  const today = moment();
   const isToday = (prop: string) => {
     return today.format("YYYYMMDD") === moment(prop).format("YYYYMMDD");
   };

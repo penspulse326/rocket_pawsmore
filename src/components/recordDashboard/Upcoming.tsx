@@ -4,7 +4,7 @@ import { originalData } from "@/common/lib/test/eventData";
 
 const Upcoming = () => {
   const Reminders = () => {
-    let eventData = originalData
+    const eventData = originalData
       // 篩選即將到來事件
       .filter(
         (event) =>

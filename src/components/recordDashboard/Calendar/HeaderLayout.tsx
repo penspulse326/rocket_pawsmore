@@ -1,19 +1,19 @@
 import moment from "moment";
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import {
   IconChevronLeft,
   IconChevronRight,
   IconChevronDown,
 } from "@tabler/icons-react";
+import { CategoryContext } from "../CalendarLayout";
 
 const HeaderLayout = () => {
-  const [filterEvent, setFilterEvent] = useState("全部類型");
+  const { filterEvent, setFilterEvent } = useContext(CategoryContext);
+
   const [currentDate, setCurrentDate] = useState(moment());
   const [isExpanded, setIsExpanded] = useState(false);
 
   const category: string[] = ["全部類型", "日常紀錄", "醫療紀錄", "重要時刻"];
-
-  useEffect(() => {}, [filterEvent]);
 
   const CalendarTitle = () => {
     return (
@@ -31,7 +31,7 @@ const HeaderLayout = () => {
       </ul>
     );
   };
-  const HandleMonth = () => {
+  const MonthHandler = () => {
     return (
       <div className="flex gap-x-4">
         <IconChevronLeft
@@ -52,19 +52,6 @@ const HeaderLayout = () => {
     );
   };
   const EventFilter = () => {
-    // const handleEventFilter = (prop: string) => {
-    //   switch (prop) {
-    //     case "全部類型":
-    //       // eventData = originalData;
-    //       setFilterEvent(prop);
-    //       break;
-    //     default:
-    //       // eventData = originalData.filter((event) => event.card === prop);
-    //       setFilterEvent(prop);
-    //       break;
-    //   }
-    // };
-
     const iconFillColor = (prop: string) => {
       switch (prop) {
         case "日常紀錄":
@@ -77,7 +64,6 @@ const HeaderLayout = () => {
           return "";
       }
     };
-
     return (
       <div
         className="relative flex gap-x-1 justify-between items-center w-[158px] border border-stroke px-4 py-1 rounded-[300px] hover:cursor-pointer"
@@ -127,7 +113,7 @@ const HeaderLayout = () => {
     >
       <div className="flex gap-x-8 items-center">
         <CalendarTitle />
-        <HandleMonth />
+        <MonthHandler />
       </div>
       <EventFilter />
     </div>

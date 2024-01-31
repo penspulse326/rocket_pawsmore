@@ -1,13 +1,23 @@
 import moment from "moment";
 import Image from "next/image";
+import { useContext } from "react";
 import { originalData, DataType } from "@/common/lib/test/eventData";
+import { CategoryContext } from "../CalendarLayout";
 
 const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
-  const today = moment().clone();
+  const { filterEvent } = useContext(CategoryContext);
+
+  const today = moment();
   const isCurrentMonth = (prop: string) => {
     return today.format("YYYYMM") === moment(prop).format("YYYYMM");
   };
-  let eventData = originalData;
+  const eventData = originalData.filter((event) => {
+    if (filterEvent === "全部類型") {
+      return originalData;
+    } else {
+      return event.card === filterEvent;
+    }
+  });
 
   const eventTitle = (prop: DataType): string | null => {
     const { card, content, title, type, reserve_type } = prop;
