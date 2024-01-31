@@ -1,7 +1,7 @@
 import moment, { Moment } from "moment";
 import React, { createContext, useState, useReducer, ReactNode } from "react";
-import HeaderLayout from "./calendar/HeaderLayout";
-import BodyLayout from "./calendar/BodyLayout";
+import HeaderLayout from "./calendarFolder/HeaderLayout";
+import BodyLayout from "./calendarFolder/BodyLayout";
 
 // AppProvider
 const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
