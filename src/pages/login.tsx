@@ -76,7 +76,7 @@ const LoginPage: NextPage = () => {
           </section>
           {/* 表單 */}
           <section className="col-span-5 col-start-8 flex flex-col justify-center pr-12">
-            <section className="flex flex-col justify-center gap-8 p-8 border border-note rounded-[30px]">
+            <section className="flex flex-col justify-center gap-8 p-8 border border-stroke rounded-[30px]">
               <div>
                 <h2 className="text-[32px]">歡迎回來！</h2>
                 <h3 className="text-note">讓我們繼續記錄美好時光！</h3>
