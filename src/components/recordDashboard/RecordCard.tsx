@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import moment from "moment";
 import {
   IconChevronLeft,
   IconChevronRight,
   IconCirclePlus,
 } from "@tabler/icons-react";
-import moment from "moment";
+import { DateContext } from "@/pages/record_dashboard";
 
 const RecordCard = () => {
+  const { selectedDate } = useContext(DateContext);
+
   const Date = () => {
-    const [currentTime, setCurrentTime] = useState(moment());
+    const [currentTime, setCurrentTime] = useState(moment(selectedDate));
 
     const handlePreviousDay = () => {
       setCurrentTime(currentTime.clone().subtract(1, "day"));
