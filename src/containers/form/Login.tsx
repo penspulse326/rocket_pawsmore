@@ -1,6 +1,12 @@
-const LoginLayout = () => {
+import Link from "next/link";
+
+interface LoginPropsType {
+  handleLogin: (e: React.FormEvent) => void;
+}
+
+const Login: React.FC<LoginPropsType> = ({ handleLogin }) => {
   return (
-    <section className="col-span-5 col-start-8 flex flex-col justify-center pr-12">
+    <div className="col-span-5 col-start-8 flex flex-col justify-center pr-12">
       <section className="flex flex-col justify-center gap-8 p-8 border border-stroke rounded-[30px]">
         <div>
           <h2 className="text-[32px]">歡迎回來！</h2>
@@ -42,7 +48,7 @@ const LoginLayout = () => {
           </Link>
         </div>
       </section>
-    </section>
+    </div>
   );
 };
-export default LoginLayout;
+export default Login;
