@@ -1,64 +1,22 @@
 import Image from "next/image";
 import moment from "moment";
-
-interface DataType {
-  card: string;
-  created_at: string;
-  category?: string;
-  content?: string;
-  type?: string;
-  remind_at?: string;
-  reserve_type?: string;
-  reserve_at?: string;
-}
-
-const eventData: DataType[] = [
-  {
-    card: "重要時刻",
-    created_at: "2024/01/17",
-    category: "驚喜",
-    content: "撿到乳牙",
-  },
-  {
-    card: "重要時刻",
-    created_at: "2024/01/23",
-    category: "行為表現",
-    content: "睡到翻肚",
-  },
-  {
-    card: "重要時刻",
-    created_at: "2024/01/28",
-    category: "社交",
-    content: "交到新朋友",
-  },
-  {
-    card: "醫療紀錄",
-    created_at: "2024-01-20",
-    type: "醫療提醒",
-    remind_at: "2024-01-25",
-    reserve_type: "健檢",
-    reserve_at: "2024-01-25",
-  },
-  {
-    card: "醫療紀錄",
-    created_at: "2024-01-20",
-    type: "醫療提醒",
-    remind_at: "2024-02-01",
-    reserve_type: "看診",
-    reserve_at: "2024-02-01",
-  },
-  {
-    card: "醫療紀錄",
-    created_at: "2024-01-20",
-    type: "醫療提醒",
-    remind_at: "2024-02-10",
-    reserve_type: "打疫苗",
-    reserve_at: "2024-02-10",
-  },
-];
+import { originalData } from "@/common/lib/test/eventData";
 
 const Upcoming = () => {
   const Reminders = () => {
+    const eventData = originalData
+      // 篩選即將到來事件
+      .filter(
+        (event) =>
+          event.type === "醫療提醒" &&
+          event.reserve_at &&
+          moment(event.reserve_at).isAfter(moment())
+      )
+      // 由日期近到遠進行排列
+      .sort((a, b) => moment(a.reserve_at).diff(b.reserve_at))
+      // 只顯示前三筆
+      .slice(0, 3);
+
     return (
       <div className="flex flex-col gap-y-2 w-1/2">
         <div className="flex gap-x-1 items-center">
@@ -70,64 +28,50 @@ const Upcoming = () => {
           />
           <div>醫療提醒</div>
         </div>
-        {eventData
-          .filter((event) => event.type === "醫療提醒")
-          .map((event, index) => (
-            <ul className="flex gap-x-4" key={index}>
-              <li className="w-[42px]">
-                {moment(event.reserve_at).format("M/D")}
-              </li>
-              <li>{event.reserve_type}</li>
-            </ul>
-          ))}
+        {eventData.map((event, index) => (
+          <ul className="flex gap-x-4" key={index}>
+            <li className="w-[42px]">
+              {moment(event.reserve_at).format("M/D")}
+            </li>
+            <li>{event.reserve_type}</li>
+          </ul>
+        ))}
       </div>
     );
   };
   const Moments = () => {
+    const eventData = originalData
+      // 篩選即將到來事件
+      .filter(
+        (event) =>
+          event.card === "重要時刻" &&
+          event.created_at &&
+          moment(event.created_at).isAfter(moment())
+      )
+      // 由日期近到遠進行排列
+      .sort((a, b) => moment(a.created_at).diff(b.created_at))
+      // 只顯示前三筆
+      .slice(0, 3);
+
     return (
       <div className="flex flex-col gap-y-2 w-1/2">
         <div className="flex gap-x-1 items-center">
           <Image
-            src="/test/icon-dot.svg"
-            width={6}
+            src="/test/icon-flag.svg"
+            width={24}
             height={24}
-            alt="dot symbol"
+            alt="flag icon"
           />
-          <div>重要時刻</div>
+          <div>紀念日</div>
         </div>
-        {eventData
-          .filter((event) => event.card === "重要時刻")
-          .map((event, index) => (
-            <ul className="flex gap-x-4" key={index}>
-              <li className="w-[42px]">
-                {moment(event.created_at).format("M/D")}
-              </li>
-              <li className="flex gap-x-1">
-                <span
-                  className={`px-2 rounded-[30px] 
-                ${(() => {
-                  switch (event.category) {
-                    case "行為表現":
-                      return "bg-[#F9E6FF]";
-                    case "驚喜":
-                      return "bg-[#FFF5CF]";
-                    case "生活習慣":
-                      return "bg-[#FFE9EC]";
-                    case "社交":
-                      return "bg-[#D5F0FF]";
-                    case "技能":
-                      return "bg-[#E0FFDF]";
-                    default:
-                      return "";
-                  }
-                })()}`}
-                >
-                  {event.category}
-                </span>
-                {event.content}
-              </li>
-            </ul>
-          ))}
+        <ul className="flex gap-x-4">
+          <li className="w-[42px]">2/2</li>
+          <li>生日</li>
+        </ul>
+        <ul className="flex gap-x-4">
+          <li className="w-[42px]">2/22</li>
+          <li>領養日</li>
+        </ul>
       </div>
     );
   };
