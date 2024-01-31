@@ -4,7 +4,7 @@ import CalendarLayout from "@/components/recordDashboard/CalendarLayout";
 import Upcoming from "@/components/recordDashboard/Upcoming";
 import PetAccount from "@/components/recordDashboard/PetAccount";
 import RecordCard from "@/components/recordDashboard/RecordCard";
-import Footer from "@/components/petProfile/Footer";
+import Footer from "@/components/Footer";
 
 export interface DateContextProp {
   selectedDate: string;

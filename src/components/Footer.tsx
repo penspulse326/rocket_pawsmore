@@ -1,4 +1,6 @@
-const Footer = () => {
+import React from "react";
+
+const Footer: React.FC = () => {
   return (
     <section className="my-8 text-note">
       <ul className="flex flex-col gap-y-4">
@@ -8,7 +10,15 @@ const Footer = () => {
           <li>關於我們</li>
         </ol>
         <li className="text-center">
-          Pawsmore(2024) from <span className="underline">火箭隊</span> 14th
+          {`Pawsmore(2024) from `}
+          <a
+            href="https://www.rocket-coding.com"
+            className="underline"
+            target="_blank"
+          >
+            火箭隊
+          </a>
+          {` 14th`}
         </li>
       </ul>
     </section>

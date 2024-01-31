@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "@/common/redux/userInfoSlice";
-import Footer from "@/components/petProfile/Footer";
+import Footer from "@/components/Footer";
 import Loading from "@/components/Loading";
 
 const LoginPage: NextPage = () => {
