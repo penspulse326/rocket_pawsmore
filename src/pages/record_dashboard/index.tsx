@@ -3,7 +3,7 @@ import moment from "moment";
 import CalendarLayout from "@/components/recordDashboard/CalendarLayout";
 import Upcoming from "@/components/recordDashboard/Upcoming";
 import PetAccount from "@/components/recordDashboard/PetAccount";
-import RecordCard from "@/components/recordDashboard/RecordCard";
+import RecordCardLayout from "@/components/recordDashboard/RecordCardLayout";
 import Footer from "@/components/Footer";
 
 export interface DateContextProp {
@@ -50,7 +50,7 @@ const RecordDashboard = () => {
               <PetAccount />
               <DataSummaryBtn />
             </div>
-            <RecordCard />
+            <RecordCardLayout />
           </div>
         </div>
         <Footer />
