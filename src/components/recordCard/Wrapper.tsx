@@ -1,21 +1,29 @@
 import { IconX } from "@tabler/icons-react";
 
-const CardWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+import { recordCard } from "@/common/lib/formText";
+
+interface WrapperPropsType {
+  children: React.ReactNode;
+  category: "daily" | "medical" | "moment";
+}
+
+const CardWrapper: React.FC<WrapperPropsType> = ({ children, category }) => {
+  const { TITLE, SUB_TITLE, COLOR } = recordCard[category];
+  const spanStyle = `bg-[${COLOR}] inline-block mr-4 w-[11px] h-[11px] rounded-full`;
+
   return (
-    <section className="flex flex-col gap-6 p-8 w-[416px] border border-stroke rounded-[30px] bg-white">
+    <section className="flex flex-col gap-6 p-8 max-w-[416px] border border-stroke rounded-[30px] bg-white">
       <div>
         <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold">
-            <span className="inline-block mr-4 w-[11px] h-[11px] rounded-full bg-[#969AFF]"></span>
-            新增日常紀錄
+          <h2 className="flex items-center text-2xl font-bold">
+            <span className={spanStyle}></span>
+            {TITLE}
           </h2>
           <button type="button">
             <IconX size={32} stroke={2} />
           </button>
         </div>
-        <h3 className="mt-1 text-note">
-          可讓醫生參考的生理紀錄及在家可處理的照護。
-        </h3>
+        <h3 className="mt-1 text-note">{SUB_TITLE}</h3>
       </div>
       {children}
     </section>
