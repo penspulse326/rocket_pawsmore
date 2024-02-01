@@ -1,9 +1,9 @@
 import { useState } from "react";
 
+import RecordFormLayout from "../RecordFormLayout";
 import ToggleList from "@/components/ToggleList";
-import CardWrapper from "../Wrapper";
-import FoodList from "./FoodList";
-import CareList from "./CareList";
+import FoodList from "./FoodInputList";
+import CareList from "./CareInputList";
 
 export interface CareStateType {
   deworming: boolean;
@@ -17,7 +17,7 @@ export interface CareStateType {
   [key: string]: boolean | string;
 }
 
-const initialCareState = {
+const initialCareState: CareStateType = {
   deworming: false,
   medicine: false,
   injection: false,
@@ -29,9 +29,7 @@ const initialCareState = {
 };
 
 const Daily = () => {
-  const [careState, setCareState] = useState<CareStateType>(initialCareState);
-
-  console.log(careState);
+  const [careState, setCareState] = useState(initialCareState);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -40,7 +38,7 @@ const Daily = () => {
   };
 
   return (
-    <CardWrapper category="daily">
+    <RecordFormLayout category="daily">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <ToggleList title="一般">
           <ul className="flex flex-col gap-4 mt-2">
@@ -94,7 +92,7 @@ const Daily = () => {
           儲存
         </button>
       </form>
-    </CardWrapper>
+    </RecordFormLayout>
   );
 };
 

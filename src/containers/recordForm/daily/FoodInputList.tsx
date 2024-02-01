@@ -16,7 +16,7 @@ const initialFood: FoodType = {
   amount: "",
 };
 
-const FoodList = () => {
+const FoodInputList = () => {
   const [list, setList] = useState<FoodType[]>([initialFood]);
   const [isError, setIsError] = useState(false);
 
@@ -91,6 +91,11 @@ const FoodList = () => {
           />
           {/* 按鈕 */}
           <span className="mr-4">g</span>
+          {index === list.length - 1 && (
+            <button type="button" onClick={handleAdd}>
+              <IconCirclePlus size={24} className="stroke-primary" />
+            </button>
+          )}
           {list.length !== 1 && (
             <button
               type="button"
@@ -98,11 +103,6 @@ const FoodList = () => {
               className="mr-2"
             >
               <IconCircleMinus size={24} className="stroke-primary" />
-            </button>
-          )}
-          {index === list.length - 1 && (
-            <button type="button" onClick={handleAdd}>
-              <IconCirclePlus size={24} className="stroke-primary" />
             </button>
           )}
         </li>
@@ -116,4 +116,4 @@ const FoodList = () => {
   );
 };
 
-export default FoodList;
+export default FoodInputList;

@@ -7,7 +7,10 @@ interface WrapperPropsType {
   category: "daily" | "medical" | "moment";
 }
 
-const CardWrapper: React.FC<WrapperPropsType> = ({ children, category }) => {
+const RecordFormLayout: React.FC<WrapperPropsType> = ({
+  children,
+  category,
+}) => {
   const { TITLE, SUB_TITLE, COLOR } = recordCard[category];
 
   return (
@@ -31,4 +34,4 @@ const CardWrapper: React.FC<WrapperPropsType> = ({ children, category }) => {
   );
 };
 
-export default CardWrapper;
+export default RecordFormLayout;

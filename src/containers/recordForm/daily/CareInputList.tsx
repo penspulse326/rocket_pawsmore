@@ -1,12 +1,15 @@
 import { careCategory } from "@/common/lib/formText";
-import { CareStateType } from "@/components/recordCard/Daily";
+import { CareStateType } from "@/containers/recordForm/daily/Form";
 
 interface CareListPropsType {
   careState: CareStateType;
   setCareState: React.Dispatch<React.SetStateAction<CareStateType>>;
 }
 
-const CareList: React.FC<CareListPropsType> = ({ careState, setCareState }) => {
+const CareInputList: React.FC<CareListPropsType> = ({
+  careState,
+  setCareState,
+}) => {
   return (
     <ul className="flex flex-col gap-4 mt-2">
       {careCategory.map(({ name, title, placeholder }) => (
@@ -57,4 +60,4 @@ const CareList: React.FC<CareListPropsType> = ({ careState, setCareState }) => {
   );
 };
 
-export default CareList;
+export default CareInputList;

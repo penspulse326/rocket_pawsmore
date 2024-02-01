@@ -7,8 +7,8 @@ import { setUserInfo } from "@/common/redux/userInfoSlice";
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "../pages/_app";
 
-import HomeLayout from "@/containers/HomeLayout";
-import SignUp from "@/containers/form/SignUp";
+import HomeLayout from "@/containers/home/HomeLayout";
+import SignUp from "@/containers/home/SignUp";
 import Loading from "@/components/Loading";
 
 const SignUpPage: NextPageWithLayout = () => {
