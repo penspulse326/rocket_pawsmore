@@ -19,6 +19,9 @@ export default function Home() {
       <Link href="/login" className="underline">
         登入
       </Link>
+      <Link href="/test/daliy" className="underline">
+        日常卡片測試
+      </Link>
     </main>
   );
 }
