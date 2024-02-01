@@ -3,8 +3,8 @@ import React, { useState, useContext, useEffect } from "react";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { DateContext } from "@/pages/record_dashboard";
 
-const Date = () => {
-  const { selectedDate } = useContext(DateContext);
+const Date: React.FC = () => {
+  const { selectedDate, setSelectedDate } = useContext(DateContext);
   const [currentTime, setCurrentTime] = useState(moment(selectedDate));
 
   useEffect(() => {
@@ -17,7 +17,11 @@ const Date = () => {
         size={24}
         color={"#808080"}
         className="hover:cursor-pointer"
-        onClick={() => setCurrentTime(currentTime.clone().subtract(1, "day"))}
+        onClick={() =>
+          setSelectedDate(
+            currentTime.clone().subtract(1, "day").format("YYYY-MM-DD")
+          )
+        }
       />
       <ul className="flex gap-x-2 text-2xl justify-center font-medium max-w-[124px] w-full">
         <ol className="flex gap-x-1">
@@ -37,7 +41,11 @@ const Date = () => {
         size={24}
         color={"#808080"}
         className="hover:cursor-pointer"
-        onClick={() => setCurrentTime(currentTime.clone().add(1, "day"))}
+        onClick={() =>
+          setSelectedDate(
+            currentTime.clone().add(1, "day").format("YYYY-MM-DD")
+          )
+        }
       />
     </div>
   );
