@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Footer from "@/components/petProfile/Footer";
+import Footer from "@/components/Footer";
 
 const HomeLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <section className="outer">
