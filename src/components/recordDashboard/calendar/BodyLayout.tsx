@@ -1,12 +1,13 @@
 import moment from "moment";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import calendarLogic from "@/common/helpers/calendarLogic";
 import EventCard from "./EventCard";
 import { MonthContext } from "../CalendarLayout";
+import { DateContext } from "@/pages/record_dashboard";
 
 const BodyLayout = () => {
+  const { selectedDate, setSelectedDate } = useContext(DateContext);
   const { monthState } = useContext(MonthContext);
-  const [selectedDate, setSelectedDate] = useState("");
 
   const today = moment();
   const selectedMonth = moment(monthState);
