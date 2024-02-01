@@ -9,7 +9,7 @@ import { Noto_Sans_TC } from "next/font/google";
 import { Provider } from "react-redux";
 import { store } from "@/common/redux/store";
 
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/navbar/Navbar";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;

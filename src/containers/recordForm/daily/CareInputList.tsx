@@ -1,5 +1,5 @@
 import { careCategory } from "@/common/lib/formText";
-import { CareStateType } from "@/containers/recordForm/daily/Form";
+import { CareStateType } from "@/containers/recordForm/daily/DailyForm";
 
 interface CareListPropsType {
   careState: CareStateType;

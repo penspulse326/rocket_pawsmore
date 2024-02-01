@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
 import { clearUserInfo } from "@/common/redux/userInfoSlice";
-import Menu from "./Menu";
+import Menu from "./BurgerMenu";
 
 const Navbar: React.FC = () => {
   const dispatch = useDispatch();

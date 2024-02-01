@@ -3,7 +3,7 @@ import { IconMenu2 } from "@tabler/icons-react";
 import Link from "next/link";
 import { useState } from "react";
 
-const More: React.FC = () => {
+const MoreMenu: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -38,4 +38,4 @@ const More: React.FC = () => {
   );
 };
 
-export default More;
+export default MoreMenu;

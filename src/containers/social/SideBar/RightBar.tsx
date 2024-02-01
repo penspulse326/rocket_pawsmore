@@ -4,7 +4,7 @@ import { IconSearch } from "@tabler/icons-react";
 
 import Recommend from "./Recommend";
 
-const SideBarRight: React.FC = () => {
+const RightBar: React.FC = () => {
   return (
     <aside className="col-span-3 flex flex-col gap-8 bg-white">
       <section className="flex items-center gap-2 mt-8 px-8 py-4 rounded-full bg-stroke">
@@ -67,4 +67,4 @@ const SideBarRight: React.FC = () => {
   );
 };
 
-export default SideBarRight;
+export default RightBar;

@@ -28,7 +28,7 @@ const initialCareState: CareStateType = {
   rehab_text: "",
 };
 
-const Daily = () => {
+const DailyForm = () => {
   const [careState, setCareState] = useState(initialCareState);
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -96,4 +96,4 @@ const Daily = () => {
   );
 };
 
-export default Daily;
+export default DailyForm;

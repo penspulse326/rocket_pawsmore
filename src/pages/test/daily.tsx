@@ -1,4 +1,4 @@
-import Form from "@/containers/recordForm/daily/Form";
+import Form from "@/containers/recordForm/daily/DailyForm";
 
 export default function DaliyPage() {
   return (
