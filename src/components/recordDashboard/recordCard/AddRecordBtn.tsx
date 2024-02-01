@@ -1,11 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { IconCirclePlus } from "@tabler/icons-react";
 
-const AddRecordBtn = () => {
+const AddRecordBtn: React.FC = () => {
   const [isShown, setIsShown] = useState(false);
-  const ShowRecordType = () => {
-    const category = ["日常紀錄", "醫療紀錄", "重要時刻"];
-
+  const category = ["日常紀錄", "醫療紀錄", "重要時刻"];
+  const RecordCategoryCard = () => {
     return (
       <div className="absolute top-[101px] bg-white max-w-[164px] p-3 rounded-3xl shadow-[0_0_10px_0_rgba(0,0,0,0.15)]">
         {category.map((name, index) => {
@@ -58,7 +57,7 @@ const AddRecordBtn = () => {
     >
       <div className="text-primary">點擊以新增紀錄</div>
       <IconCirclePlus size={24} color={"#203170"} />
-      {isShown && <ShowRecordType />}
+      {isShown && <RecordCategoryCard />}
     </div>
   );
 };
