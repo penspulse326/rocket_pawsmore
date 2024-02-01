@@ -1,3 +1,5 @@
+import { error } from "@/common/lib/messageText";
+import ErrorMessage from "@/components/ErrorMessage";
 import Link from "next/link";
 
 interface SignUpPropsType {
@@ -14,7 +16,10 @@ const Login: React.FC<SignUpPropsType> = ({ handleSignUp }) => {
         </div>
         <form onSubmit={handleSignUp} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">
-            <span className="flex justify-between items-center">Email</span>
+            <h4 className="flex justify-between items-center">
+              <span>Email</span>
+              <ErrorMessage>{error.email_invalid}</ErrorMessage>
+            </h4>
             <input
               type="text"
               name="email"
@@ -23,7 +28,10 @@ const Login: React.FC<SignUpPropsType> = ({ handleSignUp }) => {
             />
           </div>
           <div className="flex flex-col gap-1">
-            <span className="flex justify-between items-center">密碼</span>
+            <h4 className="flex justify-between items-center">
+              <span>密碼</span>
+              <ErrorMessage>{error.password_invalid}</ErrorMessage>
+            </h4>
             <input
               type="password"
               name="password"
@@ -32,7 +40,10 @@ const Login: React.FC<SignUpPropsType> = ({ handleSignUp }) => {
             />
           </div>
           <div className="flex flex-col gap-1">
-            <span className="flex justify-between items-center">確認密碼</span>
+            <h4 className="flex justify-between items-center">
+              <span>確認密碼</span>
+              <ErrorMessage>{error.password_not_match}</ErrorMessage>
+            </h4>
             <input
               type="password"
               name="password"
