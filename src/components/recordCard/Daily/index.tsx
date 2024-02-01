@@ -7,9 +7,8 @@ const Daily = () => {
     event.preventDefault();
 
     const form = event.currentTarget as HTMLFormElement;
-    console.log(form.food[0].value);
-    console.log(form.amount[1].value);
   };
+
   return (
     <CardWrapper category="daily">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">

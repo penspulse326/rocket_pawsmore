@@ -20,7 +20,7 @@ const ToggleList: React.FC<ToggleListPropsType> = ({ children, title }) => {
           />
         </button>
       </div>
-      {isListOpen && children}
+      <div className={`${!isListOpen && "hidden"}`}>{children}</div>
     </div>
   );
 };
