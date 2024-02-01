@@ -6,8 +6,9 @@ import {
   IconCirclePlus,
 } from "@tabler/icons-react";
 import { DateContext } from "@/pages/record_dashboard";
+import { originalData } from "@/common/lib/test/eventData";
 
-const RecordCard = () => {
+const RecordCardLayout = () => {
   const { selectedDate } = useContext(DateContext);
 
   const Date = () => {
@@ -138,4 +139,4 @@ const RecordCard = () => {
   );
 };
 
-export default RecordCard;
+export default RecordCardLayout;
