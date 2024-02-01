@@ -1,4 +1,4 @@
-import Daliy from "@/components/recordCard/Daliy";
+import Daliy from "@/components/recordCard/Daily";
 
 export default function DaliyPage() {
   return (
