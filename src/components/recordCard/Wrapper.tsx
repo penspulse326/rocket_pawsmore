@@ -9,14 +9,15 @@ interface WrapperPropsType {
 
 const CardWrapper: React.FC<WrapperPropsType> = ({ children, category }) => {
   const { TITLE, SUB_TITLE, COLOR } = recordCard[category];
-  const spanStyle = `bg-[${COLOR}] inline-block mr-4 w-[11px] h-[11px] rounded-full`;
 
   return (
-    <section className="flex flex-col gap-6 p-8 max-w-[416px] border border-stroke rounded-[30px] bg-white">
+    <section className="flex flex-col gap-6 p-8 w-[416px] border border-stroke rounded-[30px] bg-white">
       <div>
         <div className="flex justify-between items-center">
           <h2 className="flex items-center text-2xl font-bold">
-            <span className={spanStyle}></span>
+            <span
+              className={`bg-[${COLOR}] inline-block mr-4 w-[11px] h-[11px] rounded-full`}
+            ></span>
             {TITLE}
           </h2>
           <button type="button">

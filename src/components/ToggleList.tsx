@@ -8,6 +8,7 @@ interface ToggleListPropsType {
 
 const ToggleList: React.FC<ToggleListPropsType> = ({ children, title }) => {
   const [isListOpen, setIsListOpen] = useState(true);
+
   return (
     <div className="pb-4 border-b">
       <div className="flex items-center gap-2 text-note">

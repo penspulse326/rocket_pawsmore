@@ -1,7 +1,8 @@
-import { foodType } from "@/common/lib/formText";
-import ErrorMessage from "@/components/ErrorMessage";
 import { IconCircleMinus, IconCirclePlus } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
+
+import { foodCategory } from "@/common/lib/formText";
+import ErrorMessage from "@/components/ErrorMessage";
 
 interface FoodType {
   id: number;
@@ -18,7 +19,6 @@ const initialFood: FoodType = {
 const FoodList = () => {
   const [list, setList] = useState<FoodType[]>([initialFood]);
   const [isError, setIsError] = useState(false);
-  console.log(list);
 
   useEffect(() => {
     if (list.length < 5) {
@@ -64,53 +64,55 @@ const FoodList = () => {
   };
 
   return (
-    <>
-      <ul className="flex flex-col gap-1">
-        {list.map((food: FoodType, index) => (
-          <li key={food.id + index} className="flex items-center">
-            {/* 類型篩選 */}
-            <select
-              name="food"
-              value={food.type}
-              onChange={(e) => handleValueChange(e, index)}
-              className="mr-1 px-2 py-1 w-[72px] border border-stroke outline-note rounded-[10px]"
+    <ul className="flex flex-col gap-1">
+      {list.map((food: FoodType, index) => (
+        <li key={food.id + index} className="flex items-center">
+          {/* 類型篩選 */}
+          <select
+            name="food"
+            value={food.type}
+            onChange={(e) => handleValueChange(e, index)}
+            className="mr-1 px-2 py-1 w-[72px] border border-stroke outline-note rounded-[10px]"
+          >
+            <option disabled>類型</option>
+            {foodCategory.map((category) => (
+              <option key={category + index} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+          {/* 數量 */}
+          <input
+            type="text"
+            name="amount"
+            value={food.amount}
+            onChange={(e) => handleValueChange(e, index)}
+            className="mr-1 px-2 py-1 w-16 border border-stroke outline-note rounded-[10px]"
+          />
+          {/* 按鈕 */}
+          <span className="mr-4">g</span>
+          {list.length !== 1 && (
+            <button
+              type="button"
+              onClick={() => handleDelete(index)}
+              className="mr-2"
             >
-              <option disabled>類型</option>
-              {foodType.map((type) => (
-                <option key={type + index} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
-            {/* 數量 */}
-            <input
-              type="text"
-              name="amount"
-              value={food.amount}
-              onChange={(e) => handleValueChange(e, index)}
-              className="mr-1 px-2 py-1 w-16 border border-stroke outline-note rounded-[10px]"
-            />
-            {/* 按鈕 */}
-            <span className="mr-4">g</span>
-            {index === list.length - 1 && (
-              <button type="button" onClick={handleAdd} className="mr-2">
-                <IconCirclePlus size={24} className="stroke-primary" />
-              </button>
-            )}
-            {list.length !== 1 && (
-              <button type="button" onClick={() => handleDelete(index)}>
-                <IconCircleMinus size={24} className="stroke-primary" />
-              </button>
-            )}
-          </li>
-        ))}
-        {isError && (
-          <li className="mt-2">
-            <ErrorMessage>你家還缺毛孩嗎？我願意當隻豬 &#128055;</ErrorMessage>
-          </li>
-        )}
-      </ul>
-    </>
+              <IconCircleMinus size={24} className="stroke-primary" />
+            </button>
+          )}
+          {index === list.length - 1 && (
+            <button type="button" onClick={handleAdd}>
+              <IconCirclePlus size={24} className="stroke-primary" />
+            </button>
+          )}
+        </li>
+      ))}
+      {isError && (
+        <li className="mt-2">
+          <ErrorMessage>你家還缺毛孩嗎？我願意當隻豬 &#128055;</ErrorMessage>
+        </li>
+      )}
+    </ul>
   );
 };
 

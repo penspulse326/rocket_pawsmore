@@ -16,6 +16,13 @@ const recordCard = {
   },
 };
 
-const foodType = ["乾食", "濕食", "鮮食", "點心"];
+const foodCategory = ["乾食", "濕食", "鮮食", "點心"];
 
-export { recordCard, foodType };
+const careCategory = [
+  { name: "deworming", title: "驅蟲", placeholder: "請輸入藥品名稱" },
+  { name: "medicine", title: "用藥", placeholder: "請輸入藥品名稱" },
+  { name: "injection", title: "注射", placeholder: "請輸入藥品名稱" },
+  { name: "rehab", title: "復健", placeholder: "請輸入治療名稱" },
+];
+
+export { recordCard, foodCategory, careCategory };
