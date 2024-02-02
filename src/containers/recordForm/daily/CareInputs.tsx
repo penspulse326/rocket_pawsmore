@@ -1,15 +1,23 @@
 import { careCategory } from "@/common/lib/formText";
 import { CareStateType } from "@/containers/recordForm/daily/DailyForm";
 
-interface CareListPropsType {
+interface PropsType {
   careState: CareStateType;
   setCareState: React.Dispatch<React.SetStateAction<CareStateType>>;
 }
 
-const CareInputList: React.FC<CareListPropsType> = ({
-  careState,
-  setCareState,
-}) => {
+const initialCareState: CareStateType = {
+  deworming: false,
+  medicine: false,
+  injection: false,
+  rehab: false,
+  deworming_text: "",
+  medicine_text: "",
+  injection_text: "",
+  rehab_text: "",
+};
+
+const CareInputList: React.FC<PropsType> = ({ careState, setCareState }) => {
   return (
     <ul className="flex flex-col gap-4 mt-2">
       {careCategory.map(({ NAME, TITLE, PLACEHOLDER }) => (

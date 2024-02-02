@@ -5,18 +5,16 @@ import { foodCategory } from "@/common/lib/formText";
 import ErrorMessage from "@/components/ErrorMessage";
 
 interface FoodType {
-  id: number;
   type: "乾食" | "濕食" | "鮮食" | "點心" | "";
   amount: string;
 }
 
 const initialFood: FoodType = {
-  id: 1,
   type: "乾食",
   amount: "",
 };
 
-const FoodInputList = () => {
+const FoodInputList: React.FC = () => {
   const [list, setList] = useState<FoodType[]>([initialFood]);
   const [isError, setIsError] = useState(false);
 
@@ -66,7 +64,7 @@ const FoodInputList = () => {
   return (
     <ul className="flex flex-col gap-1">
       {list.map((food: FoodType, index) => (
-        <li key={food.id + index} className="flex items-center">
+        <li key={food.type + index} className="flex items-center">
           {/* 類型篩選 */}
           <select
             name="food"

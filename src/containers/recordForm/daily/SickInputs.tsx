@@ -1,15 +1,23 @@
 import { sickCategory } from "@/common/lib/formText";
 import { SickStateType } from "./DailyForm";
 
-interface SickListPropsType {
+interface PropsType {
   sickState: SickStateType;
   setSickState: React.Dispatch<React.SetStateAction<SickStateType>>;
 }
 
-const SickInputs: React.FC<SickListPropsType> = ({
-  sickState,
-  setSickState,
-}) => {
+const initialSickState: SickStateType = {
+  urine: false,
+  stool: false,
+  vomit: false,
+  symptom: false,
+  urine_text: "",
+  stool_text: "",
+  vomit_text: "",
+  symptom_text: [],
+};
+
+const SickInputs: React.FC<PropsType> = ({ sickState, setSickState }) => {
   const handleRadioChange = (name: string, value: boolean) => {
     setSickState((prev) => ({ ...prev, [name]: value }));
   };

@@ -30,6 +30,28 @@ export interface CareStateType {
   [key: string]: boolean | string;
 }
 
+const initailState = {
+  weight: 0,
+  weight_unit: "kg",
+  water: 0,
+  foods: [
+    {
+      type: "乾食",
+      amount: 0,
+    },
+  ],
+  urine: "",
+  stool: "",
+  vomit: "",
+  symptom: [],
+  deworming: "",
+  medicine: "",
+  injection: "",
+  rehab: "",
+  selected: [],
+  remark: "",
+};
+
 const initialSickState: SickStateType = {
   urine: false,
   stool: false,
@@ -53,7 +75,6 @@ const initialCareState: CareStateType = {
 };
 
 const DailyForm = () => {
-  const [remark, setRemark] = useState({ content: "" });
   const [sickState, setSickState] = useState(initialSickState);
   const [careState, setCareState] = useState(initialCareState);
 
@@ -102,8 +123,6 @@ const DailyForm = () => {
           <textarea
             name=""
             placeholder="其他特殊情況或遺漏的資訊，請填寫於此。"
-            value={remark.content}
-            onChange={(event) => setRemark({ content: event.target.value })}
             className="px-4 py-3 h-24 border border-stroke rounded-[10px]"
           ></textarea>
         </div>

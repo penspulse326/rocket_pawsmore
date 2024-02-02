@@ -6,7 +6,7 @@ interface SignUpPropsType {
   handleSignUp: (e: React.FormEvent) => void;
 }
 
-const Login: React.FC<SignUpPropsType> = ({ handleSignUp }) => {
+const SignUp: React.FC<SignUpPropsType> = ({ handleSignUp }) => {
   return (
     <div className="col-span-5 col-start-8 flex flex-col justify-center pr-12">
       <section className="flex flex-col justify-center gap-8 p-8 border border-stroke rounded-[30px]">
@@ -46,7 +46,7 @@ const Login: React.FC<SignUpPropsType> = ({ handleSignUp }) => {
             </h4>
             <input
               type="password"
-              name="password"
+              name="check_password"
               placeholder="再次輸入密碼"
               className="p-3 w-full border border-stroke outline-note rounded-[10px] "
             />
@@ -68,4 +68,5 @@ const Login: React.FC<SignUpPropsType> = ({ handleSignUp }) => {
     </div>
   );
 };
-export default Login;
+
+export default SignUp;

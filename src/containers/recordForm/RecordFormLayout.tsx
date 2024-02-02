@@ -2,15 +2,12 @@ import { IconX } from "@tabler/icons-react";
 
 import { recordCard } from "@/common/lib/formText";
 
-interface WrapperPropsType {
+interface PropsType {
   children: React.ReactNode;
   category: "daily" | "medical" | "moment";
 }
 
-const RecordFormLayout: React.FC<WrapperPropsType> = ({
-  children,
-  category,
-}) => {
+const RecordFormLayout: React.FC<PropsType> = ({ children, category }) => {
   const { TITLE, SUB_TITLE, COLOR } = recordCard[category];
 
   return (
@@ -19,7 +16,8 @@ const RecordFormLayout: React.FC<WrapperPropsType> = ({
         <div className="flex justify-between items-center">
           <h2 className="flex items-center text-2xl font-bold">
             <span
-              className={`bg-[${COLOR}] inline-block mr-4 w-[11px] h-[11px] rounded-full`}
+              style={{ backgroundColor: COLOR }}
+              className={`inline-block mr-4 w-[11px] h-[11px] rounded-full`}
             ></span>
             {TITLE}
           </h2>
