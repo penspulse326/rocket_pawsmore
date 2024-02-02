@@ -4,6 +4,7 @@ import RecordFormLayout from "../RecordFormLayout";
 import ToggleList from "@/components/ToggleList";
 import FoodList from "./FoodInputList";
 import CareList from "./CareInputList";
+import AbnormalityList from "./AbnormalityList";
 
 export interface CareStateType {
   deworming: boolean;
@@ -74,7 +75,9 @@ const DailyForm = () => {
             </li>
           </ul>
         </ToggleList>
-        <ToggleList title="異常"></ToggleList>
+        <ToggleList title="異常">
+          <AbnormalityList />
+        </ToggleList>
         <ToggleList title="日常照護">
           <CareList careState={careState} setCareState={setCareState} />
         </ToggleList>

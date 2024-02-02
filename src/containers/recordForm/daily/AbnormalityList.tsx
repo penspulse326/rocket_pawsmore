@@ -1,19 +1,18 @@
-import { careCategory } from "@/common/lib/formText";
+import { abnormalityCategory } from "@/common/lib/formText";
 
-const CareInputList: React.FC = () => {
+const AbnormalityList: React.FC = () => {
   return (
     <ul className="flex flex-col gap-4 mt-2">
-      {careCategory.map(({ name, title, placeholder }) => (
-        <li key={name} className="flex items-center h-8 text-nowrap">
-          <span className="mr-8 font-semibold">{title}</span>
-          <div className="flex items-center gap-4">
+      {abnormalityCategory.map(({ NAME, TITLE, OPTIONS }) => (
+        <li key={NAME} className="flex items-start text-nowrap">
+          <span className="mr-8 font-semibold">{TITLE}</span>
+          <div className="flex items-start gap-4">
             <div>
               <label>
                 <input
                   type="radio"
-                  name={name}
+                  name={NAME}
                   defaultChecked
-                  onChange={() => setCareState({ ...careState, [name]: false })}
                   className="mr-1"
                 />
                 無
@@ -21,28 +20,33 @@ const CareInputList: React.FC = () => {
             </div>
             <div>
               <label>
-                <input
-                  type="radio"
-                  name={name}
-                  onChange={() => setCareState({ ...careState, [name]: true })}
-                  className="mr-1"
-                />
-                有
+                <input type="radio" name={NAME} className="mr-1" />有
               </label>
             </div>
-            {careState[name] && (
-              <input
-                type="text"
-                name={`${name}`}
-                placeholder={placeholder}
-                onChange={(e) =>
-                  setCareState({
-                    ...careState,
-                    [`${name}_detail`]: e.target.value,
-                  })
-                }
-                className="px-2 py-1 w-full border border-stroke outline-note rounded-[10px]"
-              />
+            {NAME === "symptom" ? (
+              <div className="flex flex-wrap gap-2">
+                {OPTIONS.map((OPTION) => (
+                  <label key={OPTION}>
+                    <input type="checkbox" className="mr-1" />
+                    {OPTION}
+                  </label>
+                ))}
+              </div>
+            ) : (
+              <select
+                name=""
+                id=""
+                className="px-2 py-1 border border-stroke rounded-[10px]"
+              >
+                <option disabled selected>
+                  選擇外觀形狀
+                </option>
+                {OPTIONS.map((OPTION) => (
+                  <option key={OPTION} value={OPTION}>
+                    {OPTION}
+                  </option>
+                ))}
+              </select>
             )}
           </div>
         </li>
@@ -51,4 +55,4 @@ const CareInputList: React.FC = () => {
   );
 };
 
-export default CareInputList;
+export default AbnormalityList;

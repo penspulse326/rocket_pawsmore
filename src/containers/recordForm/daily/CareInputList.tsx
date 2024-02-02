@@ -42,7 +42,7 @@ const CareInputList: React.FC<CareListPropsType> = ({
             {careState[name] && (
               <input
                 type="text"
-                name={`${name}`}
+                name={`${name}_detail`}
                 placeholder={placeholder}
                 onChange={(e) =>
                   setCareState({
