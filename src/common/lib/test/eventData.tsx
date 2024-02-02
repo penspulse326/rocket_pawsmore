@@ -1,6 +1,7 @@
 export interface DataType {
   card: string;
   created_at: string;
+  target_date?: string;
   category?: string;
   content?: string | null;
   type?: string;
@@ -8,76 +9,207 @@ export interface DataType {
   reserve_type?: string | null;
   reserve_at?: string | null;
   title?: string;
+  desc?: string;
+  photo?: string;
+  weight?: number;
+  food?: FoodType[];
+  water?: number;
+  urine?: string;
+  stool?: string;
+  vomit?: string;
+  symptom?: string[];
+  deworming?: string;
+  medicine?: string | null;
+  injection?: string;
+  rehab?: string;
+  selected?: string[];
+  remark?: string | null;
+  hospital?: string;
+  doctor?: string;
+  check?: string;
+  notice?: string;
+  cost?: number;
+  remind?: boolean;
+}
+
+interface FoodType {
+  food_type: string;
+  food_weight: number;
 }
 
 export const originalData: DataType[] = [
   {
     card: "日常紀錄",
     created_at: "2023-12-31",
+    target_date: "2023-12-31",
+    weight: 31320,
+    food: [
+      { food_type: "乾糧", food_weight: 300 },
+      { food_type: "濕糧", food_weight: 150 },
+      { food_type: "鮮食", food_weight: 150 },
+    ],
+    water: 3310,
+    urine: "血紅色",
+    stool: "",
+    vomit: "",
+    symptom: ["抽蓄", "走路姿勢"],
+    deworming: "蚤不到",
+    medicine: "",
+    injection: "",
+    rehab: "",
+    selected: ["urine", "symptom", "deworming", "rehab"],
+    remark:
+      "今天帶查理去游泳復健，走路姿勢還沒完全修正好，晚上吃飯完後突然抽蓄。",
   },
   {
     card: "日常紀錄",
     created_at: "2024-01-03",
+    target_date: "2024-01-03",
+    weight: 31320,
+    food: [
+      { food_type: "乾糧", food_weight: 300 },
+      { food_type: "濕糧", food_weight: 150 },
+      { food_type: "鮮食", food_weight: 150 },
+    ],
+    water: 3310,
+    urine: "血紅色",
+    stool: "",
+    vomit: "",
+    symptom: ["抽蓄", "走路姿勢"],
+    deworming: "蚤不到",
+    medicine: "",
+    injection: "",
+    selected: ["urine", "symptom", "deworming", "rehab"],
+    remark:
+      "今天帶查理去游泳復健，走路姿勢還沒完全修正好，晚上吃飯完後突然抽蓄。",
   },
   {
     card: "日常紀錄",
     created_at: "2024-01-08",
+    target_date: "2024-01-08",
+    weight: 31320,
+    food: [
+      { food_type: "乾糧", food_weight: 300 },
+      { food_type: "濕糧", food_weight: 150 },
+      { food_type: "鮮食", food_weight: 150 },
+    ],
+    water: 3310,
+    urine: "血紅色",
+    stool: "",
+    vomit: "",
+    symptom: ["抽蓄", "走路姿勢"],
+    selected: ["urine", "symptom", "deworming", "rehab"],
+    remark: null,
   },
   {
     card: "日常紀錄",
     created_at: "2024-01-17",
+    target_date: "2024-01-17",
+    weight: 31320,
+    food: [
+      { food_type: "乾糧", food_weight: 300 },
+      { food_type: "濕糧", food_weight: 150 },
+      { food_type: "鮮食", food_weight: 150 },
+    ],
+    water: 3310,
+    urine: "血紅色",
+    stool: "",
+    vomit: "",
+    symptom: ["抽蓄", "走路姿勢"],
+    deworming: "蚤不到",
+    medicine: "",
+    injection: "",
+    rehab: "游泳",
+    selected: ["urine", "symptom", "deworming", "rehab"],
+    remark:
+      "今天帶查理去游泳復健，走路姿勢還沒完全修正好，晚上吃飯完後突然抽蓄。",
   },
   {
     card: "日常紀錄",
     created_at: "2024-01-30",
+    target_date: "2024-01-30",
+    weight: 31320,
+    food: [
+      { food_type: "乾糧", food_weight: 300 },
+      { food_type: "濕糧", food_weight: 150 },
+      { food_type: "鮮食", food_weight: 150 },
+    ],
+    water: 3310,
+    urine: "血紅色",
+    stool: "",
+    vomit: "",
+    symptom: ["抽蓄", "走路姿勢"],
+    deworming: "蚤不到",
+    medicine: "",
+    injection: "",
+    rehab: "游泳",
+    selected: ["urine", "symptom", "deworming", "rehab"],
+    remark:
+      "今天帶查理去游泳復健，走路姿勢還沒完全修正好，晚上吃飯完後突然抽蓄。",
   },
   {
     card: "重要時刻",
     created_at: "2024-01-17",
     category: "驚喜",
     content: "撿到乳牙",
+    desc: "撿到乳牙",
+    photo: "/test/moment-photo.jpg",
   },
   {
     card: "重要時刻",
     created_at: "2024-02-02",
     category: "社交",
-    content: "生日",
+    content: "撿到乳牙",
+    desc: "撿到乳牙",
+    photo: "/test/moment-photo.jpg",
   },
   {
     card: "重要時刻",
     created_at: "2024-01-23",
     category: "行為表現",
-    content: "睡到翻肚",
+    content: "撿到乳牙",
+    desc: "撿到乳牙",
+    photo: "/test/moment-photo.jpg",
   },
   {
     card: "重要時刻",
     created_at: "2024-01-28",
     category: "社交",
     content: "交到新朋友",
+    desc: "交到新朋友",
+    photo: "/test/moment-photo.jpg",
   },
   {
     card: "重要時刻",
     created_at: "2024-02-06",
     category: "驚喜",
     content: "收到「禮物」",
+    desc: "收到「禮物」",
+    photo: "/test/moment-photo.jpg",
   },
   {
     card: "重要時刻",
     created_at: "2024-02-13",
     category: "技能",
     content: "學會翻滾",
+    desc: "學會翻滾",
+    photo: "/test/moment-photo.jpg",
   },
   {
     card: "重要時刻",
     created_at: "2024-01-20",
     category: "社交",
     content: "買新衣",
+    desc: "買新衣",
+    photo: "/test/moment-photo.jpg",
   },
   {
     card: "重要時刻",
     created_at: "2024-02-08",
     category: "生活習慣",
     content: "破壞王",
+    desc: "破壞王",
+    photo: "/test/moment-photo.jpg",
   },
   {
     card: "醫療紀錄",
@@ -114,10 +246,11 @@ export const originalData: DataType[] = [
   {
     card: "醫療紀錄",
     created_at: "2024-01-10",
-    type: "醫療提醒",
+    type: "就診紀錄",
+    title: "感冒",
     remind_at: "2024-01-17",
-    reserve_type: "洗牙",
-    reserve_at: "2024-01-17",
+    reserve_type: null,
+    reserve_at: null,
   },
   {
     card: "醫療紀錄",
@@ -142,6 +275,32 @@ export const originalData: DataType[] = [
     type: "就診紀錄",
     title: "回診",
     remind_at: "2024-01-13",
+    reserve_type: null,
+    reserve_at: null,
+  },
+  {
+    card: "醫療紀錄",
+    created_at: "2024-01-30",
+    type: "醫療提醒",
+    remind_at: "2024-02-02",
+    reserve_type: "回診",
+    reserve_at: "2024-02-02",
+  },
+  {
+    card: "醫療紀錄",
+    created_at: "2024-01-20",
+    target_date: "2024-01-20",
+    type: "就診紀錄",
+    title: "狂犬病疫苗",
+    hospital: "愛心動物醫院",
+    doctor: "張醫師",
+    check: "體溫正常，活動正常",
+    medicine: null,
+    notice: "觀察是否有不適，正常飲食",
+    cost: 1800,
+    photo: "/test/medical-photo.jpg",
+    remind: true,
+    remind_at: "2024-01-30",
     reserve_type: null,
     reserve_at: null,
   },
