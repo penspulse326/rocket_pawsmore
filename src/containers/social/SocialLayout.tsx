@@ -1,5 +1,5 @@
-import LeftBar from "./sideBar/LeftBar";
-import RightBar from "./sideBar/RightBar";
+import LeftBar from "./bar/LeftBar";
+import RightBar from "./bar/RightBar";
 
 const SocialLayout: React.FC<{ children: React.ReactNode }> = ({
   children,

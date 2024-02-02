@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import PetCards from "@/containers/social/sideBar/PetCards";
-import MoreMenu from "@/containers/social/sideBar/MoreMenu";
+import PetCards from "@/containers/social/bar/PetCards";
+import MoreMenu from "@/containers/social/bar/MoreMenu";
 
 const userData = {
   id: "123",

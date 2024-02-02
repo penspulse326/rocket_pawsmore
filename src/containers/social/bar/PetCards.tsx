@@ -1,13 +1,13 @@
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { EffectCards } from "swiper/modules";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 
-export default function PetCards() {
+const PetCards: React.FC = () => {
   const testArr = [1, 2, 3];
   const swiperRef = useRef<SwiperClass>();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -74,4 +74,6 @@ export default function PetCards() {
       )}
     </div>
   );
-}
+};
+
+export default PetCards;
