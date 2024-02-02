@@ -74,6 +74,7 @@ const DailyForm = () => {
             </li>
           </ul>
         </ToggleList>
+        <ToggleList title="異常"></ToggleList>
         <ToggleList title="日常照護">
           <CareList careState={careState} setCareState={setCareState} />
         </ToggleList>
