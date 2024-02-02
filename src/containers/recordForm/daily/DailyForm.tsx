@@ -1,10 +1,22 @@
 import { useState } from "react";
 
 import RecordFormLayout from "../RecordFormLayout";
-import ToggleList from "@/components/ToggleList";
-import FoodList from "./FoodInputList";
-import CareList from "./CareInputList";
-import AbnormalityList from "./AbnormalityList";
+import ToggleGroup from "@/components/ToggleGroup";
+import FoodInputs from "./FoodInputs";
+import CareInputs from "./CareInputs";
+import SickInputs from "./SickInputs";
+
+export interface SickStateType {
+  urine: boolean;
+  stool: boolean;
+  vomit: boolean;
+  symptom: boolean;
+  urine_text: string;
+  stool_text: string;
+  vomit_text: string;
+  symptom_text: string[];
+  [key: string]: boolean | string | string[];
+}
 
 export interface CareStateType {
   deworming: boolean;
@@ -18,6 +30,17 @@ export interface CareStateType {
   [key: string]: boolean | string;
 }
 
+const initialSickState: SickStateType = {
+  urine: false,
+  stool: false,
+  vomit: false,
+  symptom: false,
+  urine_text: "",
+  stool_text: "",
+  vomit_text: "",
+  symptom_text: [],
+};
+
 const initialCareState: CareStateType = {
   deworming: false,
   medicine: false,
@@ -30,18 +53,18 @@ const initialCareState: CareStateType = {
 };
 
 const DailyForm = () => {
+  const [remark, setRemark] = useState({ content: "" });
+  const [sickState, setSickState] = useState(initialSickState);
   const [careState, setCareState] = useState(initialCareState);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    const form = event.currentTarget as HTMLFormElement;
   };
 
   return (
     <RecordFormLayout category="daily">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <ToggleList title="一般">
+        <ToggleGroup title="一般">
           <ul className="flex flex-col gap-4 mt-2">
             <li>
               <span className="mr-8 font-semibold">體重</span>
@@ -49,12 +72,9 @@ const DailyForm = () => {
                 name="weight"
                 type="number"
                 min={0}
-                className="mr-1 px-2 py-1 w-16 border border-stroke outline-1 outline-note rounded-[10px]"
+                className="form-input mr-1 w-16"
               />
-              <select
-                name="weight_unit"
-                className="px-2 py-1 w-[72px] border border-stroke outline-1 outline-note rounded-[10px]"
-              >
+              <select name="weight_unit" className="form-input w-[72px]">
                 <option disabled>單位</option>
                 <option value="kg">kg</option>
                 <option value="g">g</option>
@@ -62,30 +82,28 @@ const DailyForm = () => {
             </li>
             <li>
               <span className="mr-4 font-semibold">飲水量</span>
-              <input
-                type="number"
-                min={0}
-                className="mr-1 px-2 py-1 w-16 border border-stroke outline-note rounded-[10px]"
-              />
+              <input type="number" min={0} className="form-input mr-1 w-16" />
               <span>ml</span>
             </li>
             <li className="flex">
               <span className="mr-8 my-1 font-semibold">進食</span>
-              <FoodList />
+              <FoodInputs />
             </li>
           </ul>
-        </ToggleList>
-        <ToggleList title="異常">
-          <AbnormalityList />
-        </ToggleList>
-        <ToggleList title="日常照護">
-          <CareList careState={careState} setCareState={setCareState} />
-        </ToggleList>
+        </ToggleGroup>
+        <ToggleGroup title="異常">
+          <SickInputs sickState={sickState} setSickState={setSickState} />
+        </ToggleGroup>
+        <ToggleGroup title="日常照護">
+          <CareInputs careState={careState} setCareState={setCareState} />
+        </ToggleGroup>
         <div className="flex flex-col gap-4">
           <span className="text-note">備註</span>
           <textarea
             name=""
             placeholder="其他特殊情況或遺漏的資訊，請填寫於此。"
+            value={remark.content}
+            onChange={(event) => setRemark({ content: event.target.value })}
             className="px-4 py-3 h-24 border border-stroke rounded-[10px]"
           ></textarea>
         </div>

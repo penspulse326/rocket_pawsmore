@@ -1,12 +1,12 @@
 import { IconChevronUp } from "@tabler/icons-react";
 import { useState } from "react";
 
-interface ToggleListPropsType {
+interface ToggleGroupPropsType {
   title: string;
   children?: React.ReactNode;
 }
 
-const ToggleList: React.FC<ToggleListPropsType> = ({ children, title }) => {
+const ToggleGroup: React.FC<ToggleGroupPropsType> = ({ children, title }) => {
   const [isListOpen, setIsListOpen] = useState(true);
 
   return (
@@ -26,4 +26,4 @@ const ToggleList: React.FC<ToggleListPropsType> = ({ children, title }) => {
   );
 };
 
-export default ToggleList;
+export default ToggleGroup;

@@ -13,6 +13,9 @@
     opacity: 1;
     z-index: 1;
   }
+  .form-input {
+    @apply px-2 py-1 border border-stroke outline-1 outline-note rounded-[10px];
+  }
 }
 
 @layer utilities {

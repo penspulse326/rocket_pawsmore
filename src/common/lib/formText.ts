@@ -25,7 +25,7 @@ export const careCategory = [
   { NAME: "rehab", TITLE: "復健", PLACEHOLDER: "請輸入治療名稱" },
 ];
 
-export const abnormalityCategory = [
+export const sickCategory = [
   {
     NAME: "urine",
     TITLE: "尿液",
