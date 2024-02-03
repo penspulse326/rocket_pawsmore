@@ -9,6 +9,7 @@ import {
 } from "@tabler/icons-react";
 import { DateContext } from "@/pages/record_dashboard";
 import { originalData, DataType } from "@/common/lib/test/eventData";
+import sortData from "@/common/helpers/sortData";
 
 interface ToggleListPropsType {
   title: string;
@@ -44,16 +45,7 @@ interface SingleCardPropsType {
 
 const Cards: React.FC = () => {
   const { selectedDate } = useContext(DateContext);
-
-  // 將醫療提醒類卡片資料置頂
-  let eventData: DataType[] = [];
-  originalData.forEach((data) => {
-    if (data.type === "醫療提醒") {
-      eventData.unshift(data);
-    } else {
-      eventData.push(data);
-    }
-  });
+  const sortedData = sortData();
 
   const SingleCard: React.FC<SingleCardPropsType> = ({ data }) => {
     const [isExpanded, setIsExpanded] = useState(true);
@@ -448,7 +440,7 @@ const Cards: React.FC = () => {
 
   return (
     <>
-      {eventData
+      {sortedData
         .filter(
           (data) =>
             (data.created_at === selectedDate && data.type !== "醫療提醒") ||
