@@ -22,4 +22,7 @@
   .scrollbar-none::-webkit-scrollbar {
     width: 0px;
   }
+  .shadow-custom {
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+  }
 }

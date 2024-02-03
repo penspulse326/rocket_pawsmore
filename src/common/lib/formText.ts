@@ -25,57 +25,71 @@ export const careCategory = [
   { NAME: "rehab", TITLE: "復健", PLACEHOLDER: "請輸入治療名稱" },
 ];
 
-export const sickCategory = [
-  {
-    NAME: "urine",
+type SickCategoryType = {
+  [key: string]: {
+    TITLE: string;
+    INPUT_TYPE: string;
+    OPTIONS: { label: string; value: string }[];
+  };
+};
+
+export const sickCategory: SickCategoryType = {
+  urine: {
     TITLE: "尿液",
-    OPTIONS: ["黃色透明", "橘色或深黃色", "紅色或粉紅色", "深棕色", "其他"],
+    INPUT_TYPE: "select",
+    OPTIONS: [
+      { label: "黃色透明", value: "黃色透明" },
+      { label: "橘色或深黃色", value: "橘色或深黃色" },
+      { label: "紅色或粉紅色", value: "紅色或粉紅色}" },
+      { label: "深棕色", value: "深棕色" },
+      { label: "其他", value: "其他" },
+    ],
   },
-  {
-    NAME: "stool",
+  stool: {
     TITLE: "糞便",
+    INPUT_TYPE: "select",
     OPTIONS: [
-      "軟便",
-      "下痢",
-      "深色且質地硬",
-      "紅色",
-      "黑色",
-      "白色點狀",
-      "其他",
+      { label: "軟便", value: "軟便" },
+      { label: "下痢", value: "下痢" },
+      { label: "深色且質地硬", value: "深色且質地硬" },
+      { label: "紅色", value: "紅色" },
+      { label: "黑色", value: "黑色" },
+      { label: "白色點狀", value: "白色點狀" },
+      { label: "其他", value: "其他" },
     ],
   },
-  {
-    NAME: "vomit",
+  vomit: {
     TITLE: "嘔吐",
+    INPUT_TYPE: "select",
     OPTIONS: [
-      "吐毛球",
-      "透明無色",
-      "白色泡沫狀",
-      "食物",
-      "黃色",
-      "粉紅色",
-      "深棕色",
-      "綠色",
-      "紅色",
-      "混合異物",
-      "其他",
+      { label: "吐毛球", value: "吐毛球" },
+      { label: "透明無色", value: "透明無色" },
+      { label: "白色泡沫狀", value: "白色泡沫狀" },
+      { label: "食物", value: "食物" },
+      { label: "黃色", value: "黃色" },
+      { label: "粉紅色", value: "粉紅色" },
+      { label: "深棕色", value: "深棕色" },
+      { label: "綠色", value: "綠色" },
+      { label: "紅色", value: "紅色" },
+      { label: "混合異物", value: "混合異物" },
+      { label: "其他", value: "其他" },
     ],
   },
-  {
-    NAME: "symptom",
+  symptom: {
     TITLE: "症狀",
+    INPUT_TYPE: "multi",
     OPTIONS: [
-      "發燒",
-      "無法排泄",
-      "傷口",
-      "腹部脹氣",
-      "咳嗽",
-      "呼吸困難",
-      "分泌物",
-      "皮膚",
-      "抽搐",
-      "走路姿勢",
-      "其他",
+      { label: "發燒", value: "發燒" },
+      { label: "無法排泄", value: "無法排泄" },
+      { label: "傷口", value: "傷口" },
+      { label: "腹部脹氣", value: "腹部脹氣" },
+      { label: "咳嗽", value: "咳嗽" },
+      { label: "呼吸困難", value: "呼吸困難" },
+      { label: "分泌物", value: "分泌物" },
+      { label: "皮膚", value: "皮膚" },
+      { label: "抽搐", value: "抽搐" },
+      { label: "走路姿勢", value: "走路姿勢" },
+      { label: "其他", value: "其他" },
     ],
   },
-];
+};

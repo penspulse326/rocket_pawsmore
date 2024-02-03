@@ -1,111 +1,86 @@
 import { sickCategory } from "@/common/lib/formText";
-import { SickStateType } from "./DailyForm";
+import { DailyFormStateType } from "./DailyForm";
+import Select from "@/components/select/Select";
 
-interface PropsType {
-  sickState: SickStateType;
-  setSickState: React.Dispatch<React.SetStateAction<SickStateType>>;
+interface SickInputsPropsType {
+  formState: DailyFormStateType;
+  setFormState: React.Dispatch<React.SetStateAction<DailyFormStateType>>;
 }
 
-const initialSickState: SickStateType = {
-  urine: false,
-  stool: false,
-  vomit: false,
-  symptom: false,
-  urine_text: "",
-  stool_text: "",
-  vomit_text: "",
-  symptom_text: [],
-};
+const SickInputs: React.FC<SickInputsPropsType> = ({
+  formState,
+  setFormState,
+}) => {
+  const dataSet = Object.entries(sickCategory);
 
-const SickInputs: React.FC<PropsType> = ({ sickState, setSickState }) => {
   const handleRadioChange = (name: string, value: boolean) => {
-    setSickState((prev) => ({ ...prev, [name]: value }));
-  };
+    const selected = [...formState.selected];
 
-  const handleCheckboxChange = (value: string) => {
-    setSickState((prev) => ({
-      ...prev,
-      symptom_text: [...prev.symptom_text, value],
-    }));
+    if (!value) {
+      selected.splice(selected.indexOf(name), 1);
+    } else {
+      selected.push(name);
+    }
+    setFormState((prev) => ({ ...prev, selected }));
   };
 
   const handleSelectChange = (name: string, value: string) => {
-    setSickState((prev) => ({
+    setFormState((prev) => ({
       ...prev,
-      [`${name}_text`]: value,
+      [name]: value,
     }));
   };
 
   return (
     <ul className="flex flex-col gap-4 mt-2">
-      {sickCategory.map(({ NAME, TITLE, OPTIONS }) => {
+      {dataSet.map(([NAME, { TITLE, INPUT_TYPE, OPTIONS }]) => {
         const listItemClass =
           NAME === "symptom" ? "items-start" : "items-center h-8";
         const containerClass =
           NAME === "symptom" ? "items-start" : "items-center";
 
+        const isSelected = formState.selected.includes(NAME);
+
         return (
           <li key={NAME} className={`${listItemClass} flex text-nowrap`}>
             <span className="mr-8 font-semibold">{TITLE}</span>
             <div className={`${containerClass} flex gap-4`}>
-              <div>
-                <label>
-                  <input
-                    type="radio"
-                    name={NAME}
-                    defaultChecked
-                    onChange={() => handleRadioChange(NAME, false)}
-                    className="mr-1"
-                  />
-                  無
-                </label>
-              </div>
-              <div>
-                <label>
-                  <input
-                    type="radio"
-                    name={NAME}
-                    className="mr-1"
-                    onChange={() => handleRadioChange(NAME, true)}
-                  />
-                  有
-                </label>
-              </div>
-              {sickState[NAME] && (
-                <div>
-                  {NAME === "symptom" ? (
-                    <div className="flex flex-wrap gap-2">
-                      {OPTIONS.map((OPTION) => (
-                        <label key={OPTION}>
-                          <input
-                            type="checkbox"
-                            value={OPTION}
-                            onChange={() => handleCheckboxChange(OPTION)}
-                            className="mr-1"
-                          />
-                          {OPTION}
-                        </label>
-                      ))}
-                    </div>
-                  ) : (
-                    <div>
-                      <label>
-                        <select
-                          onChange={(e) =>
-                            handleSelectChange(NAME, e.target.value)
-                          }
-                          className="form-input"
-                        >
-                          <option disabled>選擇外觀形狀</option>
-                          {OPTIONS.map((OPTION) => (
-                            <option key={OPTION} value={OPTION}>
-                              {OPTION}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-                    </div>
-                  )}
+              {/* 勾選 無 */}
+              <label>
+                <input
+                  type="radio"
+                  name={NAME}
+                  defaultChecked
+                  onChange={() => handleRadioChange(NAME, false)}
+                  className="mr-1"
+                />
+                無
+              </label>
+              {/* 勾選 有 */}
+              <label>
+                <input
+                  type="radio"
+                  name={NAME}
+                  className="mr-1"
+                  onChange={() => handleRadioChange(NAME, true)}
+                />
+                有
+              </label>
+              {isSelected && INPUT_TYPE === "select" && (
+                <Select
+                  title="選擇外觀形狀"
+                  options={OPTIONS}
+                  onChange={(value: string) => handleSelectChange(NAME, value)}
+                />
+              )}
+              {isSelected && INPUT_TYPE === "multi" && (
+                <div className="flex flex-wrap gap-2">
+                  {OPTIONS.map(({ label, value }) => (
+                    <label key={label}>
+                      <input type="checkbox" className="mr-1" />
+                      {value}
+                    </label>
+                  ))}
                 </div>
               )}
             </div>

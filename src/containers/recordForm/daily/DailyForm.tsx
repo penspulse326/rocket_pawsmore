@@ -6,31 +6,29 @@ import FoodInputs from "./FoodInputs";
 import CareInputs from "./CareInputs";
 import SickInputs from "./SickInputs";
 
-export interface SickStateType {
-  urine: boolean;
-  stool: boolean;
-  vomit: boolean;
-  symptom: boolean;
-  urine_text: string;
-  stool_text: string;
-  vomit_text: string;
-  symptom_text: string[];
-  [key: string]: boolean | string | string[];
+interface FoodType {
+  type: "乾食" | "濕食" | "鮮食" | "點心" | "";
+  amount: number;
 }
 
-export interface CareStateType {
-  deworming: boolean;
-  medicine: boolean;
-  injection: boolean;
-  rehab: boolean;
-  deworming_text: string;
-  medicine_text: string;
-  injection_text: string;
-  rehab_text: string;
-  [key: string]: boolean | string;
+export interface DailyFormStateType {
+  weight: number;
+  weight_unit: "kg" | "lb";
+  water: number;
+  foods: FoodType[];
+  urine: string;
+  stool: string;
+  vomit: string;
+  symptom: string[];
+  deworming: string;
+  medicine: string;
+  injection: string;
+  rehab: string;
+  selected: string[];
+  remark: string;
 }
 
-const initailState = {
+const initailState: DailyFormStateType = {
   weight: 0,
   weight_unit: "kg",
   water: 0,
@@ -52,31 +50,10 @@ const initailState = {
   remark: "",
 };
 
-const initialSickState: SickStateType = {
-  urine: false,
-  stool: false,
-  vomit: false,
-  symptom: false,
-  urine_text: "",
-  stool_text: "",
-  vomit_text: "",
-  symptom_text: [],
-};
-
-const initialCareState: CareStateType = {
-  deworming: false,
-  medicine: false,
-  injection: false,
-  rehab: false,
-  deworming_text: "",
-  medicine_text: "",
-  injection_text: "",
-  rehab_text: "",
-};
-
 const DailyForm = () => {
-  const [sickState, setSickState] = useState(initialSickState);
-  const [careState, setCareState] = useState(initialCareState);
+  const [formState, setFormState] = useState(initailState);
+
+  console.log(formState);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -113,11 +90,12 @@ const DailyForm = () => {
           </ul>
         </ToggleGroup>
         <ToggleGroup title="異常">
-          <SickInputs sickState={sickState} setSickState={setSickState} />
+          <SickInputs formState={formState} setFormState={setFormState} />
         </ToggleGroup>
+        {/* 
         <ToggleGroup title="日常照護">
           <CareInputs careState={careState} setCareState={setCareState} />
-        </ToggleGroup>
+        </ToggleGroup> */}
         <div className="flex flex-col gap-4">
           <span className="text-note">備註</span>
           <textarea
