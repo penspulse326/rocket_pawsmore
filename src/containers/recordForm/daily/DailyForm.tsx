@@ -55,6 +55,31 @@ const DailyForm = () => {
 
   console.log(formState);
 
+  const handleRadioChange = (name: string, value: boolean) => {
+    const selected = [...formState.selected];
+
+    if (!value) {
+      selected.splice(selected.indexOf(name), 1);
+    } else {
+      selected.push(name);
+    }
+    setFormState((prev) => ({ ...prev, selected }));
+  };
+
+  const handleSelectChange = (name: string, value: string) => {
+    setFormState((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleTextChange = (name: string, value: string) => {
+    setFormState((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
   };
@@ -90,12 +115,19 @@ const DailyForm = () => {
           </ul>
         </ToggleGroup>
         <ToggleGroup title="異常">
-          <SickInputs formState={formState} setFormState={setFormState} />
+          <SickInputs
+            formState={formState}
+            onRadioChange={handleRadioChange}
+            onSelectChange={handleSelectChange}
+          />
         </ToggleGroup>
-        {/* 
         <ToggleGroup title="日常照護">
-          <CareInputs careState={careState} setCareState={setCareState} />
-        </ToggleGroup> */}
+          <CareInputs
+            formState={formState}
+            onRadioChange={handleRadioChange}
+            onTextChange={handleTextChange}
+          />
+        </ToggleGroup>
         <div className="flex flex-col gap-4">
           <span className="text-note">備註</span>
           <textarea

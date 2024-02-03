@@ -18,12 +18,12 @@ export const recordCard = {
 
 export const foodCategory = ["乾食", "濕食", "鮮食", "點心"];
 
-export const careCategory = [
-  { NAME: "deworming", TITLE: "驅蟲", PLACEHOLDER: "請輸入藥品名稱" },
-  { NAME: "medicine", TITLE: "用藥", PLACEHOLDER: "請輸入藥品名稱" },
-  { NAME: "injection", TITLE: "注射", PLACEHOLDER: "請輸入藥品名稱" },
-  { NAME: "rehab", TITLE: "復健", PLACEHOLDER: "請輸入治療名稱" },
-];
+export const careCategory = {
+  deworming: { TITLE: "驅蟲", PLACEHOLDER: "請輸入藥品名稱" },
+  medicine: { TITLE: "用藥", PLACEHOLDER: "請輸入藥品名稱" },
+  injection: { TITLE: "注射", PLACEHOLDER: "請輸入藥品名稱" },
+  rehab: { TITLE: "復健", PLACEHOLDER: "請輸入治療名稱" },
+};
 
 type SickCategoryType = {
   [key: string]: {

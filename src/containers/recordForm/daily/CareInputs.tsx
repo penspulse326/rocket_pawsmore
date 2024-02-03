@@ -1,69 +1,62 @@
 import { careCategory } from "@/common/lib/formText";
-import { CareStateType } from "@/containers/recordForm/daily/DailyForm";
+import { DailyFormStateType } from "@/containers/recordForm/daily/DailyForm";
 
 interface PropsType {
-  careState: CareStateType;
-  setCareState: React.Dispatch<React.SetStateAction<CareStateType>>;
+  formState: DailyFormStateType;
+  onRadioChange: (name: string, value: boolean) => void;
+  onTextChange: (name: string, value: string) => void;
 }
 
-const initialCareState: CareStateType = {
-  deworming: false,
-  medicine: false,
-  injection: false,
-  rehab: false,
-  deworming_text: "",
-  medicine_text: "",
-  injection_text: "",
-  rehab_text: "",
-};
+const CareInputList: React.FC<PropsType> = ({
+  formState,
+  onRadioChange: handleRadioChange,
+  onTextChange: handleTextChange,
+}) => {
+  const dataSet = Object.entries(careCategory);
 
-const CareInputList: React.FC<PropsType> = ({ careState, setCareState }) => {
   return (
     <ul className="flex flex-col gap-4 mt-2">
-      {careCategory.map(({ NAME, TITLE, PLACEHOLDER }) => (
-        <li key={NAME} className="flex items-center h-8 text-nowrap">
-          <span className="mr-8 font-semibold">{TITLE}</span>
-          <div className="flex items-center gap-4">
-            <div>
+      {dataSet.map(([NAME, { TITLE, PLACEHOLDER }]) => {
+        const isSelected = formState.selected.includes(NAME);
+
+        return (
+          <li key={NAME} className="flex items-center h-8 text-nowrap">
+            <span className="mr-8 font-semibold">{TITLE}</span>
+            <div className="flex items-center gap-4">
+              {/* 勾選 無 */}
               <label>
                 <input
                   type="radio"
                   name={NAME}
                   defaultChecked
-                  onChange={() => setCareState({ ...careState, [NAME]: false })}
+                  onChange={() => handleRadioChange(NAME, false)}
                   className="mr-1"
                 />
                 無
               </label>
-            </div>
-            <div>
+              {/* 勾選 有 */}
               <label>
                 <input
                   type="radio"
                   name={NAME}
-                  onChange={() => setCareState({ ...careState, [NAME]: true })}
+                  onChange={() => handleRadioChange(NAME, true)}
                   className="mr-1"
                 />
                 有
               </label>
+              {isSelected && (
+                <input
+                  type="text"
+                  name={NAME}
+                  onChange={(e) => handleTextChange(NAME, e.target.value)}
+                  placeholder={PLACEHOLDER}
+                  className="form-input w-full"
+                />
+              )}
             </div>
-            {careState[NAME] && (
-              <input
-                type="text"
-                name={`${NAME}_detail`}
-                placeholder={PLACEHOLDER}
-                onChange={(e) =>
-                  setCareState({
-                    ...careState,
-                    [`${NAME}_detail`]: e.target.value,
-                  })
-                }
-                className="form-input w-full"
-              />
-            )}
-          </div>
-        </li>
-      ))}
+          </li>
+        );
+      })}
     </ul>
   );
 };

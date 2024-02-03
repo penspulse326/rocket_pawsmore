@@ -4,32 +4,16 @@ import Select from "@/components/select/Select";
 
 interface SickInputsPropsType {
   formState: DailyFormStateType;
-  setFormState: React.Dispatch<React.SetStateAction<DailyFormStateType>>;
+  onRadioChange: (name: string, value: boolean) => void;
+  onSelectChange: (name: string, value: string) => void;
 }
 
 const SickInputs: React.FC<SickInputsPropsType> = ({
   formState,
-  setFormState,
+  onRadioChange: handleRadioChange,
+  onSelectChange: handleSelectChange,
 }) => {
   const dataSet = Object.entries(sickCategory);
-
-  const handleRadioChange = (name: string, value: boolean) => {
-    const selected = [...formState.selected];
-
-    if (!value) {
-      selected.splice(selected.indexOf(name), 1);
-    } else {
-      selected.push(name);
-    }
-    setFormState((prev) => ({ ...prev, selected }));
-  };
-
-  const handleSelectChange = (name: string, value: string) => {
-    setFormState((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
 
   return (
     <ul className="flex flex-col gap-4 mt-2">
@@ -61,11 +45,12 @@ const SickInputs: React.FC<SickInputsPropsType> = ({
                 <input
                   type="radio"
                   name={NAME}
-                  className="mr-1"
                   onChange={() => handleRadioChange(NAME, true)}
+                  className="mr-1"
                 />
                 有
               </label>
+              {/* 衍生選項 */}
               {isSelected && INPUT_TYPE === "select" && (
                 <Select
                   title="選擇外觀形狀"
