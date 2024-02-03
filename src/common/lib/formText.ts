@@ -40,7 +40,7 @@ export const sickCategory: SickCategoryType = {
     OPTIONS: [
       { label: "黃色透明", value: "黃色透明" },
       { label: "橘色或深黃色", value: "橘色或深黃色" },
-      { label: "紅色或粉紅色", value: "紅色或粉紅色}" },
+      { label: "紅色或粉紅色", value: "紅色或粉紅色" },
       { label: "深棕色", value: "深棕色" },
       { label: "其他", value: "其他" },
     ],

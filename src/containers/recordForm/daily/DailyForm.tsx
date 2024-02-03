@@ -57,13 +57,17 @@ const DailyForm = () => {
 
   const handleRadioChange = (name: string, value: boolean) => {
     const selected = [...formState.selected];
+    let newState = { ...formState };
 
     if (!value) {
+      // 只有症狀會被重置成 []，其他都是 ""
+      const newValue = name === "symptom" ? [] : "";
       selected.splice(selected.indexOf(name), 1);
+      newState = { ...newState, [name]: newValue };
     } else {
       selected.push(name);
     }
-    setFormState((prev) => ({ ...prev, selected }));
+    setFormState({ ...newState, selected });
   };
 
   const handleSelectChange = (name: string, value: string) => {
@@ -71,6 +75,17 @@ const DailyForm = () => {
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleMultiChange = (name: string, value: boolean) => {
+    const symptom = [...formState.symptom];
+
+    if (!value) {
+      symptom.splice(symptom.indexOf(name), 1);
+    } else {
+      symptom.push(name);
+    }
+    setFormState((prev) => ({ ...prev, symptom }));
   };
 
   const handleTextChange = (name: string, value: string) => {
@@ -119,6 +134,7 @@ const DailyForm = () => {
             formState={formState}
             onRadioChange={handleRadioChange}
             onSelectChange={handleSelectChange}
+            onMultiChange={handleMultiChange}
           />
         </ToggleGroup>
         <ToggleGroup title="日常照護">

@@ -6,12 +6,14 @@ interface SickInputsPropsType {
   formState: DailyFormStateType;
   onRadioChange: (name: string, value: boolean) => void;
   onSelectChange: (name: string, value: string) => void;
+  onMultiChange: (name: string, value: boolean) => void;
 }
 
 const SickInputs: React.FC<SickInputsPropsType> = ({
   formState,
   onRadioChange: handleRadioChange,
   onSelectChange: handleSelectChange,
+  onMultiChange: handleMultiChange,
 }) => {
   const dataSet = Object.entries(sickCategory);
 
@@ -62,8 +64,15 @@ const SickInputs: React.FC<SickInputsPropsType> = ({
                 <div className="flex flex-wrap gap-2">
                   {OPTIONS.map(({ label, value }) => (
                     <label key={label}>
-                      <input type="checkbox" className="mr-1" />
-                      {value}
+                      <input
+                        type="checkbox"
+                        name={value}
+                        onChange={(e) =>
+                          handleMultiChange(value, e.currentTarget.checked)
+                        }
+                        className="mr-1"
+                      />
+                      {label}
                     </label>
                   ))}
                 </div>
