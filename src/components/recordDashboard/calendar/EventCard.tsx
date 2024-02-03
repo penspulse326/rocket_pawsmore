@@ -1,9 +1,10 @@
 import moment from "moment";
 import Image from "next/image";
 import { useContext } from "react";
-import { originalData, DataType } from "@/common/lib/test/eventData";
+import { DataType } from "@/common/lib/test/eventData";
 import { CategoryContext } from "../CalendarLayout";
 import { MonthContext } from "../CalendarLayout";
+import sortData from "@/common/helpers/sortData";
 
 const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
   const { monthState } = useContext(MonthContext);
@@ -15,9 +16,11 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
   const isCurrentMonth = (prop: string) => {
     return selectedMonth.format("YYYYMM") === moment(prop).format("YYYYMM");
   };
-  const eventData = originalData.filter((event) => {
+
+  const sortedData = sortData();
+  const eventData = sortedData.filter((event) => {
     if (filterEvent === "全部類型") {
-      return originalData;
+      return sortedData;
     } else {
       return event.card === filterEvent;
     }
