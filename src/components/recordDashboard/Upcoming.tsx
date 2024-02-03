@@ -78,7 +78,7 @@ const Upcoming = () => {
   return (
     <section className="flex flex-col gap-y-2">
       <div className="text-note">即將到來</div>
-      <div className="flex border border-stroke rounded-[30px] p-8">
+      <div className="flex border border-stroke rounded-[30px] p-8  min-h-[186px] h-full">
         <Reminders />
         <Moments />
       </div>
