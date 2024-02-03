@@ -45,6 +45,16 @@ interface SingleCardPropsType {
 const Cards: React.FC = () => {
   const { selectedDate } = useContext(DateContext);
 
+  // 將醫療提醒類卡片資料置頂
+  let eventData: DataType[] = [];
+  originalData.forEach((data) => {
+    if (data.type === "醫療提醒") {
+      eventData.unshift(data);
+    } else {
+      eventData.push(data);
+    }
+  });
+
   const SingleCard: React.FC<SingleCardPropsType> = ({ data }) => {
     const [isExpanded, setIsExpanded] = useState(true);
 
@@ -438,7 +448,7 @@ const Cards: React.FC = () => {
 
   return (
     <>
-      {originalData
+      {eventData
         .filter(
           (data) =>
             (data.created_at === selectedDate && data.type !== "醫療提醒") ||
