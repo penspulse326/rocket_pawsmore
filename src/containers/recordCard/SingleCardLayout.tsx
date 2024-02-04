@@ -8,6 +8,7 @@ import {
 } from "@tabler/icons-react";
 import { DataType } from "@/common/lib/test/eventData";
 import ToggleList from "./card/ToggleList";
+import Title from "./card/Title";
 
 interface SingleCardPropsType {
   data: DataType;
@@ -22,53 +23,6 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
   isOpened,
   onToggle,
 }) => {
-  const Title: React.FC = () => {
-    const isReminder: boolean =
-      data.card === "醫療紀錄" && data.type === "醫療提醒";
-
-    return (
-      <div className="flex gap-x-4 items-center h-9">
-        {isReminder ? (
-          <Image
-            src="/test/icon-exclamation.svg"
-            width={9}
-            height={36}
-            alt="exclamation symbol"
-          />
-        ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="11"
-            height="11"
-            viewBox="0 0 6 6"
-            fill="none"
-          >
-            <circle
-              cx="3"
-              cy="3"
-              r="3"
-              fill={(() => {
-                switch (data.card) {
-                  case "日常紀錄":
-                    return "#969AFF";
-                  case "醫療紀錄":
-                    return "#FF6D80";
-                  case "重要時刻":
-                    return "#FFA959";
-                  default:
-                    return "";
-                }
-              })()}
-            />
-          </svg>
-        )}
-        <span className="text-2xl font-bold">
-          {isReminder ? data.reserve_type : data.card}
-        </span>
-      </div>
-    );
-  };
-
   const Content: React.FC = () => {
     const Reminder: React.FC = () => {
       return (
@@ -379,7 +333,7 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
     <div className="flex flex-col gap-y-6 border border-stroke rounded-[30px] px-6 py-4">
       {/* title */}
       <div className="flex justify-between items-center">
-        <Title />
+        <Title data={data} />
         {isOpened ? (
           <div className="flex gap-x-2">
             <IconEdit
