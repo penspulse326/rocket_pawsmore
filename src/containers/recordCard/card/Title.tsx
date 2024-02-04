@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
-import { DataType } from "@/common/lib/test/eventData";
 import getIconColor from "@/common/helpers/getIconColor";
+import { DataContext } from "../SingleCardLayout";
 
-const Title = ({ data }: { data: DataType }) => {
+const Title: React.FC = () => {
+  const data = useContext(DataContext);
+
+  if (!data) {
+    return;
+  }
+
   const isReminder: boolean =
     data.card === "醫療紀錄" && data.type === "醫療提醒";
 

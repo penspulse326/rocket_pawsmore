@@ -1,3 +1,4 @@
+import React, { createContext, useMemo } from "react";
 import moment from "moment";
 import Image from "next/image";
 import { IconChevronUp, IconChevronDown, IconEdit } from "@tabler/icons-react";
@@ -5,6 +6,20 @@ import { DataType } from "@/common/lib/test/eventData";
 import ToggleList from "./card/ToggleList";
 import Title from "./card/Title";
 import ShareBtn from "./card/ShareBtn";
+
+export const DataContext = createContext<DataType | undefined>(undefined);
+
+interface DataContextProviderProps {
+  children: React.ReactNode;
+  data: DataType;
+}
+
+const DataContextProvider: React.FC<DataContextProviderProps> = ({
+  children,
+  data,
+}) => {
+  return <DataContext.Provider value={data}>{children}</DataContext.Provider>;
+};
 
 interface SingleCardPropsType {
   data: DataType;
@@ -19,6 +34,8 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
   isOpened,
   onToggle,
 }) => {
+  const getData = useMemo(() => data, [data]);
+
   const Content: React.FC = () => {
     const Reminder: React.FC = () => {
       return (
@@ -296,41 +313,43 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
   };
 
   return (
-    <div className="flex flex-col gap-y-6 border border-stroke rounded-[30px] px-6 py-4">
-      {/* title */}
-      <div className="flex justify-between items-center">
-        <Title data={data} />
-        {isOpened ? (
-          <div className="flex gap-x-2">
-            <IconEdit
-              size={24}
-              color={"#203170"}
-              className="hover:cursor-pointer"
-            />
-            <IconChevronUp
+    <DataContext.Provider value={getData}>
+      <div className="flex flex-col gap-y-6 border border-stroke rounded-[30px] px-6 py-4">
+        {/* title */}
+        <div className="flex justify-between items-center">
+          <Title />
+          {isOpened ? (
+            <div className="flex gap-x-2">
+              <IconEdit
+                size={24}
+                color={"#203170"}
+                className="hover:cursor-pointer"
+              />
+              <IconChevronUp
+                size={24}
+                color={"#808080"}
+                className="hover:cursor-pointer"
+                onClick={() => onToggle(id)}
+              />
+            </div>
+          ) : (
+            <IconChevronDown
               size={24}
               color={"#808080"}
               className="hover:cursor-pointer"
               onClick={() => onToggle(id)}
             />
-          </div>
-        ) : (
-          <IconChevronDown
-            size={24}
-            color={"#808080"}
-            className="hover:cursor-pointer"
-            onClick={() => onToggle(id)}
-          />
+          )}
+        </div>
+        {/* content */}
+        {isOpened && (
+          <>
+            <Content />
+            <ShareBtn />
+          </>
         )}
       </div>
-      {/* content */}
-      {isOpened && (
-        <>
-          <Content />
-          <ShareBtn />
-        </>
-      )}
-    </div>
+    </DataContext.Provider>
   );
 };
 
