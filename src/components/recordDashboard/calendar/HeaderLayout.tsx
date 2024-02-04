@@ -18,7 +18,9 @@ const HeaderLayout = () => {
     return (
       <ul className="flex gap-x-2 text-2xl font-medium">
         <ol className="flex gap-x-1">
-          <li className="font-[Futura]">{moment(monthState).format("YYYY")}</li>
+          <li className="font-[Futura] w-[60px]">
+            {moment(monthState).format("YYYY")}
+          </li>
           <li>年</li>
         </ol>
         <ol className="flex gap-x-1">
@@ -63,7 +65,7 @@ const HeaderLayout = () => {
     };
     return (
       <div
-        className="relative flex gap-x-1 justify-between items-center w-[158px] border border-stroke px-4 py-1 rounded-[300px] hover:cursor-pointer"
+        className="relative flex gap-x-1 justify-between items-center w-[158px] border border-stroke px-4 rounded-[300px] hover:cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div>{filterEvent}</div>
@@ -104,7 +106,7 @@ const HeaderLayout = () => {
   };
   return (
     <div
-      className="flex justify-between h-[34px]"
+      className="flex justify-between max-w-[768px]"
       onBlur={() => setIsExpanded(false)}
       tabIndex={-1}
     >

@@ -30,6 +30,7 @@ export interface DataType {
   notice?: string;
   cost?: number;
   remind?: boolean;
+  id: number;
 }
 
 interface FoodType {
@@ -60,6 +61,7 @@ export const originalData: DataType[] = [
     selected: ["urine", "symptom", "deworming", "rehab"],
     remark:
       "今天帶查理去游泳復健，走路姿勢還沒完全修正好，晚上吃飯完後突然抽蓄。",
+    id: 1,
   },
   {
     card: "日常紀錄",
@@ -82,6 +84,7 @@ export const originalData: DataType[] = [
     selected: ["urine", "symptom", "deworming", "rehab"],
     remark:
       "今天帶查理去游泳復健，走路姿勢還沒完全修正好，晚上吃飯完後突然抽蓄。",
+    id: 2,
   },
   {
     card: "日常紀錄",
@@ -100,6 +103,7 @@ export const originalData: DataType[] = [
     symptom: ["抽蓄", "走路姿勢"],
     selected: ["urine", "symptom", "deworming", "rehab"],
     remark: null,
+    id: 3,
   },
   {
     card: "日常紀錄",
@@ -123,6 +127,7 @@ export const originalData: DataType[] = [
     selected: ["urine", "symptom", "deworming", "rehab"],
     remark:
       "今天帶查理去游泳復健，走路姿勢還沒完全修正好，晚上吃飯完後突然抽蓄。",
+    id: 4,
   },
   {
     card: "日常紀錄",
@@ -146,6 +151,7 @@ export const originalData: DataType[] = [
     selected: ["urine", "symptom", "deworming", "rehab"],
     remark:
       "今天帶查理去游泳復健，走路姿勢還沒完全修正好，晚上吃飯完後突然抽蓄。",
+    id: 5,
   },
   {
     card: "重要時刻",
@@ -154,6 +160,7 @@ export const originalData: DataType[] = [
     content: "撿到乳牙",
     desc: "撿到乳牙",
     photo: "/test/moment-photo.jpg",
+    id: 6,
   },
   {
     card: "重要時刻",
@@ -162,6 +169,7 @@ export const originalData: DataType[] = [
     content: "撿到乳牙",
     desc: "撿到乳牙",
     photo: "/test/moment-photo.jpg",
+    id: 7,
   },
   {
     card: "重要時刻",
@@ -170,6 +178,7 @@ export const originalData: DataType[] = [
     content: "撿到乳牙",
     desc: "撿到乳牙",
     photo: "/test/moment-photo.jpg",
+    id: 8,
   },
   {
     card: "重要時刻",
@@ -178,6 +187,7 @@ export const originalData: DataType[] = [
     content: "交到新朋友",
     desc: "交到新朋友",
     photo: "/test/moment-photo.jpg",
+    id: 9,
   },
   {
     card: "重要時刻",
@@ -186,6 +196,7 @@ export const originalData: DataType[] = [
     content: "收到「禮物」",
     desc: "收到「禮物」",
     photo: "/test/moment-photo.jpg",
+    id: 10,
   },
   {
     card: "重要時刻",
@@ -194,6 +205,7 @@ export const originalData: DataType[] = [
     content: "學會翻滾",
     desc: "學會翻滾",
     photo: "/test/moment-photo.jpg",
+    id: 11,
   },
   {
     card: "重要時刻",
@@ -202,6 +214,7 @@ export const originalData: DataType[] = [
     content: "買新衣",
     desc: "買新衣",
     photo: "/test/moment-photo.jpg",
+    id: 12,
   },
   {
     card: "重要時刻",
@@ -210,6 +223,7 @@ export const originalData: DataType[] = [
     content: "破壞王",
     desc: "破壞王",
     photo: "/test/moment-photo.jpg",
+    id: 13,
   },
   {
     card: "醫療紀錄",
@@ -218,6 +232,7 @@ export const originalData: DataType[] = [
     remind_at: "2024-01-25",
     reserve_type: "健檢",
     reserve_at: "2024-01-25",
+    id: 14,
   },
   {
     card: "醫療紀錄",
@@ -226,6 +241,7 @@ export const originalData: DataType[] = [
     remind_at: "2024-02-01",
     reserve_type: "看診",
     reserve_at: "2024-02-01",
+    id: 15,
   },
   {
     card: "醫療紀錄",
@@ -234,6 +250,7 @@ export const originalData: DataType[] = [
     remind_at: "2024-02-10",
     reserve_type: "打疫苗",
     reserve_at: "2024-02-10",
+    id: 16,
   },
   {
     card: "醫療紀錄",
@@ -242,6 +259,7 @@ export const originalData: DataType[] = [
     remind_at: "2024-01-17",
     reserve_type: "驅蟲",
     reserve_at: "2024-01-17",
+    id: 17,
   },
   {
     card: "醫療紀錄",
@@ -251,6 +269,7 @@ export const originalData: DataType[] = [
     remind_at: "2024-01-17",
     reserve_type: null,
     reserve_at: null,
+    id: 18,
   },
   {
     card: "醫療紀錄",
@@ -259,6 +278,7 @@ export const originalData: DataType[] = [
     remind_at: "2024-02-07",
     reserve_type: "回診",
     reserve_at: "2024-02-07",
+    id: 19,
   },
   {
     card: "醫療紀錄",
@@ -268,6 +288,7 @@ export const originalData: DataType[] = [
     remind_at: "2024-01-13",
     reserve_type: null,
     reserve_at: null,
+    id: 20,
   },
   {
     card: "醫療紀錄",
@@ -277,6 +298,7 @@ export const originalData: DataType[] = [
     remind_at: "2024-01-13",
     reserve_type: null,
     reserve_at: null,
+    id: 21,
   },
   {
     card: "醫療紀錄",
@@ -285,6 +307,7 @@ export const originalData: DataType[] = [
     remind_at: "2024-02-02",
     reserve_type: "回診",
     reserve_at: "2024-02-02",
+    id: 22,
   },
   {
     card: "醫療紀錄",
@@ -303,5 +326,6 @@ export const originalData: DataType[] = [
     remind_at: "2024-01-30",
     reserve_type: null,
     reserve_at: null,
+    id: 23,
   },
 ];

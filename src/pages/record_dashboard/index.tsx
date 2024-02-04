@@ -40,12 +40,12 @@ const RecordDashboard = () => {
   return (
     <DateProvider>
       <section className="inner mt-[96px] flex flex-col gap-y-[64px]">
-        <div className="flex justify-between gap-x-8">
-          <div className="flex flex-col gap-y-4 max-w-[896px] w-full">
+        <div className="flex gap-x-8">
+          <div className="flex flex-col gap-y-8 max-w-[896px] w-full">
             <CalendarLayout />
             <Upcoming />
           </div>
-          <div className="flex flex-col gap-y-8 max-w-[480px]">
+          <div className="flex flex-col gap-y-8 max-w-[480px] w-full">
             <div className="flex justify-between">
               <PetAccount />
               <DataSummaryBtn />
