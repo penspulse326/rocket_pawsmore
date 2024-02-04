@@ -1,4 +1,5 @@
 import { careCategory } from "@/common/lib/formText";
+import RadioCheck from "@/components/form/RadioCheck";
 import { DailyFormStateType } from "@/containers/recordForm/daily/DailyForm";
 
 interface PropsType {
@@ -24,26 +25,19 @@ const CareInputList: React.FC<PropsType> = ({
             <span className="mr-8 font-semibold">{TITLE}</span>
             <div className="flex items-center gap-4">
               {/* 勾選 無 */}
-              <label>
-                <input
-                  type="radio"
-                  name={NAME}
-                  defaultChecked
-                  onChange={() => handleRadioChange(NAME, false)}
-                  className="mr-1"
-                />
-                無
-              </label>
+              <RadioCheck
+                text="無"
+                name={NAME}
+                checked={!isSelected}
+                onChange={() => handleRadioChange(NAME, false)}
+              />
               {/* 勾選 有 */}
-              <label>
-                <input
-                  type="radio"
-                  name={NAME}
-                  onChange={() => handleRadioChange(NAME, true)}
-                  className="mr-1"
-                />
-                有
-              </label>
+              <RadioCheck
+                text="有"
+                name={NAME}
+                checked={isSelected}
+                onChange={() => handleRadioChange(NAME, true)}
+              />
               {isSelected && (
                 <input
                   type="text"

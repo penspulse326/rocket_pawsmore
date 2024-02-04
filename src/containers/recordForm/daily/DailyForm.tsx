@@ -71,10 +71,7 @@ const DailyForm = () => {
   };
 
   const handleSelectChange = (name: string, value: string) => {
-    setFormState((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleMultiChange = (name: string, value: boolean) => {
@@ -89,10 +86,7 @@ const DailyForm = () => {
   };
 
   const handleTextChange = (name: string, value: string) => {
-    setFormState((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -110,6 +104,8 @@ const DailyForm = () => {
                 name="weight"
                 type="number"
                 min={0}
+                value={formState.weight}
+                onChange={(e) => handleTextChange("weight", e.target.value)}
                 className="form-input mr-1 w-16"
               />
               <select name="weight_unit" className="form-input w-[72px]">
@@ -147,7 +143,9 @@ const DailyForm = () => {
         <div className="flex flex-col gap-4">
           <span className="text-note">備註</span>
           <textarea
-            name=""
+            name="remark"
+            value={formState.remark}
+            onChange={(event) => handleTextChange("remark", event.target.value)}
             placeholder="其他特殊情況或遺漏的資訊，請填寫於此。"
             className="px-4 py-3 h-24 border border-stroke rounded-[10px]"
           ></textarea>

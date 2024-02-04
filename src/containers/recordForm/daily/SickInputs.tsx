@@ -1,6 +1,8 @@
 import { sickCategory } from "@/common/lib/formText";
 import { DailyFormStateType } from "./DailyForm";
-import Select from "@/components/select/Select";
+import Select from "@/components/form/Select";
+import RadioCheck from "@/components/form/RadioCheck";
+import CheckBox from "@/components/form/CheckBox";
 
 interface SickInputsPropsType {
   formState: DailyFormStateType;
@@ -32,26 +34,19 @@ const SickInputs: React.FC<SickInputsPropsType> = ({
             <span className="mr-8 font-semibold">{TITLE}</span>
             <div className={`${containerClass} flex gap-4`}>
               {/* 勾選 無 */}
-              <label>
-                <input
-                  type="radio"
-                  name={NAME}
-                  defaultChecked
-                  onChange={() => handleRadioChange(NAME, false)}
-                  className="mr-1"
-                />
-                無
-              </label>
+              <RadioCheck
+                text="無"
+                name={NAME}
+                checked={!isSelected}
+                onChange={() => handleRadioChange(NAME, false)}
+              />
               {/* 勾選 有 */}
-              <label>
-                <input
-                  type="radio"
-                  name={NAME}
-                  onChange={() => handleRadioChange(NAME, true)}
-                  className="mr-1"
-                />
-                有
-              </label>
+              <RadioCheck
+                text="有"
+                name={NAME}
+                checked={isSelected}
+                onChange={() => handleRadioChange(NAME, true)}
+              />
               {/* 衍生選項 */}
               {isSelected && INPUT_TYPE === "select" && (
                 <Select
@@ -63,17 +58,13 @@ const SickInputs: React.FC<SickInputsPropsType> = ({
               {isSelected && INPUT_TYPE === "multi" && (
                 <div className="flex flex-wrap gap-2">
                   {OPTIONS.map(({ label, value }) => (
-                    <label key={label}>
-                      <input
-                        type="checkbox"
-                        name={value}
-                        onChange={(e) =>
-                          handleMultiChange(value, e.currentTarget.checked)
-                        }
-                        className="mr-1"
-                      />
-                      {label}
-                    </label>
+                    <CheckBox
+                      key={value}
+                      name={value}
+                      text={label}
+                      checked={formState.symptom.includes(value)}
+                      onChange={handleMultiChange}
+                    />
                   ))}
                 </div>
               )}
