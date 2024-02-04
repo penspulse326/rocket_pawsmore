@@ -48,7 +48,7 @@ const Cards: React.FC = () => {
   const sortedData = sortData();
 
   const SingleCard: React.FC<SingleCardPropsType> = ({ data }) => {
-    const [isExpanded, setIsExpanded] = useState(true);
+    const [isExpanded, setIsExpanded] = useState(false);
 
     const Title: React.FC = () => {
       const isReminder: boolean =

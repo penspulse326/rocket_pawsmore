@@ -40,19 +40,6 @@ const Upcoming = () => {
     );
   };
   const Moments = () => {
-    const eventData = originalData
-      // 篩選即將到來事件
-      .filter(
-        (event) =>
-          event.card === "重要時刻" &&
-          event.created_at &&
-          moment(event.created_at).isAfter(moment())
-      )
-      // 由日期近到遠進行排列
-      .sort((a, b) => moment(a.created_at).diff(b.created_at))
-      // 只顯示前三筆
-      .slice(0, 3);
-
     return (
       <div className="flex flex-col gap-y-2 w-1/2">
         <div className="flex gap-x-1 items-center">
@@ -76,9 +63,9 @@ const Upcoming = () => {
     );
   };
   return (
-    <section className="flex flex-col gap-y-2">
+    <section className="flex flex-col gap-y-2 max-w-[832px] w-full">
       <div className="text-note">即將到來</div>
-      <div className="flex border border-stroke rounded-[30px] p-8  min-h-[186px] h-full">
+      <div className="flex border border-stroke rounded-[30px] p-8 min-h-[184px] h-full">
         <Reminders />
         <Moments />
       </div>
