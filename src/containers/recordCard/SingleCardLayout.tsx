@@ -1,14 +1,10 @@
 import moment from "moment";
 import Image from "next/image";
-import {
-  IconChevronUp,
-  IconChevronDown,
-  IconEdit,
-  IconShare2,
-} from "@tabler/icons-react";
+import { IconChevronUp, IconChevronDown, IconEdit } from "@tabler/icons-react";
 import { DataType } from "@/common/lib/test/eventData";
 import ToggleList from "./card/ToggleList";
 import Title from "./card/Title";
+import ShareBtn from "./card/ShareBtn";
 
 interface SingleCardPropsType {
   data: DataType;
@@ -37,7 +33,7 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
               <li>{moment(data.reserve_at).format("YYYY/M/D HH:MM")}</li>
             </ol>
           </ul>
-          <Share />
+          <ShareBtn />
         </>
       );
     };
@@ -94,7 +90,7 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
               <li>{data.desc}</li>
             </ol>
           </ul>
-          <Share />
+          <ShareBtn />
         </>
       );
     };
@@ -233,7 +229,7 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
               </ul>
             )}
           </div>
-          <Share />
+          <ShareBtn />
         </>
       );
     };
@@ -299,7 +295,7 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
               )}
             </ul>
           </div>
-          <Share />
+          <ShareBtn />
         </>
       );
     };
@@ -318,15 +314,6 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
           return null;
       }
     }
-  };
-
-  const Share: React.FC = () => {
-    return (
-      <div className="flex gap-x-1 text-primary justify-center hover:cursor-pointer">
-        <IconShare2 size={24} color={"#203170"} />
-        分享到社群
-      </div>
-    );
   };
 
   return (
