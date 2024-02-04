@@ -2,13 +2,20 @@ import React, { useContext } from "react";
 import Image from "next/image";
 import { DataContext } from "../SingleCardLayout";
 
+interface MomentDataType {
+  TITLE: string;
+  content: JSX.Element | null;
+}
+
 const Moment: React.FC = () => {
   const data = useContext(DataContext);
   if (!data) {
-    return;
+    return null;
   }
-  const tagBackgroundColor = (category: string) => {
-    switch (category) {
+  const { category, content, photo, desc } = data;
+
+  const getCategoryBgcolor = (prop: string) => {
+    switch (prop) {
       case "行為表現":
         return "bg-[#F9E6FF]";
       case "驚喜":
@@ -23,40 +30,42 @@ const Moment: React.FC = () => {
         return "";
     }
   };
-  return (
-    <ul className="flex flex-col gap-y-3">
-      <ol className="flex gap-x-12">
-        <li className="font-semibold min-w-[64px]">事件分類</li>
-        <li>
-          {data.category && (
-            <span
-              className={`px-2 rounded-[30px] ${tagBackgroundColor(
-                data.category
-              )}`}
-            >
-              {data.category}
-            </span>
-          )}
+
+  const momentData: MomentDataType[] = [
+    {
+      TITLE: "事件分類",
+      content: category ? (
+        <li className={`px-2 rounded-[30px] ${getCategoryBgcolor(category)}`}>
+          {category}
         </li>
-      </ol>
-      <ol className="flex gap-x-12">
-        <li className="font-semibold min-w-[64px]">內容</li>
-        <li>{data.content}</li>
-      </ol>
-      <ol className="flex gap-x-12">
-        <li className="font-semibold min-w-[64px]">紀錄照片</li>
+      ) : null,
+    },
+    { TITLE: "內容", content: <li>{content}</li> },
+    {
+      TITLE: "紀錄照片",
+      content: (
         <Image
           className="rounded-[10px]"
-          src={data.photo!}
+          src={photo!}
           width={248}
           height={168}
           alt="moment photo"
         />
-      </ol>
-      <ol className="flex gap-x-12">
-        <li className="font-semibold min-w-[64px]">事件描述</li>
-        <li>{data.desc}</li>
-      </ol>
+      ),
+    },
+    { TITLE: "事件描述", content: <li>{desc}</li> },
+  ];
+
+  return (
+    <ul className="flex flex-col gap-y-3">
+      {momentData.map((moment, index) => {
+        return (
+          <ol key={index} className="flex gap-x-12">
+            <li className="font-semibold min-w-[64px]">{moment.TITLE}</li>
+            {moment.content}
+          </ol>
+        );
+      })}
     </ul>
   );
 };
