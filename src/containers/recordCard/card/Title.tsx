@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { DataType } from "@/common/lib/test/eventData";
+import getIconColor from "@/common/helpers/getIconColor";
 
 const Title = ({ data }: { data: DataType }) => {
   const isReminder: boolean =
@@ -23,23 +24,7 @@ const Title = ({ data }: { data: DataType }) => {
           viewBox="0 0 6 6"
           fill="none"
         >
-          <circle
-            cx="3"
-            cy="3"
-            r="3"
-            fill={(() => {
-              switch (data.card) {
-                case "日常紀錄":
-                  return "#969AFF";
-                case "醫療紀錄":
-                  return "#FF6D80";
-                case "重要時刻":
-                  return "#FFA959";
-                default:
-                  return "";
-              }
-            })()}
-          />
+          <circle cx="3" cy="3" r="3" fill={getIconColor(data.card)} />
         </svg>
       )}
       <span className="text-2xl font-bold">
