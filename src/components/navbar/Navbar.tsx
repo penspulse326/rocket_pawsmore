@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
 import { clearUserInfo } from "@/common/redux/userInfoSlice";
-import Menu from "./Menu";
+import Menu from "./BurgerMenu";
 
 const Navbar: React.FC = () => {
   const dispatch = useDispatch();
@@ -83,7 +83,7 @@ const Navbar: React.FC = () => {
               {isUserLogin ? (
                 <div
                   className={`${
-                    isMenuOpen && "shadow-[0_0px_10px_0_rgba(0,0,0,0.15)]"
+                    isMenuOpen && "shadow-custom"
                   } relative col-span-1 w-20 border border-stroke rounded-[30px] duration-300`}
                 >
                   <button

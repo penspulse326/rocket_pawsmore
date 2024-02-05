@@ -1,8 +1,8 @@
 import BtnPawk from "./BtnPawk";
-import PostCard from "./Card";
+import PostCard from "./PostCard";
 import MorePostHint from "./MorePostHint";
 
-const List: React.FC = () => {
+const PostList: React.FC = () => {
   const testArr = [1, 2, 3];
 
   return (
@@ -21,4 +21,4 @@ const List: React.FC = () => {
   );
 };
 
-export default List;
+export default PostList;

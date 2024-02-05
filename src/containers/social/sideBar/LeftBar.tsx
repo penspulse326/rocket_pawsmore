@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import PetCards from "@/containers/social/SideBar/PetCards";
-import More from "@/containers/social/SideBar/More";
+import PetCards from "@/containers/social/sideBar/PetCards";
+import MoreMenu from "@/containers/social/sideBar/MoreMenu";
 
 const userData = {
   id: "123",
@@ -11,7 +11,7 @@ const userData = {
   photoUrl: "/test/user-chichi.png",
 };
 
-const SideBarLeft: React.FC = () => {
+const LeftBar: React.FC = () => {
   const { photoUrl, username, account } = userData;
   return (
     <aside className="col-span-3 flex flex-col py-8 h-full">
@@ -35,9 +35,9 @@ const SideBarLeft: React.FC = () => {
         </div>
       </Link>
       {/* 選單 */}
-      <More />
+      <MoreMenu />
     </aside>
   );
 };
 
-export default SideBarLeft;
+export default LeftBar;
