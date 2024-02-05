@@ -8,13 +8,13 @@ import {
   IconShare2,
 } from "@tabler/icons-react";
 import { DateContext } from "@/pages/record_dashboard";
-import { originalData, DataType } from "@/common/lib/test/eventData";
+import { DataType } from "@/common/lib/test/eventData";
+import sortData from "@/common/helpers/sortData";
 
 interface ToggleListPropsType {
   title: string;
   children?: React.ReactNode;
 }
-
 const ToggleList: React.FC<ToggleListPropsType> = ({ children, title }) => {
   const [isListOpen, setIsListOpen] = useState(true);
 
@@ -36,18 +36,28 @@ const ToggleList: React.FC<ToggleListPropsType> = ({ children, title }) => {
   );
 };
 
-// single card
-
 interface SingleCardPropsType {
   data: DataType;
+  id: number;
+  isOpened: boolean;
+  onToggle: (id: number) => void;
 }
 
 const Cards: React.FC = () => {
   const { selectedDate } = useContext(DateContext);
+  const sortedData = sortData();
 
-  const SingleCard: React.FC<SingleCardPropsType> = ({ data }) => {
-    const [isExpanded, setIsExpanded] = useState(true);
+  const [openedCardId, setOpenedCardId] = useState(-1);
+  const handleToggle = (id: number) => {
+    setOpenedCardId((prevId) => (prevId === id ? -1 : id));
+  };
 
+  const SingleCard: React.FC<SingleCardPropsType> = ({
+    data,
+    id,
+    isOpened,
+    onToggle,
+  }) => {
     const Title: React.FC = () => {
       const isReminder: boolean =
         data.card === "醫療紀錄" && data.type === "醫療提醒";
@@ -406,19 +416,18 @@ const Cards: React.FC = () => {
         {/* title */}
         <div className="flex justify-between items-center">
           <Title />
-          {isExpanded ? (
+          {isOpened ? (
             <div className="flex gap-x-2">
               <IconEdit
                 size={24}
                 color={"#203170"}
                 className="hover:cursor-pointer"
-                onClick={() => console.log("edit")}
               />
               <IconChevronUp
                 size={24}
                 color={"#808080"}
                 className="hover:cursor-pointer"
-                onClick={() => setIsExpanded(!isExpanded)}
+                onClick={() => onToggle(id)}
               />
             </div>
           ) : (
@@ -426,26 +435,32 @@ const Cards: React.FC = () => {
               size={24}
               color={"#808080"}
               className="hover:cursor-pointer"
-              onClick={() => setIsExpanded(!isExpanded)}
+              onClick={() => onToggle(id)}
             />
           )}
         </div>
         {/* content */}
-        {isExpanded && <Content />}
+        {isOpened && <Content />}
       </div>
     );
   };
 
   return (
     <>
-      {originalData
+      {sortedData
         .filter(
           (data) =>
             (data.created_at === selectedDate && data.type !== "醫療提醒") ||
             data.reserve_at === selectedDate
         )
         .map((data, index) => (
-          <SingleCard key={index} data={data} />
+          <SingleCard
+            key={index}
+            data={data}
+            id={data.id}
+            isOpened={openedCardId === data.id}
+            onToggle={handleToggle}
+          />
         ))}
     </>
   );

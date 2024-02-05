@@ -34,9 +34,9 @@ const BodyLayout = () => {
   const allDates: React.ReactNode[] = [];
 
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className="flex flex-col gap-y-2 max-w-[768px]">
       {/* header: days of week */}
-      <ul className="flex gap-x-4 justify-between text-center font-['Futura'] font-medium">
+      <ul className="flex gap-x-4 items-center text-center font-['Futura'] font-medium h-10">
         {daysOfWeek.map((name, index) => {
           return (
             <li
@@ -51,7 +51,7 @@ const BodyLayout = () => {
         })}
       </ul>
       {/* body: dates of the month */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 w-full">
         {calendarArray.map((week, weekIndex) => {
           // 7 days of each weeks
           const everyWeek = week.map((date, dayIndex) => (

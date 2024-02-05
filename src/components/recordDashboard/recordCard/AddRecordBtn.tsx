@@ -50,7 +50,7 @@ const AddRecordBtn: React.FC = () => {
   };
   return (
     <div
-      className="relative flex gap-x-2 justify-center items-center border border-stroke rounded-[30px] min-w-[416px] max-w-[416px] min-h-[161px] hover:bg-secondary hover:cursor-pointer"
+      className="relative flex gap-x-2 justify-center items-center border border-stroke rounded-[30px] w-full min-h-[161px] hover:bg-secondary hover:cursor-pointer"
       onClick={() => setIsShown(!isShown)}
       onBlur={() => setIsShown(false)}
       tabIndex={-1}
