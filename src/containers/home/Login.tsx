@@ -19,7 +19,7 @@ const Login: React.FC<LoginPropsType> = ({ handleLogin }) => {
           <div className="flex flex-col gap-1">
             <h4 className="flex justify-between items-center">
               <span>Email</span>
-              <ErrorMessage>{error.email_invalid}</ErrorMessage>
+              <ErrorMessage>{error.EMAIL_INVALID}</ErrorMessage>
             </h4>
             <input
               type="text"
@@ -31,7 +31,7 @@ const Login: React.FC<LoginPropsType> = ({ handleLogin }) => {
           <div className="flex flex-col gap-1">
             <h4 className="flex justify-between items-center">
               <span>密碼</span>
-              <ErrorMessage>{error.password_invalid}</ErrorMessage>
+              <ErrorMessage>{error.PASSWORD_INVALID}</ErrorMessage>
             </h4>
             <input
               type="password"
