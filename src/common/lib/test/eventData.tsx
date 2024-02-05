@@ -5,7 +5,6 @@ export interface DataType {
   category?: string;
   content?: string | null;
   type?: string;
-  remind_at?: string;
   reserve_type?: string | null;
   reserve_at?: string | null;
   title?: string;
@@ -31,6 +30,8 @@ export interface DataType {
   cost?: number;
   remind?: boolean;
   id: number;
+  visit_type?: string;
+  related_id?: number;
 }
 
 interface FoodType {
@@ -43,7 +44,6 @@ export const originalData: DataType[] = [
     card: "日常紀錄",
     created_at: "2023-12-31",
     target_date: "2023-12-31",
-    weight: 31320,
     food: [
       { food_type: "乾糧", food_weight: 300 },
       { food_type: "濕糧", food_weight: 150 },
@@ -229,7 +229,6 @@ export const originalData: DataType[] = [
     card: "醫療紀錄",
     created_at: "2024-01-20",
     type: "醫療提醒",
-    remind_at: "2024-01-25",
     reserve_type: "健檢",
     reserve_at: "2024-01-25",
     id: 14,
@@ -238,7 +237,6 @@ export const originalData: DataType[] = [
     card: "醫療紀錄",
     created_at: "2024-01-20",
     type: "醫療提醒",
-    remind_at: "2024-02-01",
     reserve_type: "看診",
     reserve_at: "2024-02-01",
     id: 15,
@@ -247,7 +245,6 @@ export const originalData: DataType[] = [
     card: "醫療紀錄",
     created_at: "2024-01-20",
     type: "醫療提醒",
-    remind_at: "2024-02-10",
     reserve_type: "打疫苗",
     reserve_at: "2024-02-10",
     id: 16,
@@ -256,7 +253,6 @@ export const originalData: DataType[] = [
     card: "醫療紀錄",
     created_at: "2024-01-10",
     type: "醫療提醒",
-    remind_at: "2024-01-17",
     reserve_type: "驅蟲",
     reserve_at: "2024-01-17",
     id: 17,
@@ -266,7 +262,6 @@ export const originalData: DataType[] = [
     created_at: "2024-01-10",
     type: "就診紀錄",
     title: "感冒",
-    remind_at: "2024-01-17",
     reserve_type: null,
     reserve_at: null,
     id: 18,
@@ -275,7 +270,6 @@ export const originalData: DataType[] = [
     card: "醫療紀錄",
     created_at: "2024-01-10",
     type: "醫療提醒",
-    remind_at: "2024-02-07",
     reserve_type: "回診",
     reserve_at: "2024-02-07",
     id: 19,
@@ -285,7 +279,6 @@ export const originalData: DataType[] = [
     created_at: "2024-01-09",
     type: "就診紀錄",
     title: "六合一疫苗初施",
-    remind_at: "2024-01-13",
     reserve_type: null,
     reserve_at: null,
     id: 20,
@@ -295,7 +288,6 @@ export const originalData: DataType[] = [
     created_at: "2024-01-16",
     type: "就診紀錄",
     title: "回診",
-    remind_at: "2024-01-13",
     reserve_type: null,
     reserve_at: null,
     id: 21,
@@ -304,7 +296,6 @@ export const originalData: DataType[] = [
     card: "醫療紀錄",
     created_at: "2024-01-30",
     type: "醫療提醒",
-    remind_at: "2024-02-02",
     reserve_type: "回診",
     reserve_at: "2024-02-02",
     id: 22,
@@ -313,6 +304,7 @@ export const originalData: DataType[] = [
     card: "醫療紀錄",
     created_at: "2024-01-20",
     target_date: "2024-01-20",
+    visit_type: "看診",
     type: "就診紀錄",
     title: "狂犬病疫苗",
     hospital: "愛心動物醫院",
@@ -323,9 +315,9 @@ export const originalData: DataType[] = [
     cost: 1800,
     photo: "/test/medical-photo.jpg",
     remind: true,
-    remind_at: "2024-01-30",
     reserve_type: null,
-    reserve_at: null,
+    reserve_at: "2024-01-30",
     id: 23,
+    related_id: 5,
   },
 ];
