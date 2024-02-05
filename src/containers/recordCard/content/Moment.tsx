@@ -18,26 +18,26 @@ const Moment: React.FC = () => {
   const momentData: MomentDataType[] = [
     {
       TITLE: "事件分類",
-      content: category ? (
-        <li className={`px-2 rounded-[30px] ${getCategoryBgcolor(category)}`}>
+      content: (
+        <li className={`px-2 rounded-[30px] ${getCategoryBgcolor(category!)}`}>
           {category}
         </li>
-      ) : null,
+      ),
     },
     { TITLE: "內容", content: <li>{content}</li> },
     {
       TITLE: "紀錄照片",
-      content: (
+      content: photo ? (
         <Image
           className="rounded-[10px]"
-          src={photo!}
+          src={photo}
           width={248}
           height={168}
           alt="moment photo"
         />
-      ),
+      ) : null,
     },
-    { TITLE: "事件描述", content: <li>{desc}</li> },
+    { TITLE: "事件描述", content: desc ? <li>{desc}</li> : null },
   ];
 
   return (
