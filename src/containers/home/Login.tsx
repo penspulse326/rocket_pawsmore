@@ -21,25 +21,33 @@ const Login: React.FC<LoginPropsType> = ({ handleLogin }) => {
         </div>
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">
-            <h4 className="flex justify-between items-center">
+            <label
+              htmlFor="email"
+              className="flex justify-between items-center"
+            >
               <span>Email</span>
               <ErrorMessage>{errorText.EMAIL_INVALID}</ErrorMessage>
-            </h4>
+            </label>
             <input
               type="text"
+              id="email"
               name="email"
               placeholder="輸入電子郵件地址"
               className="p-3 w-full border border-stroke outline-note rounded-[10px]"
             />
           </div>
           <div className="flex flex-col gap-1">
-            <h4 className="flex justify-between items-center">
+            <label
+              htmlFor="password"
+              className="flex justify-between items-center"
+            >
               <span>密碼</span>
               <ErrorMessage>{errorText.PASSWORD_INVALID}</ErrorMessage>
-            </h4>
+            </label>
             <div className="flex items-center">
               <input
                 type={`${showPassword ? "text" : "password"}`}
+                id="password"
                 name="password"
                 placeholder="密碼"
                 className="p-3 w-full border border-stroke outline-note rounded-[10px]"
