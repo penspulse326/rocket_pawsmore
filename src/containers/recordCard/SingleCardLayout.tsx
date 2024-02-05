@@ -1,8 +1,7 @@
 import React, { createContext, useMemo } from "react";
 import moment from "moment";
-import { IconChevronUp, IconChevronDown, IconEdit } from "@tabler/icons-react";
+import { IconChevronUp, IconEdit } from "@tabler/icons-react";
 import { DataType } from "@/common/lib/test/eventData";
-import ToggleList from "./card/ToggleList";
 import Title from "./card/Title";
 import ShareBtn from "./card/ShareBtn";
 import Moment from "./content/Moment";
@@ -76,28 +75,24 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
         {/* title */}
         <div className="flex justify-between items-center">
           <Title />
-          {isOpened ? (
-            <div className="flex gap-x-2">
+          {/* icons */}
+          <div className="flex gap-x-2">
+            {isOpened && (
               <IconEdit
                 size={24}
                 color={"#203170"}
                 className="hover:cursor-pointer"
               />
-              <IconChevronUp
-                size={24}
-                color={"#808080"}
-                className="hover:cursor-pointer"
-                onClick={() => onToggle(id)}
-              />
-            </div>
-          ) : (
-            <IconChevronDown
+            )}
+            <IconChevronUp
               size={24}
               color={"#808080"}
-              className="hover:cursor-pointer"
+              className={`${
+                !isOpened && "rotate-180"
+              } duration-300 hover:cursor-pointer`}
               onClick={() => onToggle(id)}
             />
-          )}
+          </div>
         </div>
         {/* content */}
         {isOpened && (
