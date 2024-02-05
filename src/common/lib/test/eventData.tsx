@@ -44,7 +44,6 @@ export const originalData: DataType[] = [
     card: "日常紀錄",
     created_at: "2023-12-31",
     target_date: "2023-12-31",
-    weight: 31320,
     food: [
       { food_type: "乾糧", food_weight: 300 },
       { food_type: "濕糧", food_weight: 150 },

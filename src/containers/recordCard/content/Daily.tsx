@@ -2,21 +2,91 @@ import React, { useContext } from "react";
 import ToggleList from "../card/ToggleList";
 import { DataContext } from "../SingleCardLayout";
 
+interface DailyDataType {
+  TITLE: string;
+  content: JSX.Element | null;
+}
+
 const Daily: React.FC = () => {
   const data = useContext(DataContext);
   if (!data) {
     return null;
   }
 
+  const {
+    weight,
+    food,
+    water,
+    urine,
+    stool,
+    vomit,
+    symptom,
+    deworming,
+    medicine,
+    injection,
+    rehab,
+    remark,
+  } = data;
+
+  const Routine = () => {
+    const routineData: DailyDataType[] = [
+      {
+        TITLE: "體重",
+        content: weight ? (
+          <>
+            <li>{weight}</li>
+            <li>(unit)</li>
+          </>
+        ) : null,
+      },
+      {
+        TITLE: "飲水量",
+        content: water ? (
+          <>
+            <li>{water}</li>
+            <li>ml</li>
+          </>
+        ) : null,
+      },
+      {
+        TITLE: "進食量",
+        content: food ? (
+          <div className="flex flex-col">
+            {food.map((item, index) => {
+              return (
+                <ul key={index} className="flex gap-x-1">
+                  <li>{item.food_type}</li>
+                  <li>{item.food_weight}</li>
+                  <li>g</li>
+                </ul>
+              );
+            })}
+          </div>
+        ) : null,
+      },
+    ];
+    return (
+      <ToggleList title={"一般"}>
+        <div className="flex flex-col gap-y-2">
+          {routineData
+            .filter((data) => data.content)
+            .map((item, index) => {
+              return (
+                <ul key={index} className="flex gap-x-4">
+                  <li className="font-semibold min-w-12">{item.TITLE}</li>
+                  <ol className="flex gap-x-1">{item.content}</ol>
+                </ul>
+              );
+            })}
+        </div>
+      </ToggleList>
+    );
+  };
+
   const hasRoutineRecord: boolean =
     data.weight !== undefined ||
     data.food !== undefined ||
     data.water !== undefined;
-
-  const routineRecord: DataArrayType[] = [
-    { title: "體重", content: data.weight },
-    { title: "飲水量", content: data.water },
-  ];
 
   const isAbnormal: boolean =
     data.urine !== undefined ||
@@ -51,43 +121,7 @@ const Daily: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-y-4">
-      {/* routine record */}
-      {hasRoutineRecord && (
-        <ToggleList title={"一般"}>
-          <div className="flex flex-col gap-y-2">
-            {routineRecord
-              .filter((item) => item.content)
-              .map((item, index) => {
-                return (
-                  <ul key={index} className="flex gap-x-4">
-                    <li className="font-semibold min-w-12">{item.title}</li>
-                    <ol className="flex gap-x-1">
-                      <li>{item.content} </li>
-                      <li>{item.title === "飲水量" ? "ml" : "kg"}</li>
-                    </ol>
-                  </ul>
-                );
-              })}
-            {/* food intakes */}
-            {data.food && (
-              <div className="flex gap-x-4">
-                <div className="font-semibold min-w-12">進食量</div>
-                <div className="flex flex-col">
-                  {data.food.map((item, index) => {
-                    return (
-                      <ul key={index} className="flex gap-x-1">
-                        <li>{item.food_type}</li>
-                        <li>{item.food_weight}</li>
-                        <li>g</li>
-                      </ul>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
-        </ToggleList>
-      )}
+      {hasRoutineRecord && <Routine />}
       {/* the abnormals */}
       {isAbnormal && (
         <ToggleList title={"異常"}>
@@ -127,10 +161,10 @@ const Daily: React.FC = () => {
         </ToggleList>
       )}
       {/* note */}
-      {data.remark && (
+      {remark && (
         <ul className="flex flex-col gap-y-2">
           <li className="text-note">備註</li>
-          <li>{data.remark}</li>
+          <li>{remark}</li>
         </ul>
       )}
     </div>
