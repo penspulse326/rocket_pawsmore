@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { UserInfoType } from "@/types";
+import { apiSignUp } from "../base";
 
 interface responseType {
   message: string;
@@ -17,28 +18,39 @@ export default async function handler(
     Password: password,
   };
 
-  try {
-    const response = await fetch("http://4.224.41.94/api/petregister", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  res.status(200).json({
+    message: "註冊成功",
+    user: {
+      id: "123",
+      username: "琪琪",
+      account: "chichi1992126",
+      photoUrl: "/test/user-chichi.png",
+      introduction: "這是一個測試用的介紹",
+    },
+  });
 
-    const result = await response.json();
+  // try {
+  //   const response = await fetch(apiSignUp, {
+  //     method: "POST",
+  //     body: JSON.stringify(data),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
 
-    res.status(200).json({
-      message: result,
-      user: {
-        id: "123",
-        username: "琪琪",
-        account: "chichi1992126",
-        photoUrl: "/test/user-chichi.png",
-        introduction: "這是一個測試用的介紹",
-      },
-    });
-  } catch (error) {
-    res.status(401).json({ message: "註冊失敗" });
-  }
+  //   const result = await response.json();
+
+  //   res.status(200).json({
+  //     message: result,
+  //     user: {
+  //       id: "123",
+  //       username: "琪琪",
+  //       account: "chichi1992126",
+  //       photoUrl: "/test/user-chichi.png",
+  //       introduction: "這是一個測試用的介紹",
+  //     },
+  //   });
+  // } catch (error) {
+  //   res.status(401).json({ message: "註冊失敗" });
+  // }
 }
