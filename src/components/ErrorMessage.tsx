@@ -1,7 +1,7 @@
 import { IconAlertCircle } from "@tabler/icons-react";
 
 interface ErrorMessagePropsType {
-  children: string;
+  children: React.ReactNode;
 }
 
 const ErrorMessage: React.FC<ErrorMessagePropsType> = ({ children }) => {

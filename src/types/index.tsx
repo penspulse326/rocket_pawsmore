@@ -1,4 +1,18 @@
-interface UserInfoType {
+export interface FormFieldType {
+  value: string;
+  message?: string;
+  required?: boolean;
+  validate?: (...args: any[]) => boolean;
+}
+
+export interface FormValidateType {
+  isValid: boolean;
+  fields: {
+    [key: string]: FormFieldType;
+  };
+}
+
+export interface UserInfoType {
   id: string;
   username: string;
   account: string;
@@ -6,7 +20,7 @@ interface UserInfoType {
   introduction: string;
 }
 
-interface PostDataType {
+export interface PostDataType {
   created_at: string;
   content: string;
   media_type: string;
@@ -15,11 +29,9 @@ interface PostDataType {
   extra: {};
 }
 
-interface CommentDataType {
+export interface CommentDataType {
   photoUrl: string;
   username: string;
   content: string;
   time: string;
 }
-
-export type { UserInfoType, CommentDataType, PostDataType };

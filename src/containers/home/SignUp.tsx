@@ -1,36 +1,21 @@
-import { emailValidate, passwordValidate } from "@/common/helpers/formValidate";
-import { errorText } from "@/common/lib/messageText";
-import ErrorMessage from "@/components/ErrorMessage";
 import Link from "next/link";
 import { useRef } from "react";
 
-export interface errorType {
-  email: string;
-  password: string;
-  checkPassword: string;
-}
+import { FormFieldType, FormValidateType } from "@/types";
+
+import { emailValidate, passwordValidate } from "@/common/helpers/formValidate";
+import { errorText } from "@/common/lib/messageText";
+import ErrorMessage from "@/components/ErrorMessage";
 
 interface SignUpPropsType {
-  error: errorType;
-  onChange: (errorType: string, errorMessage: string) => void;
+  data: Record<string, FormFieldType>;
   onSubmit: (e: React.FormEvent) => void;
 }
 
 const SignUp: React.FC<SignUpPropsType> = ({
-  error,
-  onChange: handleErrorChange,
-  onSubmit: handleSignUp,
+  data,
+  onSubmit: handleSubmit,
 }) => {
-  const emailRef = useRef<HTMLInputElement>(null);
-  const pwdRef = useRef<HTMLInputElement>(null);
-  const checkPwdRef = useRef<HTMLInputElement>(null);
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    handleSignUp(event);
-  };
-
   return (
     <div className="col-span-5 col-start-8 flex flex-col justify-center pr-12">
       <section className="flex flex-col justify-center gap-8 p-8 border border-stroke rounded-[30px]">
@@ -42,12 +27,11 @@ const SignUp: React.FC<SignUpPropsType> = ({
           <div className="flex flex-col gap-1">
             <h4 className="flex justify-between items-center">
               <span>Email</span>
-              <ErrorMessage>{error.email}</ErrorMessage>
+              <ErrorMessage>{data.email.message}</ErrorMessage>
             </h4>
             <input
               type="text"
               name="email"
-              ref={emailRef}
               placeholder="輸入電子郵件地址"
               className="p-3 w-full border border-stroke outline-note rounded-[10px] "
             />
@@ -55,12 +39,11 @@ const SignUp: React.FC<SignUpPropsType> = ({
           <div className="flex flex-col gap-1">
             <h4 className="flex justify-between items-center">
               <span>密碼</span>
-              <ErrorMessage>{error.password}</ErrorMessage>
+              <ErrorMessage>{data.password.message}</ErrorMessage>
             </h4>
             <input
               type="password"
               name="password"
-              ref={pwdRef}
               placeholder="輸入8字符以上英數字密碼"
               className="p-3 w-full border border-stroke outline-note rounded-[10px] "
             />
@@ -68,12 +51,11 @@ const SignUp: React.FC<SignUpPropsType> = ({
           <div className="flex flex-col gap-1">
             <h4 className="flex justify-between items-center">
               <span>確認密碼</span>
-              <ErrorMessage>{error.checkPassword}</ErrorMessage>
+              <ErrorMessage>{data.checkPassword.message}</ErrorMessage>
             </h4>
             <input
               type="password"
               name="checkPassword"
-              ref={checkPwdRef}
               placeholder="再次輸入密碼"
               className="p-3 w-full border border-stroke outline-note rounded-[10px] "
             />
