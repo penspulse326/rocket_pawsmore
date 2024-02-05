@@ -11,8 +11,6 @@ import HomeLayout from "@/containers/home/HomeLayout";
 import SignUp from "@/containers/home/SignUp";
 import Loading from "@/components/Loading";
 
-import { errorText } from "@/common/lib/messageText";
-
 export interface errorType {
   email: string;
   password: string;
@@ -30,30 +28,14 @@ const SignUpPage: NextPageWithLayout = () => {
     checkPassword: "",
   });
 
-  console.log(error);
+  const handleErrorChange = (errorType: string, errorMessage: string) => {
+    setError(() => ({ ...error, [errorType]: errorMessage }));
+  };
 
   const handleSignUp = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const { email, password, checkPassword } = event.target as HTMLFormElement;
-
-    // 檢查必填
-    if (!email.value || !password.value) {
-      setError({
-        ...error,
-        email: !email.value ? errorText.REQUIRED : "",
-        password: !password.value ? errorText.REQUIRED : "",
-      });
-      return;
-    }
-    // 檢查密碼是否相同
-    if (password.value !== checkPassword.value) {
-      setError({
-        ...error,
-        checkPassword: errorText.PASSWORD_NOT_MATCH,
-      });
-      return;
-    }
+    const { email, password } = event.target as HTMLFormElement;
 
     const data = {
       email: email.value,
@@ -70,6 +52,8 @@ const SignUpPage: NextPageWithLayout = () => {
 
       const result = await response.json();
 
+      console.log(result);
+
       switch (response.status) {
         case 200: {
           dispatch(setUserInfo(result.user));
@@ -79,6 +63,9 @@ const SignUpPage: NextPageWithLayout = () => {
         case 401: {
           setError({ ...error, email: result.message });
           break;
+        }
+        case 409: {
+          setError({ ...error, email: result.message });
         }
         default:
           break;
@@ -91,7 +78,11 @@ const SignUpPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <SignUp onSubmit={handleSignUp} error={error} />
+      <SignUp
+        onChange={handleErrorChange}
+        onSubmit={handleSignUp}
+        error={error}
+      />
       {isLoading && <Loading />}
     </>
   );
