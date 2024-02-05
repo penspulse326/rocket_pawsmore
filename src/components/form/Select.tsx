@@ -49,7 +49,7 @@ const Select: React.FC<SelectProps> = ({
           <li
             key={label}
             onClick={() => handleSelectChange(value)}
-            style={{ background: value === selected ? "#C5E5FF" : "" }}
+            style={{ background: value === selected ? "#C5E5FF" : "white" }}
             className="px-2 py-1 rounded-[10px] hover:bg-secondary"
           >
             {label}

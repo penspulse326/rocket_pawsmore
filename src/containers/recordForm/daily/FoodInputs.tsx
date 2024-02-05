@@ -3,50 +3,49 @@ import { useEffect, useState } from "react";
 
 import { foodCategory } from "@/common/lib/formText";
 import ErrorMessage from "@/components/ErrorMessage";
+import Select from "@/components/form/Select";
 
 interface FoodType {
-  type: "乾食" | "濕食" | "鮮食" | "點心" | "";
-  amount: string;
+  type: string;
+  amount: number;
 }
 
 const initialFood: FoodType = {
   type: "乾食",
-  amount: "",
+  amount: 0,
 };
 
-const FoodInputList: React.FC = () => {
-  const [list, setList] = useState<FoodType[]>([initialFood]);
+interface FoodInputsType {
+  list: FoodType[];
+  onChange: (value: FoodType[]) => void;
+}
+
+const FoodInputs: React.FC<FoodInputsType> = ({
+  list,
+  onChange: handleFoodChange,
+}) => {
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    if (list.length < 5) {
-      setIsError(false);
-    }
+    if (list.length < 5) setIsError(false);
   }, [list]);
 
-  const handleValueChange = (
-    event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
-    index: number
-  ) => {
-    const eventType = event.currentTarget.tagName;
+  const handleSelectChange = (index: number, value: string) => {
     let newData = list[index];
+    newData = { ...newData, type: value };
 
-    switch (eventType) {
-      case "SELECT":
-        const type = event.currentTarget.value as FoodType["type"];
-        newData = { ...newData, type };
-        break;
-      case "INPUT":
-        const amount = event.currentTarget.value;
-        newData = { ...newData, amount };
-        break;
-      default:
-        break;
-    }
+    const newList = [...list].splice(index, 1, newData);
+    handleFoodChange(newList);
+  };
 
-    const newList = [...list];
-    newList.splice(index, 1, newData);
-    setList(newList);
+  const handleValueChange = (index: number, value: string) => {
+    const amount = parseInt(value);
+
+    let newData = list[index];
+    newData = { ...newData, amount };
+
+    const newList = [...list].splice(index, 1, newData);
+    handleFoodChange(newList);
   };
 
   const handleAdd = () => {
@@ -54,11 +53,11 @@ const FoodInputList: React.FC = () => {
       setIsError(true);
       return;
     }
-    setList([...list, initialFood]);
+    handleFoodChange([...list, initialFood]);
   };
 
   const handleDelete = (index: number) => {
-    setList(list.filter((_, i) => i !== index));
+    handleFoodChange(list.filter((_, i) => i !== index));
   };
 
   return (
@@ -66,25 +65,17 @@ const FoodInputList: React.FC = () => {
       {list.map((food: FoodType, index) => (
         <li key={food.type + index} className="flex items-center">
           {/* 類型篩選 */}
-          <select
-            name="food"
-            value={food.type}
-            onChange={(e) => handleValueChange(e, index)}
-            className="mr-1 px-2 py-1 w-[72px] border border-stroke outline-note rounded-[10px]"
-          >
-            <option disabled>類型</option>
-            {foodCategory.map((category) => (
-              <option key={category + index} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-          {/* 數量 */}
+          <Select
+            title="類型"
+            options={foodCategory}
+            onChange={(value: string) => handleSelectChange(index, value)}
+          />
+          {/* 重量 */}
           <input
             type="text"
             name="amount"
             value={food.amount}
-            onChange={(e) => handleValueChange(e, index)}
+            onChange={(e) => handleValueChange(index, e.target.value)}
             className="mr-1 px-2 py-1 w-16 border border-stroke outline-note rounded-[10px]"
           />
           {/* 按鈕 */}
@@ -114,4 +105,4 @@ const FoodInputList: React.FC = () => {
   );
 };
 
-export default FoodInputList;
+export default FoodInputs;

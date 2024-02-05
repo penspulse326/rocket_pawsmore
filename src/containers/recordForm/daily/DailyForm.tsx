@@ -5,9 +5,11 @@ import ToggleGroup from "@/components/ToggleGroup";
 import FoodInputs from "./FoodInputs";
 import CareInputs from "./CareInputs";
 import SickInputs from "./SickInputs";
+import Select from "@/components/form/Select";
+import { unitCategory } from "@/common/lib/formText";
 
 interface FoodType {
-  type: "乾食" | "濕食" | "鮮食" | "點心" | "";
+  type: string;
   amount: number;
 }
 
@@ -15,7 +17,7 @@ export interface DailyFormStateType {
   weight: number;
   weight_unit: "kg" | "lb";
   water: number;
-  foods: FoodType[];
+  food: FoodType[];
   urine: string;
   stool: string;
   vomit: string;
@@ -32,7 +34,7 @@ const initailState: DailyFormStateType = {
   weight: 0,
   weight_unit: "kg",
   water: 0,
-  foods: [
+  food: [
     {
       type: "乾食",
       amount: 0,
@@ -54,6 +56,10 @@ const DailyForm = () => {
   const [formState, setFormState] = useState(initailState);
 
   console.log(formState);
+
+  const handleFoodChange = (value: FoodType[]) => {
+    setFormState((prev) => ({ ...prev, food: value }));
+  };
 
   const handleRadioChange = (name: string, value: boolean) => {
     const selected = [...formState.selected];
@@ -98,7 +104,7 @@ const DailyForm = () => {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <ToggleGroup title="一般">
           <ul className="flex flex-col gap-4 mt-2">
-            <li>
+            <li className="flex items-center">
               <span className="mr-8 font-semibold">體重</span>
               <input
                 name="weight"
@@ -108,20 +114,29 @@ const DailyForm = () => {
                 onChange={(e) => handleTextChange("weight", e.target.value)}
                 className="form-input mr-1 w-16"
               />
-              <select name="weight_unit" className="form-input w-[72px]">
-                <option disabled>單位</option>
-                <option value="kg">kg</option>
-                <option value="g">g</option>
-              </select>
+              <Select
+                title="單位"
+                options={unitCategory}
+                onChange={(e) => handleSelectChange("weight_unit", e)}
+              />
             </li>
             <li>
               <span className="mr-4 font-semibold">飲水量</span>
-              <input type="number" min={0} className="form-input mr-1 w-16" />
+              <input
+                type="number"
+                min={0}
+                value={formState.water}
+                onChange={(e) => handleTextChange("water", e.target.value)}
+                className="form-input mr-1 w-16"
+              />
               <span>ml</span>
             </li>
             <li className="flex">
               <span className="mr-8 my-1 font-semibold">進食</span>
-              <FoodInputs />
+              <FoodInputs
+                list={formState.food}
+                onChange={(value: FoodType[]) => handleFoodChange(value)}
+              />
             </li>
           </ul>
         </ToggleGroup>

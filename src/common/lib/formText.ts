@@ -16,7 +16,16 @@ export const recordCard = {
   },
 };
 
-export const foodCategory = ["乾食", "濕食", "鮮食", "點心"];
+export const unitCategory = [
+  { label: "kg", value: "kg" },
+  { label: "g", value: "g" },
+];
+
+export const foodCategory = [
+  { label: "乾食", value: "乾食" },
+  { label: "濕食", value: "濕食" },
+  { label: "點心", value: "點心" },
+];
 
 export const careCategory = {
   deworming: { TITLE: "驅蟲", PLACEHOLDER: "請輸入藥品名稱" },
