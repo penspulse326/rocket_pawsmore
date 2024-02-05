@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import ErrorMessage from "@/components/ErrorMessage";
-import { error } from "@/common/lib/messageText";
+import { errorText } from "@/common/lib/messageText";
 
 interface LoginPropsType {
   handleLogin: (e: React.FormEvent) => void;
@@ -19,7 +19,7 @@ const Login: React.FC<LoginPropsType> = ({ handleLogin }) => {
           <div className="flex flex-col gap-1">
             <h4 className="flex justify-between items-center">
               <span>Email</span>
-              <ErrorMessage>{error.email_invalid}</ErrorMessage>
+              <ErrorMessage>{errorText.EMAIL_INVALID}</ErrorMessage>
             </h4>
             <input
               type="text"
@@ -31,7 +31,7 @@ const Login: React.FC<LoginPropsType> = ({ handleLogin }) => {
           <div className="flex flex-col gap-1">
             <h4 className="flex justify-between items-center">
               <span>密碼</span>
-              <ErrorMessage>{error.password_invalid}</ErrorMessage>
+              <ErrorMessage>{errorText.PASSWORD_INVALID}</ErrorMessage>
             </h4>
             <input
               type="password"

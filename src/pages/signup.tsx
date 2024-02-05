@@ -11,16 +11,32 @@ import HomeLayout from "@/containers/home/HomeLayout";
 import SignUp from "@/containers/home/SignUp";
 import Loading from "@/components/Loading";
 
+export interface errorType {
+  email: string;
+  password: string;
+  checkPassword: string;
+}
+
 const SignUpPage: NextPageWithLayout = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<errorType>({
+    email: "",
+    password: "",
+    checkPassword: "",
+  });
+
+  const handleErrorChange = (errorType: string, errorMessage: string) => {
+    setError(() => ({ ...error, [errorType]: errorMessage }));
+  };
 
   const handleSignUp = async (event: React.FormEvent) => {
     event.preventDefault();
 
     const { email, password } = event.target as HTMLFormElement;
+
     const data = {
       email: email.value,
       password: password.value,
@@ -34,24 +50,39 @@ const SignUpPage: NextPageWithLayout = () => {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
-        throw new Error("註冊失敗");
-      }
       const result = await response.json();
 
-      dispatch(setUserInfo(result.user));
-      setIsLoading(false);
-      alert("註冊成功");
-      router.push("/social");
+      console.log(result);
+
+      switch (response.status) {
+        case 200: {
+          dispatch(setUserInfo(result.user));
+          router.push("/social"); // 這邊等個人資料 api 完成再改重新導向的流程
+          break;
+        }
+        case 401: {
+          setError({ ...error, email: result.message });
+          break;
+        }
+        case 409: {
+          setError({ ...error, email: result.message });
+        }
+        default:
+          break;
+      }
     } catch (error) {
-      setIsLoading(false);
-      alert("註冊失敗");
+      alert("伺服器錯誤，請稍後再試");
     }
+    setIsLoading(false);
   };
 
   return (
     <>
-      <SignUp handleSignUp={handleSignUp} />
+      <SignUp
+        onChange={handleErrorChange}
+        onSubmit={handleSignUp}
+        error={error}
+      />
       {isLoading && <Loading />}
     </>
   );

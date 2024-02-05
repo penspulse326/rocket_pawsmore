@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { UserInfoType } from "@/types";
+import { emailValidate } from "@/common/helpers/formValidate";
+import { apiSignUp } from "../base";
 
 interface responseType {
   message: string;
@@ -11,14 +13,10 @@ export default async function handler(
   res: NextApiResponse<responseType>
 ) {
   const { email, password } = JSON.parse(req.body);
-
-  const data = {
-    UserName: email,
-    Password: password,
-  };
+  const data = { email, password };
 
   try {
-    const response = await fetch("http://4.224.41.94/api/petregister", {
+    const response = await fetch(apiSignUp, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -28,8 +26,14 @@ export default async function handler(
 
     const result = await response.json();
 
+    if (result.status === "Error") {
+      const { statusCode, message } = result;
+      res.status(statusCode).json({ message });
+      return;
+    }
+
     res.status(200).json({
-      message: result,
+      message: result.message,
       user: {
         id: "123",
         username: "琪琪",
@@ -39,6 +43,6 @@ export default async function handler(
       },
     });
   } catch (error) {
-    res.status(401).json({ message: "註冊失敗" });
+    res.status(500).json({ message: "未知的錯誤" });
   }
 }
