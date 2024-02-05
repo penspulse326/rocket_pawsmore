@@ -11,16 +11,50 @@ import HomeLayout from "@/containers/home/HomeLayout";
 import SignUp from "@/containers/home/SignUp";
 import Loading from "@/components/Loading";
 
+import { errorText } from "@/common/lib/messageText";
+
+export interface errorType {
+  email: string;
+  password: string;
+  checkPassword: string;
+}
+
 const SignUpPage: NextPageWithLayout = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<errorType>({
+    email: "",
+    password: "",
+    checkPassword: "",
+  });
+
+  console.log(error);
 
   const handleSignUp = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const { email, password } = event.target as HTMLFormElement;
+    const { email, password, checkPassword } = event.target as HTMLFormElement;
+
+    // 檢查必填
+    if (!email.value || !password.value) {
+      setError({
+        ...error,
+        email: !email.value ? errorText.REQUIRED : "",
+        password: !password.value ? errorText.REQUIRED : "",
+      });
+      return;
+    }
+    // 檢查密碼是否相同
+    if (password.value !== checkPassword.value) {
+      setError({
+        ...error,
+        checkPassword: errorText.PASSWORD_NOT_MATCH,
+      });
+      return;
+    }
+
     const data = {
       email: email.value,
       password: password.value,
@@ -34,24 +68,30 @@ const SignUpPage: NextPageWithLayout = () => {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
-        throw new Error("註冊失敗");
-      }
       const result = await response.json();
 
-      dispatch(setUserInfo(result.user));
-      setIsLoading(false);
-      alert("註冊成功");
-      router.push("/social");
+      switch (response.status) {
+        case 200: {
+          dispatch(setUserInfo(result.user));
+          router.push("/social"); // 這邊等個人資料 api 完成再改重新導向的流程
+          break;
+        }
+        case 401: {
+          setError({ ...error, email: result.message });
+          break;
+        }
+        default:
+          break;
+      }
     } catch (error) {
-      setIsLoading(false);
-      alert("註冊失敗");
+      alert("伺服器錯誤，請稍後再試");
     }
+    setIsLoading(false);
   };
 
   return (
     <>
-      <SignUp handleSignUp={handleSignUp} />
+      <SignUp onSubmit={handleSignUp} error={error} />
       {isLoading && <Loading />}
     </>
   );

@@ -1,9 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { UserInfoType } from "@/types";
+import { emailValidate } from "@/common/helpers/formValidate";
 import { apiSignUp } from "../base";
 
 interface responseType {
   message: string;
+  errorType?: string;
   user?: UserInfoType;
 }
 
@@ -13,10 +15,21 @@ export default async function handler(
 ) {
   const { email, password } = JSON.parse(req.body);
 
-  const data = {
-    UserName: email,
-    Password: password,
-  };
+  // 驗證 email 格式
+  if (!emailValidate(email)) {
+    res.status(401).json({
+      message: "email 格式錯誤",
+      errorType: "email",
+    });
+  }
+
+  // 驗證密碼格式
+  if (password.length < 6) {
+    res.status(401).json({
+      message: "密碼格式錯誤",
+      errorType: "password",
+    });
+  }
 
   res.status(200).json({
     message: "註冊成功",

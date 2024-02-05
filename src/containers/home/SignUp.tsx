@@ -1,12 +1,21 @@
-import { error } from "@/common/lib/messageText";
 import ErrorMessage from "@/components/ErrorMessage";
 import Link from "next/link";
 
-interface SignUpPropsType {
-  handleSignUp: (e: React.FormEvent) => void;
+export interface errorType {
+  email: string;
+  password: string;
+  checkPassword: string;
 }
 
-const SignUp: React.FC<SignUpPropsType> = ({ handleSignUp }) => {
+interface SignUpPropsType {
+  error: errorType;
+  onSubmit: (e: React.FormEvent) => void;
+}
+
+const SignUp: React.FC<SignUpPropsType> = ({
+  error,
+  onSubmit: handleSignUp,
+}) => {
   return (
     <div className="col-span-5 col-start-8 flex flex-col justify-center pr-12">
       <section className="flex flex-col justify-center gap-8 p-8 border border-stroke rounded-[30px]">
@@ -18,7 +27,7 @@ const SignUp: React.FC<SignUpPropsType> = ({ handleSignUp }) => {
           <div className="flex flex-col gap-1">
             <h4 className="flex justify-between items-center">
               <span>Email</span>
-              <ErrorMessage>{error.email_invalid}</ErrorMessage>
+              <ErrorMessage>{error.email}</ErrorMessage>
             </h4>
             <input
               type="text"
@@ -30,7 +39,7 @@ const SignUp: React.FC<SignUpPropsType> = ({ handleSignUp }) => {
           <div className="flex flex-col gap-1">
             <h4 className="flex justify-between items-center">
               <span>密碼</span>
-              <ErrorMessage>{error.password_invalid}</ErrorMessage>
+              <ErrorMessage>{error.password}</ErrorMessage>
             </h4>
             <input
               type="password"
@@ -42,11 +51,11 @@ const SignUp: React.FC<SignUpPropsType> = ({ handleSignUp }) => {
           <div className="flex flex-col gap-1">
             <h4 className="flex justify-between items-center">
               <span>確認密碼</span>
-              <ErrorMessage>{error.password_not_match}</ErrorMessage>
+              <ErrorMessage>{error.checkPassword}</ErrorMessage>
             </h4>
             <input
               type="password"
-              name="check_password"
+              name="checkPassword"
               placeholder="再次輸入密碼"
               className="p-3 w-full border border-stroke outline-note rounded-[10px] "
             />
