@@ -1,4 +1,7 @@
+import { useState } from "react";
 import Link from "next/link";
+
+import { IconEye, IconEyeClosed } from "@tabler/icons-react";
 
 import ErrorMessage from "@/components/ErrorMessage";
 import { errorText } from "@/common/lib/messageText";
@@ -8,6 +11,7 @@ interface LoginPropsType {
 }
 
 const Login: React.FC<LoginPropsType> = ({ handleLogin }) => {
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="col-span-5 col-start-8 flex flex-col justify-center pr-12">
       <section className="flex flex-col justify-center gap-8 p-8 border border-stroke rounded-[30px]">
@@ -25,7 +29,7 @@ const Login: React.FC<LoginPropsType> = ({ handleLogin }) => {
               type="text"
               name="email"
               placeholder="輸入電子郵件地址"
-              className="p-3 w-full border border-stroke outline-note rounded-[10px] "
+              className="p-3 w-full border border-stroke outline-note rounded-[10px]"
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -33,12 +37,29 @@ const Login: React.FC<LoginPropsType> = ({ handleLogin }) => {
               <span>密碼</span>
               <ErrorMessage>{errorText.PASSWORD_INVALID}</ErrorMessage>
             </h4>
-            <input
-              type="password"
-              name="password"
-              placeholder="密碼"
-              className="p-3 w-full border border-stroke outline-note rounded-[10px] "
-            />
+            <div className="flex items-center">
+              <input
+                type={`${showPassword ? "text" : "password"}`}
+                name="password"
+                placeholder="密碼"
+                className="p-3 w-full border border-stroke outline-note rounded-[10px]"
+              />
+              {showPassword ? (
+                <IconEye
+                  size={24}
+                  color={"#808080"}
+                  className="-ml-10 hover:cursor-pointer"
+                  onClick={() => setShowPassword(false)}
+                />
+              ) : (
+                <IconEyeClosed
+                  size={24}
+                  color={"#808080"}
+                  className="-ml-10 hover:cursor-pointer"
+                  onClick={() => setShowPassword(true)}
+                />
+              )}
+            </div>
             <Link href="#" className="self-end text-primary">
               忘記密碼？
             </Link>
