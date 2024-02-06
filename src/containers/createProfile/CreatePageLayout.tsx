@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import CreatePhase from "./CreatePhase";
 
 const CreatePageLayout: React.FC<{ children: React.ReactNode }> = ({
@@ -5,9 +6,11 @@ const CreatePageLayout: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   return (
     <section className="outer px-8">
-      <div className="inner pt-16">
+      <div className="inner flex flex-col items-center pt-16">
         <CreatePhase />
+        {children}
       </div>
+      <Footer />
     </section>
   );
 };
