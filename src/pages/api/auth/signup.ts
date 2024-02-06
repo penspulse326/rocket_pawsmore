@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { UserInfoType } from "@/types";
-import { emailValidate } from "@/common/helpers/formValidate";
 import { apiSignUp } from "../base";
 
 interface responseType {
