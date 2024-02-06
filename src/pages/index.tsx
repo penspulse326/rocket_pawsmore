@@ -22,13 +22,13 @@ export default function Home() {
       <Link href="/test/daily" className="underline">
         日常卡片測試
       </Link>
-      <Link href="/member/create_profile" className="underline">
+      <Link href="/member/new/create_profile" className="underline">
         建立個人檔案
       </Link>
-      <Link href="/member/create_pet" className="underline">
+      <Link href="/member/new/create_pet" className="underline">
         建立寵物檔案
       </Link>
-      <Link href="/member/select_topic  " className="underline">
+      <Link href="/member/new/select_topic  " className="underline">
         選擇主題
       </Link>
     </main>

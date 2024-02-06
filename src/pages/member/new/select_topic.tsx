@@ -1,10 +1,10 @@
 import type { ReactElement } from "react";
-import type { NextPageWithLayout } from "../_app";
+import type { NextPageWithLayout } from "../../_app";
 import CreatePageLayout from "@/containers/createProfile/CreatePageLayout";
-import PetForm from "@/containers/createProfile/PetForm";
+import SelectTopic from "@/containers/createProfile/SelectTopic";
 
 const CreateProfilePage: NextPageWithLayout = () => {
-  return <PetForm />;
+  return <SelectTopic />;
 };
 
 CreateProfilePage.getLayout = function getLayout(page: ReactElement) {
