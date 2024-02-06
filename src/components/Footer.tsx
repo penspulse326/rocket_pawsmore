@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer: React.FC = () => {
   return (
-    <section className="my-8 text-note">
+    <footer className="my-8 text-note">
       <ul className="flex flex-col gap-y-4">
         <ol className="flex justify-center gap-x-4">
           <li>常見問答</li>
@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
           {` 14th`}
         </li>
       </ul>
-    </section>
+    </footer>
   );
 };
 

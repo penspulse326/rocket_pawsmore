@@ -5,12 +5,12 @@ import { DataType } from "@/common/lib/test/eventData";
 import { CategoryContext } from "../CalendarLayout";
 import { MonthContext } from "../CalendarLayout";
 import sortData from "@/common/helpers/sortData";
+import getIconColor from "@/common/helpers/getIconColor";
 
 const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
   const { monthState } = useContext(MonthContext);
   const { filterEvent } = useContext(CategoryContext);
 
-  const today = moment();
   const selectedMonth = moment(monthState);
 
   const isCurrentMonth = (prop: string) => {
@@ -43,18 +43,7 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
         return null;
     }
   };
-  const iconFillColor = (prop: string) => {
-    switch (prop) {
-      case "日常紀錄":
-        return "#969AFF";
-      case "重要時刻":
-        return "#FFA959";
-      case "醫療紀錄":
-        return "#FF6D80";
-      default:
-        return "";
-    }
-  };
+
   const filteredEvents = eventData.filter(
     (event) =>
       (event.type !== "醫療提醒" &&
@@ -95,7 +84,7 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
                 viewBox="0 0 6 6"
                 fill="none"
               >
-                <circle cx="3" cy="3" r="3" fill={iconFillColor(event.card)} />
+                <circle cx="3" cy="3" r="3" fill={getIconColor(event.card)} />
               </svg>
             )}
             {eventTitle(event) && eventTitle(event)!.length > 5 ? (

@@ -22,6 +22,9 @@ export default function Home() {
       <Link href="/test/daily" className="underline">
         日常卡片測試
       </Link>
+      <Link href="/member/create_profile" className="underline">
+        建立個人檔案
+      </Link>
     </main>
   );
 }
