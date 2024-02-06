@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 
-import ErrorMessage from "@/components/ErrorMessage";
 import { errorText } from "@/common/lib/messageText";
 import Input from "@/components/form/Input";
 
