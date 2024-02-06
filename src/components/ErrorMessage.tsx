@@ -7,7 +7,7 @@ interface ErrorMessagePropsType {
 const ErrorMessage: React.FC<ErrorMessagePropsType> = ({ children }) => {
   return (
     <span className="flex items-center gap-1 text-error">
-      {children !== "" && <IconAlertCircle />}
+      {children && <IconAlertCircle />}
       {children}
     </span>
   );

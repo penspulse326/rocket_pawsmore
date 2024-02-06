@@ -1,21 +1,31 @@
 import Link from "next/link";
-import { useRef } from "react";
+import { useForm } from "react-hook-form";
 
-import { FormFieldType, FormValidateType } from "@/types";
-
-import { emailValidate, passwordValidate } from "@/common/helpers/formValidate";
-import { errorText } from "@/common/lib/messageText";
 import ErrorMessage from "@/components/ErrorMessage";
+import { errorText } from "@/common/lib/messageText";
 
 interface SignUpPropsType {
-  data: Record<string, FormFieldType>;
-  onSubmit: (e: React.FormEvent) => void;
+  onSubmit: (data: any) => void;
 }
 
-const SignUp: React.FC<SignUpPropsType> = ({
-  data,
-  onSubmit: handleSubmit,
-}) => {
+interface FormInputType {
+  email: string;
+  password: string;
+  checkPassword: string;
+}
+
+const SignUp: React.FC<SignUpPropsType> = ({ onSubmit: handleSignUp }) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<FormInputType>();
+
+  const password = watch("password");
+
+  const onSubmit = (data: any) => handleSignUp(data);
+
   return (
     <div className="col-span-5 col-start-8 flex flex-col justify-center pr-12">
       <section className="flex flex-col justify-center gap-8 p-8 border border-stroke rounded-[30px]">
@@ -23,13 +33,22 @@ const SignUp: React.FC<SignUpPropsType> = ({
           <h2 className="text-[32px]">註冊</h2>
           <h3 className="text-note">一同開啟與毛孩相伴的精彩冒險！</h3>
         </div>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">
             <h4 className="flex justify-between items-center">
               <span>Email</span>
-              <ErrorMessage>{data.email.message}</ErrorMessage>
+              {errors.email && (
+                <ErrorMessage>{errors.email?.message}</ErrorMessage>
+              )}
             </h4>
             <input
+              {...register("email", {
+                required: errorText.REQUIRED,
+                pattern: {
+                  value: /\S+@\S+\.\S+/,
+                  message: errorText.EMAIL_INVALID,
+                },
+              })}
               type="text"
               name="email"
               placeholder="輸入電子郵件地址"
@@ -39,9 +58,16 @@ const SignUp: React.FC<SignUpPropsType> = ({
           <div className="flex flex-col gap-1">
             <h4 className="flex justify-between items-center">
               <span>密碼</span>
-              <ErrorMessage>{data.password.message}</ErrorMessage>
+              <ErrorMessage>{errors.password?.message}</ErrorMessage>
             </h4>
             <input
+              {...register("password", {
+                required: errorText.REQUIRED,
+                pattern: {
+                  value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                  message: errorText.PASSWORD_INVALID,
+                },
+              })}
               type="password"
               name="password"
               placeholder="輸入8字符以上英數字密碼"
@@ -51,9 +77,14 @@ const SignUp: React.FC<SignUpPropsType> = ({
           <div className="flex flex-col gap-1">
             <h4 className="flex justify-between items-center">
               <span>確認密碼</span>
-              <ErrorMessage>{data.checkPassword.message}</ErrorMessage>
+              <ErrorMessage>{errors.checkPassword?.message}</ErrorMessage>
             </h4>
             <input
+              {...register("checkPassword", {
+                required: errorText.REQUIRED,
+                validate: (value) =>
+                  value === password || errorText.PASSWORD_NOT_MATCH,
+              })}
               type="password"
               name="checkPassword"
               placeholder="再次輸入密碼"
