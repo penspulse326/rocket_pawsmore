@@ -17,7 +17,7 @@ const MemberForm = () => {
             {/* 上傳照片 */}
             <div>
               <h4>個人照片</h4>
-              <label className="flex flex-col items-center gap-2 mt-4 cursor-pointer">
+              <label className="flex flex-col items-center gap-4 mt-4 cursor-pointer">
                 <Image
                   src="/images/default-photo.png"
                   alt="member-photo"
@@ -45,7 +45,7 @@ const MemberForm = () => {
                   type="text"
                   name="account"
                   placeholder="設定您的用戶帳號，以英數字組成"
-                  className="p-3 w-full border border-stroke outline-note rounded-[10px] "
+                  className="px-4 py-3 w-full border border-stroke outline-note rounded-[10px] "
                 />
               </div>
               <div className="flex flex-col gap-1">
@@ -59,7 +59,7 @@ const MemberForm = () => {
                   type="text"
                   name="username"
                   placeholder="在個人檔案上顯示您的名稱"
-                  className="p-3 w-full border border-stroke outline-note rounded-[10px] "
+                  className="px-4 py-3 w-full border border-stroke outline-note rounded-[10px] "
                 />
               </div>
               <div className="flex flex-col gap-1">
@@ -71,7 +71,7 @@ const MemberForm = () => {
                 <textarea
                   name="introduction"
                   placeholder="輸入個人簡介"
-                  className="p-3 w-full h-12 border border-stroke outline-note rounded-[10px] "
+                  className="px-4 py-3 w-full h-12 border border-stroke outline-note rounded-[10px] "
                 />
               </div>
               <div className="flex flex-col gap-1">
@@ -82,14 +82,14 @@ const MemberForm = () => {
                   type="text"
                   name="link"
                   placeholder="新增外部連結"
-                  className="p-3 w-full h-12 border border-stroke outline-note rounded-[10px] "
+                  className="px-4 py-3 w-full h-12 border border-stroke outline-note rounded-[10px] "
                 />
               </div>
             </div>
           </div>
           <button
             type="submit"
-            className="py-2 mt-12 w-full rounded-full bg-primary text-white"
+            className="py-2 mt-12 w-full rounded-full bg-primary text-xl text-white font-semibold"
           >
             建立個人資料
           </button>

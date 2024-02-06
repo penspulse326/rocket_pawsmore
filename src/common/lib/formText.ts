@@ -1,3 +1,8 @@
+export const profile = {
+  REQUIRED: "必填",
+  ACCOUNT_EXIST: "此帳號已被使用",
+};
+
 export const recordCard = {
   daily: {
     TITLE: "新增日常紀錄",
