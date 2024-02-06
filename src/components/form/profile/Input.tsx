@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import ErrorMessage from "../ErrorMessage";
+import ErrorMessage from "../../ErrorMessage";
 
 // apply react-hook-form
 interface InputPropsType {
@@ -7,7 +7,7 @@ interface InputPropsType {
   title: string;
   placeholder: string;
   message?: string;
-  onChange?: (...event: any[]) => void;
+  onChange?: () => void;
   onBlur?: () => void;
 }
 

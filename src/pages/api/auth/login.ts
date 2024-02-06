@@ -34,7 +34,7 @@ export default async function handler(
         id: "123",
         username: "琪琪",
         account: "chichi1992126",
-        photoUrl: "/test/user-chichi.png",
+        headShot: "/test/user-chichi.png",
         introduction: "這是一個測試用的介紹",
       },
     });

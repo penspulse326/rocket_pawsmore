@@ -5,7 +5,7 @@ import ToggleGroup from "@/components/ToggleGroup";
 import FoodInputs from "./FoodInputs";
 import CareInputs from "./CareInputs";
 import SickInputs from "./SickInputs";
-import Select from "@/components/form/Select";
+import Select from "@/components/form/card/Select";
 import { unitCategory } from "@/common/lib/formText";
 
 interface FoodType {

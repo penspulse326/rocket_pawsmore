@@ -1,10 +1,15 @@
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "../../_app";
 import CreatePageLayout from "@/containers/createProfile/CreatePageLayout";
-import MemberForm from "@/containers/createProfile/MemberForm";
+import MemberForm, {
+  FormInputType,
+} from "@/containers/createProfile/MemberForm";
 
 const CreateProfilePage: NextPageWithLayout = () => {
-  return <MemberForm />;
+  const handleCreateProfile = (data: FormInputType) => {
+    console.log(data);
+  };
+  return <MemberForm onSubmit={handleCreateProfile} />;
 };
 
 CreateProfilePage.getLayout = function getLayout(page: ReactElement) {

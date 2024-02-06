@@ -1,8 +1,41 @@
-import ErrorMessage from "@/components/ErrorMessage";
 import { IconPhoto } from "@tabler/icons-react";
 import Image from "next/image";
+import { Controller, useForm } from "react-hook-form";
 
-const MemberForm = () => {
+import Input from "@/components/form/profile/Input";
+import { errorText } from "@/common/lib/messageText";
+
+interface MemberFormPropsType {
+  onSubmit: (data: FormInputType) => void;
+}
+
+export interface FormInputType {
+  account: string;
+  name: string;
+  headShot?: File;
+  introduction?: string;
+  link?: string;
+}
+
+const MemberForm: React.FC<MemberFormPropsType> = ({
+  onSubmit: handleCreateProfile,
+}) => {
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FormInputType>({
+    defaultValues: {
+      account: "",
+      name: "",
+      headShot: undefined,
+      introduction: "",
+      link: "",
+    },
+  });
+
+  const onSubmit = (data: FormInputType) => handleCreateProfile(data);
+
   return (
     <section className="flex flex-col gap-4 my-16 max-w-[728px] w-full">
       <div>
@@ -12,7 +45,7 @@ const MemberForm = () => {
         </h3>
       </div>
       <section className="p-8 border border-stroke rounded-[30px]">
-        <form action="#">
+        <form action="#" onSubmit={handleSubmit(onSubmit)}>
           <div className="flex gap-12 w-full">
             {/* 上傳照片 */}
             <div>
@@ -32,36 +65,37 @@ const MemberForm = () => {
                 </span>
               </label>
             </div>
-            {/* 其他欄位 */}
+
             <div className="flex-grow flex flex-col gap-4">
-              <div className="flex flex-col gap-1">
-                <h4 className="flex justify-between items-center">
-                  <span>
-                    用戶帳號<span className="text-error">*</span>
-                  </span>
-                  <ErrorMessage>此帳號已被使用</ErrorMessage>
-                </h4>
-                <input
-                  type="text"
-                  name="account"
-                  placeholder="設定您的用戶帳號，以英數字組成"
-                  className="px-4 py-3 w-full border border-stroke outline-note rounded-[10px] "
-                />
-              </div>
-              <div className="flex flex-col gap-1">
-                <h4 className="flex justify-between items-center">
-                  <span>
-                    用戶名稱<span className="text-error">*</span>
-                  </span>
-                  <ErrorMessage>用戶名稱不得為空</ErrorMessage>
-                </h4>
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="在個人檔案上顯示您的名稱"
-                  className="px-4 py-3 w-full border border-stroke outline-note rounded-[10px] "
-                />
-              </div>
+              {/* 用戶帳號 */}
+              <Controller
+                name="account"
+                control={control}
+                rules={{ required: errorText.REQUIRED }}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    title="用戶帳號"
+                    placeholder="設定您的用戶帳號，以英數字組成"
+                    message={errors.account?.message}
+                  />
+                )}
+              />
+              {/* 用戶名稱 */}
+              <Controller
+                name="name"
+                control={control}
+                rules={{ required: errorText.REQUIRED }}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    title="用戶名稱"
+                    placeholder="在個人檔案上顯示您的名稱"
+                    message={errors.name?.message}
+                  />
+                )}
+              />
+              {/* 個人簡介 */}
               <div className="flex flex-col gap-1">
                 <h4 className="flex justify-between items-center">
                   <span>
@@ -74,17 +108,14 @@ const MemberForm = () => {
                   className="px-4 py-3 w-full h-12 border border-stroke outline-note rounded-[10px] "
                 />
               </div>
-              <div className="flex flex-col gap-1">
-                <h4 className="flex justify-between items-center">
-                  <span>連結</span>
-                </h4>
-                <input
-                  type="text"
-                  name="link"
-                  placeholder="新增外部連結"
-                  className="px-4 py-3 w-full h-12 border border-stroke outline-note rounded-[10px] "
-                />
-              </div>
+              {/* 外部連結 */}
+              <Controller
+                name="link"
+                control={control}
+                render={({ field }) => (
+                  <Input {...field} title="連結" placeholder="新增外部連結" />
+                )}
+              />
             </div>
           </div>
           <button
