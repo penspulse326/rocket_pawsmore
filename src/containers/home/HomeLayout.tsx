@@ -32,9 +32,7 @@ const HomeLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
         {children}
       </section>
     </div>
-    <footer>
-      <Footer />
-    </footer>
+    <Footer />
   </section>
 );
 
