@@ -6,4 +6,5 @@ export const errorText = {
   PASSWORD_INVALID: "密碼格式錯誤",
   PASSWORD_NOT_MATCH: "密碼不相同",
   REQUIRED: "必填",
+  ACCOUNT_EXIST: "此帳號已被使用",
 };

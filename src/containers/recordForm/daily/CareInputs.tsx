@@ -1,5 +1,5 @@
 import { careCategory } from "@/common/lib/formText";
-import RadioCheck from "@/components/form/RadioCheck";
+import RadioCheck from "@/components/form/card/RadioCheck";
 import { DailyFormStateType } from "@/containers/recordForm/daily/DailyForm";
 
 interface PropsType {

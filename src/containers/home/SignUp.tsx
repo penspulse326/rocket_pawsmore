@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 
 import { errorText } from "@/common/lib/messageText";
-import Input from "@/components/form/Input";
+import Input from "@/components/form/profile/TextInput";
 
 interface SignUpPropsType {
   onSubmit: (data: any) => void;
@@ -16,7 +16,6 @@ interface FormInputType {
 
 const SignUp: React.FC<SignUpPropsType> = ({ onSubmit: handleSignUp }) => {
   const {
-    register,
     handleSubmit,
     control,
     watch,

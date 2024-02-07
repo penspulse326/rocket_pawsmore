@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import ErrorMessage from "../ErrorMessage";
+import ErrorMessage from "../../ErrorMessage";
 
 // apply react-hook-form
 interface InputPropsType {
@@ -7,12 +7,12 @@ interface InputPropsType {
   title: string;
   placeholder: string;
   message?: string;
-  onChange?: (...event: any[]) => void;
+  onChange?: () => void;
   onBlur?: () => void;
 }
 
 const Input = forwardRef<HTMLInputElement, InputPropsType>(
-  ({ name, title, placeholder, message, onChange }, ref) => {
+  ({ name, title, placeholder, message, onChange, onBlur }, ref) => {
     const borderStyle = message ? { border: "1px solid #F23030" } : {};
 
     return (
@@ -26,6 +26,7 @@ const Input = forwardRef<HTMLInputElement, InputPropsType>(
           name={name}
           placeholder={placeholder}
           onChange={onChange}
+          onBlur={onBlur}
           ref={ref}
           style={borderStyle}
           className="p-3 w-full outline-0 border border-stroke rounded-[10px] focus:border-note"
