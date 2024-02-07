@@ -132,7 +132,9 @@ const Medical: React.FC = () => {
         .map((item, index) => {
           return (
             <ol key={index} className="flex gap-x-6 items-center">
-              <li className="font-semibold min-w-[96px]">{item.TITLE}</li>
+              <li className="font-semibold min-w-[96px] self-start">
+                {item.TITLE}
+              </li>
               {item.content}
             </ol>
           );
