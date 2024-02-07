@@ -12,15 +12,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const requestBody = JSON.parse(req.body);
+  const requestBody = req.body;
 
   try {
     const response = await fetch(apiLogin, {
       method: "POST",
-      body: JSON.stringify(requestBody),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      body: requestBody,
+      headers: { "Content-Type": "application/json" },
     });
 
     const result = await response.json();

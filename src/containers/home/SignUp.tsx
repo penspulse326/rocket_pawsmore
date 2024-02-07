@@ -4,29 +4,47 @@ import { Controller, useForm } from "react-hook-form";
 import { errorText } from "@/common/lib/messageText";
 import TextInput from "@/components/form/profile/TextInput";
 import PasswordInpput from "@/components/form/profile/PasswordInput";
+import { LoginFormType, SignUpFormType } from "@/types";
+import { useEffect } from "react";
 
 interface SignUpPropsType {
-  onSubmit: (data: any) => void;
+  onSubmit: (data: LoginFormType) => void;
+  statusCode: number;
 }
 
-interface FormInputType {
-  email: string;
-  password: string;
-  checkPassword: string;
-}
-
-const SignUp: React.FC<SignUpPropsType> = ({ onSubmit: handleSignUp }) => {
+const SignUp: React.FC<SignUpPropsType> = ({
+  onSubmit: handleSignUp,
+  statusCode,
+}) => {
   const {
     handleSubmit,
     control,
     watch,
+    setError,
+    clearErrors,
     formState: { errors },
-  } = useForm<FormInputType>();
+  } = useForm<SignUpFormType>();
 
-  const password = watch("password");
+  const watchedPassword = watch("password");
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  useEffect(() => {
+    switch (statusCode) {
+      case 409:
+        setError("email", { message: errorText.EMAIL_USED });
+        break;
+      case 500:
+        setError("email", { message: errorText.UNKNOWN_ERROR });
+        break;
+      default:
+        break;
+    }
+  }, [statusCode]);
+
+  const onSubmit = (data: SignUpFormType) => {
+    const { email, password } = data;
+    const formData = { email, password }; // 註冊不用傳 checkPassword
+
+    handleSignUp(formData);
   };
 
   return (
@@ -43,7 +61,7 @@ const SignUp: React.FC<SignUpPropsType> = ({ onSubmit: handleSignUp }) => {
             rules={{
               required: errorText.REQUIRED,
               pattern: {
-                value: /\S+@\S+\.\S+/,
+                value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/,
                 message: errorText.EMAIL_INVALID,
               },
             }}
@@ -70,7 +88,7 @@ const SignUp: React.FC<SignUpPropsType> = ({ onSubmit: handleSignUp }) => {
               <PasswordInpput
                 {...field}
                 title="密碼"
-                placeholder="輸入8個字以上英數字"
+                placeholder="輸入6個字以上英數字"
                 message={errors.password?.message}
               />
             )}
@@ -81,7 +99,7 @@ const SignUp: React.FC<SignUpPropsType> = ({ onSubmit: handleSignUp }) => {
             rules={{
               required: errorText.REQUIRED,
               validate: (value) =>
-                value === password || errorText.PASSWORD_NOT_MATCH,
+                value === watchedPassword || errorText.PASSWORD_NOT_MATCH,
             }}
             render={({ field }) => (
               <PasswordInpput
