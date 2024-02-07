@@ -17,7 +17,6 @@ export interface UserInfoType {
   username: string;
   account: string;
   photoUrl: string;
-  introduction: string;
 }
 
 export interface PostDataType {

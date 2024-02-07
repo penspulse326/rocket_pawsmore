@@ -1,9 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { UserInfoType } from "@/types";
+import { apiLogin } from "../base";
 
 interface responseType {
   message: string;
   user?: UserInfoType;
+  statusCode?: number;
 }
 
 export default async function handler(
@@ -13,12 +15,12 @@ export default async function handler(
   const { email, password } = JSON.parse(req.body);
 
   const data = {
-    UserName: email,
+    Email: email,
     Password: password,
   };
 
   try {
-    const response = await fetch("http://4.224.41.94/api/petlogin/general", {
+    const response = await fetch(apiLogin, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -28,17 +30,25 @@ export default async function handler(
 
     const result = await response.json();
 
-    res.status(200).json({
-      message: result,
-      user: {
-        id: "123",
-        username: "琪琪",
-        account: "chichi1992126",
-        photoUrl: "/test/user-chichi.png",
-        introduction: "這是一個測試用的介紹",
-      },
-    });
+    switch (result.statusCode) {
+      case 200:
+        res.status(200).json({
+          message: result.message,
+          user: {
+            id: result.data.userId,
+            username: result.data.username || "琪琪",
+            account: result.data.account || "chichi1992126",
+            photoUrl: result.data.headShot || "/test/user-chichi.png",
+          },
+        });
+        break;
+      default:
+        res
+          .status(result.statusCode)
+          .json({ message: result.message, statusCode: result.statusCode });
+        break;
+    }
   } catch (error) {
-    res.status(401).json({ message: "登入失敗" });
+    res.status(500).json({ message: "伺服器錯誤" });
   }
 }
