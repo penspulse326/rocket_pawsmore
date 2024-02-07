@@ -39,7 +39,6 @@ export default async function handler(
         username: "琪琪",
         account: "chichi1992126",
         photoUrl: "/test/user-chichi.png",
-        introduction: "這是一個測試用的介紹",
       },
     });
   } catch (error) {
