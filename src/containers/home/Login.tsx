@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import Link from "next/link";
 
 import { IconEye, IconEyeClosed } from "@tabler/icons-react";
@@ -8,10 +8,11 @@ import { errorText } from "@/common/lib/messageText";
 
 interface LoginPropsType {
   handleLogin: (e: React.FormEvent) => void;
+  statusCode: number;
 }
 type VerifyEmailType = () => JSX.Element | null;
 
-const Login: React.FC<LoginPropsType> = ({ handleLogin }) => {
+const Login: React.FC<LoginPropsType> = ({ handleLogin, statusCode }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -28,6 +29,14 @@ const Login: React.FC<LoginPropsType> = ({ handleLogin }) => {
         return <ErrorMessage>{errorText.REQUIRED}</ErrorMessage>;
       } else if (!isEmailValid) {
         return <ErrorMessage>{errorText.EMAIL_INVALID}</ErrorMessage>;
+      }
+    }
+    if (isFormValid) {
+      switch (statusCode) {
+        case 400:
+          return <ErrorMessage>{errorText.EMAIL_NOT_EXIST}</ErrorMessage>;
+        case 402:
+          return <ErrorMessage>{errorText.LOGIN_FAILED}</ErrorMessage>;
       }
     }
     return null;
@@ -62,7 +71,9 @@ const Login: React.FC<LoginPropsType> = ({ handleLogin }) => {
               placeholder="輸入電子郵件地址"
               className={`p-3 w-full border ${
                 (isFormChanged && !isEmailValid) ||
-                (isFormChanged && email === "")
+                (isFormChanged && email === "") ||
+                statusCode === 400 ||
+                statusCode === 402
                   ? "border-error outline-error"
                   : "border-stroke"
               } outline-note rounded-[10px]`}
@@ -77,6 +88,9 @@ const Login: React.FC<LoginPropsType> = ({ handleLogin }) => {
               {isFormChanged && password === "" && (
                 <ErrorMessage>{errorText.REQUIRED}</ErrorMessage>
               )}
+              {statusCode === 402 && isFormValid && (
+                <ErrorMessage>{errorText.LOGIN_FAILED}</ErrorMessage>
+              )}
             </label>
             <div className="flex items-center">
               <input
@@ -87,7 +101,7 @@ const Login: React.FC<LoginPropsType> = ({ handleLogin }) => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="密碼"
                 className={`p-3 w-full border ${
-                  isFormChanged && password === ""
+                  (isFormChanged && password === "") || statusCode === 402
                     ? "border-error outline-error"
                     : "border-stroke"
                 } outline-note rounded-[10px]`}

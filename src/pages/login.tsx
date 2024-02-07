@@ -16,6 +16,7 @@ const LoginPage: NextPageWithLayout = () => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [statusCode, setStatusCode] = useState(NaN);
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -34,24 +35,25 @@ const LoginPage: NextPageWithLayout = () => {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
-        throw new Error("登入失敗");
-      }
       const result = await response.json();
 
-      dispatch(setUserInfo(result.user));
-      setIsLoading(false);
-      alert("登入成功");
-      router.push("/social");
+      if (response.ok) {
+        setStatusCode(200);
+        dispatch(setUserInfo(result.user));
+        setIsLoading(false);
+        router.push("/social");
+      } else {
+        setStatusCode(result.statusCode);
+        setIsLoading(false);
+      }
     } catch (error) {
       setIsLoading(false);
-      alert("登入失敗");
     }
   };
 
   return (
     <>
-      <Login handleLogin={handleLogin} />
+      <Login handleLogin={handleLogin} statusCode={statusCode} />
       {isLoading && <Loading />}
     </>
   );
