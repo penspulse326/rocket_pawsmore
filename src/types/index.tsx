@@ -10,10 +10,11 @@ export interface SignUpFormType {
 }
 
 export interface UserInfoType {
-  id: string;
+  userId: string;
   username: string;
   account: string;
-  photoUrl: string;
+  headShot: string;
+  token: string;
 }
 
 export interface PostDataType {

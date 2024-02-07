@@ -25,7 +25,6 @@ const PasswordInpput = forwardRef<HTMLInputElement, InputPropsType>(
           {message && <ErrorMessage>{message}</ErrorMessage>}
         </h4>
         <div
-          tabIndex={0}
           style={borderStyle}
           className="flex p-3 w-full outline-0 border border-stroke rounded-[10px] focus:border-note"
         >

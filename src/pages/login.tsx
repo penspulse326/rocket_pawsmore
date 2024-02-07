@@ -1,17 +1,15 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, ReactElement } from "react";
 
-import { useDispatch } from "react-redux";
-import { setUserInfo } from "@/common/redux/userInfoSlice";
-
-import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "../pages/_app";
+import { LoginFormType } from "@/types";
 
 import HomeLayout from "@/containers/home/HomeLayout";
 import Login from "@/containers/home/Login";
 import Loading from "@/components/Loading";
 
-import { LoginFormType } from "@/types";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "@/common/redux/userInfoSlice";
 
 const LoginPage: NextPageWithLayout = () => {
   const dispatch = useDispatch();
@@ -32,12 +30,8 @@ const LoginPage: NextPageWithLayout = () => {
       const result = await response.json();
 
       if (response.ok) {
-        console.log("登入成功");
-        const { data } = result;
-        // dispatch(setUserInfo(data));
-        // router.push("/social");
+        dispatch(setUserInfo(result.data));
       } else {
-        console.log("登入失敗");
         setStatusCode(response.status);
       }
     } catch (error) {

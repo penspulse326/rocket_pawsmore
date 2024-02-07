@@ -25,7 +25,6 @@ export default async function handler(
 
     const result = await response.json();
     const { statusCode, message } = result;
-    console.log(result);
 
     switch (statusCode) {
       case 200:
