@@ -12,8 +12,8 @@ import { useDispatch } from "react-redux";
 import { setUserInfo } from "@/common/redux/userInfoSlice";
 
 const LoginPage: NextPageWithLayout = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
   const [statusCode, setStatusCode] = useState(0);
@@ -31,6 +31,7 @@ const LoginPage: NextPageWithLayout = () => {
 
       if (response.ok) {
         dispatch(setUserInfo(result.data));
+        router.push("/social");
       } else {
         setStatusCode(response.status);
       }
