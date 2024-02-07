@@ -2,8 +2,7 @@ export interface UserInfoType {
   id: string;
   username: string;
   account: string;
-  headShot: string;
-  introduction: string;
+  photoUrl: string;
 }
 
 export interface PostDataType {
