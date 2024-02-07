@@ -316,7 +316,8 @@ export const originalData: DataType[] = [
     photo: "/test/medical-photo.jpg",
     remind: true,
     reserve_type: null,
-    reserve_at: "2024-01-30",
+    // reserve_at: "2024-01-30",
+    // 回診提醒的卡片渲染邏輯需要再另外處理
     id: 23,
     related_id: 5,
   },
