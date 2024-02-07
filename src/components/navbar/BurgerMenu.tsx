@@ -11,7 +11,6 @@ const Menu: React.FC<MenuPropsType> = ({
   userId,
   handleLogout,
 }) => {
-  console.log(isMenuOpen);
   return (
     <ul
       className={`${
