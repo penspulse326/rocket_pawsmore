@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 
 import { errorText } from "@/common/lib/messageText";
-import Input from "@/components/form/profile/Input";
+import Input from "@/components/form/profile/TextInput";
 
 interface SignUpPropsType {
   onSubmit: (data: any) => void;

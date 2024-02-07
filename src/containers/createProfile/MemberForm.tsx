@@ -1,9 +1,10 @@
-import { IconPhoto } from "@tabler/icons-react";
-import Image from "next/image";
 import { Controller, useForm } from "react-hook-form";
 
-import Input from "@/components/form/profile/Input";
+import TextInput from "@/components/form/profile/TextInput";
 import { errorText } from "@/common/lib/messageText";
+import UploadPhoto from "@/components/form/profile/UploadPhoto";
+
+const MAX_FILE_SIZE = 1024 * 1024;
 
 interface MemberFormPropsType {
   onSubmit: (data: FormInputType) => void;
@@ -23,6 +24,7 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
   const {
     handleSubmit,
     control,
+    watch,
     formState: { errors },
   } = useForm<FormInputType>({
     defaultValues: {
@@ -34,7 +36,11 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
     },
   });
 
-  const onSubmit = (data: FormInputType) => handleCreateProfile(data);
+  console.log(errors);
+
+  const onSubmit = (data: FormInputType) => {
+    console.log(data);
+  };
 
   return (
     <section className="flex flex-col gap-4 my-16 max-w-[728px] w-full">
@@ -48,24 +54,25 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
         <form action="#" onSubmit={handleSubmit(onSubmit)}>
           <div className="flex gap-12 w-full">
             {/* 上傳照片 */}
-            <div>
-              <h4>個人照片</h4>
-              <label className="flex flex-col items-center gap-4 mt-4 cursor-pointer">
-                <Image
-                  src="/images/default-photo.png"
-                  alt="member-photo"
-                  width={200}
-                  height={200}
-                  className="mx-12 max-w-[172px] max-h-[172px] rounded-full"
+            <Controller
+              name="headShot"
+              control={control}
+              rules={{
+                validate: (file) =>
+                  !file ||
+                  !(file instanceof FileList) ||
+                  file.length === 0 ||
+                  file[0].size <= MAX_FILE_SIZE ||
+                  "圖片大小不能超過 1MB",
+              }}
+              render={({ field }) => (
+                <UploadPhoto
+                  {...field}
+                  title="個人照片"
+                  message={errors.headShot?.message}
                 />
-                <input type="file" name="photo" className="hidden" />
-                <span className="flex items-center gap-2 text-primary">
-                  <IconPhoto className="stroke-primary" />
-                  上傳照片
-                </span>
-              </label>
-            </div>
-
+              )}
+            />
             <div className="flex-grow flex flex-col gap-4">
               {/* 用戶帳號 */}
               <Controller
@@ -73,7 +80,7 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
                 control={control}
                 rules={{ required: errorText.REQUIRED }}
                 render={({ field }) => (
-                  <Input
+                  <TextInput
                     {...field}
                     title="用戶帳號"
                     placeholder="設定您的用戶帳號，以英數字組成"
@@ -87,7 +94,7 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
                 control={control}
                 rules={{ required: errorText.REQUIRED }}
                 render={({ field }) => (
-                  <Input
+                  <TextInput
                     {...field}
                     title="用戶名稱"
                     placeholder="在個人檔案上顯示您的名稱"
@@ -113,7 +120,11 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
                 name="link"
                 control={control}
                 render={({ field }) => (
-                  <Input {...field} title="連結" placeholder="新增外部連結" />
+                  <TextInput
+                    {...field}
+                    title="連結"
+                    placeholder="新增外部連結"
+                  />
                 )}
               />
             </div>
