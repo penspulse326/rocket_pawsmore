@@ -31,6 +31,9 @@ export default function Home() {
       <Link href="/member/new/select_topic  " className="underline">
         選擇主題
       </Link>
+      <Link href="user_dashboard" className="underline">
+        使用者後台
+      </Link>
     </main>
   );
 }
