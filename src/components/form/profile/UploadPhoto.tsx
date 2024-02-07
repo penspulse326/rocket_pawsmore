@@ -1,19 +1,23 @@
 import React, { forwardRef, useEffect, useState } from "react";
+import Image from "next/image";
+import { IconPhoto } from "@tabler/icons-react";
+import { UseFormClearErrors, UseFormSetError } from "react-hook-form";
+import { FormInputType } from "@/containers/createProfile/MemberForm";
 
 import ErrorMessage from "@/components/ErrorMessage";
-import { IconPhoto } from "@tabler/icons-react";
-import Image from "next/image";
+
+const MAX_FILE_SIZE = 1024 * 1024;
 
 interface UploadPhotoPropsType {
   name: string;
   title: string;
   message?: string;
-  onChange?: () => void;
-  onBlur?: () => void;
+  setError: UseFormSetError<FormInputType>;
+  clearErrors: UseFormClearErrors<FormInputType>;
 }
 
 const UploadPhoto = forwardRef<HTMLInputElement, UploadPhotoPropsType>(
-  ({ name, title, message, onChange, onBlur }, ref) => {
+  ({ name, title, message, setError, clearErrors }, ref) => {
     const [preview, setPreview] = useState<string>("/images/default-photo.png");
 
     useEffect(() => {
@@ -24,13 +28,18 @@ const UploadPhoto = forwardRef<HTMLInputElement, UploadPhotoPropsType>(
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
-      if (file) {
-        const previewUrl = URL.createObjectURL(file);
-        setPreview(previewUrl);
-      }
 
-      if (onChange) {
-        onChange();
+      //  限制圖片預覽大小
+      if (file) {
+        if (file.size > MAX_FILE_SIZE) {
+          setError("headShot", {
+            message: "圖片大小不能超過 1MB",
+          });
+        } else {
+          clearErrors("headShot");
+          const previewUrl = URL.createObjectURL(file);
+          setPreview(previewUrl);
+        }
       }
     };
 
@@ -51,7 +60,6 @@ const UploadPhoto = forwardRef<HTMLInputElement, UploadPhotoPropsType>(
             type="file"
             accept=".png, .jpeg, .jpg"
             onChange={handleImageChange}
-            onBlur={onBlur}
             ref={ref}
             name={name}
             className="hidden"

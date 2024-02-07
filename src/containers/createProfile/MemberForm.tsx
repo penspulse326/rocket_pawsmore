@@ -4,8 +4,6 @@ import TextInput from "@/components/form/profile/TextInput";
 import { errorText } from "@/common/lib/messageText";
 import UploadPhoto from "@/components/form/profile/UploadPhoto";
 
-const MAX_FILE_SIZE = 1024 * 1024;
-
 interface MemberFormPropsType {
   onSubmit: (data: FormInputType) => void;
 }
@@ -24,7 +22,8 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
   const {
     handleSubmit,
     control,
-    watch,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<FormInputType>({
     defaultValues: {
@@ -57,18 +56,12 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
             <Controller
               name="headShot"
               control={control}
-              rules={{
-                validate: (file) =>
-                  !file ||
-                  !(file instanceof FileList) ||
-                  file.length === 0 ||
-                  file[0].size <= MAX_FILE_SIZE ||
-                  "圖片大小不能超過 1MB",
-              }}
               render={({ field }) => (
                 <UploadPhoto
                   {...field}
                   title="個人照片"
+                  setError={setError}
+                  clearErrors={clearErrors}
                   message={errors.headShot?.message}
                 />
               )}
