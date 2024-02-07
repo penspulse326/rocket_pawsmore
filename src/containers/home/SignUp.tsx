@@ -21,10 +21,10 @@ const SignUp: React.FC<SignUpPropsType> = ({
     control,
     watch,
     setError,
-    clearErrors,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<SignUpFormType>();
 
+  // 用 watch 來監聽密碼的值
   const watchedPassword = watch("password");
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const SignUp: React.FC<SignUpPropsType> = ({
       default:
         break;
     }
-  }, [statusCode]);
+  }, [statusCode, setError]);
 
   const onSubmit = (data: SignUpFormType) => {
     const { email, password } = data;
@@ -112,7 +112,10 @@ const SignUp: React.FC<SignUpPropsType> = ({
           />
           <button
             type="submit"
-            className="mt-4 py-3 rounded-full bg-primary text-white"
+            disabled={!isValid}
+            className={`${
+              isValid ? "bg-primary" : "bg-note"
+            } mt-4 py-3 rounded-full  text-white`}
           >
             註冊
           </button>

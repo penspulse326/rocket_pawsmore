@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { apiSignUp } from "../base";
+import apiBase from "../apiBase";
 
 interface ResponseType {
   statusCode?: number;
@@ -14,10 +14,8 @@ export default async function handler(
 ) {
   const requestBody = req.body;
 
-  console.log(requestBody);
-
   try {
-    const response = await fetch(apiSignUp, {
+    const response = await fetch(apiBase.SIGN_UP, {
       method: "POST",
       body: requestBody,
       headers: { "Content-Type": "application/json" },

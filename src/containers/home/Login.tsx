@@ -23,7 +23,6 @@ const Login: React.FC<LoginPropsType> = ({
     handleSubmit,
     control,
     setError,
-    clearErrors,
     formState: { errors, isValid },
   } = useForm<LoginFormType>();
 
@@ -41,7 +40,7 @@ const Login: React.FC<LoginPropsType> = ({
       default:
         break;
     }
-  }, [statusCode, setError, clearErrors]);
+  }, [statusCode, setError]);
 
   const onSubmit = (data: LoginFormType) => handleLogin(data);
 

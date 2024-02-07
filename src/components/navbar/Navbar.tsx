@@ -1,12 +1,12 @@
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import {
   IconHome,
   IconBrandGoogleAnalytics,
   IconMenu2,
 } from "@tabler/icons-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
@@ -15,6 +15,7 @@ import { clearUserInfo } from "@/common/redux/userInfoSlice";
 import BurgerMenu from "./BurgerMenu";
 
 const Navbar: React.FC = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { userId, username, headShot } = useSelector(
     (state: RootState) => state.userInfo
@@ -22,8 +23,15 @@ const Navbar: React.FC = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [page, setPage] = useState(0);
+  const sliderStyle = `${
+    page ? "slide-r" : "slide-l"
+  } absolute left-0 bottom-0 w-[50%] h-1 bg-gradient-to-r from-[#7CCBFF] via-[#7CCBFF] to-[#0057FF]
+`;
 
-  const handleLogout = () => dispatch(clearUserInfo());
+  const handleLogout = () => {
+    dispatch(clearUserInfo());
+    router.push("/login");
+  };
 
   // 保護路由 驗證使用者是否登入 再決定要不要跳轉
   // const router = useRouter();
@@ -83,13 +91,7 @@ const Navbar: React.FC = () => {
                     <IconBrandGoogleAnalytics />
                     數據紀錄
                   </Link>
-                  <div
-                    className={`
-          ${
-            page ? "slide-r" : "slide-l"
-          } absolute left-0 bottom-0 w-[50%] h-1 bg-gradient-to-r from-[#7CCBFF] via-[#7CCBFF] to-[#0057FF]
-        `}
-                  ></div>
+                  <div className={sliderStyle}></div>
                 </div>
               )}
             </div>
