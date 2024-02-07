@@ -1,3 +1,14 @@
+export interface LoginFormType {
+  email: string;
+  password: string;
+}
+
+export interface SignUpFormType {
+  email: string;
+  password: string;
+  checkPassword: string;
+}
+
 export interface UserInfoType {
   id: string;
   username: string;

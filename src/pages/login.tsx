@@ -11,22 +11,16 @@ import HomeLayout from "@/containers/home/HomeLayout";
 import Login from "@/containers/home/Login";
 import Loading from "@/components/Loading";
 
+import { LoginFormType } from "@/types";
+
 const LoginPage: NextPageWithLayout = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [statusCode, setStatusCode] = useState(NaN);
+  const [statusCode, setStatusCode] = useState(0);
 
-  const handleLogin = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    const { email, password } = event.target as HTMLFormElement;
-    const data = {
-      email: email.value,
-      password: password.value,
-    };
-
+  const handleLogin = async (data: LoginFormType) => {
     setIsLoading(true);
 
     try {
@@ -38,22 +32,24 @@ const LoginPage: NextPageWithLayout = () => {
       const result = await response.json();
 
       if (response.ok) {
-        setStatusCode(200);
-        dispatch(setUserInfo(result.user));
-        setIsLoading(false);
-        router.push("/social");
+        console.log("登入成功");
+        const { data } = result;
+        // dispatch(setUserInfo(data));
+        // router.push("/social");
       } else {
-        setStatusCode(result.statusCode);
-        setIsLoading(false);
+        console.log("登入失敗");
+        setStatusCode(response.status);
       }
     } catch (error) {
-      setIsLoading(false);
+      console.error("未知的錯誤");
     }
+
+    setIsLoading(false);
   };
 
   return (
     <>
-      <Login handleLogin={handleLogin} statusCode={statusCode} />
+      <Login onSubmit={handleLogin} statusCode={statusCode} />
       {isLoading && <Loading />}
     </>
   );

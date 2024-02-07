@@ -2,7 +2,8 @@ import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 
 import { errorText } from "@/common/lib/messageText";
-import Input from "@/components/form/profile/TextInput";
+import TextInput from "@/components/form/profile/TextInput";
+import PasswordInpput from "@/components/form/profile/PasswordInput";
 
 interface SignUpPropsType {
   onSubmit: (data: any) => void;
@@ -24,7 +25,9 @@ const SignUp: React.FC<SignUpPropsType> = ({ onSubmit: handleSignUp }) => {
 
   const password = watch("password");
 
-  const onSubmit = (data: any) => handleSignUp(data);
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
 
   return (
     <div className="col-span-5 col-start-8 flex flex-col justify-center pr-12">
@@ -45,7 +48,7 @@ const SignUp: React.FC<SignUpPropsType> = ({ onSubmit: handleSignUp }) => {
               },
             }}
             render={({ field }) => (
-              <Input
+              <TextInput
                 {...field}
                 title="Email"
                 placeholder="輸入電子郵件地址"
@@ -59,12 +62,12 @@ const SignUp: React.FC<SignUpPropsType> = ({ onSubmit: handleSignUp }) => {
             rules={{
               required: errorText.REQUIRED,
               pattern: {
-                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,16}$/,
                 message: errorText.PASSWORD_INVALID,
               },
             }}
             render={({ field }) => (
-              <Input
+              <PasswordInpput
                 {...field}
                 title="密碼"
                 placeholder="輸入8個字以上英數字"
@@ -81,7 +84,7 @@ const SignUp: React.FC<SignUpPropsType> = ({ onSubmit: handleSignUp }) => {
                 value === password || errorText.PASSWORD_NOT_MATCH,
             }}
             render={({ field }) => (
-              <Input
+              <PasswordInpput
                 {...field}
                 title="確認密碼"
                 placeholder="再次輸入密碼"
