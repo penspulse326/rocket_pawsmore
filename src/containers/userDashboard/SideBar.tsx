@@ -1,29 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { IconChevronDown } from "@tabler/icons-react";
 
-const SideBar: React.FC<{ prop: string }> = ({ prop }) => {
+interface SideBarPropsType {
+  prop: string;
+  setTargetPage: (targetPage: string) => void;
+}
+
+const SideBar: React.FC<SideBarPropsType> = ({ prop, setTargetPage }) => {
   const [openUser, setOpenUser] = useState(false);
   const [openPets, setOpenPets] = useState(false);
   const [isActive, setIsActive] = useState("");
 
   useEffect(() => {
+    const handleVisitPage = (targetPage: string) => {
+      setTargetPage(targetPage);
+      setIsActive(targetPage);
+    };
     switch (prop) {
       case "user":
         setOpenUser(true);
-        setIsActive("帳號資料");
+        handleVisitPage("帳號資料");
         break;
       case "pets":
         setOpenPets(true);
-        setIsActive("寵物檔案清單");
+        handleVisitPage("寵物檔案清單");
         break;
       default:
         break;
     }
-  }, [prop]);
+  }, [prop, setTargetPage]);
+
+  const userItems: string[] = ["帳號資料", "個人檔案"];
+  const petItems: string[] = ["寵物檔案清單", "新增寵物檔案"];
+
+  const handleTargetPage = (newTarget: string) => {
+    setIsActive(newTarget);
+    setTargetPage(newTarget);
+  };
 
   return (
     <div className="max-w-[248px] w-full flex flex-col gap-y-8 pt-8 pl-8">
-      <div className="font-normal text-2xl">設定</div>
+      <div className="text-2xl">設定</div>
       <div className="flex flex-col gap-y-4 self-start">
         {/* user */}
         <div className="flex flex-col gap-y-2">
@@ -51,22 +68,19 @@ const SideBar: React.FC<{ prop: string }> = ({ prop }) => {
           </button>
           {openUser && (
             <div className="flex flex-col pl-3 self-start pb-4">
-              <div
-                className={`px-3 py-1 hover:bg-secondary rounded-[30px] hover:cursor-pointer 
-              ${isActive === "帳號資料" && "font-bold"}
+              {userItems.map((item, index) => {
+                return (
+                  <div
+                    className={`px-3 py-1 hover:bg-secondary rounded-[30px] hover:cursor-pointer 
+              ${isActive === item && "font-bold"}
               `}
-                onClick={() => setIsActive("帳號資料")}
-              >
-                帳號資料
-              </div>
-              <div
-                className={`px-3 py-1 hover:bg-secondary rounded-[30px] hover:cursor-pointer 
-              ${isActive === "個人檔案" && "font-bold"}
-              `}
-                onClick={() => setIsActive("個人檔案")}
-              >
-                個人檔案
-              </div>
+                    onClick={() => handleTargetPage(item)}
+                    key={index}
+                  >
+                    {item}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
@@ -96,22 +110,19 @@ const SideBar: React.FC<{ prop: string }> = ({ prop }) => {
           </button>
           {openPets && (
             <div className="flex flex-col pl-3 self-start">
-              <div
-                className={`px-3 py-1 hover:bg-secondary rounded-[30px] hover:cursor-pointer 
-              ${isActive === "寵物檔案清單" && "font-bold"}
+              {petItems.map((item, index) => {
+                return (
+                  <div
+                    className={`px-3 py-1 hover:bg-secondary rounded-[30px] hover:cursor-pointer 
+              ${isActive === item && "font-bold"}
               `}
-                onClick={() => setIsActive("寵物檔案清單")}
-              >
-                寵物檔案清單
-              </div>
-              <div
-                className={`px-3 py-1 hover:bg-secondary rounded-[30px] hover:cursor-pointer 
-              ${isActive === "新增寵物清單" && "font-bold"}
-              `}
-                onClick={() => setIsActive("新增寵物清單")}
-              >
-                新增寵物檔案
-              </div>
+                    onClick={() => handleTargetPage(item)}
+                    key={index}
+                  >
+                    {item}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>

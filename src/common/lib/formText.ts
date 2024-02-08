@@ -102,3 +102,13 @@ export const sickCategory: SickCategoryType = {
     ],
   },
 };
+
+interface ChangePasswordType {
+  ENTER_PASSWORD: string;
+  DOUBLE_CHECK: string;
+}
+
+export const ChangePassword: ChangePasswordType = {
+  ENTER_PASSWORD: "輸入6-16字符以上英數字密碼",
+  DOUBLE_CHECK: "再次輸入密碼",
+};
