@@ -39,7 +39,7 @@ const SideBar: React.FC<SideBarPropsType> = ({ prop, setTargetPage }) => {
   };
 
   return (
-    <div className="max-w-[248px] w-full flex flex-col gap-y-8 pt-8 pl-8">
+    <div className="max-w-[248px] w-full flex flex-col gap-y-8 pt-8 pl-8 border-r border-stroke">
       <div className="text-2xl">設定</div>
       <div className="flex flex-col gap-y-4 self-start">
         {/* user */}
