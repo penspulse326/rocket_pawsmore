@@ -11,7 +11,7 @@ interface InputPropsType {
   onBlur?: () => void;
 }
 
-const Input = forwardRef<HTMLInputElement, InputPropsType>(
+const TextInput = forwardRef<HTMLInputElement, InputPropsType>(
   ({ name, title, placeholder, message, onChange, onBlur }, ref) => {
     const borderStyle = message ? { border: "1px solid #F23030" } : {};
 
@@ -25,9 +25,9 @@ const Input = forwardRef<HTMLInputElement, InputPropsType>(
           type="text"
           name={name}
           placeholder={placeholder}
+          ref={ref}
           onChange={onChange}
           onBlur={onBlur}
-          ref={ref}
           style={borderStyle}
           className="p-3 w-full outline-0 border border-stroke rounded-[10px] focus:border-note"
         />
@@ -36,5 +36,5 @@ const Input = forwardRef<HTMLInputElement, InputPropsType>(
   }
 );
 
-Input.displayName = "Input";
-export default Input;
+TextInput.displayName = "Input";
+export default TextInput;

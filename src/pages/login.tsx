@@ -1,36 +1,31 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
-
-import { useDispatch } from "react-redux";
-import { setUserInfo } from "@/common/redux/userInfoSlice";
-
-import type { ReactElement } from "react";
-import type { NextPageWithLayout } from "../pages/_app";
+import { useState, ReactElement } from "react";
 
 import HomeLayout from "@/containers/home/HomeLayout";
 import Login from "@/containers/home/Login";
 import Loading from "@/components/Loading";
 
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "@/common/redux/userInfoSlice";
+
+import type { NextPageWithLayout } from "../pages/_app";
+import type { LoginFormType } from "@/types";
+
+import apiNext from "./api/apiNext";
+
 const LoginPage: NextPageWithLayout = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [statusCode, setStatusCode] = useState(NaN);
+  const [statusCode, setStatusCode] = useState(0);
 
-  const handleLogin = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    const { email, password } = event.target as HTMLFormElement;
-    const data = {
-      email: email.value,
-      password: password.value,
-    };
-
+  const handleLogin = async (data: LoginFormType) => {
     setIsLoading(true);
+    setStatusCode(0); // 重置狀態 否則 hook-form 的 error 會被清空
 
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch(apiNext.LOGIN, {
         method: "POST",
         body: JSON.stringify(data),
       });
@@ -38,22 +33,21 @@ const LoginPage: NextPageWithLayout = () => {
       const result = await response.json();
 
       if (response.ok) {
-        setStatusCode(200);
-        dispatch(setUserInfo(result.user));
-        setIsLoading(false);
+        dispatch(setUserInfo(result.data));
         router.push("/social");
       } else {
-        setStatusCode(result.statusCode);
-        setIsLoading(false);
+        setStatusCode(response.status);
       }
     } catch (error) {
-      setIsLoading(false);
+      console.error("未知的錯誤");
     }
+
+    setIsLoading(false);
   };
 
   return (
     <>
-      <Login handleLogin={handleLogin} statusCode={statusCode} />
+      <Login onSubmit={handleLogin} statusCode={statusCode} />
       {isLoading && <Loading />}
     </>
   );

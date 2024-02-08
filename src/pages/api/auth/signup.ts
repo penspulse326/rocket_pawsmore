@@ -1,45 +1,37 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { UserInfoType } from "@/types";
-import { apiSignUp } from "../base";
+import apiBase from "../apiBase";
 
-interface responseType {
+interface ResponseType {
+  statusCode?: number;
+  status?: "Success" | "Error";
   message: string;
-  user?: UserInfoType;
+  data?: any;
 }
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<responseType>
+  res: NextApiResponse<ResponseType>
 ) {
-  const { email, password } = JSON.parse(req.body);
-  const data = { email, password };
+  const requestBody = req.body;
 
   try {
-    const response = await fetch(apiSignUp, {
+    const response = await fetch(apiBase.SIGN_UP, {
       method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      body: requestBody,
+      headers: { "Content-Type": "application/json" },
     });
 
     const result = await response.json();
+    const { statusCode, message } = result;
 
-    if (result.status === "Error") {
-      const { statusCode, message } = result;
-      res.status(statusCode).json({ message });
-      return;
+    switch (statusCode) {
+      case 200:
+        res.status(200).json({ message });
+        break;
+      default:
+        res.status(statusCode).json({ message });
+        break;
     }
-
-    res.status(200).json({
-      message: result.message,
-      user: {
-        id: "123",
-        username: "琪琪",
-        account: "chichi1992126",
-        photoUrl: "/test/user-chichi.png",
-      },
-    });
   } catch (error) {
     res.status(500).json({ message: "未知的錯誤" });
   }

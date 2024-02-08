@@ -1,54 +1,41 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { UserInfoType } from "@/types";
-import { apiLogin } from "../base";
+import apiBase from "../apiBase";
 
-interface responseType {
-  message: string;
-  user?: UserInfoType;
+interface ResponseType {
   statusCode?: number;
+  status?: "Success" | "Error";
+  message: string;
+  data?: any;
 }
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<responseType>
+  res: NextApiResponse<ResponseType>
 ) {
-  const { email, password } = JSON.parse(req.body);
-
-  const data = {
-    Email: email,
-    Password: password,
-  };
+  const requestBody = req.body;
 
   try {
-    const response = await fetch(apiLogin, {
+    const response = await fetch(apiBase.LOGIN, {
       method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      body: requestBody,
+      headers: { "Content-Type": "application/json" },
     });
 
     const result = await response.json();
+    const { statusCode, message, data } = result;
+    console.log(result);
 
-    switch (result.statusCode) {
+    switch (statusCode) {
       case 200:
-        res.status(200).json({
-          message: result.message,
-          user: {
-            id: result.data.userId,
-            username: result.data.username || "琪琪",
-            account: result.data.account || "chichi1992126",
-            photoUrl: result.data.headShot || "/test/user-chichi.png",
-          },
-        });
+        res.status(200).json({ message, data });
         break;
       default:
-        res
-          .status(result.statusCode)
-          .json({ message: result.message, statusCode: result.statusCode });
+        res.status(statusCode).json({ message });
         break;
     }
   } catch (error) {
-    res.status(500).json({ message: "伺服器錯誤" });
+    // 一律拋出未知的錯誤 只有在此 Server 端可以查看詳細錯誤
+    console.error("Error:", error);
+    res.status(500).json({ message: "未知的錯誤" });
   }
 }
