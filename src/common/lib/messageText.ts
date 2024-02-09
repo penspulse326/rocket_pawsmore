@@ -7,6 +7,8 @@ export const errorText = {
   PASSWORD_NOT_MATCH: "密碼不相同",
   REQUIRED: "必填",
   ACCOUNT_USED: "此帳號已被使用",
+  ACCOUNT_EXIST: "此帳號已被使用",
+  USERNAME_REQUIRED: "用戶名稱不得為空",
   UNKNOWN_ERROR: "未知的錯誤",
   LOGIN_AGAIN: "登入狀態過期，請重新登入",
 };

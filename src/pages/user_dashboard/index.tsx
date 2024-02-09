@@ -7,9 +7,9 @@ const UserDashboard: React.FC = () => {
   const [targetPage, setTargetPage] = useState("");
 
   return (
-    <main className="outer pt-16 flex h-screen">
+    <main className="outer pt-16 flex h-screen relative">
       <SideBar prop="user" setTargetPage={setTargetPage} />
-      <div className="flex flex-col justify-between w-full">
+      <div className="flex flex-col gap-y-16 justify-between w-full pl-[248px]">
         <MainContent targetPage={targetPage} />
         <Footer />
       </div>
