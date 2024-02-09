@@ -7,10 +7,12 @@ import { errorText } from "@/common/lib/messageText";
 import type { MemberFormType } from "@/types";
 
 interface MemberFormPropsType {
+  statusCode: number;
   onSubmit: (data: MemberFormType) => void;
 }
 
 const MemberForm: React.FC<MemberFormPropsType> = ({
+  statusCode,
   onSubmit: handleCreateProfile,
 }) => {
   const {
