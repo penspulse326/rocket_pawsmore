@@ -5,12 +5,15 @@ import MemberForm from "@/containers/createProfile/MemberForm";
 import { mediaUpload } from "@/common/helpers/mediaManager";
 import apiNext from "@/pages/api/apiNext";
 
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/common/redux/store";
+import { setUserInfo } from "@/common/redux/userInfoSlice";
+
 import type { NextPageWithLayout } from "../../_app";
 import type { MemberFormType } from "@/types";
-import { useSelector } from "react-redux";
-import { RootState } from "@/common/redux/store";
 
 const CreateProfilePage: NextPageWithLayout = () => {
+  const dispatch = useDispatch();
   const { token } = useSelector((state: RootState) => state.userInfo);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +34,7 @@ const CreateProfilePage: NextPageWithLayout = () => {
 
       if (response.ok) {
         setStatusCode(200);
+        dispatch(setUserInfo({ ...data, headShot: imgUrl }));
         return true;
       } else {
         setStatusCode(response.status);

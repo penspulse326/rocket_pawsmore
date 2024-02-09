@@ -4,14 +4,13 @@ import { useState, ReactElement } from "react";
 import HomeLayout from "@/containers/home/HomeLayout";
 import Login from "@/containers/home/Login";
 import Loading from "@/components/Loading";
+import apiNext from "./api/apiNext";
 
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "@/common/redux/userInfoSlice";
 
 import type { NextPageWithLayout } from "../pages/_app";
 import type { LoginFormType } from "@/types";
-
-import apiNext from "./api/apiNext";
 
 const LoginPage: NextPageWithLayout = () => {
   const router = useRouter();
