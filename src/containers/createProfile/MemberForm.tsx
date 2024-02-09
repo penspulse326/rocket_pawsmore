@@ -7,13 +7,16 @@ import UploadPhoto from "@/components/form/profile/UploadPhoto";
 import { errorText } from "@/common/lib/messageText";
 
 import type { MemberFormType } from "@/types";
+import BtnLoading from "@/components/BtnLoading";
 
 interface MemberFormPropsType {
+  isLoading: boolean;
   statusCode: number;
   onSubmit: (data: MemberFormType) => void;
 }
 
 const MemberForm: React.FC<MemberFormPropsType> = ({
+  isLoading,
   statusCode,
   onSubmit: handleCreateProfile,
 }) => {
@@ -116,13 +119,20 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
                 <h4 className="flex justify-between items-center">
                   <span>個人簡介</span>
                 </h4>
-                <textarea
+                <Controller
                   name="introduction"
-                  placeholder="輸入個人簡介"
-                  className="px-4 py-3 w-full h-12 border border-stroke outline-note rounded-[10px] "
+                  control={control}
+                  render={({ field }) => (
+                    <textarea
+                      {...field}
+                      placeholder="輸入個人簡介"
+                      className="px-4 py-3 w-full h-12 border border-stroke outline-note rounded-[10px] overflow-hidden"
+                    />
+                  )}
                 />
               </div>
               {/* 外部連結 */}
+
               <Controller
                 name="link"
                 control={control}
@@ -138,9 +148,10 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
           </div>
           <button
             type="submit"
-            className="mt-12 py-2 w-full rounded-full bg-primary text-xl text-white font-semibold"
+            disabled={isLoading}
+            className="flex justify-center items-center mt-12 py-2 w-full min-h-[46px] rounded-full bg-primary text-xl text-white font-semibold"
           >
-            建立個人資料
+            {isLoading ? <BtnLoading /> : "建立個人資料"}
           </button>
         </form>
       </section>

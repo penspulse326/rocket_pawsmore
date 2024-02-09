@@ -13,6 +13,7 @@ import { RootState } from "@/common/redux/store";
 const CreateProfilePage: NextPageWithLayout = () => {
   const { token } = useSelector((state: RootState) => state.userInfo);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [statusCode, setStatusCode] = useState(0);
 
   // 請求新增個人資料
@@ -42,6 +43,7 @@ const CreateProfilePage: NextPageWithLayout = () => {
   };
 
   const handleCreateProfile = async (data: MemberFormType) => {
+    setIsLoading(true);
     setStatusCode(0);
 
     const isSuccess = await sendRequest(data);
@@ -65,8 +67,16 @@ const CreateProfilePage: NextPageWithLayout = () => {
         return;
       }
     }
+
+    setIsLoading(false);
   };
-  return <MemberForm onSubmit={handleCreateProfile} statusCode={statusCode} />;
+  return (
+    <MemberForm
+      isLoading={isLoading}
+      statusCode={statusCode}
+      onSubmit={handleCreateProfile}
+    />
+  );
 };
 
 CreateProfilePage.getLayout = function getLayout(page: ReactElement) {

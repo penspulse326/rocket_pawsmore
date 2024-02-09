@@ -71,8 +71,8 @@ const Navbar: React.FC = () => {
             />
           </Link>
           {/* 頁面連結 // username 不存在代表還沒有建立個人資料 */}
-          <div className="col-span-1 flex justify-center">
-            {username && (
+          <div className="col-span-1 flex justify-center h-16">
+            {username ? (
               <div className="relative flex justify-center">
                 <Link
                   href="/social"
@@ -92,15 +92,16 @@ const Navbar: React.FC = () => {
                 </Link>
                 <div className={sliderStyle}></div>
               </div>
+            ) : (
+              <Link
+                href="/"
+                className="flex gap-2 px-8 pt-6 pb-5"
+                onClick={() => setPage(0)}
+              >
+                <IconHome />
+                返回測試頁面
+              </Link>
             )}
-            <Link
-              href="/"
-              className="flex gap-2 px-8 pt-6 pb-5"
-              onClick={() => setPage(0)}
-            >
-              <IconHome />
-              返回測試頁面
-            </Link>
           </div>
           {/* 個人資訊按鈕 */}
           <div className="col-span-1 flex justify-end items-center">
