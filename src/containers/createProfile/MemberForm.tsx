@@ -1,19 +1,13 @@
 import { Controller, useForm } from "react-hook-form";
 
 import TextInput from "@/components/form/profile/TextInput";
-import { errorText } from "@/common/lib/messageText";
 import UploadPhoto from "@/components/form/profile/UploadPhoto";
+import { errorText } from "@/common/lib/messageText";
+
+import type { MemberFormType } from "@/types";
 
 interface MemberFormPropsType {
-  onSubmit: (data: FormInputType) => void;
-}
-
-export interface FormInputType {
-  account: string;
-  name: string;
-  headShot?: File;
-  introduction?: string;
-  link?: string;
+  onSubmit: (data: MemberFormType) => void;
 }
 
 const MemberForm: React.FC<MemberFormPropsType> = ({
@@ -25,21 +19,17 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm<FormInputType>({
+  } = useForm<MemberFormType>({
     defaultValues: {
       account: "",
-      name: "",
+      username: "",
       headShot: undefined,
       introduction: "",
       link: "",
     },
   });
 
-  console.log(errors);
-
-  const onSubmit = (data: FormInputType) => {
-    console.log(data);
-  };
+  const onSubmit = (data: MemberFormType) => handleCreateProfile(data);
 
   return (
     <section className="flex flex-col gap-4 my-16 max-w-[728px] w-full">
@@ -63,6 +53,7 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
                   setError={setError}
                   clearErrors={clearErrors}
                   message={errors.headShot?.message}
+                  onChange={(file: File) => field.onChange(file)}
                 />
               )}
             />
@@ -78,12 +69,13 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
                     title="用戶帳號"
                     placeholder="設定您的用戶帳號，以英數字組成"
                     message={errors.account?.message}
+                    star={true}
                   />
                 )}
               />
               {/* 用戶名稱 */}
               <Controller
-                name="name"
+                name="username"
                 control={control}
                 rules={{ required: errorText.REQUIRED }}
                 render={({ field }) => (
@@ -91,16 +83,15 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
                     {...field}
                     title="用戶名稱"
                     placeholder="在個人檔案上顯示您的名稱"
-                    message={errors.name?.message}
+                    message={errors.username?.message}
+                    star={true}
                   />
                 )}
               />
               {/* 個人簡介 */}
               <div className="flex flex-col gap-1">
                 <h4 className="flex justify-between items-center">
-                  <span>
-                    個人簡介<span className="text-error">*</span>
-                  </span>
+                  <span>個人簡介</span>
                 </h4>
                 <textarea
                   name="introduction"
@@ -124,7 +115,7 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
           </div>
           <button
             type="submit"
-            className="py-2 mt-12 w-full rounded-full bg-primary text-xl text-white font-semibold"
+            className="mt-12 py-2 w-full rounded-full bg-primary text-xl text-white font-semibold"
           >
             建立個人資料
           </button>

@@ -1,4 +1,13 @@
-export const mediaUpload = async (file: File): Promise<ResponseType> => {
+interface ResponseType {
+  public_id: string;
+  resource_type: string;
+  secure_url: string;
+}
+
+export const mediaUpload = async (
+  file: File,
+  tag: string
+): Promise<ResponseType> => {
   return new Promise(async (resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -7,9 +16,10 @@ export const mediaUpload = async (file: File): Promise<ResponseType> => {
       try {
         const response = await fetch("/api/cld/upload", {
           method: "POST",
-          body: JSON.stringify({ file: reader.result }),
+          body: JSON.stringify({ file: reader.result, tag }),
         });
         const result = await response.json();
+        console.log(result);
         resolve(result);
       } catch (error) {
         console.error("Error uploading the file:", error);
@@ -38,10 +48,4 @@ export const mediaDelete = async (publicId: string, resourceType: string) => {
       reject(error);
     }
   });
-};
-
-type ResponseType = {
-  public_id: string;
-  resource_type: string;
-  secure_url: string;
 };
