@@ -1,22 +1,23 @@
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import TextInput from "@/components/form/profile/TextInput";
-import { errorText } from "@/common/lib/messageText";
 import UploadPhoto from "@/components/form/profile/UploadPhoto";
+import { errorText } from "@/common/lib/messageText";
+
+import type { MemberFormType } from "@/types";
+import BtnLoading from "@/components/BtnLoading";
 
 interface MemberFormPropsType {
-  onSubmit: (data: FormInputType) => void;
-}
-
-export interface FormInputType {
-  account: string;
-  name: string;
-  headShot?: File;
-  introduction?: string;
-  link?: string;
+  isLoading: boolean;
+  statusCode: number;
+  onSubmit: (data: MemberFormType) => void;
 }
 
 const MemberForm: React.FC<MemberFormPropsType> = ({
+  isLoading,
+  statusCode,
   onSubmit: handleCreateProfile,
 }) => {
   const {
@@ -25,21 +26,36 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm<FormInputType>({
+  } = useForm<MemberFormType>({
     defaultValues: {
       account: "",
-      name: "",
-      headShot: undefined,
+      username: "",
+      headShot: null,
       introduction: "",
       link: "",
     },
   });
 
-  console.log(errors);
+  const router = useRouter();
 
-  const onSubmit = (data: FormInputType) => {
-    console.log(data);
-  };
+  useEffect(() => {
+    switch (statusCode) {
+      case 400:
+        setError("account", { message: errorText.ACCOUNT_USED });
+        break;
+      case 401:
+        alert(errorText.LOGIN_AGAIN);
+        router.push("/login");
+        break;
+      case 500:
+        setError("account", { message: errorText.UNKNOWN_ERROR });
+        break;
+      default:
+        break;
+    }
+  }, [statusCode]);
+
+  const onSubmit = (data: MemberFormType) => handleCreateProfile(data);
 
   return (
     <section className="flex flex-col gap-4 my-16 max-w-[728px] w-full">
@@ -63,6 +79,7 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
                   setError={setError}
                   clearErrors={clearErrors}
                   message={errors.headShot?.message}
+                  onChange={(file: File) => field.onChange(file)}
                 />
               )}
             />
@@ -78,12 +95,13 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
                     title="用戶帳號"
                     placeholder="設定您的用戶帳號，以英數字組成"
                     message={errors.account?.message}
+                    star={true}
                   />
                 )}
               />
               {/* 用戶名稱 */}
               <Controller
-                name="name"
+                name="username"
                 control={control}
                 rules={{ required: errorText.REQUIRED }}
                 render={({ field }) => (
@@ -91,24 +109,30 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
                     {...field}
                     title="用戶名稱"
                     placeholder="在個人檔案上顯示您的名稱"
-                    message={errors.name?.message}
+                    message={errors.username?.message}
+                    star={true}
                   />
                 )}
               />
               {/* 個人簡介 */}
               <div className="flex flex-col gap-1">
                 <h4 className="flex justify-between items-center">
-                  <span>
-                    個人簡介<span className="text-error">*</span>
-                  </span>
+                  <span>個人簡介</span>
                 </h4>
-                <textarea
+                <Controller
                   name="introduction"
-                  placeholder="輸入個人簡介"
-                  className="px-4 py-3 w-full h-12 border border-stroke outline-note rounded-[10px] "
+                  control={control}
+                  render={({ field }) => (
+                    <textarea
+                      {...field}
+                      placeholder="輸入個人簡介"
+                      className="px-4 py-3 w-full h-12 border border-stroke outline-note rounded-[10px] overflow-hidden"
+                    />
+                  )}
                 />
               </div>
               {/* 外部連結 */}
+
               <Controller
                 name="link"
                 control={control}
@@ -124,9 +148,10 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
           </div>
           <button
             type="submit"
-            className="py-2 mt-12 w-full rounded-full bg-primary text-xl text-white font-semibold"
+            disabled={isLoading}
+            className="flex justify-center items-center mt-12 py-2 w-full min-h-[46px] rounded-full bg-primary text-xl text-white font-semibold"
           >
-            建立個人資料
+            {isLoading ? <BtnLoading /> : "建立個人資料"}
           </button>
         </form>
       </section>

@@ -7,12 +7,11 @@ import { setUserInfo } from "@/common/redux/userInfoSlice";
 import HomeLayout from "@/containers/home/HomeLayout";
 import SignUp from "@/containers/home/SignUp";
 import Loading from "@/components/Loading";
+import apiNext from "./api/apiNext";
 
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "../pages/_app";
 import type { LoginFormType } from "@/types";
-
-import apiNext from "./api/apiNext";
 
 const SignUpPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -53,7 +52,11 @@ const SignUpPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <SignUp onSubmit={handleSignUp} statusCode={statusCode} />
+      <SignUp
+        isLoading={isLoading}
+        statusCode={statusCode}
+        onSubmit={handleSignUp}
+      />
       {isLoading && <Loading />}
     </>
   );

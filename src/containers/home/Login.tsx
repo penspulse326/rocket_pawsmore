@@ -7,8 +7,9 @@ import { errorText } from "@/common/lib/messageText";
 import { useEffect } from "react";
 
 interface LoginPropsType {
-  onSubmit: (data: LoginFormType) => void;
+  isLaoding: boolean;
   statusCode: number;
+  onSubmit: (data: LoginFormType) => void;
 }
 interface LoginFormType {
   email: string;
@@ -16,8 +17,9 @@ interface LoginFormType {
 }
 
 const Login: React.FC<LoginPropsType> = ({
-  onSubmit: handleLogin,
+  isLaoding,
   statusCode,
+  onSubmit: handleLogin,
 }) => {
   const {
     handleSubmit,
@@ -25,6 +27,8 @@ const Login: React.FC<LoginPropsType> = ({
     setError,
     formState: { errors, isValid },
   } = useForm<LoginFormType>();
+
+  const isBtnDisabled = !isValid || isLaoding;
 
   useEffect(() => {
     switch (statusCode) {
@@ -99,7 +103,7 @@ const Login: React.FC<LoginPropsType> = ({
           </div>
           <button
             type="submit"
-            disabled={!isValid}
+            disabled={isBtnDisabled}
             className={`${
               isValid ? "bg-primary" : "bg-note"
             } mt-4 py-3 rounded-full  text-white`}
