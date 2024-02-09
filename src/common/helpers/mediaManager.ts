@@ -1,3 +1,5 @@
+import apiNext from "@/pages/api/apiNext";
+
 interface ResponseType {
   public_id: string;
   resource_type: string;
@@ -14,12 +16,11 @@ export const mediaUpload = async (
 
     reader.onload = async () => {
       try {
-        const response = await fetch("/api/cld/upload", {
+        const response = await fetch(apiNext.UPLOAD, {
           method: "POST",
           body: JSON.stringify({ file: reader.result, tag }),
         });
         const result = await response.json();
-        console.log(result);
         resolve(result);
       } catch (error) {
         console.error("Error uploading the file:", error);

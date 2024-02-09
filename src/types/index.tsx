@@ -12,7 +12,7 @@ export interface SignUpFormType {
 export interface MemberFormType {
   account: string;
   username: string;
-  headShot?: string;
+  headShot?: File;
   introduction?: string;
   link?: string;
 }
