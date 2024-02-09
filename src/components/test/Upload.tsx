@@ -25,7 +25,7 @@ export default function Upload() {
   const handleUpload = async () => {
     if (file) {
       try {
-        const response = await mediaUpload(file);
+        const response = await mediaUpload(file, "test");
         setAssetData(response);
       } catch (error) {
         console.error("Error uploading the file:", error);

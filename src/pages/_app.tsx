@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 import "@/styles/animations.css";
+import "@/styles/loadings.css";
 
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";

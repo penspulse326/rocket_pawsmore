@@ -9,16 +9,20 @@ interface InputPropsType {
   message?: string;
   onChange?: () => void;
   onBlur?: () => void;
+  star?: boolean;
 }
 
 const TextInput = forwardRef<HTMLInputElement, InputPropsType>(
-  ({ name, title, placeholder, message, onChange, onBlur }, ref) => {
+  ({ name, title, placeholder, message, onChange, onBlur, star }, ref) => {
     const borderStyle = message ? { border: "1px solid #F23030" } : {};
 
     return (
       <div className="flex flex-col gap-1">
         <h4 className="flex justify-between items-center">
-          <span>{title}</span>
+          <span>
+            {title}
+            {star && <span className="text-error">*</span>}
+          </span>
           {message && <ErrorMessage>{message}</ErrorMessage>}
         </h4>
         <input

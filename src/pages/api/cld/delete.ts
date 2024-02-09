@@ -1,6 +1,12 @@
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 
+type ResponseType = {
+  public_id: string;
+  resource_type: "image" | "video";
+  secure_url: string;
+};
+
 const generateSHA1 = (data: any) => {
   const hash = crypto.createHash("sha1");
   hash.update(data);
@@ -22,6 +28,7 @@ export default async function handler(
   const apiKey = process.env.API_KEY!;
   const signature = generateSHA1(generateSignature(publicId, apiSecret));
   const formData = new FormData();
+
   formData.append("public_id", publicId);
   formData.append("signature", signature);
   formData.append("timestamp", new Date().getTime().toString());
@@ -40,9 +47,3 @@ export default async function handler(
     res.status(400).json({ error: error });
   }
 }
-
-type ResponseType = {
-  public_id: string;
-  resource_type: string;
-  secure_url: string;
-};

@@ -9,6 +9,14 @@ export interface SignUpFormType {
   checkPassword: string;
 }
 
+export interface MemberFormType {
+  account: string;
+  username: string;
+  headShot: File | null;
+  introduction?: string;
+  link?: string;
+}
+
 export interface UserInfoType {
   userId: string;
   username: string;

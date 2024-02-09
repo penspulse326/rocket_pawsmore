@@ -8,13 +8,15 @@ import { LoginFormType, SignUpFormType } from "@/types";
 import { useEffect } from "react";
 
 interface SignUpPropsType {
-  onSubmit: (data: LoginFormType) => void;
+  isLoading: boolean;
   statusCode: number;
+  onSubmit: (data: LoginFormType) => void;
 }
 
 const SignUp: React.FC<SignUpPropsType> = ({
-  onSubmit: handleSignUp,
+  isLoading,
   statusCode,
+  onSubmit: handleSignUp,
 }) => {
   const {
     handleSubmit,
@@ -26,6 +28,8 @@ const SignUp: React.FC<SignUpPropsType> = ({
 
   // 用 watch 來監聽密碼的值
   const watchedPassword = watch("password");
+
+  const isBtnDisabled = !isValid || isLoading;
 
   useEffect(() => {
     switch (statusCode) {
@@ -112,7 +116,7 @@ const SignUp: React.FC<SignUpPropsType> = ({
           />
           <button
             type="submit"
-            disabled={!isValid}
+            disabled={isBtnDisabled}
             className={`${
               isValid ? "bg-primary" : "bg-note"
             } mt-4 py-3 rounded-full  text-white`}
