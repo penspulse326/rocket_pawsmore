@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import TextInput from "@/components/form/profile/TextInput";
@@ -25,11 +27,30 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
     defaultValues: {
       account: "",
       username: "",
-      headShot: undefined,
+      headShot: null,
       introduction: "",
       link: "",
     },
   });
+
+  const router = useRouter();
+
+  useEffect(() => {
+    switch (statusCode) {
+      case 400:
+        setError("account", { message: errorText.ACCOUNT_USED });
+        break;
+      case 401:
+        alert(errorText.LOGIN_AGAIN);
+        router.push("/login");
+        break;
+      case 500:
+        setError("account", { message: errorText.UNKNOWN_ERROR });
+        break;
+      default:
+        break;
+    }
+  }, [statusCode]);
 
   const onSubmit = (data: MemberFormType) => handleCreateProfile(data);
 

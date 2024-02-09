@@ -13,30 +13,36 @@ export default async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   const requestBody = req.body;
+  const token = req.headers.authorization;
 
-  console.log(requestBody);
+  if (!token) {
+    return res.status(401).json({ message: "請重新登入" });
+  }
 
-  res.status(400).json({ message: "不OK" });
+  try {
+    const response = await fetch(apiBase.CREATE_MEMBER, {
+      method: "POST",
+      body: requestBody,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
 
-  //   try {
-  //     const response = await fetch(apiBase.SIGN_UP, {
-  //       method: "POST",
-  //       body: requestBody,
-  //       headers: { "Content-Type": "application/json" },
-  //     });
+    const result = await response.json();
+    const { statusCode, message } = result;
 
-  //     const result = await response.json();
-  //     const { statusCode, message } = result;
+    console.log(result);
 
-  //     switch (statusCode) {
-  //       case 200:
-  //         res.status(200).json({ message });
-  //         break;
-  //       default:
-  //         res.status(statusCode).json({ message });
-  //         break;
-  //     }
-  //   } catch (error) {
-  //     res.status(500).json({ message: "未知的錯誤" });
-  //   }
+    switch (statusCode) {
+      case 200:
+        res.status(200).json({ message });
+        break;
+      default:
+        res.status(statusCode).json({ message });
+        break;
+    }
+  } catch (error) {
+    res.status(500).json({ message: "未知的錯誤" });
+  }
 }
