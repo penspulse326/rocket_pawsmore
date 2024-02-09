@@ -46,7 +46,11 @@ const LoginPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <Login onSubmit={handleLogin} statusCode={statusCode} />
+      <Login
+        isLaoding={isLoading}
+        statusCode={statusCode}
+        onSubmit={handleLogin}
+      />
       {isLoading && <Loading />}
     </>
   );

@@ -52,7 +52,11 @@ const SignUpPage: NextPageWithLayout = () => {
 
   return (
     <>
-      <SignUp onSubmit={handleSignUp} statusCode={statusCode} />
+      <SignUp
+        isLoading={isLoading}
+        statusCode={statusCode}
+        onSubmit={handleSignUp}
+      />
       {isLoading && <Loading />}
     </>
   );
