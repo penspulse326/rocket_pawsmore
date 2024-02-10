@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { IconPhoto } from "@tabler/icons-react";
-import ErrorMessage from "../ErrorMessage";
+import ErrorMessage from "../form/ErrorMessage";
 import { errorText } from "@/common/lib/messageText";
 
 const Profile: React.FC<{ title: string }> = ({ title }) => {

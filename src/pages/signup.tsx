@@ -6,7 +6,7 @@ import { setUserInfo } from "@/common/redux/userInfoSlice";
 
 import HomeLayout from "@/containers/home/HomeLayout";
 import SignUp from "@/containers/home/SignUp";
-import Loading from "@/components/Loading";
+import Loading from "@/components/hint/Loading";
 import apiNext from "./api/apiNext";
 
 import type { ReactElement } from "react";

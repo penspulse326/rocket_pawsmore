@@ -5,9 +5,9 @@ import { Controller, useForm } from "react-hook-form";
 import TextInput from "@/components/form/profile/TextInput";
 import UploadPhoto from "@/components/form/profile/UploadPhoto";
 import { errorText } from "@/common/lib/messageText";
+import BtnLoading from "@/components/hint/BtnLoading";
 
 import type { MemberFormType } from "@/types";
-import BtnLoading from "@/components/BtnLoading";
 
 interface MemberFormPropsType {
   isLoading: boolean;

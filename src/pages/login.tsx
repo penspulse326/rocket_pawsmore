@@ -3,7 +3,7 @@ import { useState, ReactElement } from "react";
 
 import HomeLayout from "@/containers/home/HomeLayout";
 import Login from "@/containers/home/Login";
-import Loading from "@/components/Loading";
+import Loading from "@/components/hint/Loading";
 import apiNext from "./api/apiNext";
 
 import { useDispatch } from "react-redux";

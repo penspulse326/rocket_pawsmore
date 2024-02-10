@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Image from "next/image";
-import Mask from "../Mask";
+import Mask from "../hint/Mask";
 import ShowNetworkListCard from "./ShowNetworkListCard";
-import AlertCard from "../AlertCard";
+import AlertCard from "../hint/AlertCard";
 import { IconDotsVertical } from "@tabler/icons-react";
 
 const ProfileCard = () => {

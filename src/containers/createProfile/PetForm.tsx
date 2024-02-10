@@ -1,8 +1,8 @@
-import ErrorMessage from "@/components/ErrorMessage";
 import { IconCalendarPlus } from "@tabler/icons-react";
 import { IconPhoto } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
+import ErrorMessage from "@/components/form/ErrorMessage";
 
 const PetForm = () => {
   return (

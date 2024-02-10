@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import Mask from "../../../components/Mask";
+import Mask from "../../../components/hint/Mask";
 import PostView from "../../../components/social/PostView";
 import InputComment from "@/components/social/InputComment";
 

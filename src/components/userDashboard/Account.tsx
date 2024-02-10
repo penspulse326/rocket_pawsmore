@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { IconEye, IconEyeClosed } from "@tabler/icons-react";
-import ErrorMessage from "../ErrorMessage";
+import ErrorMessage from "../form/ErrorMessage";
 import { ChangePassword } from "@/common/lib/formText";
 import { errorText } from "@/common/lib/messageText";
 
