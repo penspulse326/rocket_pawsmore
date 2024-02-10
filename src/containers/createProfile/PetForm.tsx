@@ -22,7 +22,7 @@ const defaultValues = {
   link: "",
 };
 
-const PetForm = () => {
+const PetForm: React.FC = () => {
   const {
     handleSubmit,
     register,
@@ -31,6 +31,8 @@ const PetForm = () => {
     clearErrors,
     formState: { errors },
   } = useForm<PetFormType>({ defaultValues });
+
+  const handleAdd = (data: any) => console.log(data);
 
   return (
     <section className="flex flex-col gap-4 my-16 max-w-[728px] w-full">
@@ -42,11 +44,12 @@ const PetForm = () => {
       </div>
       <section className="p-8 border border-stroke rounded-[30px]">
         <h2 className="text-2xl">寵物基本資料</h2>
-        <form action="#" className="mt-4">
+        <form onSubmit={handleSubmit(handleAdd)} className="mt-4">
           <section className="flex gap-12 w-full">
             {/* 上傳照片 */}
             <Controller
               name="petPhoto"
+              control={control}
               render={({ field }) => (
                 <UploadPhoto
                   {...field}
@@ -55,6 +58,8 @@ const PetForm = () => {
                     setError("petPhoto", { message: errorText.IMAGE_OVERSIZE })
                   }
                   clearErrors={() => clearErrors("petPhoto")}
+                  message={errors.petPhoto?.message}
+                  onChange={(file: File) => field.onChange(file)}
                 />
               )}
             />

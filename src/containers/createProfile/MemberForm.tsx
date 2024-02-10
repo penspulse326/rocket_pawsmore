@@ -56,7 +56,7 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
     }
   }, [statusCode]);
 
-  const onSubmit = (data: MemberFormType) => handleCreateProfile(data);
+  const onSubmit = (data: MemberFormType) => console.log(data);
 
   return (
     <section className="flex flex-col gap-4 my-16 max-w-[728px] w-full">

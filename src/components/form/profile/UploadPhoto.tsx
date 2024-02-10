@@ -1,11 +1,8 @@
 import { IconPhoto } from "@tabler/icons-react";
 import Image from "next/image";
 import React, { forwardRef, useEffect, useState } from "react";
-import { UseFormClearErrors, UseFormSetError } from "react-hook-form";
 
 import ErrorMessage from "@/components/form/ErrorMessage";
-
-import type { MemberFormType, PetFormType } from "@/types";
 
 const MAX_FILE_SIZE = 1024 * 1024;
 
@@ -15,7 +12,7 @@ interface UploadPhotoPropsType {
   message?: string;
   setError: () => void;
   clearErrors: () => void;
-  onChange?: (file: File) => void;
+  onChange: (file: File) => void;
 }
 
 const UploadPhoto = forwardRef<HTMLInputElement, UploadPhotoPropsType>(
@@ -28,18 +25,19 @@ const UploadPhoto = forwardRef<HTMLInputElement, UploadPhotoPropsType>(
       };
     }, [preview]);
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      event.target.value = "";
 
       //  限制圖片預覽大小
       if (file) {
-        if (file && file.size > MAX_FILE_SIZE) {
+        if (file.size > MAX_FILE_SIZE) {
           setError();
         } else {
           clearErrors();
           const previewUrl = URL.createObjectURL(file);
           setPreview(previewUrl);
-          onChange && onChange(file);
+          onChange(file);
         }
       }
     };
