@@ -15,6 +15,14 @@ interface MemberFormPropsType {
   onSubmit: (data: MemberFormType) => void;
 }
 
+const defaultValues = {
+  account: "",
+  username: "",
+  headShot: null,
+  introduction: "",
+  link: "",
+};
+
 const MemberForm: React.FC<MemberFormPropsType> = ({
   isLoading,
   statusCode,
@@ -22,19 +30,12 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
 }) => {
   const {
     handleSubmit,
+    register,
     control,
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm<MemberFormType>({
-    defaultValues: {
-      account: "",
-      username: "",
-      headShot: null,
-      introduction: "",
-      link: "",
-    },
-  });
+  } = useForm<MemberFormType>({ defaultValues });
 
   const router = useRouter();
 
@@ -119,20 +120,14 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
                 <h4 className="flex justify-between items-center">
                   <span>個人簡介</span>
                 </h4>
-                <Controller
+                <textarea
+                  {...register("introduction")}
                   name="introduction"
-                  control={control}
-                  render={({ field }) => (
-                    <textarea
-                      {...field}
-                      placeholder="輸入個人簡介"
-                      className="px-4 py-3 w-full h-12 border border-stroke outline-note rounded-[10px] overflow-hidden"
-                    />
-                  )}
+                  placeholder="輸入個人簡介"
+                  className="px-4 py-3 w-full h-12 border border-stroke outline-note rounded-[10px] overflow-hidden"
                 />
               </div>
               {/* 外部連結 */}
-
               <Controller
                 name="link"
                 control={control}

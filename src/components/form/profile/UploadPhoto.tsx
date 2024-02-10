@@ -1,6 +1,6 @@
+import { IconPhoto } from "@tabler/icons-react";
 import Image from "next/image";
 import React, { forwardRef, useEffect, useState } from "react";
-import { IconPhoto } from "@tabler/icons-react";
 import { UseFormClearErrors, UseFormSetError } from "react-hook-form";
 
 import ErrorMessage from "@/components/form/ErrorMessage";

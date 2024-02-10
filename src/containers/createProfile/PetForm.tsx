@@ -3,6 +3,7 @@ import { IconPhoto } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import ErrorMessage from "@/components/form/ErrorMessage";
+import UploadPhoto from "@/components/form/profile/UploadPhoto";
 
 const PetForm = () => {
   return (
@@ -18,6 +19,7 @@ const PetForm = () => {
         <form action="#" className="mt-4">
           <section className="flex gap-12 w-full">
             {/* 上傳照片 */}
+
             <div>
               <h4>寵物照片</h4>
               <label className="flex flex-col items-center gap-4 mt-4 cursor-pointer">
