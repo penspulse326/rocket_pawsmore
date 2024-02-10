@@ -77,8 +77,10 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
                 <UploadPhoto
                   {...field}
                   title="個人照片"
-                  setError={setError}
-                  clearErrors={clearErrors}
+                  setError={() =>
+                    setError("headShot", { message: errorText.IMAGE_OVERSIZE })
+                  }
+                  clearErrors={() => clearErrors("headShot")}
                   message={errors.headShot?.message}
                   onChange={(file: File) => field.onChange(file)}
                 />

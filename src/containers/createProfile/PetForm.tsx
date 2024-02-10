@@ -1,11 +1,37 @@
-import { IconCalendarPlus } from "@tabler/icons-react";
-import { IconPhoto } from "@tabler/icons-react";
+import { IconCalendarPlus, IconPhoto } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Controller, useForm } from "react-hook-form";
+
 import ErrorMessage from "@/components/form/ErrorMessage";
 import UploadPhoto from "@/components/form/profile/UploadPhoto";
 
+import type { PetFormType } from "@/types";
+import { errorText } from "@/common/lib/messageText";
+
+const defaultValues = {
+  petAccount: "",
+  petName: "",
+  petSpecies: "",
+  petGender: "",
+  breed: "",
+  birthday: "",
+  adoptedDate: "",
+  petPhoto: "",
+  petIntro: "",
+  link: "",
+};
+
 const PetForm = () => {
+  const {
+    handleSubmit,
+    register,
+    control,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm<PetFormType>({ defaultValues });
+
   return (
     <section className="flex flex-col gap-4 my-16 max-w-[728px] w-full">
       <div>
@@ -19,24 +45,19 @@ const PetForm = () => {
         <form action="#" className="mt-4">
           <section className="flex gap-12 w-full">
             {/* 上傳照片 */}
-
-            <div>
-              <h4>寵物照片</h4>
-              <label className="flex flex-col items-center gap-4 mt-4 cursor-pointer">
-                <Image
-                  src="/images/default-photo.png"
-                  alt="member-photo"
-                  width={200}
-                  height={200}
-                  className="mx-12 max-w-[172px] max-h-[172px] rounded-full"
+            <Controller
+              name="petPhoto"
+              render={({ field }) => (
+                <UploadPhoto
+                  {...field}
+                  title="寵物照片"
+                  setError={() =>
+                    setError("petPhoto", { message: errorText.IMAGE_OVERSIZE })
+                  }
+                  clearErrors={() => clearErrors("petPhoto")}
                 />
-                <input type="file" name="photo" className="hidden" />
-                <span className="flex items-center gap-2 text-primary">
-                  <IconPhoto className="stroke-primary" />
-                  上傳照片
-                </span>
-              </label>
-            </div>
+              )}
+            />
             {/* 其他欄位 */}
             <div className="flex-grow flex flex-col gap-4">
               {/* 物種 */}

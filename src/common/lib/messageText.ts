@@ -11,4 +11,5 @@ export const errorText = {
   USERNAME_REQUIRED: "用戶名稱不得為空",
   UNKNOWN_ERROR: "未知的錯誤",
   LOGIN_AGAIN: "登入狀態過期，請重新登入",
+  IMAGE_OVERSIZE: "圖片不能超過 1MB",
 };

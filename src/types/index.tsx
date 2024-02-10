@@ -17,6 +17,19 @@ export interface MemberFormType {
   link?: string;
 }
 
+export interface PetFormType {
+  petAccount: string;
+  petName: string;
+  petSpecies: string;
+  petGender: string;
+  breed: string;
+  birthday: string;
+  adoptedDate?: string;
+  petPhoto?: string;
+  petIntro?: string;
+  link?: string;
+}
+
 export interface UserInfoType {
   userId: string;
   username: string;

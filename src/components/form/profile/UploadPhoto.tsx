@@ -5,16 +5,16 @@ import { UseFormClearErrors, UseFormSetError } from "react-hook-form";
 
 import ErrorMessage from "@/components/form/ErrorMessage";
 
-import type { MemberFormType } from "@/types";
+import type { MemberFormType, PetFormType } from "@/types";
 
 const MAX_FILE_SIZE = 1024 * 1024;
 
 interface UploadPhotoPropsType {
-  name: string;
+  name: "headShot" | "petPhoto";
   title: string;
   message?: string;
-  setError: UseFormSetError<MemberFormType>;
-  clearErrors: UseFormClearErrors<MemberFormType>;
+  setError: () => void;
+  clearErrors: () => void;
   onChange?: (file: File) => void;
 }
 
@@ -34,11 +34,9 @@ const UploadPhoto = forwardRef<HTMLInputElement, UploadPhotoPropsType>(
       //  限制圖片預覽大小
       if (file) {
         if (file && file.size > MAX_FILE_SIZE) {
-          setError("headShot", {
-            message: "圖片大小不能超過 1MB",
-          });
+          setError();
         } else {
-          clearErrors("headShot");
+          clearErrors();
           const previewUrl = URL.createObjectURL(file);
           setPreview(previewUrl);
           onChange && onChange(file);
