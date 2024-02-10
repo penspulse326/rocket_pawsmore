@@ -1,3 +1,15 @@
+export const species = [
+  { label: "狗", value: 0 },
+  { label: "貓", value: 1 },
+  { label: "倉鼠", value: 2 },
+  { label: "其他", value: 3 },
+];
+
+export const gender = [
+  { label: "男", value: 0 },
+  { label: "女", value: 1 },
+];
+
 export const recordCard = {
   daily: {
     TITLE: "新增日常紀錄",

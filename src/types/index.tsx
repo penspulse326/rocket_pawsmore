@@ -20,8 +20,8 @@ export interface MemberFormType {
 export interface PetFormType {
   petAccount: string;
   petName: string;
-  petSpecies: string;
-  petGender: string;
+  petSpecies: number | null;
+  petGender: number | null;
   breed: string;
   birthday: string;
   adoptedDate?: string;

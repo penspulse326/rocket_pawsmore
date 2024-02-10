@@ -57,6 +57,7 @@ const DateInput = forwardRef<HTMLInputElement, DateInputPropsType>(
                   ref={ref}
                   name={name}
                   value={dateString}
+                  readOnly={true}
                   className="hidden"
                 />
               </label>

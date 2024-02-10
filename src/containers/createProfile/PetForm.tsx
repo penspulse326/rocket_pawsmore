@@ -1,21 +1,21 @@
-import { IconCalendarPlus, IconPhoto } from "@tabler/icons-react";
-import Image from "next/image";
 import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 
-import ErrorMessage from "@/components/form/ErrorMessage";
 import UploadPhoto from "@/components/form/profile/UploadPhoto";
 
-import type { PetFormType } from "@/types";
 import { errorText } from "@/common/lib/messageText";
 import TextInput from "@/components/form/profile/TextInput";
 import DateInput from "@/components/form/profile/DateInput";
+import RadioSelect from "@/components/form/profile/RadioSelect";
+import { gender, species } from "@/common/lib/formText";
+
+import type { PetFormType } from "@/types";
 
 const defaultValues = {
   petAccount: "",
   petName: "",
-  petSpecies: "",
-  petGender: "",
+  petSpecies: null,
+  petGender: null,
   breed: "",
   birthday: "",
   adoptedDate: "",
@@ -33,7 +33,7 @@ const PetForm: React.FC = () => {
     formState: { errors },
   } = useForm<PetFormType>({ defaultValues });
 
-  const handleAdd = (data: any) => console.log(123);
+  const handleAdd = (data: any) => console.log(data);
 
   return (
     <section className="flex flex-col gap-4 my-16 max-w-[728px] w-full">
@@ -67,81 +67,35 @@ const PetForm: React.FC = () => {
             {/* 其他欄位 */}
             <div className="flex-grow flex flex-col gap-4">
               {/* 物種 */}
-              <div className="flex flex-col gap-1">
-                <h4 className="flex justify-between items-center">
-                  <span>
-                    物種<span className="text-error">*</span>
-                  </span>
-                  <ErrorMessage>必填</ErrorMessage>
-                </h4>
-                <div className="flex gap-1">
-                  <label className="flex justify-center items-center px-4 py-2 border border-stroke rounded-full cursor-pointer">
-                    狗
-                    <input
-                      type="radio"
-                      name="species"
-                      value="dog"
-                      className="hidden"
-                    />
-                  </label>
-                  <label className="flex justify-center items-center px-4 py-2 border border-stroke rounded-full cursor-pointer">
-                    貓
-                    <input
-                      type="radio"
-                      name="species"
-                      value="cat"
-                      className="hidden"
-                    />
-                  </label>
-                  <label className="flex justify-center items-center px-4 py-2 border border-stroke rounded-full cursor-pointer">
-                    倉鼠
-                    <input
-                      type="radio"
-                      name="species"
-                      value="rice"
-                      className="hidden"
-                    />
-                  </label>
-                  <label className="flex justify-center items-center px-4 py-2 border border-stroke rounded-full cursor-pointer">
-                    其他
-                    <input
-                      type="radio"
-                      name="species"
-                      value="other"
-                      className="hidden"
-                    />
-                  </label>
-                </div>
-              </div>
+              <Controller
+                name="petSpecies"
+                control={control}
+                rules={{ required: errorText.REQUIRED }}
+                render={({ field }) => (
+                  <RadioSelect
+                    {...field}
+                    title="物種"
+                    dataSet={species}
+                    message={errors.petSpecies?.message}
+                    onChange={(value) => field.onChange(value)}
+                  />
+                )}
+              />
               {/* 性別 */}
-              <div className="flex flex-col gap-1">
-                <h4 className="flex justify-between items-center">
-                  <span>
-                    性別<span className="text-error">*</span>
-                  </span>
-                  <ErrorMessage>必填</ErrorMessage>
-                </h4>
-                <div className="flex gap-1">
-                  <label className="flex justify-center items-center px-4 py-2 border border-stroke rounded-full cursor-pointer">
-                    男生
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="male"
-                      className="hidden"
-                    />
-                  </label>
-                  <label className="flex justify-center items-center px-4 py-2 border border-stroke rounded-full cursor-pointer">
-                    女生
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="female"
-                      className="hidden"
-                    />
-                  </label>
-                </div>
-              </div>
+              <Controller
+                name="petSpecies"
+                control={control}
+                rules={{ required: errorText.REQUIRED }}
+                render={({ field }) => (
+                  <RadioSelect
+                    {...field}
+                    title="性別"
+                    dataSet={gender}
+                    message={errors.petGender?.message}
+                    onChange={(value) => field.onChange(value)}
+                  />
+                )}
+              />
               {/* 品種 */}
               <Controller
                 name="breed"
@@ -149,11 +103,11 @@ const PetForm: React.FC = () => {
                 rules={{ required: errorText.REQUIRED }}
                 render={({ field }) => (
                   <TextInput
+                    {...field}
                     title="品種"
                     placeholder="米克斯、柴犬、敘利亞倉鼠等等"
                     message={errors.breed?.message}
                     star={true}
-                    {...field}
                   />
                 )}
               />
@@ -164,10 +118,11 @@ const PetForm: React.FC = () => {
                 rules={{ required: errorText.REQUIRED }}
                 render={({ field }) => (
                   <DateInput
+                    {...field}
                     title="生日"
                     message={errors.birthday?.message}
                     star={true}
-                    {...field}
+                    onChange={(value) => field.onChange(value)}
                   />
                 )}
               />
@@ -175,7 +130,13 @@ const PetForm: React.FC = () => {
               <Controller
                 name="adoptedDate"
                 control={control}
-                render={({ field }) => <DateInput title="領養日" {...field} />}
+                render={({ field }) => (
+                  <DateInput
+                    {...field}
+                    title="領養日"
+                    onChange={(value) => field.onChange(value)}
+                  />
+                )}
               />
             </div>
           </section>
