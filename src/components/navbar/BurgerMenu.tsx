@@ -63,12 +63,20 @@ const Menu: React.FC<MenuPropsType> = ({
             </Link>
           </li>
           <li className="rounded-[30px] hover:bg-secondary duration-300">
-            <Link href="#" className="block px-3 py-1 w-full">
+            <Link
+              href="#"
+              // href="/user_dashboard?to=user"
+              className="block px-3 py-1 w-full"
+            >
               個人帳號資料
             </Link>
           </li>
           <li className="mb-2 rounded-[30px] hover:bg-secondary duration-300">
-            <Link href="#" className="block px-3 py-1 w-full">
+            <Link
+              href="#"
+              // href="/user_dashboard?to=pets"
+              className="block px-3 py-1 w-full"
+            >
               寵物基本資料
             </Link>
           </li>
