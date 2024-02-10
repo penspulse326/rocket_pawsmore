@@ -8,6 +8,15 @@
     -webkit-appearance: none;
     margin: 0;
   }
+  /* to hide the calendar icon in input-type-date */
+  input[type="date"]::-webkit-inner-spin-button,
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    padding: 0 5px;
+    -webkit-appearance: none;
+  }
 }
 
 @layer components {
