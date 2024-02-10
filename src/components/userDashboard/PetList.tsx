@@ -1,100 +1,19 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import moment from "moment";
+import petData from "@/common/lib/test/petData";
+import PetProfile from "./PetProfile";
 
 const PetList: React.FC<{ title: string }> = ({ title }) => {
   const [hasPets, setHasPets] = useState(true);
-  const petData = [
-    {
-      userId: 3,
-      petId: 15,
-      petAccountId: "littleprincess126",
-      petName: "角龍寶寶",
-      petPhoto: "/test/photo-cat-test.png",
-      petSpecies: 2,
-      petGender: 0,
-      breed: "米克斯",
-      birthday: "2023-08-01T00:00:00",
-      adoptedDate: null,
-      petIntro: "丘",
-      link: "https://www.youtube.com/watch?v=kyqpSycLASY",
-    },
-    {
-      userId: 4,
-      petId: 16,
-      petAccountId: "beibeiiiii",
-      petName: "貝貝",
-      petPhoto: "/test/photo-dog-test.jpg",
-      petSpecies: 2,
-      petGender: 1,
-      breed: "黃金獵犬",
-      birthday: "2021-06-01T00:00:00",
-      adoptedDate: null,
-      petIntro: "丘",
-      link: "https://www.youtube.com/watch?v=kyqpSycLASY",
-    },
-    {
-      userId: 4,
-      petId: 16,
-      petAccountId: "beibeiiiii",
-      petName: "貝貝",
-      petPhoto: "/test/photo-dog-test.jpg",
-      petSpecies: 2,
-      petGender: 1,
-      breed: "黃金獵犬",
-      birthday: "2021-06-01T00:00:00",
-      adoptedDate: null,
-      petIntro: "丘",
-      link: "https://www.youtube.com/watch?v=kyqpSycLASY",
-    },
-    {
-      userId: 4,
-      petId: 16,
-      petAccountId: "beibeiiiii",
-      petName: "貝貝",
-      petPhoto: "/test/photo-dog-test.jpg",
-      petSpecies: 2,
-      petGender: 1,
-      breed: "黃金獵犬",
-      birthday: "2021-06-01T00:00:00",
-      adoptedDate: null,
-      petIntro: "丘",
-      link: "https://www.youtube.com/watch?v=kyqpSycLASY",
-    },
-    {
-      userId: 4,
-      petId: 16,
-      petAccountId: "beibeiiiii",
-      petName: "貝貝",
-      petPhoto: "/test/photo-dog-test.jpg",
-      petSpecies: 2,
-      petGender: 1,
-      breed: "黃金獵犬",
-      birthday: "2021-06-01T00:00:00",
-      adoptedDate: null,
-      petIntro: "丘",
-      link: "https://www.youtube.com/watch?v=kyqpSycLASY",
-    },
-    {
-      userId: 4,
-      petId: 16,
-      petAccountId: "beibeiiiii",
-      petName: "貝貝",
-      petPhoto: "/test/photo-dog-test.jpg",
-      petSpecies: 2,
-      petGender: 1,
-      breed: "黃金獵犬",
-      birthday: "2021-06-01T00:00:00",
-      adoptedDate: null,
-      petIntro: "丘",
-      link: "https://www.youtube.com/watch?v=kyqpSycLASY",
-    },
-  ];
+  const [selectedPet, setSelectedPet] = useState(-1);
+
   const PetCard: React.FC = () => {
     return (
       <div className="flex gap-4 flex-wrap">
         {petData.map((pet, index) => {
           const {
+            petId,
             petName,
             petAccountId,
             petGender,
@@ -132,6 +51,7 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
               </ul>
               <button
                 className="mb-4 py-2 rounded-[30px] bg-primary text-white text-center"
+                onClick={() => setSelectedPet(petId)}
                 type="button"
               >
                 編輯
@@ -172,7 +92,15 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
             切換有無寵物
           </button>
         </div>
-        {hasPets ? <PetCard /> : <AddPet />}
+        {hasPets ? (
+          selectedPet !== -1 ? (
+            <PetProfile petId={selectedPet} />
+          ) : (
+            <PetCard />
+          )
+        ) : (
+          <AddPet />
+        )}
       </div>
     </>
   );
