@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import moment from "moment";
 import { IconPhoto, IconCalendarPlus } from "@tabler/icons-react";
+import getPetSpecies from "@/common/helpers/getPetSpecies";
 import petData from "@/common/lib/test/petData";
 import ErrorMessage from "../ErrorMessage";
 import { errorText } from "@/common/lib/messageText";
@@ -10,9 +11,7 @@ const PetProfile: React.FC<{ petId: number }> = ({ petId }) => {
   const selectedPet = petData.find((pet) => pet.petId === petId);
   const [breed, setBreed] = useState(selectedPet && selectedPet.breed);
   const [name, setName] = useState(selectedPet && selectedPet.petName);
-  const [account, setAccount] = useState(
-    selectedPet && selectedPet.petAccountId
-  );
+  const [account, setAccount] = useState(selectedPet && selectedPet.petAccount);
   const [info, setInfo] = useState(selectedPet && selectedPet.petIntro);
   const [link, setLink] = useState(selectedPet && selectedPet.link);
   const [birthday, setBirthday] = useState(
@@ -25,21 +24,6 @@ const PetProfile: React.FC<{ petId: number }> = ({ petId }) => {
     return null;
   }
   const { petName, petPhoto, petSpecies, petGender } = selectedPet;
-
-  const getSpecies = (prop: number) => {
-    switch (prop) {
-      case 0:
-        return "狗";
-      case 1:
-        return "貓";
-      case 2:
-        return "倉鼠";
-      case 3:
-        return "其他";
-      default:
-        return null;
-    }
-  };
 
   const rowsOfTextarea: number = info!.split("\n").length;
 
@@ -69,7 +53,7 @@ const PetProfile: React.FC<{ petId: number }> = ({ petId }) => {
             <ul className="flex flex-col gap-y-1">
               <li>物種</li>
               <li className="bg-primary text-white px-4 py-2 rounded-full self-start">
-                {getSpecies(petSpecies)}
+                {getPetSpecies(petSpecies)}
               </li>
             </ul>
             <ul className="flex flex-col gap-y-1">

@@ -3,6 +3,7 @@ import Image from "next/image";
 import moment from "moment";
 import petData from "@/common/lib/test/petData";
 import PetProfile from "./PetProfile";
+import getPetSpecies from "@/common/helpers/getPetSpecies";
 
 const PetList: React.FC<{ title: string }> = ({ title }) => {
   const [hasPets, setHasPets] = useState(true);
@@ -15,7 +16,8 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
           const {
             petId,
             petName,
-            petAccountId,
+            petAccount,
+            petSpecies,
             petGender,
             breed,
             birthday,
@@ -25,6 +27,21 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
             const year = moment().diff(moment(birthday), "year");
             const month = moment().diff(moment(birthday), "month") % 12;
             return `${year} 歲 ${month} 月`;
+          };
+
+          const getSpecies = (prop: number) => {
+            switch (prop) {
+              case 0:
+                return "狗";
+              case 1:
+                return "貓";
+              case 2:
+                return "倉鼠";
+              case 3:
+                return "其他";
+              default:
+                return null;
+            }
           };
 
           return (
@@ -42,10 +59,11 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
               />
               <ul className="flex flex-col gap-1">
                 <li>{petName}</li>
-                <li>@{petAccountId}</li>
+                <li>@{petAccount}</li>
                 <ol className="text-note flex gap-x-2">
+                  <li>{getPetSpecies(petSpecies)}</li>
                   <li>{breed}</li>
-                  <li>{petGender ? "男生" : "女生"}</li>
+                  <li>{petGender ? "女生" : "男生"}</li>
                 </ol>
                 <li className="text-note">{age(birthday)}</li>
               </ul>
