@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import UploadPhoto from "@/components/form/profile/UploadPhoto";
@@ -8,8 +10,15 @@ import TextInput from "@/components/form/profile/TextInput";
 import DateInput from "@/components/form/profile/DateInput";
 import RadioSelect from "@/components/form/profile/RadioSelect";
 import { gender, species } from "@/common/lib/formText";
+import BtnLoading from "@/components/hint/BtnLoading";
 
 import type { PetFormType } from "@/types";
+
+interface PetFormPropsType {
+  isLoading: boolean;
+  statusCode: number;
+  onSubmit: (data: PetFormType) => void;
+}
 
 const defaultValues = {
   petAccount: "",
@@ -19,12 +28,16 @@ const defaultValues = {
   breed: "",
   birthday: "",
   adoptedDate: "",
-  petPhoto: "",
+  petPhoto: null,
   petIntro: "",
   link: "",
 };
 
-const PetForm: React.FC = () => {
+const PetForm: React.FC<PetFormPropsType> = ({
+  isLoading,
+  statusCode,
+  onSubmit: handleCreatePet,
+}) => {
   const {
     handleSubmit,
     control,
@@ -33,7 +46,26 @@ const PetForm: React.FC = () => {
     formState: { errors },
   } = useForm<PetFormType>({ defaultValues });
 
-  const handleAdd = (data: any) => console.log(data);
+  const router = useRouter();
+
+  useEffect(() => {
+    switch (statusCode) {
+      case 401:
+        alert(errorText.LOGIN_AGAIN);
+        router.push("/login");
+        break;
+      case 409:
+        setError("petAccount", { message: errorText.ACCOUNT_USED });
+        break;
+      case 500:
+        setError("petAccount", { message: errorText.UNKNOWN_ERROR });
+        break;
+      default:
+        break;
+    }
+  }, [statusCode]);
+
+  const handleAdd = (data: any) => handleCreatePet(data);
 
   return (
     <section className="flex flex-col gap-4 my-16 max-w-[728px] w-full">
@@ -83,7 +115,7 @@ const PetForm: React.FC = () => {
               />
               {/* 性別 */}
               <Controller
-                name="petSpecies"
+                name="petGender"
                 control={control}
                 rules={{ required: errorText.REQUIRED }}
                 render={({ field }) => (
@@ -204,9 +236,10 @@ const PetForm: React.FC = () => {
           </section>
           <button
             type="submit"
-            className="py-2 mt-12 w-full rounded-full bg-primary text-xl text-white font-semibold"
+            disabled={isLoading}
+            className="flex justify-center items-center mt-12 py-2 w-full min-h-[46px] rounded-full bg-primary text-xl text-white font-semibold"
           >
-            新增寵物檔案
+            {isLoading ? <BtnLoading /> : "新增寵物檔案"}
           </button>
         </form>
         <div className="flex justify-end">

@@ -25,7 +25,7 @@ export interface PetFormType {
   breed: string;
   birthday: string;
   adoptedDate?: string;
-  petPhoto?: string;
+  petPhoto: File | null;
   petIntro?: string;
   link?: string;
 }

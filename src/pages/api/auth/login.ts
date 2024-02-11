@@ -3,7 +3,6 @@ import apiBase from "../apiBase";
 
 interface ResponseType {
   statusCode?: number;
-  status?: "Success" | "Error";
   message: string;
   data?: any;
 }

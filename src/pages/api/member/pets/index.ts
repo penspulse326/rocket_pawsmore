@@ -19,7 +19,7 @@ export default async function handler(
   }
 
   try {
-    const response = await fetch(apiBase.CREATE_MEMBER, {
+    const response = await fetch(apiBase.CREATE_PET, {
       method: "POST",
       body: requestBody,
       headers: {
