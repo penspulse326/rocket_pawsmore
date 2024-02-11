@@ -91,12 +91,19 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
               <Controller
                 name="account"
                 control={control}
-                rules={{ required: errorText.REQUIRED }}
+                rules={{
+                  required: errorText.REQUIRED,
+                  pattern: {
+                    value: /^[a-zA-Z0-9]{1,}$/,
+                    message: errorText.ACCOUNT_INVALID,
+                  },
+                }}
                 render={({ field }) => (
                   <TextInput
                     {...field}
                     title="用戶帳號"
-                    placeholder="設定您的用戶帳號，以英數字組成"
+                    placeholder="設定您的用戶帳號，30字內以英數字組成"
+                    maxLength={30}
                     message={errors.account?.message}
                     star={true}
                   />
@@ -112,6 +119,7 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
                     {...field}
                     title="用戶名稱"
                     placeholder="在個人檔案上顯示您的名稱"
+                    maxLength={15}
                     message={errors.username?.message}
                     star={true}
                   />

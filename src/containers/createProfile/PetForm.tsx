@@ -180,12 +180,19 @@ const PetForm: React.FC<PetFormPropsType> = ({
               <Controller
                 name="petAccount"
                 control={control}
-                rules={{ required: errorText.REQUIRED }}
+                rules={{
+                  required: errorText.REQUIRED,
+                  pattern: {
+                    value: /^[a-zA-Z0-9]{1,}$/,
+                    message: errorText.ACCOUNT_INVALID,
+                  },
+                }}
                 render={({ field }) => (
                   <TextInput
                     title="寵物帳號"
-                    placeholder="設定寵物帳號，以英數字組成。"
+                    placeholder="設定寵物帳號，30字內以英數字組成。"
                     message={errors.petAccount?.message}
+                    maxLength={30}
                     star={true}
                     {...field}
                   />
@@ -200,6 +207,7 @@ const PetForm: React.FC<PetFormPropsType> = ({
                   <TextInput
                     title="寵物名稱"
                     placeholder="在個人檔案上顯示寵物的名稱"
+                    maxLength={15}
                     message={errors.petName?.message}
                     star={true}
                     {...field}
