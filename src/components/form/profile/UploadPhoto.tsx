@@ -2,7 +2,7 @@ import { IconPhoto } from "@tabler/icons-react";
 import Image from "next/image";
 import React, { forwardRef, useEffect, useState } from "react";
 
-import ErrorMessage from "@/components/form/ErrorMessage";
+import ErrorMessage from "@/components/ErrorMessage";
 
 const MAX_FILE_SIZE = 1024 * 1024;
 

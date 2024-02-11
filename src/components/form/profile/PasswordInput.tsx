@@ -1,5 +1,5 @@
 import React, { forwardRef, useState } from "react";
-import ErrorMessage from "../ErrorMessage";
+import ErrorMessage from "../../ErrorMessage";
 import { IconEye, IconEyeClosed } from "@tabler/icons-react";
 
 // apply react-hook-form
