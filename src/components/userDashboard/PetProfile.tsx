@@ -10,9 +10,7 @@ const PetProfile: React.FC<{ petId: number }> = ({ petId }) => {
   const selectedPet = petData.find((pet) => pet.petId === petId);
   const [breed, setBreed] = useState(selectedPet && selectedPet.breed);
   const [name, setName] = useState(selectedPet && selectedPet.petName);
-  const [account, setAccount] = useState(
-    selectedPet && selectedPet.petAccountId
-  );
+  const [account, setAccount] = useState(selectedPet && selectedPet.petAccount);
   const [info, setInfo] = useState(selectedPet && selectedPet.petIntro);
   const [link, setLink] = useState(selectedPet && selectedPet.link);
   const [birthday, setBirthday] = useState(

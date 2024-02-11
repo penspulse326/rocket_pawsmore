@@ -1,7 +1,7 @@
 interface petDataType {
   userId: number;
   petId: number;
-  petAccountId: string;
+  petAccount: string;
   petName: string;
   petPhoto: string;
   petSpecies: number;
@@ -17,7 +17,7 @@ const petData: petDataType[] = [
   {
     userId: 3,
     petId: 15,
-    petAccountId: "littleprincess126",
+    petAccount: "littleprincess126",
     petName: "角龍寶寶",
     petPhoto: "/test/photo-cat-test.png",
     petSpecies: 1,
@@ -32,7 +32,7 @@ const petData: petDataType[] = [
   {
     userId: 4,
     petId: 16,
-    petAccountId: "beibeiiiii",
+    petAccount: "beibeiiiii",
     petName: "貝貝",
     petPhoto: "/test/photo-dog-test.jpg",
     petSpecies: 2,
@@ -46,7 +46,7 @@ const petData: petDataType[] = [
   {
     userId: 4,
     petId: 16,
-    petAccountId: "beibeiiiii",
+    petAccount: "beibeiiiii",
     petName: "貝貝",
     petPhoto: "/test/photo-dog-test.jpg",
     petSpecies: 2,
@@ -60,7 +60,7 @@ const petData: petDataType[] = [
   {
     userId: 4,
     petId: 16,
-    petAccountId: "beibeiiiii",
+    petAccount: "beibeiiiii",
     petName: "貝貝",
     petPhoto: "/test/photo-dog-test.jpg",
     petSpecies: 2,
@@ -74,7 +74,7 @@ const petData: petDataType[] = [
   {
     userId: 4,
     petId: 16,
-    petAccountId: "beibeiiiii",
+    petAccount: "beibeiiiii",
     petName: "貝貝",
     petPhoto: "/test/photo-dog-test.jpg",
     petSpecies: 2,
@@ -88,7 +88,7 @@ const petData: petDataType[] = [
   {
     userId: 4,
     petId: 16,
-    petAccountId: "beibeiiiii",
+    petAccount: "beibeiiiii",
     petName: "貝貝",
     petPhoto: "/test/photo-dog-test.jpg",
     petSpecies: 2,

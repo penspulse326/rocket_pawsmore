@@ -15,7 +15,8 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
           const {
             petId,
             petName,
-            petAccountId,
+            petAccount,
+            petSpecies,
             petGender,
             breed,
             birthday,
@@ -42,7 +43,7 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
               />
               <ul className="flex flex-col gap-1">
                 <li>{petName}</li>
-                <li>@{petAccountId}</li>
+                <li>@{petAccount}</li>
                 <ol className="text-note flex gap-x-2">
                   <li>{breed}</li>
                   <li>{petGender ? "男生" : "女生"}</li>
