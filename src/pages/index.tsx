@@ -10,6 +10,9 @@ export default function Home() {
       <Link href="/pet_profile" className="underline">
         寵物檔案
       </Link>
+      <Link href="/user_profile" className="underline">
+        使用者檔案
+      </Link>
       <Link href="/test/upload" className="underline ">
         檔案上傳
       </Link>
