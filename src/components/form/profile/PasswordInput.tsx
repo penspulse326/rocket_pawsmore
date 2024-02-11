@@ -19,7 +19,7 @@ const PasswordInpput = forwardRef<HTMLInputElement, InputPropsType>(
     const borderStyle = message ? { border: "1px solid #F23030" } : {};
 
     return (
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 w-full">
         <h4 className="flex justify-between items-center">
           <span>{title}</span>
           {message && <ErrorMessage>{message}</ErrorMessage>}

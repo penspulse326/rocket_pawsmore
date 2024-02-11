@@ -1,7 +1,7 @@
 import { IconPhoto, IconMovie, IconMedal } from "@tabler/icons-react";
 import { useState } from "react";
 
-import Mask from "../../../components/Mask";
+import Mask from "../../../components/hint/Mask";
 import UploadView from "../../../components/social/UploadView";
 
 const BtnPawk = () => {

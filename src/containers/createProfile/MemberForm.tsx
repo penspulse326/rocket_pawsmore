@@ -5,15 +5,23 @@ import { Controller, useForm } from "react-hook-form";
 import TextInput from "@/components/form/profile/TextInput";
 import UploadPhoto from "@/components/form/profile/UploadPhoto";
 import { errorText } from "@/common/lib/messageText";
+import BtnLoading from "@/components/hint/BtnLoading";
 
 import type { MemberFormType } from "@/types";
-import BtnLoading from "@/components/BtnLoading";
 
 interface MemberFormPropsType {
   isLoading: boolean;
   statusCode: number;
   onSubmit: (data: MemberFormType) => void;
 }
+
+const defaultValues = {
+  account: "",
+  username: "",
+  headShot: null,
+  introduction: "",
+  link: "",
+};
 
 const MemberForm: React.FC<MemberFormPropsType> = ({
   isLoading,
@@ -22,19 +30,12 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
 }) => {
   const {
     handleSubmit,
+    register,
     control,
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm<MemberFormType>({
-    defaultValues: {
-      account: "",
-      username: "",
-      headShot: null,
-      introduction: "",
-      link: "",
-    },
-  });
+  } = useForm<MemberFormType>({ defaultValues });
 
   const router = useRouter();
 
@@ -76,8 +77,10 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
                 <UploadPhoto
                   {...field}
                   title="個人照片"
-                  setError={setError}
-                  clearErrors={clearErrors}
+                  setError={() =>
+                    setError("headShot", { message: errorText.IMAGE_OVERSIZE })
+                  }
+                  clearErrors={() => clearErrors("headShot")}
                   message={errors.headShot?.message}
                   onChange={(file: File) => field.onChange(file)}
                 />
@@ -88,12 +91,19 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
               <Controller
                 name="account"
                 control={control}
-                rules={{ required: errorText.REQUIRED }}
+                rules={{
+                  required: errorText.REQUIRED,
+                  pattern: {
+                    value: /^[a-zA-Z0-9]{1,}$/,
+                    message: errorText.ACCOUNT_INVALID,
+                  },
+                }}
                 render={({ field }) => (
                   <TextInput
                     {...field}
                     title="用戶帳號"
-                    placeholder="設定您的用戶帳號，以英數字組成"
+                    placeholder="設定您的用戶帳號，30字內以英數字組成"
+                    maxLength={30}
                     message={errors.account?.message}
                     star={true}
                   />
@@ -109,6 +119,7 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
                     {...field}
                     title="用戶名稱"
                     placeholder="在個人檔案上顯示您的名稱"
+                    maxLength={15}
                     message={errors.username?.message}
                     star={true}
                   />
@@ -119,20 +130,14 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
                 <h4 className="flex justify-between items-center">
                   <span>個人簡介</span>
                 </h4>
-                <Controller
+                <textarea
+                  {...register("introduction")}
                   name="introduction"
-                  control={control}
-                  render={({ field }) => (
-                    <textarea
-                      {...field}
-                      placeholder="輸入個人簡介"
-                      className="px-4 py-3 w-full h-12 border border-stroke outline-note rounded-[10px] overflow-hidden"
-                    />
-                  )}
+                  placeholder="輸入個人簡介"
+                  className="px-4 py-3 w-full h-12 border border-stroke outline-note rounded-[10px] overflow-hidden"
                 />
               </div>
               {/* 外部連結 */}
-
               <Controller
                 name="link"
                 control={control}

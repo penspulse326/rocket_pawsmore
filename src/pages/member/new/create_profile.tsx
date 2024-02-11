@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useState, type ReactElement } from "react";
 
 import CreatePageLayout from "@/containers/createProfile/CreatePageLayout";
@@ -13,6 +14,8 @@ import type { NextPageWithLayout } from "../../_app";
 import type { MemberFormType } from "@/types";
 
 const CreateProfilePage: NextPageWithLayout = () => {
+  const router = useRouter();
+
   const dispatch = useDispatch();
   const { token } = useSelector((state: RootState) => state.userInfo);
 
@@ -73,6 +76,7 @@ const CreateProfilePage: NextPageWithLayout = () => {
     }
 
     setIsLoading(false);
+    router.push("/member/new/create_pet");
   };
   return (
     <MemberForm

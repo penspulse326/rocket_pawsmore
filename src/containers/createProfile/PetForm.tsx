@@ -1,10 +1,72 @@
-import ErrorMessage from "@/components/ErrorMessage";
-import { IconCalendarPlus } from "@tabler/icons-react";
-import { IconPhoto } from "@tabler/icons-react";
-import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
 
-const PetForm = () => {
+import UploadPhoto from "@/components/form/profile/UploadPhoto";
+
+import { errorText } from "@/common/lib/messageText";
+import TextInput from "@/components/form/profile/TextInput";
+import DateInput from "@/components/form/profile/DateInput";
+import RadioSelect from "@/components/form/profile/RadioSelect";
+import { gender, species } from "@/common/lib/formText";
+import BtnLoading from "@/components/hint/BtnLoading";
+
+import type { PetFormType } from "@/types";
+
+interface PetFormPropsType {
+  isLoading: boolean;
+  statusCode: number;
+  onSubmit: (data: PetFormType) => void;
+}
+
+const defaultValues = {
+  petAccount: "",
+  petName: "",
+  petSpecies: null,
+  petGender: null,
+  breed: "",
+  birthday: "",
+  adoptedDate: "",
+  petPhoto: null,
+  petIntro: "",
+  link: "",
+};
+
+const PetForm: React.FC<PetFormPropsType> = ({
+  isLoading,
+  statusCode,
+  onSubmit: handleCreatePet,
+}) => {
+  const {
+    handleSubmit,
+    control,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm<PetFormType>({ defaultValues });
+
+  const router = useRouter();
+
+  useEffect(() => {
+    switch (statusCode) {
+      case 401:
+        alert(errorText.LOGIN_AGAIN);
+        router.push("/login");
+        break;
+      case 409:
+        setError("petAccount", { message: errorText.ACCOUNT_USED });
+        break;
+      case 500:
+        setError("petAccount", { message: errorText.UNKNOWN_ERROR });
+        break;
+      default:
+        break;
+    }
+  }, [statusCode]);
+
+  const handleAdd = (data: any) => handleCreatePet(data);
+
   return (
     <section className="flex flex-col gap-4 my-16 max-w-[728px] w-full">
       <div>
@@ -15,209 +77,177 @@ const PetForm = () => {
       </div>
       <section className="p-8 border border-stroke rounded-[30px]">
         <h2 className="text-2xl">寵物基本資料</h2>
-        <form action="#" className="mt-4">
+        <form onSubmit={handleSubmit(handleAdd)} className="mt-4">
           <section className="flex gap-12 w-full">
             {/* 上傳照片 */}
-            <div>
-              <h4>寵物照片</h4>
-              <label className="flex flex-col items-center gap-4 mt-4 cursor-pointer">
-                <Image
-                  src="/images/default-photo.png"
-                  alt="member-photo"
-                  width={200}
-                  height={200}
-                  className="mx-12 max-w-[172px] max-h-[172px] rounded-full"
+            <Controller
+              name="petPhoto"
+              control={control}
+              render={({ field }) => (
+                <UploadPhoto
+                  {...field}
+                  title="寵物照片"
+                  setError={() =>
+                    setError("petPhoto", { message: errorText.IMAGE_OVERSIZE })
+                  }
+                  clearErrors={() => clearErrors("petPhoto")}
+                  message={errors.petPhoto?.message}
+                  onChange={(file: File) => field.onChange(file)}
                 />
-                <input type="file" name="photo" className="hidden" />
-                <span className="flex items-center gap-2 text-primary">
-                  <IconPhoto className="stroke-primary" />
-                  上傳照片
-                </span>
-              </label>
-            </div>
+              )}
+            />
             {/* 其他欄位 */}
             <div className="flex-grow flex flex-col gap-4">
               {/* 物種 */}
-              <div className="flex flex-col gap-1">
-                <h4 className="flex justify-between items-center">
-                  <span>
-                    物種<span className="text-error">*</span>
-                  </span>
-                  <ErrorMessage>必填</ErrorMessage>
-                </h4>
-                <div className="flex gap-1">
-                  <label className="flex justify-center items-center px-4 py-2 border border-stroke rounded-full cursor-pointer">
-                    狗
-                    <input
-                      type="radio"
-                      name="species"
-                      value="dog"
-                      className="hidden"
-                    />
-                  </label>
-                  <label className="flex justify-center items-center px-4 py-2 border border-stroke rounded-full cursor-pointer">
-                    貓
-                    <input
-                      type="radio"
-                      name="species"
-                      value="cat"
-                      className="hidden"
-                    />
-                  </label>
-                  <label className="flex justify-center items-center px-4 py-2 border border-stroke rounded-full cursor-pointer">
-                    倉鼠
-                    <input
-                      type="radio"
-                      name="species"
-                      value="rice"
-                      className="hidden"
-                    />
-                  </label>
-                  <label className="flex justify-center items-center px-4 py-2 border border-stroke rounded-full cursor-pointer">
-                    其他
-                    <input
-                      type="radio"
-                      name="species"
-                      value="other"
-                      className="hidden"
-                    />
-                  </label>
-                </div>
-              </div>
+              <Controller
+                name="petSpecies"
+                control={control}
+                rules={{ required: errorText.REQUIRED }}
+                render={({ field }) => (
+                  <RadioSelect
+                    {...field}
+                    title="物種"
+                    dataSet={species}
+                    message={errors.petSpecies?.message}
+                    onChange={(value) => field.onChange(value)}
+                  />
+                )}
+              />
               {/* 性別 */}
-              <div className="flex flex-col gap-1">
-                <h4 className="flex justify-between items-center">
-                  <span>
-                    性別<span className="text-error">*</span>
-                  </span>
-                  <ErrorMessage>必填</ErrorMessage>
-                </h4>
-                <div className="flex gap-1">
-                  <label className="flex justify-center items-center px-4 py-2 border border-stroke rounded-full cursor-pointer">
-                    男生
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="male"
-                      className="hidden"
-                    />
-                  </label>
-                  <label className="flex justify-center items-center px-4 py-2 border border-stroke rounded-full cursor-pointer">
-                    女生
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="female"
-                      className="hidden"
-                    />
-                  </label>
-                </div>
-              </div>
+              <Controller
+                name="petGender"
+                control={control}
+                rules={{ required: errorText.REQUIRED }}
+                render={({ field }) => (
+                  <RadioSelect
+                    {...field}
+                    title="性別"
+                    dataSet={gender}
+                    message={errors.petGender?.message}
+                    onChange={(value) => field.onChange(value)}
+                  />
+                )}
+              />
               {/* 品種 */}
-              <div className="flex flex-col gap-1">
-                <h4 className="flex justify-between items-center">
-                  <span>品種</span>
-                </h4>
-                <input
-                  type="text"
-                  name="account"
-                  placeholder="米克斯、柴犬、敘利亞倉鼠等等"
-                  className="px-4 py-3 w-full border border-stroke outline-note rounded-[10px] "
-                />
-              </div>
+              <Controller
+                name="breed"
+                control={control}
+                rules={{ required: errorText.REQUIRED }}
+                render={({ field }) => (
+                  <TextInput
+                    {...field}
+                    title="品種"
+                    placeholder="米克斯、柴犬、敘利亞倉鼠等等"
+                    message={errors.breed?.message}
+                    star={true}
+                  />
+                )}
+              />
               {/* 生日 */}
-              <div className="flex flex-col gap-2">
-                <h4 className="flex justify-between items-center">
-                  <span>
-                    生日<span className="text-error">*</span>
-                  </span>
-                </h4>
-                <div className="flex items-center gap-2">
-                  <button type="button">
-                    <IconCalendarPlus />
-                  </button>
-                  <span className="text-note">選擇日期</span>
-                </div>
-              </div>
+              <Controller
+                name="birthday"
+                control={control}
+                rules={{ required: errorText.REQUIRED }}
+                render={({ field }) => (
+                  <DateInput
+                    {...field}
+                    title="生日"
+                    message={errors.birthday?.message}
+                    star={true}
+                    onChange={(value) => field.onChange(value)}
+                  />
+                )}
+              />
               {/* 領養日 */}
-              <div className="flex flex-col gap-2">
-                <h4 className="flex justify-between items-center">
-                  <span>領養日</span>
-                </h4>
-                <div className="flex items-center gap-2">
-                  <button type="button">
-                    <IconCalendarPlus />
-                  </button>
-                  <span className="text-note">選擇日期</span>
-                </div>
-              </div>
+              <Controller
+                name="adoptedDate"
+                control={control}
+                render={({ field }) => (
+                  <DateInput
+                    {...field}
+                    title="領養日"
+                    onChange={(value) => field.onChange(value)}
+                  />
+                )}
+              />
             </div>
           </section>
           {/* 寵物帳號資料 */}
           <section className="flex flex-col gap-4 mt-12">
             <h2 className="text-2xl">寵物基本資料</h2>
-            <div className="flex gap-8 w-full">
+            <div className="flex gap-8">
               {/* 寵物帳號 */}
-              <div className="flex flex-col gap-1 w-[50%]">
-                <h4 className="flex justify-between items-center">
-                  <span>
-                    寵物帳號<span className="text-error">*</span>
-                  </span>
-                </h4>
-                <input
-                  type="text"
-                  name="account"
-                  placeholder="設定寵物帳號，以英數字組成。"
-                  className="px-4 py-3 w-full border border-stroke outline-note rounded-[10px] "
-                />
-              </div>
+              <Controller
+                name="petAccount"
+                control={control}
+                rules={{
+                  required: errorText.REQUIRED,
+                  pattern: {
+                    value: /^[a-zA-Z0-9]{1,}$/,
+                    message: errorText.ACCOUNT_INVALID,
+                  },
+                }}
+                render={({ field }) => (
+                  <TextInput
+                    title="寵物帳號"
+                    placeholder="設定寵物帳號，30字內以英數字組成。"
+                    message={errors.petAccount?.message}
+                    maxLength={30}
+                    star={true}
+                    {...field}
+                  />
+                )}
+              />
               {/* 寵物名稱 */}
-              <div className="flex flex-col gap-1 w-[50%]">
-                <h4 className="flex justify-between items-center">
-                  <span>
-                    寵物名稱<span className="text-error">*</span>
-                  </span>
-                </h4>
-                <input
-                  type="text"
-                  name="account"
-                  placeholder="在個人檔案上顯示寵物的名稱"
-                  className="px-4 py-3 w-full border border-stroke outline-note rounded-[10px] "
-                />
-              </div>
+              <Controller
+                name="petName"
+                control={control}
+                rules={{ required: errorText.REQUIRED }}
+                render={({ field }) => (
+                  <TextInput
+                    title="寵物名稱"
+                    placeholder="在個人檔案上顯示寵物的名稱"
+                    maxLength={15}
+                    message={errors.petName?.message}
+                    star={true}
+                    {...field}
+                  />
+                )}
+              />
             </div>
-            <div className="flex gap-8 w-full">
-              {/* 寵物帳號 */}
-              <div className="flex flex-col gap-1 w-[50%]">
-                <h4 className="flex justify-between items-center">
-                  <span>寵物簡介</span>
-                </h4>
-                <input
-                  type="text"
-                  name="account"
-                  placeholder="輸入寵物簡介"
-                  className="px-4 py-3 w-full border border-stroke outline-note rounded-[10px] "
-                />
-              </div>
-              {/* 寵物名稱 */}
-              <div className="flex flex-col gap-1 w-[50%]">
-                <h4 className="flex justify-between items-center">
-                  <span>連結</span>
-                </h4>
-                <input
-                  type="text"
-                  name="account"
-                  placeholder="新增外部連結"
-                  className="px-4 py-3 w-full border border-stroke outline-note rounded-[10px] "
-                />
-              </div>
+            <div className="flex gap-8">
+              {/* 寵物簡介 */}
+              <Controller
+                name="petIntro"
+                control={control}
+                render={({ field }) => (
+                  <TextInput
+                    title="寵物簡介"
+                    placeholder="輸入寵物簡介"
+                    {...field}
+                  />
+                )}
+              />
+              {/* 連結 */}
+              <Controller
+                name="link"
+                control={control}
+                render={({ field }) => (
+                  <TextInput
+                    title="連結"
+                    placeholder="新增外部連結"
+                    {...field}
+                  />
+                )}
+              />
             </div>
           </section>
           <button
             type="submit"
-            className="py-2 mt-12 w-full rounded-full bg-primary text-xl text-white font-semibold"
+            disabled={isLoading}
+            className="flex justify-center items-center mt-12 py-2 w-full min-h-[46px] rounded-full bg-primary text-xl text-white font-semibold"
           >
-            新增寵物檔案
+            {isLoading ? <BtnLoading /> : "新增寵物檔案"}
           </button>
         </form>
         <div className="flex justify-end">
