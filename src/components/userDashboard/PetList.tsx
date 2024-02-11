@@ -28,6 +28,21 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
             return `${year} 歲 ${month} 月`;
           };
 
+          const getSpecies = (prop: number) => {
+            switch (prop) {
+              case 0:
+                return "狗";
+              case 1:
+                return "貓";
+              case 2:
+                return "倉鼠";
+              case 3:
+                return "其他";
+              default:
+                return null;
+            }
+          };
+
           return (
             <div
               className="flex flex-col gap-y-4 p-4 max-w-[224px] w-full border border-stroke rounded-[30px] bg-white"
@@ -45,6 +60,7 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
                 <li>{petName}</li>
                 <li>@{petAccount}</li>
                 <ol className="text-note flex gap-x-2">
+                  <li>{getSpecies(petSpecies)}</li>
                   <li>{breed}</li>
                   <li>{petGender ? "女生" : "男生"}</li>
                 </ol>
