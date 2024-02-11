@@ -3,6 +3,7 @@ import Image from "next/image";
 import moment from "moment";
 import petData from "@/common/lib/test/petData";
 import PetProfile from "./PetProfile";
+import getPetSpecies from "@/common/helpers/getPetSpecies";
 
 const PetList: React.FC<{ title: string }> = ({ title }) => {
   const [hasPets, setHasPets] = useState(true);
@@ -60,7 +61,7 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
                 <li>{petName}</li>
                 <li>@{petAccount}</li>
                 <ol className="text-note flex gap-x-2">
-                  <li>{getSpecies(petSpecies)}</li>
+                  <li>{getPetSpecies(petSpecies)}</li>
                   <li>{breed}</li>
                   <li>{petGender ? "女生" : "男生"}</li>
                 </ol>
