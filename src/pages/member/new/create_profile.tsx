@@ -59,7 +59,6 @@ const CreateProfilePage: NextPageWithLayout = () => {
           return;
         }
 
-        console.log(response.data);
         dispatch(setUserInfo(response.data));
         router.push("/member/new/create_pet");
       } catch (error) {
