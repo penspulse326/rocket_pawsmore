@@ -56,7 +56,16 @@ const Moments: React.FC = () => {
     );
   };
   const AgeCard = () => {
-    // let filteredData = originalData;
+    const [expandedCard, setExpandedCard] = useState("");
+
+    const handleToggleCard = (id: string) => {
+      if (expandedCard === id) {
+        setExpandedCard("");
+      } else {
+        setExpandedCard(id);
+      }
+    };
+
     let sortedData;
 
     if (filterEvent === "全部紀錄") {
@@ -107,52 +116,65 @@ const Moments: React.FC = () => {
                               {moment(dateGroup.date).format("YYYY/M/D")}
                             </li>
                           </ul>
-                          {/* card */}
-                          <ul className="flex flex-col gap-y-4 max-w-[472px] w-full">
+                          {/* card container */}
+                          <div className="flex flex-col gap-y-4 max-w-[472px] w-full">
                             {dateGroup.events.map((event, index) => {
+                              const cardId = `${index}-${event.target_date}-${event.card}`;
+                              const isExpanded = expandedCard === cardId;
+
                               return (
-                                <ol
-                                  className="flex justify-between border border-stroke rounded-[30px] px-6 py-4"
+                                // single card
+                                <div
+                                  className="border border-stroke rounded-[30px] px-6 py-4 hover:cursor-pointer"
                                   key={index}
+                                  id={cardId}
+                                  onClick={() => handleToggleCard(cardId)}
                                 >
-                                  <li className="flex gap-x-1 items-center">
-                                    {event.card === "醫療紀錄" &&
-                                    event.type === "醫療提醒" ? (
-                                      <Image
-                                        src="/test/icon-exclamation.svg"
-                                        width={6}
-                                        height={24}
-                                        alt="exclamation mark"
-                                      />
-                                    ) : (
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="6"
-                                        height="6"
-                                        viewBox="0 0 6 6"
-                                        fill="none"
-                                      >
-                                        <circle
-                                          cx="3"
-                                          cy="3"
-                                          r="3"
-                                          fill={getIconColor(event.card)}
+                                  {/* title */}
+                                  <div className="flex justify-between">
+                                    <div className="flex gap-x-1 items-center">
+                                      {event.card === "醫療紀錄" &&
+                                      event.type === "醫療提醒" ? (
+                                        <Image
+                                          src="/test/icon-exclamation.svg"
+                                          width={6}
+                                          height={24}
+                                          alt="exclamation mark"
                                         />
-                                      </svg>
-                                    )}
-                                    {event.type === "醫療提醒"
-                                      ? event.reserve_type
-                                      : event.card}
-                                  </li>
-                                  <IconChevronDown
-                                    size={24}
-                                    color={"#808080"}
-                                    className="hover:cursor-pointer"
-                                  />
-                                </ol>
+                                      ) : (
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          width="6"
+                                          height="6"
+                                          viewBox="0 0 6 6"
+                                          fill="none"
+                                        >
+                                          <circle
+                                            cx="3"
+                                            cy="3"
+                                            r="3"
+                                            fill={getIconColor(event.card)}
+                                          />
+                                        </svg>
+                                      )}
+                                      {event.type === "醫療提醒"
+                                        ? event.reserve_type
+                                        : event.card}
+                                    </div>
+                                    <IconChevronDown
+                                      size={24}
+                                      color={"#808080"}
+                                      className={`${
+                                        isExpanded && "rotate-180"
+                                      } duration-300 hover:cursor-pointer`}
+                                    />
+                                  </div>
+                                  {/* content */}
+                                  {isExpanded && <>{event.target_date}</>}
+                                </div>
                               );
                             })}
-                          </ul>
+                          </div>
                         </div>
                       );
                     })}
