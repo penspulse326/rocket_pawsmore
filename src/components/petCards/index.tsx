@@ -14,8 +14,6 @@ interface PetCardsPropsType {
 }
 
 const PetCards: React.FC<PetCardsPropsType> = ({ list }) => {
-  console.log("list", list);
-
   const swiperRef = useRef<SwiperClass>();
   const [activeIndex, setActiveIndex] = useState(0);
 
