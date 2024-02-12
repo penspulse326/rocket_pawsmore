@@ -48,20 +48,6 @@ const ProfileGallery: React.FC = () => {
       </section>
     );
   };
-
-  const NoContent = () => {
-    return (
-      <div className="flex flex-col items-center gap-y-4 pt-[64px]">
-        <Image
-          src="/icons/icon-paw-gradient.svg"
-          width={162}
-          height={162}
-          alt="no content"
-        />
-        <div className="text-2xl">尚無內容</div>
-      </div>
-    );
-  };
   return (
     <section className="flex flex-col items-center mb-4 border-t max-w-[1088px] w-full">
       <GalleryTabs />
