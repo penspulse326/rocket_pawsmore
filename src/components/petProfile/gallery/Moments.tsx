@@ -313,10 +313,9 @@ const Moments: React.FC = () => {
                               return (
                                 // single card
                                 <div
-                                  className="flex flex-col gap-y-6 border border-stroke rounded-[30px] px-6 py-4 hover:cursor-pointer"
+                                  className="flex flex-col gap-y-6 border border-stroke rounded-[30px] px-6 py-4"
                                   key={index}
                                   id={cardId}
-                                  onClick={() => handleToggleCard(cardId)}
                                 >
                                   {/* title */}
                                   <div className="flex justify-between">
@@ -355,6 +354,7 @@ const Moments: React.FC = () => {
                                       className={`${
                                         isExpanded && "rotate-180"
                                       } duration-300 hover:cursor-pointer`}
+                                      onClick={() => handleToggleCard(cardId)}
                                     />
                                   </div>
                                   {/* content */}
