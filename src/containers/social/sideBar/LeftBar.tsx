@@ -1,23 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-import { useSelector } from "react-redux";
-
-import type { RootState } from "@/common/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { setPetList } from "@/common/redux/petListSlice";
 import { fetchGetPetList } from "@/common/fetch/petProfile";
 
 import MoreMenu from "@/containers/social/sideBar/MoreMenu";
 import PetCards from "@/components/petCards";
 
+import type { RootState } from "@/common/redux/store";
 import type { PetDataType } from "@/types";
 
 const LeftBar: React.FC = () => {
+  const dispatch = useDispatch();
   const { userId, username, account, headShot, token } = useSelector(
     (state: RootState) => state.userInfo
   );
-
-  const [data, setData] = useState<PetDataType[]>([]);
+  const petList = useSelector((state: RootState) => state.petList);
 
   useEffect(() => {
     if (userId) handleGetPetList();
@@ -26,14 +26,14 @@ const LeftBar: React.FC = () => {
   const handleGetPetList = async () => {
     if (userId) {
       const result = await fetchGetPetList(userId, token);
-      result.data && setData(result.data);
+      dispatch(setPetList(result.data));
     }
   };
 
   return (
     <aside className="col-span-3 flex flex-col py-8 h-full">
       {/* 寵物檔案卡片 */}
-      <PetCards list={data} />
+      <PetCards list={petList} />
       {/* 個人連結 */}
       <Link
         href="/user_profile"
