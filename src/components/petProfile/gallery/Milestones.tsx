@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import { IconChevronUp } from "@tabler/icons-react";
 
 const Milestones = () => {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -60,7 +60,6 @@ const Milestones = () => {
                   height={90}
                   alt="milestone badge"
                 />
-                {/* {item.svg} */}
               </div>
               <ul className="flex flex-col justify-center gap-y-1 max-w-[184px] w-full h-full pl-2 py-8">
                 <li className="text-2xl">{item.title}</li>
@@ -75,21 +74,13 @@ const Milestones = () => {
       <div className="flex flex-col gap-y-4">
         <div className="flex gap-x-1 text-note">
           <div>未獲得</div>
-          {isExpanded ? (
-            <IconChevronUp
-              size={24}
-              className={`${
-                !isExpanded && "rotate-180"
-              } duration-300 hover:cursor-pointer`}
-              onClick={() => setIsExpanded(!isExpanded)}
-            />
-          ) : (
-            <IconChevronDown
-              size={24}
-              className="hover:cursor-pointer"
-              onClick={() => setIsExpanded(!isExpanded)}
-            />
-          )}
+          <IconChevronUp
+            size={24}
+            className={`${
+              !isExpanded && "rotate-180"
+            } duration-300 hover:cursor-pointer`}
+            onClick={() => setIsExpanded(!isExpanded)}
+          />
         </div>
         {isExpanded ? (
           <div className="flex flex-wrap gap-4 w-full">
