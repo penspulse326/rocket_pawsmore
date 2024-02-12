@@ -1,5 +1,6 @@
-import { PetFormType } from "@/types";
 import apiNext from "./apiNext";
+
+import type { PetFormType } from "@/types";
 
 export const fetchCreatePet = async (data: PetFormType, token: string) => {
   const { petPhoto, ...rest } = data;
@@ -15,7 +16,7 @@ export const fetchCreatePet = async (data: PetFormType, token: string) => {
 
     return { ok: response.ok, status: response.status, data: result.data };
   } catch (error) {
-    return { ok: false, status: 500, data: null };
+    return { ok: false, status: 500 };
   }
 };
 

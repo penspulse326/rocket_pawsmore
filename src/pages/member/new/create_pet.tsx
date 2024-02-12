@@ -7,8 +7,6 @@ import CreatePageLayout from "@/containers/createProfile/CreatePageLayout";
 import PetForm from "@/containers/createProfile/PetForm";
 import { mediaUpload } from "@/common/helpers/mediaManager";
 
-import apiNext from "@/common/fetch/apiNext";
-
 import type { NextPageWithLayout } from "../../_app";
 import type { PetFormType } from "@/types";
 import { fetchCreatePet, fetchUpdatePet } from "@/common/fetch/petProfile";
