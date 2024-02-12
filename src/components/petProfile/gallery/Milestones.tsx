@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { IconChevronUp } from "@tabler/icons-react";
 
-const Milestones = () => {
-  const [isExpanded, setIsExpanded] = useState(true);
+const Milestones: React.FC = () => {
   const milestoneDataset = [
     {
       icon: "/test/milestone-1.svg",
@@ -43,9 +42,8 @@ const Milestones = () => {
     },
   ];
 
-  return (
-    <section className="flex flex-col gap-y-8 w-full">
-      {/* gotten */}
+  const Gotten: React.FC = () => {
+    return (
       <div className="flex flex-wrap gap-4 w-full">
         {milestoneDataset.map((item, index) => {
           return (
@@ -70,7 +68,13 @@ const Milestones = () => {
           );
         })}
       </div>
-      {/* yet */}
+    );
+  };
+
+  const Yet: React.FC = () => {
+    const [isExpanded, setIsExpanded] = useState(true);
+
+    return (
       <div className="flex flex-col gap-y-4">
         <div className="flex gap-x-1 text-note">
           <div>未獲得</div>
@@ -82,7 +86,7 @@ const Milestones = () => {
             onClick={() => setIsExpanded(!isExpanded)}
           />
         </div>
-        {isExpanded ? (
+        {isExpanded && (
           <div className="flex flex-wrap gap-4 w-full">
             {milestoneDataset.map((item, index) => {
               return (
@@ -108,8 +112,15 @@ const Milestones = () => {
               );
             })}
           </div>
-        ) : null}
+        )}
       </div>
+    );
+  };
+
+  return (
+    <section className="flex flex-col gap-y-8 w-full">
+      <Gotten />
+      <Yet />
     </section>
   );
 };
