@@ -1,4 +1,4 @@
-import apiNext from "@/pages/api/apiNext";
+import apiNext from "@/common/fetch/apiNext";
 
 interface ResponseType {
   public_id: string;
@@ -21,10 +21,13 @@ export const mediaUpload = async (
           body: JSON.stringify({ file: reader.result, tag }),
         });
         const result = await response.json();
+
+        if (!response.ok) {
+          reject("Error uploading the photo");
+        }
         resolve(result);
       } catch (error) {
-        console.error("Error uploading the file:", error);
-        reject(error);
+        reject("Error uploading the photo");
       }
     };
 
@@ -42,10 +45,15 @@ export const mediaDelete = async (publicId: string, resourceType: string) => {
         method: "POST",
         body: JSON.stringify({ publicId, resourceType }),
       });
+
+      if (!response.ok) {
+        reject("Error deleting the photo");
+      }
+
       const result = await response.json();
       resolve(result);
     } catch (error) {
-      console.error("Error deleting the file:", error);
+      console.error("Error deleting the photo:", error);
       reject(error);
     }
   });

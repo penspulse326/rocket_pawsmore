@@ -4,7 +4,7 @@ import { useState, type ReactElement } from "react";
 import CreatePageLayout from "@/containers/createProfile/CreatePageLayout";
 import MemberForm from "@/containers/createProfile/MemberForm";
 import { mediaUpload } from "@/common/helpers/mediaManager";
-import apiNext from "@/pages/api/apiNext";
+import apiNext from "@/common/fetch/apiNext";
 
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
