@@ -2,7 +2,7 @@ import { UserInfoType } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: UserInfoType = {
-  userId: "",
+  userId: null,
   username: "",
   account: "",
   headShot: "",

@@ -1,29 +1,46 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 
-import PetCards from "@/containers/social/sideBar/PetCards";
+import { useDispatch, useSelector } from "react-redux";
+import { setPetList } from "@/common/redux/petListSlice";
+import { fetchGetPetList } from "@/common/fetch/petProfile";
+
 import MoreMenu from "@/containers/social/sideBar/MoreMenu";
+import PetCards from "@/components/petCards";
 
-const userData = {
-  id: "123",
-  username: "琪琪",
-  account: "chichi1992126",
-  photoUrl: "/test/user-chichi.png",
-};
+import type { RootState } from "@/common/redux/store";
+import type { PetDataType } from "@/types";
 
 const LeftBar: React.FC = () => {
-  const { photoUrl, username, account } = userData;
+  const dispatch = useDispatch();
+  const { userId, username, account, headShot, token } = useSelector(
+    (state: RootState) => state.userInfo
+  );
+  const petList = useSelector((state: RootState) => state.petList);
+
+  useEffect(() => {
+    if (userId) handleGetPetList();
+  }, [userId]);
+
+  const handleGetPetList = async () => {
+    if (userId) {
+      const result = await fetchGetPetList(userId, token);
+      dispatch(setPetList(result.data));
+    }
+  };
+
   return (
     <aside className="col-span-3 flex flex-col py-8 h-full">
       {/* 寵物檔案卡片 */}
-      <PetCards />
+      <PetCards list={petList} />
       {/* 個人連結 */}
       <Link
-        href="#"
+        href="/user_profile"
         className="flex gap-4 p-4 border border-stroke bg-white  rounded-[30px] duration-300 hover:bg-stroke"
       >
         <Image
-          src={photoUrl}
+          src={headShot || "/images/default-photo.png"}
           alt={username}
           width={48}
           height={48}

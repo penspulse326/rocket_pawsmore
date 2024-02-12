@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import apiBase from "../../../apiBase";
+import apiBase from "../apiBase";
 
 interface ResponseType {
   statusCode?: number;
@@ -18,11 +18,10 @@ export default async function handler(
   }
 
   const requestBody = req.body;
-  const petId = req.query.id;
 
   try {
-    const response = await fetch(`${apiBase.UPDATE_PET}/${petId}`, {
-      method: "PATCH",
+    const response = await fetch(apiBase.CREATE_PET, {
+      method: "POST",
       body: requestBody,
       headers: {
         "Content-Type": "application/json",
@@ -31,13 +30,11 @@ export default async function handler(
     });
 
     const result = await response.json();
-    const { statusCode, message } = result;
-
-    console.log(result);
+    const { statusCode, message, data } = result;
 
     switch (statusCode) {
       case 200:
-        res.status(200).json({ message });
+        res.status(200).json({ message, data });
         break;
       default:
         res.status(statusCode).json({ message });

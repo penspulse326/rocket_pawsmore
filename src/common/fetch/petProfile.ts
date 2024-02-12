@@ -39,6 +39,20 @@ export const fetchUpdatePet = async (
 
     return { ok: response.ok, status: response.status, data: result.data };
   } catch (error) {
-    return { ok: false, status: 500, data: null };
+    return { ok: false, status: 500 };
+  }
+};
+
+export const fetchGetPetList = async (userId: number, token: string) => {
+  try {
+    const response = await fetch(`${apiNext.GET_PET_LIST}/${userId}`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const result = await response.json();
+    return { ok: response.ok, status: response.status, data: result.data };
+  } catch (error) {
+    return { ok: false, status: 500 };
   }
 };

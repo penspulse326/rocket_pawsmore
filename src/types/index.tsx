@@ -31,11 +31,25 @@ export interface PetFormType {
 }
 
 export interface UserInfoType {
-  userId: string;
+  userId: number | null;
   username: string;
   account: string;
   headShot: string;
   token: string;
+}
+
+export interface PetDataType {
+  petId: number;
+  petAccount: string;
+  petName: string;
+  petPhoto: string;
+  petSpecies: number;
+  petGender: number;
+  breed: string;
+  birthday: string;
+  adopteddDate: string;
+  petIntro: string;
+  link: string;
 }
 
 export interface PostDataType {
