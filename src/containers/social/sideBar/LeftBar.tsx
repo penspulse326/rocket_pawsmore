@@ -1,29 +1,41 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { useSelector } from "react-redux";
+
 import PetCards from "@/containers/social/sideBar/PetCards";
 import MoreMenu from "@/containers/social/sideBar/MoreMenu";
 
-const userData = {
-  id: "123",
-  username: "琪琪",
-  account: "chichi1992126",
-  photoUrl: "/test/user-chichi.png",
-};
+import type { RootState } from "@/common/redux/store";
+import { fetchGetPetList } from "@/common/fetch/petProfile";
+import { useEffect } from "react";
 
 const LeftBar: React.FC = () => {
-  const { photoUrl, username, account } = userData;
+  const { userId, username, account, headShot, token } = useSelector(
+    (state: RootState) => state.userInfo
+  );
+
+  useEffect(() => {
+    if (userId) handleGetPetList();
+  }, [userId]);
+
+  const handleGetPetList = async () => {
+    if (!userId) return;
+    const result = await fetchGetPetList(userId, token);
+    console.log("前端", result);
+  };
+
   return (
     <aside className="col-span-3 flex flex-col py-8 h-full">
       {/* 寵物檔案卡片 */}
       <PetCards />
       {/* 個人連結 */}
       <Link
-        href="#"
+        href="/user_profile"
         className="flex gap-4 p-4 border border-stroke bg-white  rounded-[30px] duration-300 hover:bg-stroke"
       >
         <Image
-          src={photoUrl}
+          src={headShot || "/images/default-photo.png"}
           alt={username}
           width={48}
           height={48}

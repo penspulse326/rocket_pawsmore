@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import apiBase from "../../apiBase";
+import apiBase from "../apiBase";
 
 interface ResponseType {
   statusCode?: number;

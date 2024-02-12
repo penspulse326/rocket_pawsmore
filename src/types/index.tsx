@@ -31,7 +31,7 @@ export interface PetFormType {
 }
 
 export interface UserInfoType {
-  userId: string;
+  userId: number | null;
   username: string;
   account: string;
   headShot: string;

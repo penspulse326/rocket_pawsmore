@@ -1,9 +1,8 @@
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-cards";
 import { EffectCards } from "swiper/modules";
-
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";

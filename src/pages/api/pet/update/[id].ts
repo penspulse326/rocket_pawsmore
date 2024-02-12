@@ -11,16 +11,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const requestBody = req.body;
   const token = req.headers.authorization;
 
   if (!token) {
     return res.status(401).json({ message: "請重新登入" });
   }
 
+  const requestBody = req.body;
+  const id = req.query.id;
+
   try {
-    const response = await fetch(apiBase.CREATE_MEMBER, {
-      method: "POST",
+    const response = await fetch(`${apiBase.UPDATE_PET}/${id}`, {
+      method: "PATCH",
       body: requestBody,
       headers: {
         "Content-Type": "application/json",
@@ -30,8 +32,6 @@ export default async function handler(
 
     const result = await response.json();
     const { statusCode, message } = result;
-
-    console.log(result);
 
     switch (statusCode) {
       case 200:
