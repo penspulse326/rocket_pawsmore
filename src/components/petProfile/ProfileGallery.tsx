@@ -400,7 +400,7 @@ const ProfileGallery = () => {
         >
           <EventFilter />
         </div>
-        <div className="max-w-[696px] w-full mx-auto">
+        <div className="max-w-[660px] w-full mx-auto">
           <AgeCard />
         </div>
       </section>
