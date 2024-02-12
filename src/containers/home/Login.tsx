@@ -56,28 +56,28 @@ const Login: React.FC<LoginPropsType> = ({
           <h3 className="text-note">讓我們繼續記錄美好時光！</h3>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+          {/* Email */}
+          <Controller
+            name="email"
+            control={control}
+            rules={{
+              required: errorText.REQUIRED,
+              pattern: {
+                value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/,
+                message: errorText.EMAIL_INVALID,
+              },
+            }}
+            render={({ field }) => (
+              <TextInput
+                title="Email"
+                placeholder="輸入電子郵件地址"
+                message={errors.email?.message}
+                {...field}
+              />
+            )}
+          />
+          {/* 密碼 */}
           <div className="flex flex-col gap-1">
-            {/* Email */}
-            <Controller
-              name="email"
-              control={control}
-              rules={{
-                required: errorText.REQUIRED,
-                pattern: {
-                  value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/,
-                  message: errorText.EMAIL_INVALID,
-                },
-              }}
-              render={({ field }) => (
-                <TextInput
-                  title="Email"
-                  placeholder="輸入電子郵件地址"
-                  message={errors.email?.message}
-                  {...field}
-                />
-              )}
-            />
-            {/* 密碼 */}
             <Controller
               name="password"
               control={control}
