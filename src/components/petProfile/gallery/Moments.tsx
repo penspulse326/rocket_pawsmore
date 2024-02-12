@@ -469,7 +469,9 @@ const Moments: React.FC = () => {
                               return (
                                 // single card
                                 <div
-                                  className="flex flex-col gap-y-6 border border-stroke rounded-[30px] px-6 py-4"
+                                  className={`flex flex-col gap-y-6 border border-stroke rounded-[30px] px-6 pt-4 ${
+                                    isExpanded ? "pb-6" : "pb-4"
+                                  }`}
                                   key={index}
                                   id={cardId}
                                 >
