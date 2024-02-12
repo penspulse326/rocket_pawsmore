@@ -245,6 +245,7 @@ export const originalData: DataType[] = [
   {
     card: "醫療紀錄",
     created_at: "2024-01-20",
+    target_date: "2024-01-20",
     type: "醫療提醒",
     reserve_type: "看診",
     reserve_at: "2024-02-01",
@@ -253,6 +254,7 @@ export const originalData: DataType[] = [
   {
     card: "醫療紀錄",
     created_at: "2024-01-20",
+    target_date: "2024-01-20",
     type: "醫療提醒",
     reserve_type: "打疫苗",
     reserve_at: "2024-02-10",
@@ -261,6 +263,7 @@ export const originalData: DataType[] = [
   {
     card: "醫療紀錄",
     created_at: "2024-01-10",
+    target_date: "2024-01-10",
     type: "醫療提醒",
     reserve_type: "驅蟲",
     reserve_at: "2024-01-17",
@@ -269,6 +272,7 @@ export const originalData: DataType[] = [
   {
     card: "醫療紀錄",
     created_at: "2024-01-10",
+    target_date: "2024-01-10",
     type: "就診紀錄",
     title: "感冒",
     reserve_type: null,
@@ -278,6 +282,7 @@ export const originalData: DataType[] = [
   {
     card: "醫療紀錄",
     created_at: "2024-01-10",
+    target_date: "2024-01-10",
     type: "醫療提醒",
     reserve_type: "回診",
     reserve_at: "2024-02-07",
@@ -286,6 +291,7 @@ export const originalData: DataType[] = [
   {
     card: "醫療紀錄",
     created_at: "2024-01-09",
+    target_date: "2024-01-09",
     type: "就診紀錄",
     title: "六合一疫苗初施",
     reserve_type: null,
@@ -295,6 +301,7 @@ export const originalData: DataType[] = [
   {
     card: "醫療紀錄",
     created_at: "2024-01-16",
+    target_date: "2024-01-16",
     type: "就診紀錄",
     title: "回診",
     reserve_type: null,
@@ -304,6 +311,7 @@ export const originalData: DataType[] = [
   {
     card: "醫療紀錄",
     created_at: "2024-01-30",
+    target_date: "2024-01-30",
     type: "醫療提醒",
     reserve_type: "回診",
     reserve_at: "2024-02-02",
