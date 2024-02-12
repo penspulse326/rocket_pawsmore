@@ -463,7 +463,8 @@ const Moments: React.FC = () => {
                           {/* card container */}
                           <div className="flex flex-col gap-y-4 max-w-[472px] w-full">
                             {dateGroup.events.map((event, index) => {
-                              const cardId = `${index}-${event.target_date}-${event.card}`;
+                              // 接 api 時換成 uuid
+                              const cardId = event.id.toString();
                               const isExpanded = expandedCard === cardId;
 
                               return (
