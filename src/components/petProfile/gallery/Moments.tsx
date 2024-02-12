@@ -66,16 +66,10 @@ const Moments: React.FC = () => {
       }
     };
 
-    let sortedData;
-
-    if (filterEvent === "全部紀錄") {
-      sortedData = sortByAge(originalData);
-    } else {
-      const filteredData = originalData.filter(
-        (event) => event.card === filterEvent
-      );
-      sortedData = sortByAge(filteredData);
-    }
+    const sortedData =
+      filterEvent === "全部紀錄"
+        ? sortByAge(originalData)
+        : sortByAge(originalData.filter((event) => event.card === filterEvent));
 
     return (
       <div className="flex flex-col gap-y-16">
