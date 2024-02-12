@@ -5,7 +5,8 @@ import { IconChevronDown, IconPaw } from "@tabler/icons-react";
 
 import sortByAge from "@/common/helpers/sortByAge";
 import getIconColor from "@/common/helpers/getIconColor";
-import { originalData } from "@/common/lib/test/eventData";
+import getCategoryBgcolor from "@/common/helpers/getCategoryBgcolor";
+import { originalData, DataType } from "@/common/lib/test/eventData";
 
 const Moments: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -71,6 +72,59 @@ const Moments: React.FC = () => {
         ? sortByAge(originalData)
         : sortByAge(originalData.filter((event) => event.card === filterEvent));
 
+    const MomentCard: React.FC<{ data: DataType; key: number }> = (props) => {
+      if (!props) {
+        return null;
+      }
+      const { data } = props;
+      const { category, content, photo, desc } = data;
+
+      interface MomentDataType {
+        TITLE: string;
+        content: JSX.Element | null;
+      }
+
+      const momentData: MomentDataType[] = [
+        {
+          TITLE: "事件分類",
+          content: (
+            <li
+              className={`px-2 rounded-[30px] ${getCategoryBgcolor(category!)}`}
+            >
+              {category}
+            </li>
+          ),
+        },
+        { TITLE: "內容", content: <li>{content}</li> },
+        {
+          TITLE: "紀錄照片",
+          content: photo ? (
+            <Image
+              className="rounded-[10px] object-cover"
+              src={photo}
+              width={248}
+              height={168}
+              alt="moment photo"
+            />
+          ) : null,
+        },
+        { TITLE: "事件描述", content: desc ? <li>{desc}</li> : null },
+      ];
+
+      return (
+        <ul className="flex flex-col gap-y-3">
+          {momentData.map((moment, index) => {
+            return (
+              <ol key={index} className="flex gap-x-12">
+                <li className="font-semibold min-w-[64px]">{moment.TITLE}</li>
+                {moment.content}
+              </ol>
+            );
+          })}
+        </ul>
+      );
+    };
+
     return (
       <div className="flex flex-col gap-y-16">
         {sortedData.map((ageGroup, index) => {
@@ -119,7 +173,7 @@ const Moments: React.FC = () => {
                               return (
                                 // single card
                                 <div
-                                  className="border border-stroke rounded-[30px] px-6 py-4 hover:cursor-pointer"
+                                  className="flex flex-col gap-y-6 border border-stroke rounded-[30px] px-6 py-4 hover:cursor-pointer"
                                   key={index}
                                   id={cardId}
                                   onClick={() => handleToggleCard(cardId)}
@@ -164,7 +218,20 @@ const Moments: React.FC = () => {
                                     />
                                   </div>
                                   {/* content */}
-                                  {isExpanded && <>{event.target_date}</>}
+                                  {isExpanded &&
+                                    (() => {
+                                      switch (event.card) {
+                                        case "重要時刻":
+                                          return (
+                                            <MomentCard
+                                              data={event}
+                                              key={index}
+                                            />
+                                          );
+                                        default:
+                                          return null;
+                                      }
+                                    })()}
                                 </div>
                               );
                             })}
