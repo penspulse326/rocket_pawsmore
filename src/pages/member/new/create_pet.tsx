@@ -7,10 +7,11 @@ import CreatePageLayout from "@/containers/createProfile/CreatePageLayout";
 import PetForm from "@/containers/createProfile/PetForm";
 import { mediaUpload } from "@/common/helpers/mediaManager";
 
-import apiNext from "@/pages/api/apiNext";
+import apiNext from "@/common/fetch/apiNext";
 
 import type { NextPageWithLayout } from "../../_app";
 import type { PetFormType } from "@/types";
+import { fetchCreatePet, fetchUpdatePet } from "@/common/fetch/petProfile";
 
 const CreateProfilePage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -20,83 +21,44 @@ const CreateProfilePage: NextPageWithLayout = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [statusCode, setStatusCode] = useState(0);
 
-  // 請求新增寵物資料
-  const sendCreatePetRequest = async (data: PetFormType) => {
-    const { petPhoto, ...rest } = data;
-
-    try {
-      const response = await fetch(apiNext.CREATE_PET, {
-        method: "POST",
-        body: JSON.stringify({ ...rest }),
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setStatusCode(200);
-        return result.data.petId;
-      } else {
-        setStatusCode(response.status);
-        return null;
-      }
-    } catch (error) {
-      setStatusCode(500);
-      return null;
-    }
-  };
-
-  const sendUpdatePetRequest = async (
-    data: PetFormType,
-    imgUrl = "",
-    petId: number
-  ) => {
-    const { petPhoto, ...rest } = data;
-
-    try {
-      const response = await fetch(`${apiNext.UPDATE_PET}/${petId}`, {
-        method: "PATCH",
-        body: JSON.stringify({ ...rest, petPhoto: imgUrl }),
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      const result = await response.json();
-      console.log(result);
-
-      if (response.ok) {
-        setStatusCode(200);
-        return true;
-      } else {
-        setStatusCode(response.status);
-        return false;
-      }
-    } catch (error) {
-      setStatusCode(500);
-      return false;
-    }
-  };
-
   const handleCreatePet = async (data: PetFormType) => {
     setIsLoading(true);
     setStatusCode(0);
 
-    const petId = await sendCreatePetRequest(data);
+    // 請求新增寵物資料
+    const response = await fetchCreatePet(data, token);
 
-    // 確定新增成功才做上傳雲端圖片
-    // 流量有限!要先確定帳號無重複或其他錯誤才執行
-    if (!petId) {
+    if (response.status === 500) {
+      setIsLoading(false);
+      alert("發生未知錯誤，請稍候再試");
+      return;
+    }
+
+    if (!response.ok) {
+      setStatusCode(response.status);
       setIsLoading(false);
       return;
     }
 
-    // 請求上傳圖片，有傳入照片才執行
+    // // 確定新增成功才做上傳雲端圖片
+    // // 流量有限!要先確定帳號無重複或其他錯誤才執行
     if (data.petPhoto) {
+      const petId = response.data.petId;
+
       try {
-        const response = await mediaUpload(data.petPhoto, "pet");
-        const imgUrl = response.secure_url;
-        await sendUpdatePetRequest(data, imgUrl, petId);
+        const uploadResult = await mediaUpload(data.petPhoto, "pet");
+        const imgUrl = uploadResult.secure_url;
+
+        const response = await fetchUpdatePet(data, token, imgUrl, petId);
+
+        if (!response.ok) {
+          setIsLoading(false);
+          setStatusCode(response.status);
+          alert("新增失敗，請稍候再試");
+          return;
+        }
       } catch (error) {
-        console.error(error);
+        setIsLoading(false);
         setStatusCode(500);
         alert("新增失敗，請稍候再試");
         return;
