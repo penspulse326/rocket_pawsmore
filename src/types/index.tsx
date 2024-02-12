@@ -38,6 +38,20 @@ export interface UserInfoType {
   token: string;
 }
 
+export interface PetDataType {
+  petId: number;
+  petAccount: string;
+  petName: string;
+  petPhoto: string;
+  petSpecies: number;
+  petGender: number;
+  breed: string;
+  birthday: string;
+  adopteddDate: string;
+  petIntro: string;
+  link: string;
+}
+
 export interface PostDataType {
   created_at: string;
   content: string;
