@@ -29,11 +29,11 @@ export default async function handler(
     });
 
     const result = await response.json();
-    const { statusCode, message } = result;
+    const { statusCode, message, data } = result;
 
     switch (statusCode) {
       case 200:
-        res.status(200).json({ message });
+        res.status(200).json({ message, data });
         break;
       default:
         res.status(statusCode).json({ message });
