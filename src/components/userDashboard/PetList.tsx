@@ -8,7 +8,7 @@ import { RootState } from "@/common/redux/store";
 import getPetSpecies from "@/common/helpers/getPetSpecies";
 import getPetAge from "@/common/helpers/getPetAge";
 
-const PetList: React.FC<{ title: string }> = ({ title }) => {
+const PetList: React.FC = () => {
   const petList = useSelector((state: RootState) => state.petList);
   const [hasPets, setHasPets] = useState(false);
 
@@ -49,7 +49,6 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
                   className="w-full h-full rounded-[30px] object-cover"
                 />
               </div>
-
               <ul className="flex flex-col gap-1">
                 <li>{petName}</li>
                 <li>@{petAccount}</li>
@@ -93,7 +92,7 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
   return (
     <>
       <div className="flex flex-col gap-y-8">
-        <div className="text-xl">{title}</div>
+        <div className="text-xl">寵物檔案清單</div>
         {hasPets ? (
           selectedPet !== -1 ? (
             <PetProfile petId={selectedPet} />

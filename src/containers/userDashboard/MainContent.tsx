@@ -9,11 +9,11 @@ const MainContent: React.FC<{ targetPage: string }> = ({ targetPage }) => {
       {(() => {
         switch (targetPage) {
           case "account":
-            return <Account title={targetPage} />;
+            return <Account />;
           case "profile":
-            return <Profile title={targetPage} />;
+            return <Profile />;
           case "pet_list":
-            return <PetList title={targetPage} />;
+            return <PetList />;
           case "add_pet":
           // return <AddPet />;
           default:
