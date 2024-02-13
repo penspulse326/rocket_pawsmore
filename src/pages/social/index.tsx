@@ -1,5 +1,5 @@
 import SocialLayout from "@/containers/social/SocialLayout";
-import SocialPostList from "@/containers/social/posts/PostList";
+import SocialPostList from "@/containers/post/List";
 
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "../_app";

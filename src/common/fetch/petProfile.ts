@@ -45,7 +45,7 @@ export const fetchUpdatePet = async (
 
 export const fetchGetPetList = async (userId: number, token: string) => {
   try {
-    const response = await fetch(`${apiNext.GET_PET_LIST}/${userId}`, {
+    const response = await fetch(`${apiNext.GET_PETS}/${userId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });

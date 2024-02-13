@@ -20,7 +20,7 @@ const LeftBar: React.FC = () => {
   const petList = useSelector((state: RootState) => state.petList);
 
   useEffect(() => {
-    if (userId) handleGetPetList();
+    handleGetPetList();
   }, [userId]);
 
   const handleGetPetList = async () => {
