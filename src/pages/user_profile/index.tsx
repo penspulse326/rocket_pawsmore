@@ -41,7 +41,7 @@ const UserProfile: React.FC = () => {
       </svg>
     );
     const htmlIntro = introduction.split("\n");
-    const htmlLink = link.length > 31 ? link.slice(0, 33) + "⋯" : link;
+    const htmlLink = link.length > 35 ? link.slice(0, 33) + "⋯" : link;
 
     const ReportBtn = () => {
       const [isAlertShown, setIsAlertShown] = useState(false);
@@ -74,13 +74,15 @@ const UserProfile: React.FC = () => {
         onBlur={() => setShowReportBtn(false)}
       >
         <div className="flex gap-x-4">
-          <Image
-            src={headShot || "/images/default-photo.svg"}
-            width={128}
-            height={128}
-            alt="user avatar"
-            className="rounded-[14px] object-cover"
-          />
+          <div className="w-[128px] h-[128px]">
+            <Image
+              src={headShot || "/images/default-photo.svg"}
+              width={128}
+              height={128}
+              alt="user avatar"
+              className="rounded-[14px] w-full h-full object-cover"
+            />
+          </div>
           <ul className="flex flex-col gap-y-4">
             <ol>
               <li className="text-[32px]">{username}</li>
