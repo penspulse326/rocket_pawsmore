@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
-import moment from "moment";
+
 import PetProfile from "./PetProfile";
 
 import { RootState } from "@/common/redux/store";
 import getPetSpecies from "@/common/helpers/getPetSpecies";
+import getPetAge from "@/common/helpers/getPetAge";
 
 const PetList: React.FC<{ title: string }> = ({ title }) => {
   const petList = useSelector((state: RootState) => state.petList);
@@ -29,27 +30,6 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
             birthday,
             petPhoto,
           } = pet;
-          const age = (birthday: string) => {
-            const year = moment().diff(moment(birthday), "year");
-            const month = moment().diff(moment(birthday), "month") % 12;
-            return `${year} 歲 ${month} 月`;
-          };
-
-          const getSpecies = (prop: number) => {
-            switch (prop) {
-              case 0:
-                return "狗";
-              case 1:
-                return "貓";
-              case 2:
-                return "倉鼠";
-              case 3:
-                return "其他";
-              default:
-                return null;
-            }
-          };
-
           return (
             <div
               className="flex flex-col gap-y-4 p-4 max-w-[224px] w-full border border-stroke rounded-[30px] bg-white"
@@ -71,7 +51,7 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
                   <li>{breed}</li>
                   <li>{petGender ? "女生" : "男生"}</li>
                 </ol>
-                <li className="text-note">{age(birthday)}</li>
+                <li className="text-note">{getPetAge(birthday)}</li>
               </ul>
               <button
                 className="mb-4 py-2 rounded-[30px] bg-primary text-white text-center"
