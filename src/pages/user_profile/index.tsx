@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
+import Link from "next/link";
 import { IconDotsVertical } from "@tabler/icons-react";
 import Footer from "@/components/Footer";
 import Mask from "@/components/hint/Mask";
@@ -110,12 +111,12 @@ const UserProfile: React.FC = () => {
           </div>
         </div>
         {isMe ? (
-          <button
-            className="bg-primary text-white rounded-full py-2 w-full"
-            type="button"
+          <Link
+            href="/user_dashboard?to=user"
+            className="bg-primary text-white rounded-full py-2 w-full text-center"
           >
             編輯個人檔案
-          </button>
+          </Link>
         ) : (
           <div className="flex gap-x-4 items-center w-full relative">
             <button
