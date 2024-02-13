@@ -8,13 +8,13 @@ const MainContent: React.FC<{ targetPage: string }> = ({ targetPage }) => {
     <div className="max-w-[1192px] mt-8 ml-[144px]">
       {(() => {
         switch (targetPage) {
-          case "帳號資料":
+          case "account":
             return <Account title={targetPage} />;
-          case "個人檔案":
+          case "profile":
             return <Profile title={targetPage} />;
-          case "寵物檔案清單":
+          case "pet_list":
             return <PetList title={targetPage} />;
-          case "新增寵物檔案":
+          case "add_pet":
           // return <AddPet />;
           default:
             return null;
