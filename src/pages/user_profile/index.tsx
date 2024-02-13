@@ -1,15 +1,18 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Image from "next/image";
 import moment from "moment";
 import { IconDotsVertical } from "@tabler/icons-react";
 import Footer from "@/components/Footer";
 import Mask from "@/components/hint/Mask";
 import AlertCard from "@/components/hint/AlertCard";
+import { RootState } from "@/common/redux/store";
 import getPetSpecies from "@/common/helpers/getPetSpecies";
 import getPetAge from "@/common/helpers/getPetAge";
-import petData from "@/common/lib/test/petData";
 
 const UserProfile: React.FC = () => {
+  const petList = useSelector((state: RootState) => state.petList);
+
   const Profile: React.FC = () => {
     const [isMe, setIsMe] = useState(true);
     const [showReportBtn, setShowReportBtn] = useState(false);
@@ -144,7 +147,7 @@ const UserProfile: React.FC = () => {
       <div className="flex flex-col gap-y-4">
         <div className="text-note">寵物檔案清單</div>
         <div className="flex gap-4 flex-wrap max-w-[704px] w-full">
-          {petData.map((pet, index) => {
+          {petList.map((pet, index) => {
             const {
               petId,
               petName,
@@ -161,7 +164,7 @@ const UserProfile: React.FC = () => {
                 key={index}
               >
                 <Image
-                  src={petPhoto}
+                  src={petPhoto || "/images/default-photo.svg"}
                   width={192}
                   height={192}
                   priority
