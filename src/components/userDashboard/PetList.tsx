@@ -35,14 +35,17 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
               className="flex flex-col gap-y-4 p-4 max-w-[224px] w-full border border-stroke rounded-[30px] bg-white"
               key={index}
             >
-              <Image
-                src={petPhoto}
-                width={192}
-                height={192}
-                priority
-                alt="pet avatar"
-                className="rounded-[30px] object-cover"
-              />
+              <div className="w-[192px] h-[192px]">
+                <Image
+                  src={petPhoto || "/images/default-photo.svg"}
+                  width={192}
+                  height={192}
+                  priority
+                  alt="pet avatar"
+                  className="w-full h-full rounded-[30px] object-cover"
+                />
+              </div>
+
               <ul className="flex flex-col gap-1">
                 <li>{petName}</li>
                 <li>@{petAccount}</li>
