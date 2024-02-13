@@ -1,19 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
-import Link from "next/link";
+import moment from "moment";
+import { IconDotsVertical } from "@tabler/icons-react";
 
 import Footer from "@/components/Footer";
+import Mask from "@/components/hint/Mask";
+import AlertCard from "@/components/hint/AlertCard";
 
 import { RootState } from "@/common/redux/store";
 import getPetSpecies from "@/common/helpers/getPetSpecies";
-import getPetAge from "@/common/helpers/getPetAge";
 
 const UserProfile: React.FC = () => {
   const userInfo = useSelector((state: RootState) => state.userInfo);
   const petList = useSelector((state: RootState) => state.petList);
 
   const Profile: React.FC = () => {
+    const [isMe, setIsMe] = useState(true);
+    const [showReportBtn, setShowReportBtn] = useState(false);
+
     const introduction =
       "喜歡旅遊\n下一站美國\n-\nlove can change the world in a moment";
     const link = "https://www.instagram.com/chichi1992126";
@@ -40,25 +45,51 @@ const UserProfile: React.FC = () => {
     const htmlIntro = introduction.split("\n");
     const htmlLink = link.length > 35 ? link.slice(0, 33) + "⋯" : link;
 
+    const ReportBtn = () => {
+      const [isAlertShown, setIsAlertShown] = useState(false);
+
+      return (
+        <>
+          <button
+            className="px-6 py-4 text-error bg-white rounded-3xl absolute -right-[120px] -bottom-[61.5px] shadow-[0_0_10px_0_rgba(0,0,0,0.15)] hover:cursor-pointer"
+            type="button"
+            onClick={() => setIsAlertShown(true)}
+          >
+            檢舉寵物檔案
+          </button>
+          {/* {isAlertShown && (
+            <Mask setIsOpen={setIsAlertShown} maskType="report">
+              <AlertCard
+                setIsDisplayed={setIsAlertShown}
+                cardType="reportPet"
+              />
+            </Mask>
+          )} */}
+        </>
+      );
+    };
+
     return (
-      <div className="flex flex-col gap-y-8 max-w-[320px] w-full">
+      <div
+        className="flex flex-col gap-y-8 max-w-[320px] w-full"
+        tabIndex={0}
+        onBlur={() => setShowReportBtn(false)}
+      >
         <div className="flex gap-x-4">
-          <div className="w-[128px] h-[128px]">
-            <Image
-              src={headShot || "/images/default-photo.svg"}
-              width={128}
-              height={128}
-              alt="user avatar"
-              className="rounded-[14px] w-full h-full object-cover"
-            />
-          </div>
+          <Image
+            src={headShot || "/images/default-photo.svg"}
+            width={128}
+            height={128}
+            alt="user avatar"
+            className="rounded-[14px] object-cover"
+          />
           <ul className="flex flex-col gap-y-4">
             <ol>
               <li className="text-[32px]">{username}</li>
               <li>@{account}</li>
             </ol>
             <li className="flex gap-x-1">
-              <span className="font-semibold">463</span>追蹤中
+              <span className="font-semibold">0</span>追蹤中
             </li>
           </ul>
         </div>
@@ -71,19 +102,46 @@ const UserProfile: React.FC = () => {
               </React.Fragment>
             ))}
           </div>
-          <div className="flex gap-x-1">
-            {linkIcon}
-            <a href={link} className="text-[#0057FF] underline" target="_blank">
-              {htmlLink}
-            </a>
-          </div>
+          {link && (
+            <div className="flex gap-x-1">
+              {linkIcon}
+              <a
+                href={link}
+                className="text-[#0057FF] underline"
+                target="_blank"
+              >
+                {htmlLink}
+              </a>
+            </div>
+          )}
         </div>
-        <Link
-          href="/user_dashboard?to=user"
-          className="bg-primary text-white rounded-full py-2 w-full text-center"
-        >
-          編輯個人檔案
-        </Link>
+        {isMe ? (
+          <button
+            className="bg-primary text-white rounded-full py-2 w-full"
+            type="button"
+          >
+            編輯個人檔案
+          </button>
+        ) : (
+          <div className="flex gap-x-4 items-center w-full relative">
+            <button
+              className="bg-primary text-white rounded-full py-2 w-full"
+              type="button"
+            >
+              發送訊息
+            </button>
+            <IconDotsVertical
+              size={24}
+              className="hover:cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                setShowReportBtn(!showReportBtn);
+              }}
+            />
+            {showReportBtn && <ReportBtn />}
+          </div>
+        )}
       </div>
     );
   };
@@ -103,17 +161,21 @@ const UserProfile: React.FC = () => {
               birthday,
               petPhoto,
             } = pet;
+            const age = (birthday: string) => {
+              const year = moment().diff(moment(birthday), "year");
+              const month = moment().diff(moment(birthday), "month") % 12;
+              return `${year} 歲 ${month} 月`;
+            };
             return (
               <div
-                className="flex flex-col gap-y-4 p-4 max-w-[224px] w-full border border-stroke rounded-[30px] bg-white"
+                className="flex flex-col gap-y-4 p-4 max-w-[224px] w-full border border-stroke rounded-[30px] bg-white hover:cursor-pointer"
                 key={index}
               >
                 <div className="w-[192px] h-[192px]">
                   <Image
-                    src={petPhoto || "/images/default-photo.svg"}
+                    src={petPhoto}
                     width={192}
                     height={192}
-                    priority
                     alt="pet avatar"
                     className="w-full h-full rounded-[30px] object-cover"
                   />
@@ -126,7 +188,7 @@ const UserProfile: React.FC = () => {
                     <li>{breed}</li>
                     <li>{petGender ? "女生" : "男生"}</li>
                   </ol>
-                  <li className="text-note mb-4">{getPetAge(birthday)}</li>
+                  <li className="text-note mb-4">{age(birthday)}</li>
                 </ul>
               </div>
             );
