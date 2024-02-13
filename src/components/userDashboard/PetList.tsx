@@ -1,18 +1,24 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Image from "next/image";
 import moment from "moment";
-import petData from "@/common/lib/test/petData";
 import PetProfile from "./PetProfile";
+
+import { RootState } from "@/common/redux/store";
 import getPetSpecies from "@/common/helpers/getPetSpecies";
 
 const PetList: React.FC<{ title: string }> = ({ title }) => {
+  const petList = useSelector((state: RootState) => state.petList);
+
+  console.log(petList);
+
   const [hasPets, setHasPets] = useState(true);
   const [selectedPet, setSelectedPet] = useState(-1);
 
   const PetCard: React.FC = () => {
     return (
       <div className="flex gap-4 flex-wrap">
-        {petData.map((pet, index) => {
+        {petList.map((pet, index) => {
           const {
             petId,
             petName,
