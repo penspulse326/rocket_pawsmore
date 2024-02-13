@@ -1,14 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IconChevronDown } from "@tabler/icons-react";
 
 interface SideBarPropsType {
+  target: string;
   setTargetPage: (targetPage: string) => void;
 }
 
-const SideBar: React.FC<SideBarPropsType> = ({ setTargetPage }) => {
+const SideBar: React.FC<SideBarPropsType> = ({ target, setTargetPage }) => {
   const [openUser, setOpenUser] = useState(false);
   const [openPets, setOpenPets] = useState(false);
   const [isActive, setIsActive] = useState("");
+
+  useEffect(() => {
+    switch (target) {
+      case "account":
+      case "profile":
+        setOpenUser(true);
+        break;
+      default:
+        setOpenPets(true);
+        break;
+    }
+    setIsActive(target);
+  }, [target]);
 
   const userItems: { TITLE: string; ENG: string }[] = [
     { TITLE: "帳號資料", ENG: "account" },
