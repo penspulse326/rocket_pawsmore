@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
-import moment from "moment";
 import { IconDotsVertical } from "@tabler/icons-react";
 import Footer from "@/components/Footer";
 import Mask from "@/components/hint/Mask";
@@ -11,22 +10,18 @@ import getPetSpecies from "@/common/helpers/getPetSpecies";
 import getPetAge from "@/common/helpers/getPetAge";
 
 const UserProfile: React.FC = () => {
+  const userInfo = useSelector((state: RootState) => state.userInfo);
   const petList = useSelector((state: RootState) => state.petList);
 
   const Profile: React.FC = () => {
     const [isMe, setIsMe] = useState(true);
     const [showReportBtn, setShowReportBtn] = useState(false);
 
-    const data = {
-      userId: 5,
-      username: "琪琪",
-      account: "chichi1992126",
-      headShot: "/test/user-chichi.png",
-      introduction:
-        "喜歡旅遊\n下一站美國\n-\nlove can change the world in a moment",
-      link: "https://www.instagram.com/chichi1992126",
-    };
-    const { username, account, headShot, introduction, link } = data;
+    const introduction =
+      "喜歡旅遊\n下一站美國\n-\nlove can change the world in a moment";
+    const link = "https://www.instagram.com/chichi1992126";
+
+    const { username, account, headShot } = userInfo;
     const linkIcon = (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +75,7 @@ const UserProfile: React.FC = () => {
       >
         <div className="flex gap-x-4">
           <Image
-            src={headShot}
+            src={headShot || "/images/default-photo.svg"}
             width={128}
             height={128}
             alt="user avatar"
