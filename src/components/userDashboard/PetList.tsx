@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 
@@ -10,10 +10,14 @@ import getPetAge from "@/common/helpers/getPetAge";
 
 const PetList: React.FC<{ title: string }> = ({ title }) => {
   const petList = useSelector((state: RootState) => state.petList);
+  const [hasPets, setHasPets] = useState(false);
 
-  console.log(petList);
+  useEffect(() => {
+    if (Array.isArray(petList) && petList.length > 0) {
+      setHasPets(true);
+    }
+  }, [petList]);
 
-  const [hasPets, setHasPets] = useState(true);
   const [selectedPet, setSelectedPet] = useState(-1);
 
   const PetCard: React.FC = () => {
@@ -89,16 +93,7 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
   return (
     <>
       <div className="flex flex-col gap-y-8">
-        <div className="text-xl">
-          {title}
-          <button
-            type="button"
-            onClick={() => setHasPets(!hasPets)}
-            className="ml-5 px-3 py-1 border border-stroke rounded-full"
-          >
-            切換有無寵物
-          </button>
-        </div>
+        <div className="text-xl">{title}</div>
         {hasPets ? (
           selectedPet !== -1 ? (
             <PetProfile petId={selectedPet} />
