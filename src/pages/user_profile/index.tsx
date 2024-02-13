@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
-import { IconDotsVertical } from "@tabler/icons-react";
+
 import Footer from "@/components/Footer";
-import Mask from "@/components/hint/Mask";
-import AlertCard from "@/components/hint/AlertCard";
+
 import { RootState } from "@/common/redux/store";
 import getPetSpecies from "@/common/helpers/getPetSpecies";
 import getPetAge from "@/common/helpers/getPetAge";
@@ -15,9 +14,6 @@ const UserProfile: React.FC = () => {
   const petList = useSelector((state: RootState) => state.petList);
 
   const Profile: React.FC = () => {
-    const [isMe, setIsMe] = useState(true);
-    const [showReportBtn, setShowReportBtn] = useState(false);
-
     const introduction =
       "喜歡旅遊\n下一站美國\n-\nlove can change the world in a moment";
     const link = "https://www.instagram.com/chichi1992126";
@@ -44,36 +40,8 @@ const UserProfile: React.FC = () => {
     const htmlIntro = introduction.split("\n");
     const htmlLink = link.length > 35 ? link.slice(0, 33) + "⋯" : link;
 
-    const ReportBtn = () => {
-      const [isAlertShown, setIsAlertShown] = useState(false);
-
-      return (
-        <>
-          <button
-            className="px-6 py-4 text-error bg-white rounded-3xl absolute -right-[120px] -bottom-[61.5px] shadow-[0_0_10px_0_rgba(0,0,0,0.15)] hover:cursor-pointer"
-            type="button"
-            onClick={() => setIsAlertShown(true)}
-          >
-            檢舉寵物檔案
-          </button>
-          {/* {isAlertShown && (
-            <Mask setIsOpen={setIsAlertShown} maskType="report">
-              <AlertCard
-                setIsDisplayed={setIsAlertShown}
-                cardType="reportPet"
-              />
-            </Mask>
-          )} */}
-        </>
-      );
-    };
-
     return (
-      <div
-        className="flex flex-col gap-y-8 max-w-[320px] w-full"
-        tabIndex={0}
-        onBlur={() => setShowReportBtn(false)}
-      >
+      <div className="flex flex-col gap-y-8 max-w-[320px] w-full">
         <div className="flex gap-x-4">
           <div className="w-[128px] h-[128px]">
             <Image
@@ -110,33 +78,12 @@ const UserProfile: React.FC = () => {
             </a>
           </div>
         </div>
-        {isMe ? (
-          <Link
-            href="/user_dashboard?to=user"
-            className="bg-primary text-white rounded-full py-2 w-full text-center"
-          >
-            編輯個人檔案
-          </Link>
-        ) : (
-          <div className="flex gap-x-4 items-center w-full relative">
-            <button
-              className="bg-primary text-white rounded-full py-2 w-full"
-              type="button"
-            >
-              發送訊息
-            </button>
-            <IconDotsVertical
-              size={24}
-              className="hover:cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                setShowReportBtn(!showReportBtn);
-              }}
-            />
-            {showReportBtn && <ReportBtn />}
-          </div>
-        )}
+        <Link
+          href="/user_dashboard?to=user"
+          className="bg-primary text-white rounded-full py-2 w-full text-center"
+        >
+          編輯個人檔案
+        </Link>
       </div>
     );
   };
