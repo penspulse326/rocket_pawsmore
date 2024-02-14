@@ -127,7 +127,7 @@ const UserProfile: React.FC = () => {
             } = pet;
 
             const handleCheckPet = (petAccount: string) => {
-              router.push(`/${petAccount}`);
+              router.push(`/pet/${petAccount}`);
             };
             return (
               <div
