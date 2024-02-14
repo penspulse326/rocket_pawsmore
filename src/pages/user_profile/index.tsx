@@ -79,7 +79,7 @@ const UserProfile: React.FC = () => {
           </div>
         </div>
         <Link
-          href="/user_dashboard?to=user"
+          href="/user_dashboard?to=account"
           className="bg-primary text-white rounded-full py-2 w-full text-center"
         >
           編輯個人檔案
