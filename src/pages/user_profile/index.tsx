@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import Footer from "@/components/Footer";
 
@@ -13,11 +14,30 @@ const UserProfile: React.FC = () => {
   const userInfo = useSelector((state: RootState) => state.userInfo);
   const petList = useSelector((state: RootState) => state.petList);
 
-  const Profile: React.FC = () => {
-    const introduction =
-      "喜歡旅遊\n下一站美國\n-\nlove can change the world in a moment";
-    const link = "https://www.instagram.com/chichi1992126";
+  const [intro, setIntro] = useState("");
+  const [link, setLink] = useState("");
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/user/check`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${userInfo.token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("failed");
+        }
+        const data = await response.json();
+        setIntro(data.data.introduction);
+        setLink(data.data.link);
+      } catch (error) {}
+    };
+    fetchData();
+  }, [userInfo.token]);
+
+  const Profile: React.FC = () => {
     const { username, account, headShot } = userInfo;
     const linkIcon = (
       <svg
@@ -37,7 +57,7 @@ const UserProfile: React.FC = () => {
         />
       </svg>
     );
-    const htmlIntro = introduction.split("\n");
+    const htmlIntro = intro.split("\n");
     const htmlLink = link.length > 35 ? link.slice(0, 33) + "⋯" : link;
 
     return (
@@ -88,6 +108,8 @@ const UserProfile: React.FC = () => {
     );
   };
   const PetList: React.FC = () => {
+    const router = useRouter();
+
     return (
       <div className="flex flex-col gap-y-4 max-w-[704px] w-full">
         <div className="text-note">寵物檔案清單</div>
@@ -103,10 +125,15 @@ const UserProfile: React.FC = () => {
               birthday,
               petPhoto,
             } = pet;
+
+            const handleCheckPet = (petAccount: string) => {
+              router.push(`/${petAccount}`);
+            };
             return (
               <div
-                className="flex flex-col gap-y-4 p-4 max-w-[224px] w-full border border-stroke rounded-[30px] bg-white"
+                className="flex flex-col gap-y-4 p-4 max-w-[224px] w-full border border-stroke rounded-[30px] bg-white hover:cursor-pointer"
                 key={index}
+                onClick={() => handleCheckPet(petAccount)}
               >
                 <div className="w-[192px] h-[192px]">
                   <Image
