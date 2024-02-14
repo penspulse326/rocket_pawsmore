@@ -2,7 +2,7 @@ import React, { createContext, useState, ReactNode } from "react";
 import moment from "moment";
 import CalendarLayout from "@/components/recordDashboard/CalendarLayout";
 import Upcoming from "@/components/recordDashboard/Upcoming";
-import PetAccount from "@/components/recordDashboard/PetAccount";
+import PetAccount from "@/components/petInfo/AccountList";
 import RecordCardLayout from "@/components/recordDashboard/RecordCardLayout";
 import Footer from "@/components/Footer";
 
