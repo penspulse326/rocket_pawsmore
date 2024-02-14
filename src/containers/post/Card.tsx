@@ -10,12 +10,12 @@ import PostView from "../../components/post/PostView";
 import InputComment from "@/components/post/InputComment";
 import { PostDataType } from "@/types";
 
-interface CardPropsType {
+interface PropsType {
   data: PostDataType;
 }
 
-const Card: React.FC<CardPropsType> = ({ data }) => {
-  moment.locale("zh-tw");
+const Card: React.FC<PropsType> = ({ data }) => {
+  moment.locale("zh-tw"); // 轉換語系
 
   const {
     petId,
@@ -28,8 +28,8 @@ const Card: React.FC<CardPropsType> = ({ data }) => {
     createDate,
   } = data;
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMaskOpen, setIsMaskOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
   return (
@@ -38,17 +38,20 @@ const Card: React.FC<CardPropsType> = ({ data }) => {
         {/* 遮罩 */}
         {isMaskOpen && (
           <Mask setIsOpen={setIsMaskOpen} maskType="post">
-            <PostView />
+            <PostView data={data} />
           </Mask>
         )}
         {/* 多媒體內容 */}
-        <div className="relative max-w-[528px] max-h-[528px] w-[528px] h-[528px] rounded-[26px] overflow-hidden">
+        <div
+          onClick={() => setIsMaskOpen(true)}
+          className="relative max-w-[528px] max-h-[528px] w-[528px] h-[528px] rounded-[26px] overflow-hidden"
+        >
           <Image
             src={media}
             alt={petAccount}
+            priority={false}
             layout="fill"
             objectFit="cover"
-            onClick={() => setIsMaskOpen(true)}
           />
         </div>
         <button
