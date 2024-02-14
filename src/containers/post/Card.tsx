@@ -44,14 +44,14 @@ const Card: React.FC<PropsType> = ({ data }) => {
         {/* 多媒體內容 */}
         <div
           onClick={() => setIsMaskOpen(true)}
-          className="relative max-w-[528px] max-h-[528px] w-[528px] h-[528px] rounded-[26px] overflow-hidden"
+          className="relative max-w-[528px] max-h-[528px] aspect-square rounded-[26px] overflow-hidden"
         >
           <Image
             src={media}
             alt={petAccount}
             priority={false}
-            layout="fill"
-            objectFit="cover"
+            fill={true}
+            style={{ objectFit: "cover" }}
           />
         </div>
         <button
@@ -75,7 +75,7 @@ const Card: React.FC<PropsType> = ({ data }) => {
               src={petPhoto || "/images/default-photo.png"}
               width={48}
               height={48}
-              alt="發文者頭貼"
+              alt={petAccount}
               className="rounded-full"
             />
           </Link>

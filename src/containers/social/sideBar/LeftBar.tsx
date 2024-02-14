@@ -10,7 +10,6 @@ import MoreMenu from "@/containers/social/sideBar/MoreMenu";
 import PetCards from "@/components/petCards";
 
 import type { RootState } from "@/common/redux/store";
-import type { PetDataType } from "@/types";
 
 const LeftBar: React.FC = () => {
   const dispatch = useDispatch();
