@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 import PetProfile from "./PetProfile";
 
@@ -11,14 +12,20 @@ import getPetAge from "@/common/helpers/getPetAge";
 const PetList: React.FC = () => {
   const petList = useSelector((state: RootState) => state.petList);
   const [hasPets, setHasPets] = useState(false);
+  const [selectedPet, setSelectedPet] = useState(-1);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (Array.isArray(petList) && petList.length > 0) {
       setHasPets(true);
     }
-  }, [petList]);
+  }, [petList, selectedPet]);
 
-  const [selectedPet, setSelectedPet] = useState(-1);
+  const handleEditPet = (petId: number) => {
+    setSelectedPet(petId);
+    router.push(`/user_dashboard/edit_pet/${petId}`);
+  };
 
   const PetCard: React.FC = () => {
     return (
@@ -61,7 +68,7 @@ const PetList: React.FC = () => {
               </ul>
               <button
                 className="mb-4 py-2 rounded-[30px] bg-primary text-white text-center"
-                onClick={() => setSelectedPet(petId)}
+                onClick={() => handleEditPet(petId)}
                 type="button"
               >
                 編輯
@@ -90,20 +97,11 @@ const PetList: React.FC = () => {
     );
   };
   return (
-    <>
-      <div className="flex flex-col gap-y-8">
-        <div className="text-xl">寵物檔案清單</div>
-        {hasPets ? (
-          selectedPet !== -1 ? (
-            <PetProfile petId={selectedPet} />
-          ) : (
-            <PetCard />
-          )
-        ) : (
-          <AddPet />
-        )}
-      </div>
-    </>
+    <div className="flex flex-col gap-y-8">
+      <div className="text-xl">寵物檔案清單</div>
+      {hasPets ? <PetCard /> : <AddPet />}
+      <PetProfile />
+    </div>
   );
 };
 
