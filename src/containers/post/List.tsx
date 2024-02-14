@@ -35,7 +35,7 @@ const List: React.FC = () => {
       {/* 貼文列表 */}
       <div className="flex flex-col gap-8 mt-4">
         {/* 貼文卡片 */}
-        {list.map((data) => (
+        {list?.map((data) => (
           <Card key={data.postId} data={data} />
         ))}
       </div>

@@ -47,7 +47,7 @@ export interface PetDataType {
   petGender: number;
   breed: string;
   birthday: string;
-  adopteddDate: string;
+  adoptedDate: string;
   petIntro: string;
   link: string;
 }
