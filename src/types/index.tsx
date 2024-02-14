@@ -53,12 +53,14 @@ export interface PetDataType {
 }
 
 export interface PostDataType {
-  created_at: string;
-  content: string;
-  media_type: string;
-  media_url: string;
-  likes: number;
-  extra: {};
+  petId: number;
+  postId: number;
+  petAccount: string;
+  petPhoto: string | null;
+  postContent: string;
+  media: string;
+  mediaType: 0 | 1;
+  createDate: string;
 }
 
 export interface CommentDataType {

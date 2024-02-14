@@ -1,14 +1,33 @@
 import { IconHeart, IconDotsVertical } from "@tabler/icons-react";
-
-import { useState } from "react";
+import moment from "moment";
+import "moment/locale/zh-tw";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 import Mask from "../../components/hint/Mask";
 import PostView from "../../components/post/PostView";
 import InputComment from "@/components/post/InputComment";
+import { PostDataType } from "@/types";
 
-const Card: React.FC = () => {
+interface CardPropsType {
+  data: PostDataType;
+}
+
+const Card: React.FC<CardPropsType> = ({ data }) => {
+  moment.locale("zh-tw");
+
+  const {
+    petId,
+    postId,
+    petAccount,
+    petPhoto,
+    postContent,
+    media,
+    mediaType,
+    createDate,
+  } = data;
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMaskOpen, setIsMaskOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
@@ -16,20 +35,22 @@ const Card: React.FC = () => {
   return (
     <div className="flex flex-col gap-4 p-8 border border-stroke rounded-[32px]">
       <section className="relative">
+        {/* 遮罩 */}
         {isMaskOpen && (
           <Mask setIsOpen={setIsMaskOpen} maskType="post">
             <PostView />
           </Mask>
         )}
-        <Image
-          src="/test/post-dog-1.png"
-          alt="貼文照片"
-          width={528}
-          height={528}
-          priority={false}
-          onClick={() => setIsMaskOpen(true)}
-          className="rounded-[26px]"
-        />
+        {/* 多媒體內容 */}
+        <div className="relative max-w-[528px] max-h-[528px] w-[528px] h-[528px] rounded-[26px] overflow-hidden">
+          <Image
+            src={media}
+            alt={petAccount}
+            layout="fill"
+            objectFit="cover"
+            onClick={() => setIsMaskOpen(true)}
+          />
+        </div>
         <button
           type="button"
           className="absolute bottom-8 right-8"
@@ -48,7 +69,7 @@ const Card: React.FC = () => {
         <div className="flex gap-2 items-center">
           <Link href="#">
             <Image
-              src="/test/photo-dog-test.png"
+              src={petPhoto || "/images/default-photo.png"}
               width={48}
               height={48}
               alt="發文者頭貼"
@@ -56,11 +77,15 @@ const Card: React.FC = () => {
             />
           </Link>
           <Link href="#" className="font-bold">
-            charliepangpang
+            {petAccount}
           </Link>
           <span className="w-[5px] h-[5px] bg-note rounded-full"></span>
-          <Link href="#" className="text-note">
-            3小時
+          <Link
+            href="#"
+            className="tooltip text-note"
+            data-tooltip={moment(createDate).format("YYYY-MM-DD HH:mm")}
+          >
+            {moment(createDate).fromNow()}
           </Link>
         </div>
         <div className="flex gap-2 items-center">
@@ -92,7 +117,7 @@ const Card: React.FC = () => {
       </section>
       {/* 內文 */}
       <section>
-        <p>我是查理胖胖我超胖！</p>
+        <p>{postContent}</p>
       </section>
       {/* 留言 */}
       <section>
