@@ -19,41 +19,68 @@ interface UploadViewPropsType {
 const MAX_FILE_SIZE = 1024 * 1024 * 10;
 
 const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
-  const [isMilestoneOpen, setIsMilestoneOpen] = useState(false);
-  const [mediaType, setMediaType] = useState<MediaType>(0);
+  const [file, setFile] = useState<File>();
+  const [content, setContent] = useState("");
+  const [mediaType, setMediaType] = useState<MediaType>();
   const [preview, setPreview] = useState("");
+  const [isMilestoneOpen, setIsMilestoneOpen] = useState(false);
 
-  useEffect(() => {
-    return () => {
-      preview && URL.revokeObjectURL(preview);
-    };
-  }, [preview]);
+  const isBtnDisabled = !file || !content;
+
+  const submitBtnStyle = isMilestoneOpen
+    ? {
+        backgroundColor: "white",
+      }
+    : {
+        backgroundColor: isBtnDisabled ? "#808080" : "#203170",
+      };
 
   const handleMediaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     event.target.value = "";
+    setFile(file);
 
-    //  限制圖片預覽大小
+    //  限制大小
     if (file) {
       if (file.size > MAX_FILE_SIZE) {
-        alert("檔案大小超過 1MB");
+        alert("檔案不能超過 10MB");
         return;
       }
 
       const previewUrl = URL.createObjectURL(file);
       setPreview(previewUrl);
 
-      const fileType = file.type;
-      if (fileType.startsWith("image/")) {
-        setMediaType(MediaType.image);
-      } else if (fileType.startsWith("video/")) {
-        setMediaType(MediaType.video);
+      const fileType = file.type.split("/")[0];
+      switch (fileType) {
+        case "image":
+          setMediaType(MediaType.image);
+          break;
+        case "video":
+          setMediaType(MediaType.video);
+          break;
+        default:
+          break;
       }
     }
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const data = {
+      postContent: content,
+      mediaType,
+      media: file,
+    };
+
+    console.log(data);
+  };
+
   return (
-    <form className="grid grid-cols-10 gap-x-8 gap-y-4 p-8 max-w-[1041px] rounded-[30px] bg-white">
+    <form
+      onSubmit={handleSubmit}
+      className="grid grid-cols-10 gap-x-8 gap-y-4 p-8 max-w-[1041px] rounded-[30px] bg-white"
+    >
       {/* 新增貼文與關閉按鈕 */}
       <div className="col-span-10 flex justify-between items-center">
         <h2 className="text-2xl font-bold">新增貼文</h2>
@@ -62,7 +89,7 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
         </button>
       </div>
       {/* 上傳圖片或影片 */}
-      <label className="col-span-5 flex justify-center items-center gap-8 w-[476px] border border-stroke rounded-[30px] overflow-hidden cursor-pointer">
+      <label className="relative col-span-5 flex justify-center items-center gap-8 max-w-[476px] w-[476px] border border-stroke rounded-[30px] overflow-hidden cursor-pointer">
         <input
           name="media"
           type="file"
@@ -78,10 +105,35 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
           <IconMovie size={24} />
           <span className="ml-2 text-note">附上影片</span>
         </div>
+        {/* 預覽 */}
+        <div className="absolute w-full h-full">
+          {mediaType === MediaType.image && (
+            <Image
+              src={preview}
+              fill={true}
+              style={{ objectFit: "cover" }}
+              alt="preview"
+            />
+          )}
+          {mediaType === MediaType.video && (
+            <video
+              src={preview}
+              autoPlay={true}
+              controls={true}
+              loop={true}
+              muted={true}
+              className="absolute w-full h-full"
+            ></video>
+          )}
+        </div>
       </label>
       <section className="relative col-span-5">
         {/* 文字輸入 */}
-        <textarea className="scrollbar-none p-8 w-full h-[259px] border border-stroke outline-note rounded-[30px] resize-none" />
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          className="scrollbar-none p-8 w-full h-[259px] border border-stroke outline-note rounded-[30px] resize-none"
+        />
         <div className="flex gap-8 mt-8">
           <button
             type="button"
@@ -112,9 +164,9 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
             {/* 送出 */}
             <button
               type="submit"
-              className={`${
-                isMilestoneOpen ? "bg-white" : "bg-primary"
-              } py-3 w-full rounded-full  text-white text-xl font-bold`}
+              disabled={isBtnDisabled}
+              style={submitBtnStyle}
+              className="py-3 w-full rounded-full  text-white text-xl font-bold"
             >
               Pawk!
             </button>
@@ -122,7 +174,7 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
         </div>
         {/* 里程碑列表 */}
         {isMilestoneOpen && (
-          <div className="absolute flex flex-col px-8 bg-white w-full h-full border border-stroke rounded-[30px]">
+          <div className="absolute top-0 flex flex-col px-8 bg-white w-full h-full border border-stroke rounded-[30px]">
             <div className="flex items-center py-6">
               <button
                 type="button"

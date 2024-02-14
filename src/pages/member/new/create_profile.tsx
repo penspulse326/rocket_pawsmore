@@ -3,7 +3,7 @@ import { useState, type ReactElement } from "react";
 
 import CreatePageLayout from "@/containers/createProfile/CreatePageLayout";
 import MemberForm from "@/containers/createProfile/MemberForm";
-import { mediaUpload } from "@/common/helpers/mediaManager";
+import { mediaUpload } from "@/common/fetch/mediaManager";
 import apiNext from "@/common/fetch/apiNext";
 
 import { useDispatch, useSelector } from "react-redux";
