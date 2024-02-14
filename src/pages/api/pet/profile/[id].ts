@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import apiBase from "../apiBase";
+import apiBase from "../../apiBase";
 
 interface ResponseType {
   statusCode?: number;
@@ -11,15 +11,16 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const requestBody = req.body;
   const token = req.headers.authorization;
 
   if (!token) {
     return res.status(401).json({ message: "請重新登入" });
   }
 
+  const id = req.query.id;
+
   try {
-    const response = await fetch(apiBase.CHECK_SELF, {
+    const response = await fetch(`${apiBase.GET_PET}/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
