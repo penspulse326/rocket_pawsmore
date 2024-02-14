@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setPetList } from "@/common/redux/petListSlice";
@@ -10,9 +10,9 @@ import MoreMenu from "@/containers/social/sideBar/MoreMenu";
 import PetCards from "@/components/petCards";
 
 import type { RootState } from "@/common/redux/store";
-import type { PetDataType } from "@/types";
 
 const LeftBar: React.FC = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { userId, username, account, headShot, token } = useSelector(
     (state: RootState) => state.userInfo
@@ -30,14 +30,18 @@ const LeftBar: React.FC = () => {
     }
   };
 
+  const handleCheckProfile = (account: string) => {
+    router.push(`/member/${account}`);
+  };
+
   return (
     <aside className="col-span-3 flex flex-col py-8 h-full">
       {/* 寵物檔案卡片 */}
       <PetCards list={petList} />
       {/* 個人連結 */}
-      <Link
-        href="/user_profile"
-        className="flex gap-4 p-4 border border-stroke bg-white  rounded-[30px] duration-300 hover:bg-stroke"
+      <div
+        className="flex gap-4 p-4 border border-stroke bg-white  rounded-[30px] duration-300 hover:bg-stroke hover:cursor-pointer"
+        onClick={() => handleCheckProfile(account)}
       >
         <Image
           src={headShot || "/images/default-photo.png"}
@@ -50,7 +54,7 @@ const LeftBar: React.FC = () => {
           <p>{username}</p>
           <p className="text-note">{account}</p>
         </div>
-      </Link>
+      </div>
       {/* 選單 */}
       <MoreMenu />
     </aside>
