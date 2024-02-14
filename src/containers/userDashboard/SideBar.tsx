@@ -2,36 +2,36 @@ import React, { useState, useEffect } from "react";
 import { IconChevronDown } from "@tabler/icons-react";
 
 interface SideBarPropsType {
-  prop: string;
+  target: string;
   setTargetPage: (targetPage: string) => void;
 }
 
-const SideBar: React.FC<SideBarPropsType> = ({ prop, setTargetPage }) => {
+const SideBar: React.FC<SideBarPropsType> = ({ target, setTargetPage }) => {
   const [openUser, setOpenUser] = useState(false);
   const [openPets, setOpenPets] = useState(false);
   const [isActive, setIsActive] = useState("");
 
   useEffect(() => {
-    const handleVisitPage = (targetPage: string) => {
-      setTargetPage(targetPage);
-      setIsActive(targetPage);
-    };
-    switch (prop) {
-      case "user":
+    switch (target) {
+      case "account":
+      case "profile":
         setOpenUser(true);
-        handleVisitPage("帳號資料");
-        break;
-      case "pets":
-        setOpenPets(true);
-        handleVisitPage("寵物檔案清單");
         break;
       default:
+        setOpenPets(true);
         break;
     }
-  }, [prop, setTargetPage]);
+    setIsActive(target);
+  }, [target]);
 
-  const userItems: string[] = ["帳號資料", "個人檔案"];
-  const petItems: string[] = ["寵物檔案清單", "新增寵物檔案"];
+  const userItems: { TITLE: string; ENG: string }[] = [
+    { TITLE: "帳號資料", ENG: "account" },
+    { TITLE: "個人檔案", ENG: "profile" },
+  ];
+  const petItems: { TITLE: string; ENG: string }[] = [
+    { TITLE: "寵物檔案清單", ENG: "pet_list" },
+    { TITLE: "新增寵物檔案", ENG: "add_pet" },
+  ];
 
   const handleTargetPage = (newTarget: string) => {
     setIsActive(newTarget);
@@ -72,12 +72,12 @@ const SideBar: React.FC<SideBarPropsType> = ({ prop, setTargetPage }) => {
                 return (
                   <div
                     className={`px-3 py-1 hover:bg-secondary rounded-[30px] hover:cursor-pointer 
-              ${isActive === item && "font-bold"}
+              ${isActive === item.ENG && "font-bold"}
               `}
-                    onClick={() => handleTargetPage(item)}
+                    onClick={() => handleTargetPage(item.ENG)}
                     key={index}
                   >
-                    {item}
+                    {item.TITLE}
                   </div>
                 );
               })}
@@ -114,12 +114,12 @@ const SideBar: React.FC<SideBarPropsType> = ({ prop, setTargetPage }) => {
                 return (
                   <div
                     className={`px-3 py-1 hover:bg-secondary rounded-[30px] hover:cursor-pointer 
-              ${isActive === item && "font-bold"}
+              ${isActive === item.ENG && "font-bold"}
               `}
-                    onClick={() => handleTargetPage(item)}
+                    onClick={() => handleTargetPage(item.ENG)}
                     key={index}
                   >
-                    {item}
+                    {item.TITLE}
                   </div>
                 );
               })}

@@ -1,18 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Image from "next/image";
-import moment from "moment";
-import petData from "@/common/lib/test/petData";
-import PetProfile from "./PetProfile";
-import getPetSpecies from "@/common/helpers/getPetSpecies";
+import { useRouter } from "next/router";
 
-const PetList: React.FC<{ title: string }> = ({ title }) => {
-  const [hasPets, setHasPets] = useState(true);
+import PetProfile from "./PetProfile";
+
+import { RootState } from "@/common/redux/store";
+import getPetSpecies from "@/common/helpers/getPetSpecies";
+import getPetAge from "@/common/helpers/getPetAge";
+
+const PetList: React.FC = () => {
+  const petList = useSelector((state: RootState) => state.petList);
+  const [hasPets, setHasPets] = useState(false);
   const [selectedPet, setSelectedPet] = useState(-1);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (Array.isArray(petList) && petList.length > 0) {
+      setHasPets(true);
+    }
+  }, [petList, selectedPet]);
+
+  const handleEditPet = (petId: number) => {
+    setSelectedPet(petId);
+    router.push(`/user_dashboard/edit_pet/${petId}`);
+  };
 
   const PetCard: React.FC = () => {
     return (
       <div className="flex gap-4 flex-wrap">
-        {petData.map((pet, index) => {
+        {petList.map((pet, index) => {
           const {
             petId,
             petName,
@@ -23,40 +41,21 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
             birthday,
             petPhoto,
           } = pet;
-          const age = (birthday: string) => {
-            const year = moment().diff(moment(birthday), "year");
-            const month = moment().diff(moment(birthday), "month") % 12;
-            return `${year} 歲 ${month} 月`;
-          };
-
-          const getSpecies = (prop: number) => {
-            switch (prop) {
-              case 0:
-                return "狗";
-              case 1:
-                return "貓";
-              case 2:
-                return "倉鼠";
-              case 3:
-                return "其他";
-              default:
-                return null;
-            }
-          };
-
           return (
             <div
               className="flex flex-col gap-y-4 p-4 max-w-[224px] w-full border border-stroke rounded-[30px] bg-white"
               key={index}
             >
-              <Image
-                src={petPhoto}
-                width={192}
-                height={192}
-                priority
-                alt="pet avatar"
-                className="rounded-[30px] object-cover"
-              />
+              <div className="w-[192px] h-[192px]">
+                <Image
+                  src={petPhoto || "/images/default-photo.svg"}
+                  width={192}
+                  height={192}
+                  priority
+                  alt="pet avatar"
+                  className="w-full h-full rounded-[30px] object-cover"
+                />
+              </div>
               <ul className="flex flex-col gap-1">
                 <li>{petName}</li>
                 <li>@{petAccount}</li>
@@ -65,11 +64,11 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
                   <li>{breed}</li>
                   <li>{petGender ? "女生" : "男生"}</li>
                 </ol>
-                <li className="text-note">{age(birthday)}</li>
+                <li className="text-note">{getPetAge(birthday)}</li>
               </ul>
               <button
                 className="mb-4 py-2 rounded-[30px] bg-primary text-white text-center"
-                onClick={() => setSelectedPet(petId)}
+                onClick={() => handleEditPet(petId)}
                 type="button"
               >
                 編輯
@@ -98,29 +97,11 @@ const PetList: React.FC<{ title: string }> = ({ title }) => {
     );
   };
   return (
-    <>
-      <div className="flex flex-col gap-y-8">
-        <div className="text-xl">
-          {title}
-          <button
-            type="button"
-            onClick={() => setHasPets(!hasPets)}
-            className="ml-5 px-3 py-1 border border-stroke rounded-full"
-          >
-            切換有無寵物
-          </button>
-        </div>
-        {hasPets ? (
-          selectedPet !== -1 ? (
-            <PetProfile petId={selectedPet} />
-          ) : (
-            <PetCard />
-          )
-        ) : (
-          <AddPet />
-        )}
-      </div>
-    </>
+    <div className="flex flex-col gap-y-8">
+      <div className="text-xl">寵物檔案清單</div>
+      {hasPets ? <PetCard /> : <AddPet />}
+      <PetProfile />
+    </div>
   );
 };
 

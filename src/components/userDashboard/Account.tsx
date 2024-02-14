@@ -4,7 +4,7 @@ import ErrorMessage from "../ErrorMessage";
 import { ChangePassword } from "@/common/lib/formText";
 import { errorText } from "@/common/lib/messageText";
 
-const Account: React.FC<{ title: string }> = ({ title }) => {
+const Account: React.FC = () => {
   const [email, setEmail] = useState("example@gmail.com");
   const [password, setPassword] = useState("123456");
   const [newPassword, setNewPassword] = useState("");
@@ -54,7 +54,7 @@ const Account: React.FC<{ title: string }> = ({ title }) => {
 
   return (
     <div className="flex flex-col gap-y-8 max-w-[416px]">
-      <div className="text-xl">{title}</div>
+      <div className="text-xl">帳號資料</div>
       <div className="flex flex-col gap-y-12 border border-stroke rounded-[30px] p-8">
         <form className="flex flex-col  gap-y-4">
           {/* email */}

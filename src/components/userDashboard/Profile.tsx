@@ -1,10 +1,16 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Image from "next/image";
 import { IconPhoto } from "@tabler/icons-react";
+
+import { RootState } from "@/common/redux/store";
 import ErrorMessage from "../ErrorMessage";
 import { errorText } from "@/common/lib/messageText";
 
-const Profile: React.FC<{ title: string }> = ({ title }) => {
+const Profile: React.FC = () => {
+  const userInfoData = useSelector((state: RootState) => state.userInfo);
+  console.log(userInfoData);
+
   const [account, setAccount] = useState("chichi1992126");
   const [username, setUsername] = useState("琪琪");
   const [userInfo, setUserInfo] = useState(
@@ -16,7 +22,7 @@ const Profile: React.FC<{ title: string }> = ({ title }) => {
 
   return (
     <div className="flex flex-col gap-y-8 max-w-[728px]">
-      <div className="text-xl">{title}</div>
+      <div className="text-xl">個人檔案</div>
       {/* card container */}
       <div className="flex flex-col gap-y-12 border border-stroke rounded-[30px] p-8 max-w-[728px]">
         <form className="flex gap-x-12">
