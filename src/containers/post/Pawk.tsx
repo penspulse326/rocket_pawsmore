@@ -2,9 +2,9 @@ import { IconPhoto, IconMovie, IconMedal } from "@tabler/icons-react";
 import { useState } from "react";
 
 import Mask from "../../components/hint/Mask";
-import UploadView from "../../components/social/UploadView";
+import UploadView from "../../components/post/UploadView";
 
-const BtnPawk = () => {
+const Pawk = () => {
   const [isUploadOpen, setIsUploadOpen] = useState(false);
 
   return (
@@ -19,11 +19,9 @@ const BtnPawk = () => {
             <UploadView setIsOpen={setIsUploadOpen} />
           </Mask>
         )}
-        <input
-          type="text"
-          placeholder="在想些什麼呢？"
-          className="px-8 py-4 w-full border border-stroke rounded-[30px] outline-none"
-        />
+        <div className="px-8 py-4 w-full border border-stroke rounded-[30px] outline-none text-note">
+          在想些什麼呢？
+        </div>
         <div className="flex justify-between items-center mt-6">
           <div className="flex gap-8 text-note">
             <button type="button" className="flex items-center gap-2">
@@ -51,4 +49,4 @@ const BtnPawk = () => {
   );
 };
 
-export default BtnPawk;
+export default Pawk;

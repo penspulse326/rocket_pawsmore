@@ -3,13 +3,18 @@ import {
   IconMessageCircle,
   IconDotsVertical,
 } from "@tabler/icons-react";
-
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 
 import InputComment from "./InputComment";
-import { CommentDataType } from "@/types";
+
+import type { CommentDataType, PostDataType } from "@/types";
+import moment from "moment";
+
+interface PropsType {
+  data: PostDataType;
+}
 
 const testData: CommentDataType[] = [
   {
@@ -62,31 +67,35 @@ const testData: CommentDataType[] = [
   },
 ];
 
-export default function PostView() {
-  const resouse_type = "image";
+const PostView: React.FC<PropsType> = ({ data }) => {
+  const {
+    petId,
+    postId,
+    petAccount,
+    petPhoto,
+    postContent,
+    media,
+    mediaType,
+    createDate,
+  } = data;
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [hoveredCommentIndex, setHoveredCommentIndex] = useState(-1);
   const [comments, setComments] = useState(testData);
   const scrollRef = useRef<HTMLLIElement | null>(null);
 
-  // 新增完留言應該滾動到最底但初次渲染時就會滾動惹...
-  useEffect(() => {
-    scrollRef.current!.scrollIntoView({ behavior: "smooth" });
-  }, [comments]);
-
   return (
     <section className="flex gap-8 p-8 rounded-[32px] bg-white">
       {/* 多媒體區 */}
-      <section className="relative max-w-[530px] max-h-[530px] rounded-[26px] overflow-hidden">
-        {resouse_type === "image" && (
-          <Image
-            src="/test/post-dog-1.png"
-            width={530}
-            height={530}
-            alt="貼文照片"
-          />
-        )}
+      <section className="relative max-w-[530px] max-h-[530px] w-[530px] h-[530px] rounded-[26px] overflow-hidden">
+        <Image
+          src={media}
+          alt={petAccount}
+          priority={false}
+          layout="fill"
+          objectFit="cover"
+        />
         <button
           type="button"
           className="absolute bottom-8 right-8"
@@ -106,19 +115,23 @@ export default function PostView() {
           <div className="flex gap-2 items-center">
             <Link href="#">
               <Image
-                src="/test/photo-dog-test.png"
+                src={petPhoto || "images/default-photo.png"}
                 width={48}
                 height={48}
-                alt="發文者頭貼"
+                alt={petAccount}
                 className="rounded-full"
               />
             </Link>
             <Link href="#" className="font-bold">
-              charliepangpang
+              {petAccount}
             </Link>
             <span className="w-[5px] h-[5px] bg-note rounded-full"></span>
-            <Link href="#" className="text-note">
-              3小時
+            <Link
+              href="#"
+              className="tooltip text-note"
+              data-tooltip={moment(createDate).format("YYYY-MM-DD HH:mm")}
+            >
+              {moment(createDate).fromNow()}
             </Link>
           </div>
           <div className="flex gap-2 items-center">
@@ -212,4 +225,6 @@ export default function PostView() {
       </section>
     </section>
   );
-}
+};
+
+export default PostView;

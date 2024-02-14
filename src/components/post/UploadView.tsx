@@ -6,7 +6,6 @@ import {
   IconPhoto,
   IconX,
 } from "@tabler/icons-react";
-
 import Image from "next/image";
 import { useState } from "react";
 
@@ -28,7 +27,12 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
         </button>
       </div>
       <label className="col-span-5 flex justify-center items-center gap-8 w-[476px] border border-stroke rounded-[30px] overflow-hidden cursor-pointer">
-        <input type="file" name="media" className="hidden" />
+        <input
+          type="file"
+          accept=".png, .jpg, .jpeg, .mp4, "
+          name="media"
+          className="hidden"
+        />
         <div className="flex items-center">
           <IconPhoto size={24} />
           <span className="ml-2 text-note">附上照片</span>
@@ -39,25 +43,8 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
         </div>
       </label>
       <section className="relative col-span-5">
-        {/* 里程碑列表 */}
-        {isMilestoneOpen && (
-          <div className="absolute flex flex-col px-8 bg-white w-full h-full border border-stroke rounded-[30px]">
-            <div className="flex items-center py-6">
-              <button
-                type="button"
-                className="absolute"
-                onClick={() => setIsMilestoneOpen(false)}
-              >
-                <IconChevronLeft stroke={1} size={40} />
-              </button>
-              <h3 className="w-full text-xl text-center">加上里程碑</h3>
-            </div>
-            <ul className="scrollbar-none pb-6 overflow-y-scroll">
-              <List />
-            </ul>
-          </div>
-        )}
-        <textarea className="scrollbar-none p-8 w-full h-[259px] border border-stroke rounded-[30px]"></textarea>
+        {/* 文字輸入 */}
+        <textarea className="scrollbar-none p-8 w-full h-[259px] border border-stroke outline-note rounded-[30px] resize-none"></textarea>
         <div className="flex gap-8 mt-8">
           <button
             type="button"
@@ -94,6 +81,24 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
             </button>
           </div>
         </div>
+        {/* 里程碑列表 */}
+        {isMilestoneOpen && (
+          <div className="absolute flex flex-col px-8 bg-white w-full h-full border border-stroke rounded-[30px]">
+            <div className="flex items-center py-6">
+              <button
+                type="button"
+                className="absolute"
+                onClick={() => setIsMilestoneOpen(false)}
+              >
+                <IconChevronLeft stroke={1} size={40} />
+              </button>
+              <h3 className="w-full text-xl text-center">加上里程碑</h3>
+            </div>
+            <ul className="scrollbar-none pb-6 overflow-y-scroll">
+              <List />
+            </ul>
+          </div>
+        )}
       </section>
     </section>
   );

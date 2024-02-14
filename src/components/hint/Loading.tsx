@@ -1,6 +1,6 @@
 const Loading: React.FC = () => {
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-black/50">
+    <div className="fixed top-0 left-0 z-50 w-full h-full bg-black/50">
       <div className="cssload-dots">
         <div className="cssload-dot"></div>
         <div className="cssload-dot"></div>

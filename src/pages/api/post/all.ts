@@ -18,7 +18,7 @@ export default async function handler(
   }
 
   try {
-    const response = await fetch(apiBase.GET_POST_LIST, {
+    const response = await fetch(apiBase.GET_ALL_POST, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

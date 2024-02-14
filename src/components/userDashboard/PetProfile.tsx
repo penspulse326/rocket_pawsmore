@@ -34,7 +34,7 @@ const PetProfile = () => {
     selectedPet && moment(selectedPet.birthday).format("YYYY-MM-DD")
   );
   const [adoptedDate, setAdoptedDate] = useState(
-    selectedPet && moment(selectedPet.adopteddDate).format("YYYY-MM-DD")
+    selectedPet && moment(selectedPet.adoptedDate).format("YYYY-MM-DD")
   );
 
   if (!selectedPet) {
