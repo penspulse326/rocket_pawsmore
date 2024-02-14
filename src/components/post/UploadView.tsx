@@ -7,11 +7,18 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 import List from "../milestone/List";
-import { MediaType } from "@/common/lib/enums";
+
 import AccountList from "../petInfo/AccountList";
+import Loading from "../hint/Loading";
+import { mediaUpload } from "@/common/fetch/mediaManager";
+import { fetchAddPost } from "@/common/fetch/post";
+
+import { MediaType } from "@/common/lib/enums";
+import type { RootState } from "@/common/redux/store";
 
 interface UploadViewPropsType {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,15 +27,18 @@ interface UploadViewPropsType {
 const MAX_FILE_SIZE = 1024 * 1024 * 10;
 
 const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
+  const { token } = useSelector((state: RootState) => state.userInfo);
+
+  const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState<File>();
-  const [content, setContent] = useState("");
+  const [postContent, setPostContent] = useState("");
   const [mediaType, setMediaType] = useState<MediaType>();
   const [preview, setPreview] = useState("");
 
   const [selectedPetId, setSelectedPetId] = useState<number | null>(null);
   const [isMilestoneOpen, setIsMilestoneOpen] = useState(false);
 
-  const isBtnDisabled = !file || !content;
+  const isBtnDisabled = !file || !postContent;
 
   const submitBtnStyle = isMilestoneOpen
     ? {
@@ -67,123 +77,144 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log(selectedPetId);
-    const data = {
-      postContent: content,
-      mediaType,
-      media: file,
-    };
+    setIsLoading(true);
 
-    console.log(data);
+    // 上傳圖片影片
+    try {
+      const uploadResult = await mediaUpload(file!, "post");
+      const mediaUrl = uploadResult.secure_url;
+
+      const data = {
+        postContent,
+        mediaType: mediaType!,
+        media: mediaUrl,
+      };
+
+      const response = await fetchAddPost(token, data, selectedPetId!);
+      console.log(response);
+
+      if (response.ok) {
+        alert("上傳成功");
+      }
+    } catch (error) {
+      alert("上傳失敗，請稍後再試");
+      console.error("Error uploading the file:", error);
+    }
+
+    setIsLoading(false);
+    setIsOpen(false);
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="mx-8 p-8 w-[1041px] rounded-[30px] bg-white"
-    >
-      {/* 新增貼文與關閉按鈕 */}
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">新增貼文</h2>
-        <button type="button" onClick={() => setIsOpen(false)}>
-          <IconX size={40} stroke={1} />
-        </button>
-      </div>
-      {/* 內容 */}
-      <div className="flex mt-4 gap-8">
-        <label className="relative flex-grow flex justify-center items-center gap-8 max-w-[476px] aspect-square border border-stroke rounded-[30px] overflow-hidden cursor-pointer">
-          <input
-            name="media"
-            type="file"
-            accept=".png, .jpg, .jpeg, .mp4, .mov"
-            onChange={handleMediaChange}
-            className="hidden"
-          />
-          <div className="flex items-center">
-            <IconPhoto size={24} />
-            <span className="ml-2 text-note">附上照片</span>
-          </div>
-          <div className="flex items-center">
-            <IconMovie size={24} />
-            <span className="ml-2 text-note">附上影片</span>
-          </div>
-          {/* 預覽 */}
-          <div className="absolute w-full h-full">
-            {mediaType === MediaType.image && (
-              <Image
-                src={preview}
-                fill={true}
-                style={{ objectFit: "cover" }}
-                alt="preview"
-              />
-            )}
-            {mediaType === MediaType.video && (
-              <video
-                src={preview}
-                autoPlay={true}
-                controls={true}
-                loop={true}
-                muted={true}
-                className="absolute w-full h-full"
-              ></video>
-            )}
-          </div>
-        </label>
-        <section className="relative flex-grow flex flex-col max-w-[469px]">
-          {/* 文字輸入 */}
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="scrollbar-none flex-grow p-8 w-full border border-stroke outline-note rounded-[30px] resize-none"
-          />
-          <div className="flex gap-8 mt-8">
-            {/* 里程碑按鈕 */}
-            <button
-              type="button"
-              className="flex-grow border border-stroke rounded-[30px] text-center"
-              onClick={() => setIsMilestoneOpen(!isMilestoneOpen)}
-            >
-              <IconMedal size={48} className="mx-auto" />
-              <span className="block mt-4 text-note">加上里程碑</span>
-            </button>
-            <div className="flex-grow flex flex-col gap-8 max-w-[250px]">
-              {/* 寵物列表 */}
-              <AccountList setId={setSelectedPetId} />
-              {/* 送出 */}
+    <>
+      <form
+        onSubmit={handleSubmit}
+        className="mx-8 p-8 w-[1041px] rounded-[30px] bg-white"
+      >
+        {/* 新增貼文與關閉按鈕 */}
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold">新增貼文</h2>
+          <button type="button" onClick={() => setIsOpen(false)}>
+            <IconX size={40} stroke={1} />
+          </button>
+        </div>
+        {/* 內容 */}
+        <div className="flex mt-4 gap-8">
+          <label className="relative flex-grow flex justify-center items-center gap-8 max-w-[476px] aspect-square border border-stroke rounded-[30px] overflow-hidden cursor-pointer">
+            <input
+              name="media"
+              type="file"
+              accept=".png, .jpg, .jpeg, .mp4, .mov"
+              onChange={handleMediaChange}
+              className="hidden"
+            />
+            <div className="flex items-center">
+              <IconPhoto size={24} />
+              <span className="ml-2 text-note">附上照片</span>
+            </div>
+            <div className="flex items-center">
+              <IconMovie size={24} />
+              <span className="ml-2 text-note">附上影片</span>
+            </div>
+            {/* 預覽 */}
+            <div className="absolute w-full h-full">
+              {mediaType === MediaType.image && (
+                <Image
+                  src={preview}
+                  fill={true}
+                  style={{ objectFit: "cover" }}
+                  alt="preview"
+                />
+              )}
+              {mediaType === MediaType.video && (
+                <video
+                  src={preview}
+                  autoPlay={true}
+                  controls={true}
+                  loop={true}
+                  muted={true}
+                  className="absolute w-full h-full"
+                ></video>
+              )}
+            </div>
+          </label>
+          <section className="relative flex-grow flex flex-col max-w-[469px]">
+            {/* 文字輸入 */}
+            <textarea
+              value={postContent}
+              onChange={(e) => setPostContent(e.target.value)}
+              className="scrollbar-none flex-grow p-8 w-full border border-stroke outline-note rounded-[30px] resize-none"
+            />
+            <div className="flex gap-8 mt-8">
+              {/* 里程碑按鈕 */}
               <button
-                type="submit"
-                disabled={isBtnDisabled}
-                style={submitBtnStyle}
-                className="py-3 w-full rounded-full  text-white text-xl font-bold"
+                type="button"
+                className="flex-grow border border-stroke rounded-[30px] text-center"
+                onClick={() => setIsMilestoneOpen(!isMilestoneOpen)}
               >
-                Pawk!
+                <IconMedal size={48} className="mx-auto" />
+                <span className="block mt-4 text-note">加上里程碑</span>
               </button>
-            </div>
-          </div>
-          {/* 里程碑列表 */}
-          {isMilestoneOpen && (
-            <div className="absolute top-0 flex flex-col px-8 bg-white w-full h-full border border-stroke rounded-[30px]">
-              <div className="flex items-center py-6">
+              <div className="flex-grow flex flex-col gap-8 max-w-[250px]">
+                {/* 寵物列表 */}
+                <AccountList setId={setSelectedPetId} />
+                {/* 送出 */}
                 <button
-                  type="button"
-                  className="absolute"
-                  onClick={() => setIsMilestoneOpen(false)}
+                  type="submit"
+                  disabled={isBtnDisabled}
+                  style={submitBtnStyle}
+                  className="py-3 w-full rounded-full  text-white text-xl font-bold"
                 >
-                  <IconChevronLeft stroke={1} size={40} />
+                  Pawk!
                 </button>
-                <h3 className="w-full text-xl text-center">加上里程碑</h3>
               </div>
-              <ul className="scrollbar-none pb-6 overflow-y-scroll">
-                <List />
-              </ul>
             </div>
-          )}
-        </section>
-      </div>
-    </form>
+            {/* 里程碑列表 */}
+            {isMilestoneOpen && (
+              <div className="absolute top-0 flex flex-col px-8 bg-white w-full h-full border border-stroke rounded-[30px]">
+                <div className="flex items-center py-6">
+                  <button
+                    type="button"
+                    className="absolute"
+                    onClick={() => setIsMilestoneOpen(false)}
+                  >
+                    <IconChevronLeft stroke={1} size={40} />
+                  </button>
+                  <h3 className="w-full text-xl text-center">加上里程碑</h3>
+                </div>
+                <ul className="scrollbar-none pb-6 overflow-y-scroll">
+                  <List />
+                </ul>
+              </div>
+            )}
+          </section>
+        </div>
+      </form>
+      {isLoading && <Loading />}
+    </>
   );
 };
 

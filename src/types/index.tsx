@@ -52,6 +52,12 @@ export interface PetDataType {
   link: string;
 }
 
+export interface AddPostType {
+  postContent: string;
+  media: string;
+  mediaType: 0 | 1;
+}
+
 export interface PostDataType {
   petId: number;
   postId: number;

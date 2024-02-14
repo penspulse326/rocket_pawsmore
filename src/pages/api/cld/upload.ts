@@ -20,6 +20,7 @@ interface TagsType {
 const folders: TagsType = {
   member: "member",
   pet: "pet",
+  post: "post",
 };
 
 export default async function handler(
