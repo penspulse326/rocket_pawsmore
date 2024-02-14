@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Mask from "../../components/hint/Mask";
-import PostView from "../../components/social/PostView";
-import InputComment from "@/components/social/InputComment";
+import PostView from "../../components/post/PostView";
+import InputComment from "@/components/post/InputComment";
 
 const Card: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

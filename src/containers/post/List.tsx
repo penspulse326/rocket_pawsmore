@@ -1,10 +1,11 @@
-import BtnPawk from "./PawkBlock";
-import PostCard from "./Card";
-import MorePostHint from "./MorePostHint";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
+
+import BtnPawk from "./Pawk";
+import PostCard from "./Card";
+import MorePostHint from "./MorePostHint";
 import { fetchGetAllPosts } from "@/common/fetch/post";
-import { useEffect } from "react";
 
 const List: React.FC = () => {
   const { token } = useSelector((state: RootState) => state.userInfo);
