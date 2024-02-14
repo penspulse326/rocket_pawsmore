@@ -31,7 +31,7 @@ const LeftBar: React.FC = () => {
   };
 
   const handleCheckProfile = (account: string) => {
-    router.push(`/member/${account}`);
+    router.push(`/member/${account}?id=${userId}`);
   };
 
   return (
@@ -52,7 +52,7 @@ const LeftBar: React.FC = () => {
         />
         <div>
           <p>{username}</p>
-          <p className="text-note">{account}</p>
+          <p className="text-note">@{account}</p>
         </div>
       </div>
       {/* 選單 */}
