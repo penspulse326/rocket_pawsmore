@@ -161,16 +161,7 @@ const PostView: React.FC<PropsType> = ({ data }) => {
         </div>
         <section className="scrollbar-none overflow-y-scroll w-[411px] max-h-[353px]">
           {/* 貼文內容 */}
-          <p className="mt-4">
-            我是查理胖胖我超胖！我是查理胖胖我超胖！我是查理胖胖我超胖！
-            我是查理胖胖我超胖！ 我是查理胖胖我超胖！ 我是查理胖胖我超胖！
-            我是查理胖胖我超胖！ 我是查理胖胖我超胖！ 我是查理胖胖我超胖！
-            我是查理胖胖我超胖！ 我是查理胖胖我超胖！ 我是查理胖胖我超胖！
-            我是查理胖胖我超胖！ 我是查理胖胖我超胖！ 我是查理胖胖我超胖！
-            我是查理胖胖我超胖！ 我是查理胖胖我超胖！ 我是查理胖胖我超胖！
-            我是查理胖胖我超胖！ 我是查理胖胖我超胖！ 我是查理胖胖我超胖！
-            我是查理胖胖我超胖！
-          </p>
+          <p className="mt-4">{postContent}</p>
           {/* 留言列表 */}
           <ul className="flex flex-col gap-4 mt-8">
             {comments.map(
