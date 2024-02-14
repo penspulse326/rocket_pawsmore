@@ -19,6 +19,8 @@ import { fetchAddPost } from "@/common/fetch/post";
 
 import { MediaType } from "@/common/lib/enums";
 import type { RootState } from "@/common/redux/store";
+import AlertCard from "../hint/AlertCard";
+import Mask from "../hint/Mask";
 
 interface UploadViewPropsType {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,17 +31,22 @@ const MAX_FILE_SIZE = 1024 * 1024 * 10;
 const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
   const { token } = useSelector((state: RootState) => state.userInfo);
 
-  const [isLoading, setIsLoading] = useState(false);
+  // 表單相關
   const [file, setFile] = useState<File>();
   const [postContent, setPostContent] = useState("");
   const [mediaType, setMediaType] = useState<MediaType>();
   const [preview, setPreview] = useState("");
 
+  // 寵物相關
   const [selectedPetId, setSelectedPetId] = useState<number | null>(null);
   const [isMilestoneOpen, setIsMilestoneOpen] = useState(false);
 
-  const isBtnDisabled = !file || !postContent;
+  // 提示
+  const [isLoading, setIsLoading] = useState(false);
+  const [isYetHint, setIsYetHint] = useState(false);
 
+  // 按鈕樣式
+  const isBtnDisabled = !file || !postContent;
   const submitBtnStyle = isMilestoneOpen
     ? {
         backgroundColor: "white",
@@ -71,8 +78,6 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
         case "video":
           setMediaType(MediaType.video);
           break;
-        default:
-          break;
       }
     }
   };
@@ -98,6 +103,8 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
 
       if (response.ok) {
         alert("上傳成功");
+      } else {
+        alert("上傳失敗，請稍後再試");
       }
     } catch (error) {
       alert("上傳失敗，請稍後再試");
@@ -108,8 +115,25 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
     setIsOpen(false);
   };
 
+  const handleClose = () => {
+    if (file || postContent) {
+      setIsYetHint(true);
+      return;
+    }
+    setIsOpen(false);
+  };
+
   return (
     <>
+      {isYetHint && (
+        <Mask setIsOpen={setIsYetHint}>
+          <AlertCard
+            cardType="yetPost"
+            setIsDisplayed={setIsYetHint}
+            setPostView={setIsOpen}
+          />
+        </Mask>
+      )}
       <form
         onSubmit={handleSubmit}
         className="mx-8 p-8 w-[1041px] rounded-[30px] bg-white"
@@ -117,7 +141,7 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
         {/* 新增貼文與關閉按鈕 */}
         <div className="flex justify-between items-center">
           <h2 className="text-2xl font-bold">新增貼文</h2>
-          <button type="button" onClick={() => setIsOpen(false)}>
+          <button type="button" onClick={handleClose}>
             <IconX size={40} stroke={1} />
           </button>
         </div>

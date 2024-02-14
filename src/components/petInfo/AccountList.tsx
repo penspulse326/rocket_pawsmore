@@ -8,7 +8,7 @@ import type { RootState } from "@/common/redux/store";
 import type { PetDataType } from "@/types";
 
 interface PropsType {
-  setId?: React.Dispatch<React.SetStateAction<number | null>>;
+  setId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const AccountList: React.FC<PropsType> = ({ setId }) => {
