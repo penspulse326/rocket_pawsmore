@@ -212,7 +212,7 @@ const PostView: React.FC<PropsType> = ({ data }) => {
             10
           </span>
         </div>
-        <InputComment />
+        <InputComment postId={postId} />
       </section>
     </section>
   );

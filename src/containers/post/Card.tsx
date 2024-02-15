@@ -137,7 +137,7 @@ const Card: React.FC<PropsType> = ({ data }) => {
           查看所有留言
         </button>
       </section>
-      <InputComment isEffect />
+      <InputComment postId={postId} isEffect />
     </div>
   );
 };
