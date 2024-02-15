@@ -58,6 +58,12 @@ export interface AddPostType {
   mediaType: 0 | 1;
 }
 
+export interface LikesType {
+  postId: number;
+  userId: number;
+  userAccount: string;
+}
+
 export interface PostDataType {
   petId: number;
   postId: number;
@@ -66,6 +72,7 @@ export interface PostDataType {
   postContent: string;
   media: string;
   mediaType: 0 | 1;
+  likes: LikesType[];
   createDate: string;
 }
 

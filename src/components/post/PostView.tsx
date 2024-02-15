@@ -10,20 +10,30 @@ import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import InputComment from "./InputComment";
+import PostMenu from "./PostMenu";
+import CommentMenu from "./CommentMenu";
 
 import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
-import PostMenu from "./PostMenu";
-import CommentMenu from "./CommentMenu";
+import { MediaType } from "@/common/lib/enums";
+import LikeBtn from "./LikeBtn";
 
 interface PropsType {
   data: PostDataType;
   comments: CommentDataType[];
   getComments: () => void;
+  getList: () => void;
+  toggleLike: () => void;
 }
 
-const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
-  const { token } = useSelector((state: RootState) => state.userInfo);
+const PostView: React.FC<PropsType> = ({
+  data,
+  comments,
+  getComments,
+  getList,
+  toggleLike,
+}) => {
+  const { token, userId } = useSelector((state: RootState) => state.userInfo);
 
   const {
     petId,
@@ -33,11 +43,12 @@ const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
     postContent,
     media,
     mediaType,
+    likes,
     createDate,
   } = data;
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredCommentIndex, setHoveredCommentIndex] = useState(-1);
   const scrollRef = useRef<HTMLLIElement | null>(null);
 
@@ -45,30 +56,35 @@ const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
     if (token) getComments();
   }, [token]);
 
+  // 檢查是否按過讚
+  useEffect(() => {
+    const isLiked = likes.find((like) => like.userId === userId);
+    if (isLiked) setIsLiked(true);
+  }, [likes]);
+
   return (
     <section className="flex gap-8 p-8 rounded-[32px] bg-white">
       {/* 多媒體區 */}
       <section className="relative max-w-[530px] max-h-[530px] w-[530px] h-[530px] rounded-[26px] overflow-hidden">
-        <Image
-          src={media}
-          alt={petAccount}
-          priority={false}
-          fill={true}
-          style={{ objectFit: "cover" }}
-        />
-        {/* 按讚 */}
-        <button
-          type="button"
-          className="absolute bottom-8 right-8"
-          onClick={() => setIsLiked(!isLiked)}
-        >
-          <IconHeart
-            size={70}
-            className={`${
-              isLiked ? "fill-tertiary" : "fill-stroke"
-            } stroke-white stroke-1 filter drop-shadow-md duration-300`}
+        {mediaType === MediaType.image && (
+          <Image
+            src={media}
+            alt={petAccount}
+            priority={false}
+            fill={true}
+            style={{ objectFit: "cover" }}
           />
-        </button>
+        )}
+        {mediaType === MediaType.video && (
+          <video
+            src={media}
+            controls={true}
+            autoPlay={true}
+            className="w-full h-full object-contain"
+          />
+        )}
+        {/* 按讚 */}
+        <LikeBtn isLiked={isLiked} onClick={toggleLike} />
       </section>
       {/* 文字區 */}
       <section>
@@ -165,7 +181,7 @@ const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
         <div className="flex gap-4 my-4 text-note">
           <span className="flex items-center">
             <IconHeart className="mr-2 fill-note stroke-note" />
-            234
+            {likes.length}
           </span>
           <span className="flex items-center">
             <IconMessageCircle className="mr-2 stroke-note" />
