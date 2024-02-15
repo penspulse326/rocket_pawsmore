@@ -153,6 +153,7 @@ const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
                       authorId={userId}
                       postId={postId}
                       commentId={id}
+                      getComments={getComments}
                     />
                   )}
                 </li>

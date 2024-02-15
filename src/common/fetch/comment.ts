@@ -1,5 +1,20 @@
 import apiNext from "./apiNext";
 
+export const fetchGetComment = async (token: string, id: number) => {
+  try {
+    const response = await fetch(`${apiNext.GET_COMMENT}/${id}`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const result = await response.json();
+
+    return { ok: response.ok, status: response.status, data: result.data };
+  } catch (error) {
+    return { ok: false, status: 500 };
+  }
+};
+
 export const fetchAddComment = async (
   token: string,
   data: { commentContent: string },
@@ -20,12 +35,19 @@ export const fetchAddComment = async (
   }
 };
 
-export const fetchGetComment = async (token: string, id: number) => {
+export const fetchDeleteComment = async (
+  token: string,
+  postId: number,
+  commentId: number
+) => {
   try {
-    const response = await fetch(`${apiNext.GET_COMMENT}/${id}`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await fetch(
+      `${apiNext.DELETE_COMMENT(postId, commentId)}`,
+      {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
 
     const result = await response.json();
 
