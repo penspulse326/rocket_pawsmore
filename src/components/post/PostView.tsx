@@ -17,9 +17,11 @@ import { RootState } from "@/common/redux/store";
 
 interface PropsType {
   data: PostDataType;
+  comments: CommentDataType[];
+  getComments: () => void;
 }
 
-const PostView: React.FC<PropsType> = ({ data }) => {
+const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
   const { token } = useSelector((state: RootState) => state.userInfo);
 
   const {
@@ -36,18 +38,11 @@ const PostView: React.FC<PropsType> = ({ data }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [hoveredCommentIndex, setHoveredCommentIndex] = useState(-1);
-  const [comments, setComments] = useState<CommentDataType[]>([]);
   const scrollRef = useRef<HTMLLIElement | null>(null);
 
   useEffect(() => {
     if (token) getComments();
   }, [token]);
-
-  const getComments = async () => {
-    const response = await fetchGetComment(token, postId);
-    console.log(response.data);
-    setComments(response.data);
-  };
 
   return (
     <section className="flex gap-8 p-8 rounded-[32px] bg-white">
@@ -186,7 +181,7 @@ const PostView: React.FC<PropsType> = ({ data }) => {
             10
           </span>
         </div>
-        <InputComment postId={postId} />
+        <InputComment postId={postId} getComments={getComments} />
       </section>
     </section>
   );

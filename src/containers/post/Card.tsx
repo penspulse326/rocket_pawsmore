@@ -2,18 +2,27 @@ import { IconHeart, IconDotsVertical } from "@tabler/icons-react";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Mask from "../../components/hint/Mask";
 import PostView from "../../components/post/PostView";
 import InputComment from "@/components/post/InputComment";
-import { PostDataType } from "@/types";
+import { CommentDataType, PostDataType } from "@/types";
+import { useSelector } from "react-redux";
+import { RootState } from "@/common/redux/store";
+import { fetchGetComment } from "@/common/fetch/comment";
 
 interface PropsType {
   data: PostDataType;
 }
 
 const Card: React.FC<PropsType> = ({ data }) => {
+  const { token } = useSelector((state: RootState) => state.userInfo);
+
+  useEffect(() => {
+    if (token) getComments();
+  }, [token]);
+
   const {
     petId,
     postId,
@@ -25,9 +34,16 @@ const Card: React.FC<PropsType> = ({ data }) => {
     createDate,
   } = data;
 
-  const [isMaskOpen, setIsMaskOpen] = useState(false);
+  const [comments, setComments] = useState<CommentDataType[]>([]);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const [isMaskOpen, setIsMaskOpen] = useState(false);
+
+  const getComments = async () => {
+    const response = await fetchGetComment(token, postId);
+    if (response.ok) setComments(response.data);
+  };
 
   return (
     <div className="flex flex-col gap-4 p-8 border border-stroke rounded-[32px]">
@@ -35,7 +51,11 @@ const Card: React.FC<PropsType> = ({ data }) => {
         {/* 遮罩 */}
         {isMaskOpen && (
           <Mask setIsOpen={setIsMaskOpen} maskType="post">
-            <PostView data={data} />
+            <PostView
+              data={data}
+              comments={comments}
+              getComments={getComments}
+            />
           </Mask>
         )}
         {/* 多媒體內容 */}
@@ -123,23 +143,25 @@ const Card: React.FC<PropsType> = ({ data }) => {
       </section>
       {/* 留言 */}
       <section>
-        <div>
-          <span className="mr-4 font-bold">rami7573</span>
-          <span>好想吃一口他的臉臉</span>
-        </div>
-        <div>
-          <span className="mr-4 font-bold">qetree_0209</span>
-          <span>超可愛⋯⋯</span>
-        </div>
-        <button
-          type="button"
-          onClick={() => setIsMaskOpen(true)}
-          className="mt-1 text-note"
-        >
-          查看所有留言
-        </button>
+        <ul>
+          {comments.slice(0, 2).map(({ id, userAccount, commentContent }) => (
+            <li key={`${id}-${userAccount}`}>
+              <span className="mr-4 font-bold">{userAccount}</span>
+              <span>{commentContent}</span>
+            </li>
+          ))}
+        </ul>
+        {comments.length > 2 && (
+          <button
+            type="button"
+            onClick={() => setIsMaskOpen(true)}
+            className="mt-1 text-note"
+          >
+            查看所有留言
+          </button>
+        )}
       </section>
-      <InputComment postId={postId} isEffect />
+      <InputComment postId={postId} getComments={getComments} isEffect />
     </div>
   );
 };

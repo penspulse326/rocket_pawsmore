@@ -8,11 +8,13 @@ import Loading from "../hint/Loading";
 interface InputCommentPropsType {
   postId: number;
   isEffect?: boolean;
+  getComments: () => void;
 }
 
 const InputComment: React.FC<InputCommentPropsType> = ({
   postId,
   isEffect = false,
+  getComments,
 }) => {
   const { token } = useSelector((state: RootState) => state.userInfo);
 
@@ -46,6 +48,8 @@ const InputComment: React.FC<InputCommentPropsType> = ({
       if (!response.ok) {
         alert("留言失敗，請稍後再試");
       }
+
+      if (getComments) getComments();
     } catch (error) {
       alert("留言失敗，請稍後再試");
       console.error("Error adding the comment:", error);
