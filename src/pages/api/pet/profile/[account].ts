@@ -11,21 +11,21 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const token = req.headers.authorization;
+  // const token = req.headers.authorization;
 
-  if (!token) {
-    return res.status(401).json({ message: "請重新登入" });
-  }
+  // if (!token) {
+  //   return res.status(401).json({ message: "請重新登入" });
+  // }
 
-  const id = req.query.id;
+  const account = req.query.account;
 
   try {
-    const response = await fetch(`${apiBase.GET_PET}/${id}`, {
+    const response = await fetch(`${apiBase.GET_PET}/${account}`, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
+      // headers: {
+      //   "Content-Type": "application/json",
+      //   Authorization: token,
+      // },
     });
 
     const result = await response.json();

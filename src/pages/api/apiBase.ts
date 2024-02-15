@@ -6,7 +6,7 @@ const apiBase = {
   CHECK_MEMBER: `${apiUrl}/social/user`, // 動態路由 /:userAccount
   CREATE_MEMBER: `${apiUrl}/member/profile/add`,
   CREATE_PET: `${apiUrl}/member/pets`,
-  GET_PET: `${apiUrl}/member/pets`, // 動態路由 /:petId
+  GET_PET: `${apiUrl}/member/pets`, // 動態路由 /:petAccount
   UPDATE_PET: `${apiUrl}/member/pets/update`, // 動態路由 /:petId
   GET_PET_LIST: `${apiUrl}/member/pets/userpets`, // 動態路由 /:userId
   GET_ALL_POST: `${apiUrl}/social/posts/all`,
