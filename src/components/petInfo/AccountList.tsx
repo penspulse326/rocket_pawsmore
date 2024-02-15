@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "@/common/redux/store";
 
 import type { PetDataType } from "@/types";
+import Link from "next/link";
 
 interface PropsType {
   setId: React.Dispatch<React.SetStateAction<number | null>>;
@@ -18,14 +19,16 @@ const AccountList: React.FC<PropsType> = ({ setId }) => {
   const [selectedPet, setSelectedPet] = useState<PetDataType>(petList[0]);
 
   useEffect(() => {
-    setId(selectedPet.petId);
+    if (selectedPet) {
+      setId(selectedPet.petId);
+    }
   }, [selectedPet]);
 
   const AccountCard = () => {
     return (
-      <div className="flex gap-x-2 items-center border border-stroke rounded-[60px] p-2 hover:cursor-pointer">
+      <div className="flex gap-x-2 items-center w-full border border-stroke rounded-[60px] p-2 hover:cursor-pointer">
         <Image
-          src={selectedPet.petPhoto || "/images/default-photo.png"}
+          src={selectedPet?.petPhoto || "/images/default-photo.png"}
           width={48}
           height={48}
           className="rounded-full"
@@ -78,13 +81,19 @@ const AccountList: React.FC<PropsType> = ({ setId }) => {
   };
   return (
     <section
-      className="relative max-w-[250px] w-full"
+      className="relative flex flex-col justify-center items-center max-w-[250px] w-full"
       onClick={() => setIsExpanded(!isExpanded)}
       onBlur={() => setIsExpanded(false)}
       tabIndex={1}
     >
-      <AccountCard />
-      {isExpanded && <ExpandedCard />}
+      {selectedPet ? (
+        <AccountCard />
+      ) : (
+        <Link href="#" className="text-primary font-bold">
+          您尚未建立寵物檔案
+        </Link>
+      )}
+      {selectedPet && isExpanded && <ExpandedCard />}
     </section>
   );
 };
