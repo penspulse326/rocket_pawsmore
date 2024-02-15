@@ -3,8 +3,13 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { IconDotsVertical } from "@tabler/icons-react";
 
 import Footer from "@/components/Footer";
+import AddPet from "@/components/AddPet";
+import NoContent from "@/components/NoContent";
+import Mask from "@/components/hint/Mask";
+import AlertCard from "@/components/hint/AlertCard";
 
 import { RootState } from "@/common/redux/store";
 import getPetSpecies from "@/common/helpers/getPetSpecies";
@@ -16,7 +21,6 @@ const UserProfile: React.FC = () => {
   const { id } = router.query;
 
   const userInfo = useSelector((state: RootState) => state.userInfo);
-  // const petList = useSelector((state: RootState) => state.petList);
 
   const [username, setUsername] = useState("");
   const [account, setAccount] = useState("");
@@ -25,6 +29,7 @@ const UserProfile: React.FC = () => {
   const [link, setLink] = useState("");
 
   const [petData, setPetData] = useState<PetDataType[] | undefined>();
+  const [isMe, setIsMe] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,15 +69,16 @@ const UserProfile: React.FC = () => {
       } catch (error) {}
     };
 
-    fetchData();
-    fetchPet();
-  }, [userInfo.token, id]);
-
-  if (!petData) {
-    return null;
-  }
+    if (id) {
+      fetchData();
+      fetchPet();
+      userInfo.userId !== Number(id) && setIsMe(false);
+    }
+  }, [userInfo, id]);
 
   const Profile: React.FC = () => {
+    const [isShown, setIsShown] = useState(false);
+
     const linkIcon = (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -93,6 +99,33 @@ const UserProfile: React.FC = () => {
     );
     const htmlIntro = intro.split("\n");
     const htmlLink = link.length > 35 ? link.slice(0, 33) + "⋯" : link;
+
+    const Report = () => {
+      const [isAlertShown, setIsAlertShown] = useState(false);
+
+      return (
+        <>
+          <button
+            className="px-6 py-4 text-error bg-white rounded-3xl absolute -right-[120px] -bottom-[61.5px] shadow-[0_0_10px_0_rgba(0,0,0,0.15)] hover:cursor-pointer"
+            type="button"
+            onClick={() => {
+              setIsAlertShown(true);
+              // setIsShown(false);
+            }}
+          >
+            檢舉個人檔案
+          </button>
+          {isAlertShown && (
+            <Mask setIsOpen={setIsAlertShown} maskType="report">
+              <AlertCard
+                setIsDisplayed={setIsAlertShown}
+                cardType="reportUser"
+              />
+            </Mask>
+          )}
+        </>
+      );
+    };
 
     return (
       <div className="flex flex-col gap-y-8 max-w-[320px] w-full">
@@ -134,65 +167,98 @@ const UserProfile: React.FC = () => {
             </div>
           )}
         </div>
-        <Link
-          href="/user_dashboard?to=account"
-          className="bg-primary text-white rounded-full py-2 w-full text-center"
-        >
-          編輯個人檔案
-        </Link>
+        {isMe ? (
+          <Link
+            href="/user_dashboard?to=account"
+            className="bg-primary text-white rounded-full py-2 w-full text-center"
+          >
+            編輯個人檔案
+          </Link>
+        ) : (
+          <div className="flex gap-x-4 items-center relative">
+            <button
+              className="bg-primary text-white rounded-full py-2 w-full text-center"
+              type="button"
+            >
+              發送訊息
+            </button>
+            <IconDotsVertical
+              size={24}
+              className="hover:cursor-pointer"
+              onClick={() => setIsShown(!isShown)}
+            />
+            {isShown && <Report />}
+          </div>
+        )}
       </div>
     );
   };
   const PetList: React.FC = () => {
+    const OwnList = () => {
+      return (
+        <div className="flex gap-4 flex-wrap">
+          {petData &&
+            petData.map((pet, index) => {
+              const {
+                petId,
+                petName,
+                petAccount,
+                petSpecies,
+                petGender,
+                breed,
+                birthday,
+                petPhoto,
+              } = pet;
+
+              const handleCheckPet = (petAccount: string) => {
+                router.push(`/pet/${petAccount}?id=${petId}`);
+              };
+              return (
+                <div
+                  className="flex flex-col gap-y-4 p-4 max-w-[224px] w-full border border-stroke rounded-[30px] bg-white hover:cursor-pointer"
+                  key={index}
+                  onClick={() => handleCheckPet(petAccount)}
+                >
+                  <div className="w-[192px] h-[192px]">
+                    <Image
+                      src={petPhoto || "/images/default-photo.svg"}
+                      width={192}
+                      height={192}
+                      priority
+                      alt="pet avatar"
+                      className="w-full h-full rounded-[30px] object-cover"
+                    />
+                  </div>
+                  <ul className="flex flex-col gap-1">
+                    <li>{petName}</li>
+                    <li>@{petAccount}</li>
+                    <ol className="text-note flex gap-x-2">
+                      <li>{getPetSpecies(petSpecies)}</li>
+                      <li>{breed}</li>
+                      <li>{petGender ? "女生" : "男生"}</li>
+                    </ol>
+                    <li className="text-note mb-4">{getPetAge(birthday)}</li>
+                  </ul>
+                </div>
+              );
+            })}
+        </div>
+      );
+    };
     return (
       <div className="flex flex-col gap-y-4 max-w-[704px] w-full">
         <div className="text-note">寵物檔案清單</div>
-        <div className="flex gap-4 flex-wrap">
-          {petData.map((pet, index) => {
-            const {
-              petId,
-              petName,
-              petAccount,
-              petSpecies,
-              petGender,
-              breed,
-              birthday,
-              petPhoto,
-            } = pet;
-
-            const handleCheckPet = (petAccount: string) => {
-              router.push(`/pet/${petAccount}?id=${petId}`);
-            };
-            return (
-              <div
-                className="flex flex-col gap-y-4 p-4 max-w-[224px] w-full border border-stroke rounded-[30px] bg-white hover:cursor-pointer"
-                key={index}
-                onClick={() => handleCheckPet(petAccount)}
-              >
-                <div className="w-[192px] h-[192px]">
-                  <Image
-                    src={petPhoto || "/images/default-photo.svg"}
-                    width={192}
-                    height={192}
-                    priority
-                    alt="pet avatar"
-                    className="w-full h-full rounded-[30px] object-cover"
-                  />
-                </div>
-                <ul className="flex flex-col gap-1">
-                  <li>{petName}</li>
-                  <li>@{petAccount}</li>
-                  <ol className="text-note flex gap-x-2">
-                    <li>{getPetSpecies(petSpecies)}</li>
-                    <li>{breed}</li>
-                    <li>{petGender ? "女生" : "男生"}</li>
-                  </ol>
-                  <li className="text-note mb-4">{getPetAge(birthday)}</li>
-                </ul>
-              </div>
-            );
-          })}
-        </div>
+        {isMe ? (
+          petData ? (
+            <OwnList />
+          ) : (
+            <AddPet />
+          )
+        ) : petData ? (
+          <OwnList />
+        ) : (
+          <NoContent />
+        )}
       </div>
     );
   };
