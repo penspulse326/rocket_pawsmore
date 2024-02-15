@@ -1,5 +1,4 @@
 import {
-  IconChevronDown,
   IconChevronLeft,
   IconMedal,
   IconMovie,
@@ -11,16 +10,15 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 import List from "../milestone/List";
-
 import AccountList from "../petInfo/AccountList";
 import Loading from "../hint/Loading";
+import AlertCard from "../hint/AlertCard";
+import Mask from "../hint/Mask";
 import { mediaUpload } from "@/common/fetch/mediaManager";
 import { fetchAddPost } from "@/common/fetch/post";
 
 import { MediaType } from "@/common/lib/enums";
 import type { RootState } from "@/common/redux/store";
-import AlertCard from "../hint/AlertCard";
-import Mask from "../hint/Mask";
 
 interface UploadViewPropsType {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -46,7 +44,7 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
   const [isYetHint, setIsYetHint] = useState(false);
 
   // 按鈕樣式
-  const isBtnDisabled = !file || !postContent;
+  const isBtnDisabled = !file || !postContent || !selectedPetId;
   const submitBtnStyle = isMilestoneOpen
     ? {
         backgroundColor: "white",

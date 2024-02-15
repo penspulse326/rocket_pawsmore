@@ -81,7 +81,7 @@ const AccountList: React.FC<PropsType> = ({ setId }) => {
   };
   return (
     <section
-      className="relative flex flex-col justify-center items-center max-w-[250px] w-full"
+      className="relative flex flex-col justify-center items-center max-w-[250px] w-full h-16"
       onClick={() => setIsExpanded(!isExpanded)}
       onBlur={() => setIsExpanded(false)}
       tabIndex={1}
