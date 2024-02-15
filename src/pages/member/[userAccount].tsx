@@ -9,18 +9,27 @@ import Footer from "@/components/Footer";
 import { RootState } from "@/common/redux/store";
 import getPetSpecies from "@/common/helpers/getPetSpecies";
 import getPetAge from "@/common/helpers/getPetAge";
+import { PetDataType } from "@/types";
 
 const UserProfile: React.FC = () => {
-  const userInfo = useSelector((state: RootState) => state.userInfo);
-  const petList = useSelector((state: RootState) => state.petList);
+  const router = useRouter();
+  const { id } = router.query;
 
+  const userInfo = useSelector((state: RootState) => state.userInfo);
+  // const petList = useSelector((state: RootState) => state.petList);
+
+  const [username, setUsername] = useState("");
+  const [account, setAccount] = useState("");
+  const [headShot, setHeadShot] = useState("");
   const [intro, setIntro] = useState("");
   const [link, setLink] = useState("");
+
+  const [petData, setPetData] = useState<PetDataType[] | undefined>();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/user/check`, {
+        const response = await fetch(`/api/user/${id}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${userInfo.token}`,
@@ -30,15 +39,40 @@ const UserProfile: React.FC = () => {
           throw new Error("failed");
         }
         const data = await response.json();
+
+        setUsername(data.data.name);
+        setAccount(data.data.account);
+        setHeadShot(data.data.headshot);
         setIntro(data.data.introduction);
         setLink(data.data.link);
       } catch (error) {}
     };
+
+    const fetchPet = async () => {
+      try {
+        const response = await fetch(`/api/pet/list/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${userInfo.token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("failed");
+        }
+        const data = await response.json();
+        setPetData(data.data);
+      } catch (error) {}
+    };
+
     fetchData();
-  }, [userInfo.token]);
+    fetchPet();
+  }, [userInfo.token, id]);
+
+  if (!petData) {
+    return null;
+  }
 
   const Profile: React.FC = () => {
-    const { username, account, headShot } = userInfo;
     const linkIcon = (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -91,12 +125,14 @@ const UserProfile: React.FC = () => {
               </React.Fragment>
             ))}
           </div>
-          <div className="flex gap-x-1">
-            {linkIcon}
-            <a href={link} className="text-[#0057FF] underline" target="_blank">
-              {htmlLink}
-            </a>
-          </div>
+          {link && (
+            <div className="flex gap-x-1">
+              {linkIcon}
+              <a href={link} className="text-link underline" target="_blank">
+                {htmlLink}
+              </a>
+            </div>
+          )}
         </div>
         <Link
           href="/user_dashboard?to=account"
@@ -108,13 +144,11 @@ const UserProfile: React.FC = () => {
     );
   };
   const PetList: React.FC = () => {
-    const router = useRouter();
-
     return (
       <div className="flex flex-col gap-y-4 max-w-[704px] w-full">
         <div className="text-note">寵物檔案清單</div>
         <div className="flex gap-4 flex-wrap">
-          {petList.map((pet, index) => {
+          {petData.map((pet, index) => {
             const {
               petId,
               petName,
@@ -127,7 +161,7 @@ const UserProfile: React.FC = () => {
             } = pet;
 
             const handleCheckPet = (petAccount: string) => {
-              router.push(`/pet/${petAccount}`);
+              router.push(`/pet/${petAccount}?id=${petId}`);
             };
             return (
               <div
