@@ -102,6 +102,7 @@ const PostView: React.FC<PropsType> = ({ data }) => {
               {moment(createDate).fromNow()}
             </Link>
           </div>
+          {/* 選單 */}
           <div className="flex gap-2 items-center">
             <button
               type="button"
@@ -127,7 +128,7 @@ const PostView: React.FC<PropsType> = ({ data }) => {
             </button>
           </div>
         </div>
-        <section className="scrollbar-none overflow-y-scroll w-[411px] max-h-[353px]">
+        <section className="scrollbar-none overflow-y-scroll w-[411px] max-h-[353px] h-full">
           {/* 貼文內容 */}
           <p className="mt-4">{postContent}</p>
           {/* 留言列表 */}
