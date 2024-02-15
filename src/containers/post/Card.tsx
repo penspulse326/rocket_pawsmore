@@ -67,13 +67,15 @@ const Card: React.FC<PropsType> = ({ data }) => {
       {/* 個人資訊 */}
       <section className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
-          <Link href="#">
+          <Link
+            href="#"
+            className="relative max-w-12 max-h-12 w-12 h-12 rounded-full overflow-hidden"
+          >
             <Image
               src={petPhoto || "/images/default-photo.png"}
-              width={48}
-              height={48}
               alt={petAccount}
-              className="rounded-full"
+              fill={true}
+              style={{ objectFit: "cover" }}
             />
           </Link>
           <Link href="#" className="font-bold">

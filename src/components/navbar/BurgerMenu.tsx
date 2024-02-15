@@ -29,13 +29,12 @@ const Menu: React.FC<MenuPropsType> = ({
           onBlur={() => setIsMenuOpen(false)}
           className="flex items-center gap-2 p-2 w-full h-full"
         >
-          <div className="w-8 h-8 rounded-full overflow-hidden">
+          <div className="relative w-8 h-8 rounded-full overflow-hidden">
             <Image
               src={headShot || "/images/default-photo.png"}
               alt={username}
-              width={100}
-              height={100}
-              className="w-full h-full scale-110"
+              fill={true}
+              style={{ objectFit: "cover" }}
             />
           </div>
           <IconMenu2
