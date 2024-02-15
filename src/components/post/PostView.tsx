@@ -10,11 +10,12 @@ import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import InputComment from "./InputComment";
+import PostMenu from "./PostMenu";
+import CommentMenu from "./CommentMenu";
 
 import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
-import PostMenu from "./PostMenu";
-import CommentMenu from "./CommentMenu";
+import { MediaType } from "@/common/lib/enums";
 
 interface PropsType {
   data: PostDataType;
@@ -49,13 +50,23 @@ const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
     <section className="flex gap-8 p-8 rounded-[32px] bg-white">
       {/* 多媒體區 */}
       <section className="relative max-w-[530px] max-h-[530px] w-[530px] h-[530px] rounded-[26px] overflow-hidden">
-        <Image
-          src={media}
-          alt={petAccount}
-          priority={false}
-          fill={true}
-          style={{ objectFit: "cover" }}
-        />
+        {mediaType === MediaType.image && (
+          <Image
+            src={media}
+            alt={petAccount}
+            priority={false}
+            fill={true}
+            style={{ objectFit: "cover" }}
+          />
+        )}
+        {mediaType === MediaType.video && (
+          <video
+            src={media}
+            controls={true}
+            autoPlay={true}
+            className="w-full h-full object-contain"
+          />
+        )}
         {/* 按讚 */}
         <button
           type="button"

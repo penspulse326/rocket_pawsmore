@@ -24,7 +24,7 @@ const List: React.FC = () => {
         const data: PostDataType[] = response.data;
         const sortedList = data.sort(
           (a, b) =>
-            new Date(b.createDate).getTime() - new Date(a.createDate).getTime()
+            new Date(a.createDate).getTime() - new Date(b.createDate).getTime()
         );
         setList(sortedList);
       } catch (error) {

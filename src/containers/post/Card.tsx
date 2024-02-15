@@ -2,7 +2,7 @@ import { IconHeart, IconDotsVertical } from "@tabler/icons-react";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import Mask from "../../components/hint/Mask";
@@ -12,6 +12,7 @@ import { fetchGetComment } from "@/common/fetch/comment";
 
 import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
+import { MediaType } from "@/common/lib/enums";
 
 interface PropsType {
   data: PostDataType;
@@ -41,9 +42,52 @@ const Card: React.FC<PropsType> = ({ data }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isMaskOpen, setIsMaskOpen] = useState(false);
 
+  // 自動播放影片
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {
+          videoRef.current?.play();
+        } else {
+          videoRef.current?.pause();
+        }
+      },
+      {
+        threshold: 1, // 調整此值以更改觸發播放的時間
+      }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => {
+      if (videoRef.current) {
+        observer.unobserve(videoRef.current);
+      }
+    };
+  }, []);
+
   const getComments = async () => {
     const response = await fetchGetComment(token, postId);
     if (response.ok) setComments(response.data);
+  };
+
+  const handleVideoToggle = () => {
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  };
+
+  const handleVideoDoubleClick = () => {
+    videoRef.current?.pause();
+    setIsMaskOpen(true);
   };
 
   return (
@@ -60,17 +104,27 @@ const Card: React.FC<PropsType> = ({ data }) => {
           </Mask>
         )}
         {/* 多媒體內容 */}
-        <div
-          onClick={() => setIsMaskOpen(true)}
-          className="relative max-w-[528px] max-h-[528px] aspect-square rounded-[26px] overflow-hidden"
-        >
-          <Image
-            src={media}
-            alt={petAccount}
-            priority={false}
-            fill={true}
-            style={{ objectFit: "cover" }}
-          />
+        <div className="relative max-w-[528px] max-h-[528px] aspect-square rounded-[26px] overflow-hidden">
+          {mediaType === MediaType.image && (
+            <Image
+              src={media}
+              alt={petAccount}
+              priority={false}
+              fill={true}
+              style={{ objectFit: "cover" }}
+              onClick={() => setIsMaskOpen(true)}
+            />
+          )}
+          {mediaType === MediaType.video && (
+            <video
+              ref={videoRef}
+              src={media}
+              autoPlay={true}
+              onClick={handleVideoToggle}
+              onDoubleClick={handleVideoDoubleClick}
+              className="w-full h-full object-contain"
+            />
+          )}
         </div>
         <button
           type="button"
