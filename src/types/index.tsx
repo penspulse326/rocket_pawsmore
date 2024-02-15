@@ -70,8 +70,12 @@ export interface PostDataType {
 }
 
 export interface CommentDataType {
-  photoUrl: string;
-  username: string;
-  content: string;
-  time: string;
+  id: number;
+  petId: number;
+  postId: number;
+  userId: number;
+  userPhoto: string;
+  userAccount: string;
+  commentContent: string;
+  createDate: string;
 }

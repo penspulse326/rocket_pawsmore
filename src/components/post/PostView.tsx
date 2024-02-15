@@ -3,71 +3,26 @@ import {
   IconMessageCircle,
   IconDotsVertical,
 } from "@tabler/icons-react";
+import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import InputComment from "./InputComment";
 
+import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
-import moment from "moment";
 
 interface PropsType {
   data: PostDataType;
+  comments: CommentDataType[];
+  getComments: () => void;
 }
 
-const testData: CommentDataType[] = [
-  {
-    photoUrl: "/test/photo-dog-test.png",
-    username: "oasis1991",
-    content: "不要憤怒地回首過去",
-    time: "2022-01-01 12:00",
-  },
-  {
-    photoUrl: "/test/user-chichi.png",
-    username: "mrafternoon",
-    content: "下班了台北，清晨的紐約，我獨自走在這條街",
-    time: "2022-01-02 12:00",
-  },
-  {
-    photoUrl: "/test/photo-user-1.jpg",
-    username: "ramenprince",
-    content: "不快樂的事情虛驚一場，去我們不曾到過的地方",
-    time: "2022-01-03 14:00",
-  },
-  {
-    photoUrl: "/test/photo-user-2.jpg",
-    username: "tarcysu1986",
-    content: "追得過一切，我的愛已為你再也沒有終止線",
-    time: "2022-01-03 16:00",
-  },
-  {
-    photoUrl: "/test/photo-dog-test.png",
-    username: "oasis1991",
-    content: "不要憤怒地回首過去",
-    time: "2022-01-01 12:00",
-  },
-  {
-    photoUrl: "/test/user-chichi.png",
-    username: "mrafternoon",
-    content: "下班了台北，清晨的紐約，我獨自走在這條街",
-    time: "2022-01-02 12:00",
-  },
-  {
-    photoUrl: "/test/photo-user-1.jpg",
-    username: "ramenprince",
-    content: "不快樂的事情虛驚一場，去我們不曾到過的地方",
-    time: "2022-01-03 14:00",
-  },
-  {
-    photoUrl: "/test/photo-user-2.jpg",
-    username: "tarcysu1986",
-    content: "追得過一切，我的愛已為你再也沒有終止線",
-    time: "2022-01-03 16:00",
-  },
-];
+const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
+  const { token } = useSelector((state: RootState) => state.userInfo);
 
-const PostView: React.FC<PropsType> = ({ data }) => {
   const {
     petId,
     postId,
@@ -82,8 +37,11 @@ const PostView: React.FC<PropsType> = ({ data }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [hoveredCommentIndex, setHoveredCommentIndex] = useState(-1);
-  const [comments, setComments] = useState(testData);
   const scrollRef = useRef<HTMLLIElement | null>(null);
+
+  useEffect(() => {
+    if (token) getComments();
+  }, [token]);
 
   return (
     <section className="flex gap-8 p-8 rounded-[32px] bg-white">
@@ -113,6 +71,7 @@ const PostView: React.FC<PropsType> = ({ data }) => {
       {/* 文字區 */}
       <section>
         <div className="flex justify-between mt-1 mb-4">
+          {/* 個人資訊 */}
           <div className="flex gap-2 items-center">
             <Link
               href="#"
@@ -138,6 +97,7 @@ const PostView: React.FC<PropsType> = ({ data }) => {
               {moment(createDate).fromNow()}
             </Link>
           </div>
+          {/* 選單 */}
           <div className="flex gap-2 items-center">
             <button
               type="button"
@@ -163,18 +123,18 @@ const PostView: React.FC<PropsType> = ({ data }) => {
             </button>
           </div>
         </div>
-        <section className="scrollbar-none overflow-y-scroll w-[411px] max-h-[353px]">
+        <section className="scrollbar-none overflow-y-scroll w-[411px] max-h-[353px] h-full">
           {/* 貼文內容 */}
           <p className="mt-4">{postContent}</p>
           {/* 留言列表 */}
           <ul className="flex flex-col gap-4 mt-8">
             {comments.map(
               (
-                { photoUrl, username, content, time }: CommentDataType,
+                { id, userPhoto, userAccount, commentContent, createDate },
                 index
               ) => (
                 <li
-                  key={index}
+                  key={`${id}${userAccount}`}
                   ref={index === comments.length - 1 ? scrollRef : null}
                   className="relative flex items-start gap-4"
                   onMouseEnter={() => setHoveredCommentIndex(index)}
@@ -182,19 +142,24 @@ const PostView: React.FC<PropsType> = ({ data }) => {
                 >
                   <Link href="#" className="shrink-0">
                     <Image
-                      src={`${photoUrl}`}
+                      src={userPhoto || "/images/default-photo.png"}
                       width={32}
                       height={32}
-                      alt={username}
+                      alt={userAccount}
                       className="rounded-full"
                     />
                   </Link>
                   <div className="flex-grow mr-8">
                     <Link href="#" className="mr-2 font-bold">
-                      {username}
+                      {userAccount}
                     </Link>
-                    <span className="text-note">{time}</span>
-                    <p>{content}</p>
+                    <span
+                      className="tooltip text-note"
+                      data-tooltip={moment.utc(createDate).format("YYYY-MM-DD")}
+                    >
+                      {moment.utc(createDate).fromNow()}
+                    </span>
+                    <p>{commentContent}</p>
                   </div>
                   {hoveredCommentIndex === index && (
                     <button type="button" className="absolute right-0">
@@ -206,6 +171,7 @@ const PostView: React.FC<PropsType> = ({ data }) => {
             )}
           </ul>
         </section>
+        {/* 按讚數與留言數 */}
         <div className="flex gap-4 my-4 text-note">
           <span className="flex items-center">
             <IconHeart className="mr-2 fill-note stroke-note" />
@@ -213,10 +179,10 @@ const PostView: React.FC<PropsType> = ({ data }) => {
           </span>
           <span className="flex items-center">
             <IconMessageCircle className="mr-2 stroke-note" />
-            10
+            {comments.length}
           </span>
         </div>
-        <InputComment />
+        <InputComment postId={postId} getComments={getComments} />
       </section>
     </section>
   );
