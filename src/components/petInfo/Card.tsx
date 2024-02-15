@@ -11,14 +11,15 @@ const Card: React.FC<PetCardProps> = ({ data }) => {
   if (!data) {
     return (
       <div className="flex flex-col gap-7 mx-auto p-4 max-w-[204px] border border-stroke rounded-[30px] bg-white">
-        <Image
-          src="/images/default-photo.png"
-          width={172}
-          height={172}
-          priority={true}
-          alt="尚未有寵物照片"
-          className="rounded-[30px] object-cover"
-        />
+        <div className="relative w-[172px] h-[172px] rounded-[30px] overflow-hidden">
+          <Image
+            src="/images/default-photo.png"
+            alt="尚未有寵物照片"
+            priority={true}
+            fill={true}
+            style={{ objectFit: "cover" }}
+          />
+        </div>
         <span className="text-center">尚未有寵物資料</span>
         {/* 連結待更新 */}
         <Link
@@ -35,14 +36,13 @@ const Card: React.FC<PetCardProps> = ({ data }) => {
 
   return (
     <div className="flex flex-col gap-4 mx-auto p-4 max-w-[204px] border border-stroke rounded-[30px] bg-white">
-      <div className="w-[172px] h-[172px]">
+      <div className="relative w-[172px] h-[172px] rounded-[30px] overflow-hidden">
         <Image
           src={petPhoto || "/images/default-photo.png"}
-          width={172}
-          height={172}
-          priority
           alt={petName}
-          className="w-full h-full rounded-[30px] object-cover"
+          priority={true}
+          fill={true}
+          style={{ objectFit: "cover" }}
         />
       </div>
       <div className="flex flex-col gap-1">
