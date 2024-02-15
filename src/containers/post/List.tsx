@@ -6,7 +6,8 @@ import BtnPawk from "./Pawk";
 import Card from "./Card";
 import MorePostHint from "./MorePostHint";
 import { fetchGetAllPosts } from "@/common/fetch/post";
-import { PostDataType } from "@/types";
+
+import type { PostDataType } from "@/types";
 
 const List: React.FC = () => {
   const { token } = useSelector((state: RootState) => state.userInfo);

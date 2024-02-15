@@ -7,10 +7,9 @@ import { setPetList } from "@/common/redux/petListSlice";
 import { fetchGetPetList } from "@/common/fetch/petProfile";
 
 import MoreMenu from "@/containers/social/sideBar/MoreMenu";
-import PetCards from "@/components/petCards";
+import SwiperList from "@/components/petInfo/SwiperList";
 
 import type { RootState } from "@/common/redux/store";
-import type { PetDataType } from "@/types";
 
 const LeftBar: React.FC = () => {
   const dispatch = useDispatch();
@@ -33,7 +32,7 @@ const LeftBar: React.FC = () => {
   return (
     <aside className="col-span-3 flex flex-col py-8 h-full">
       {/* 寵物檔案卡片 */}
-      <PetCards list={petList} />
+      <SwiperList list={petList} />
       {/* 個人連結 */}
       <Link
         href="/user_profile"

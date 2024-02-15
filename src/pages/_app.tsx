@@ -2,8 +2,9 @@ import "@/styles/globals.css";
 import "@/styles/animations.css";
 import "@/styles/loadings.css";
 
+import moment from "moment";
+import "moment/locale/zh-tw";
 import { Noto_Sans_TC } from "next/font/google";
-
 import { Provider } from "react-redux";
 import { store } from "@/common/redux/store";
 
@@ -25,6 +26,8 @@ const notos = Noto_Sans_TC({
   weight: ["400", "600", "700"],
   subsets: ["latin"],
 });
+
+moment.locale("zh-tw");
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);

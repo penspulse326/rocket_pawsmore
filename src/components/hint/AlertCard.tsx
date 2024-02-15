@@ -1,9 +1,18 @@
 import { useState } from "react";
 import { IconX, IconCircleCheck } from "@tabler/icons-react";
 
+interface ContentType {
+  type: string;
+  title: string;
+  content: string;
+  buttonText: string;
+  handleButton?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
 interface AlertCardPropsType {
   setIsDisplayed: React.Dispatch<React.SetStateAction<boolean>>;
   handleUnFollow?: () => void;
+  setPostView?: React.Dispatch<React.SetStateAction<boolean>>;
   cardType:
     | "unFollow"
     | "reportPost"
@@ -14,19 +23,13 @@ interface AlertCardPropsType {
     | "deletePost";
 }
 
-const AlertCard = ({
-  cardType,
+const AlertCard: React.FC<AlertCardPropsType> = ({
   setIsDisplayed,
+  setPostView,
   handleUnFollow,
-}: AlertCardPropsType) => {
+  cardType,
+}) => {
   const [isReported, setIsReported] = useState(false);
-  interface ContentType {
-    type: string;
-    title: string;
-    content: string;
-    buttonText: string;
-    handleButton?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
-  }
 
   function handleUnFollowAndClose() {
     if (handleUnFollow) {
@@ -70,6 +73,7 @@ const AlertCard = ({
       title: "貼文尚未新增完成",
       content: "確定要離開？",
       buttonText: "確定",
+      handleButton: () => setPostView!(false),
     },
     {
       type: "yetSave",
@@ -84,6 +88,7 @@ const AlertCard = ({
       buttonText: "確定",
     },
   ];
+
   const selectedCard = cardContent.find((item) => item.type === cardType);
 
   const ReportSucceed = () => {

@@ -1,6 +1,5 @@
 import { IconHeart, IconDotsVertical } from "@tabler/icons-react";
 import moment from "moment";
-import "moment/locale/zh-tw";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -15,8 +14,6 @@ interface PropsType {
 }
 
 const Card: React.FC<PropsType> = ({ data }) => {
-  moment.locale("zh-tw"); // 轉換語系
-
   const {
     petId,
     postId,
@@ -44,14 +41,14 @@ const Card: React.FC<PropsType> = ({ data }) => {
         {/* 多媒體內容 */}
         <div
           onClick={() => setIsMaskOpen(true)}
-          className="relative max-w-[528px] max-h-[528px] w-[528px] h-[528px] rounded-[26px] overflow-hidden"
+          className="relative max-w-[528px] max-h-[528px] aspect-square rounded-[26px] overflow-hidden"
         >
           <Image
             src={media}
             alt={petAccount}
             priority={false}
-            layout="fill"
-            objectFit="cover"
+            fill={true}
+            style={{ objectFit: "cover" }}
           />
         </div>
         <button
@@ -75,7 +72,7 @@ const Card: React.FC<PropsType> = ({ data }) => {
               src={petPhoto || "/images/default-photo.png"}
               width={48}
               height={48}
-              alt="發文者頭貼"
+              alt={petAccount}
               className="rounded-full"
             />
           </Link>
@@ -86,9 +83,9 @@ const Card: React.FC<PropsType> = ({ data }) => {
           <Link
             href="#"
             className="tooltip text-note"
-            data-tooltip={moment(createDate).format("YYYY-MM-DD HH:mm")}
+            data-tooltip={moment.utc(createDate).format("YYYY-MM-DD HH:mm")}
           >
-            {moment(createDate).fromNow()}
+            {moment.utc(createDate).fromNow()}
           </Link>
         </div>
         <div className="flex gap-2 items-center">

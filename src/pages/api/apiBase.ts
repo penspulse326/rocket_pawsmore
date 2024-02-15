@@ -8,6 +8,7 @@ const apiBase = {
   UPDATE_PET: `${apiUrl}/member/pets/update`, // 動態路由 /:petId
   GET_PET_LIST: `${apiUrl}/member/pets/userpets`, // 動態路由 /:userId
   GET_ALL_POST: `${apiUrl}/social/posts/all`,
+  ADD_POST: `${apiUrl}/social/posts`, // 動態路由 /:petId
 };
 
 export default apiBase;

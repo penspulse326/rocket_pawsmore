@@ -5,7 +5,7 @@ import { useState, type ReactElement } from "react";
 
 import CreatePageLayout from "@/containers/createProfile/CreatePageLayout";
 import PetForm from "@/containers/createProfile/PetForm";
-import { mediaUpload } from "@/common/helpers/mediaManager";
+import { mediaUpload } from "@/common/fetch/mediaManager";
 
 import type { NextPageWithLayout } from "../../_app";
 import type { PetFormType } from "@/types";

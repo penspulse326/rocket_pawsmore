@@ -2,7 +2,7 @@ import React, { createContext, useState, ReactNode } from "react";
 import moment from "moment";
 import CalendarLayout from "@/components/recordDashboard/CalendarLayout";
 import Upcoming from "@/components/recordDashboard/Upcoming";
-import PetAccount from "@/components/recordDashboard/PetAccount";
+import AccountList from "@/components/petInfo/AccountList";
 import RecordCardLayout from "@/components/recordDashboard/RecordCardLayout";
 import Footer from "@/components/Footer";
 
@@ -27,6 +27,7 @@ const DateProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 const RecordDashboard = () => {
+  const [petId, setPetId] = useState<number | null>(null);
   const DataSummaryBtn = () => {
     return (
       <button
@@ -47,7 +48,7 @@ const RecordDashboard = () => {
           </div>
           <div className="flex flex-col gap-y-8 max-w-[480px] w-full">
             <div className="flex justify-between">
-              <PetAccount />
+              <AccountList setId={setPetId} />
               <DataSummaryBtn />
             </div>
             <RecordCardLayout />

@@ -5,15 +5,11 @@ import "swiper/css";
 import "swiper/css/effect-cards";
 import { useRef, useState } from "react";
 
-import PetCard from "./PetCard";
+import PetCard from "./Card";
 
 import type { PetDataType } from "@/types";
 
-interface PetCardsPropsType {
-  list: PetDataType[];
-}
-
-const PetCards: React.FC<PetCardsPropsType> = ({ list }) => {
+const PetCards: React.FC<{ list: PetDataType[] }> = ({ list }) => {
   const swiperRef = useRef<SwiperClass>();
   const [activeIndex, setActiveIndex] = useState(0);
 

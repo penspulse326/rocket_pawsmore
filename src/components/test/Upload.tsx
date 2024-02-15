@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { mediaDelete, mediaUpload } from "@/common/helpers/mediaManager";
+import { mediaDelete, mediaUpload } from "@/common/fetch/mediaManager";
 
 export default function Upload() {
   const [file, setFile] = useState<File | null>(null);
