@@ -11,63 +11,17 @@ import InputComment from "./InputComment";
 
 import type { CommentDataType, PostDataType } from "@/types";
 import moment from "moment";
+import { fetchGetComment } from "@/common/fetch/comment";
+import { useSelector } from "react-redux";
+import { RootState } from "@/common/redux/store";
 
 interface PropsType {
   data: PostDataType;
 }
 
-const testData: CommentDataType[] = [
-  {
-    photoUrl: "/test/photo-dog-test.png",
-    username: "oasis1991",
-    content: "不要憤怒地回首過去",
-    time: "2022-01-01 12:00",
-  },
-  {
-    photoUrl: "/test/user-chichi.png",
-    username: "mrafternoon",
-    content: "下班了台北，清晨的紐約，我獨自走在這條街",
-    time: "2022-01-02 12:00",
-  },
-  {
-    photoUrl: "/test/photo-user-1.jpg",
-    username: "ramenprince",
-    content: "不快樂的事情虛驚一場，去我們不曾到過的地方",
-    time: "2022-01-03 14:00",
-  },
-  {
-    photoUrl: "/test/photo-user-2.jpg",
-    username: "tarcysu1986",
-    content: "追得過一切，我的愛已為你再也沒有終止線",
-    time: "2022-01-03 16:00",
-  },
-  {
-    photoUrl: "/test/photo-dog-test.png",
-    username: "oasis1991",
-    content: "不要憤怒地回首過去",
-    time: "2022-01-01 12:00",
-  },
-  {
-    photoUrl: "/test/user-chichi.png",
-    username: "mrafternoon",
-    content: "下班了台北，清晨的紐約，我獨自走在這條街",
-    time: "2022-01-02 12:00",
-  },
-  {
-    photoUrl: "/test/photo-user-1.jpg",
-    username: "ramenprince",
-    content: "不快樂的事情虛驚一場，去我們不曾到過的地方",
-    time: "2022-01-03 14:00",
-  },
-  {
-    photoUrl: "/test/photo-user-2.jpg",
-    username: "tarcysu1986",
-    content: "追得過一切，我的愛已為你再也沒有終止線",
-    time: "2022-01-03 16:00",
-  },
-];
-
 const PostView: React.FC<PropsType> = ({ data }) => {
+  const { token } = useSelector((state: RootState) => state.userInfo);
+
   const {
     petId,
     postId,
@@ -82,8 +36,18 @@ const PostView: React.FC<PropsType> = ({ data }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [hoveredCommentIndex, setHoveredCommentIndex] = useState(-1);
-  const [comments, setComments] = useState(testData);
+  const [comments, setComments] = useState<CommentDataType[]>([]);
   const scrollRef = useRef<HTMLLIElement | null>(null);
+
+  useEffect(() => {
+    if (token) getComments();
+  }, [token]);
+
+  const getComments = async () => {
+    const response = await fetchGetComment(token, postId);
+    console.log(response.data);
+    setComments(response.data);
+  };
 
   return (
     <section className="flex gap-8 p-8 rounded-[32px] bg-white">
@@ -166,11 +130,11 @@ const PostView: React.FC<PropsType> = ({ data }) => {
           <ul className="flex flex-col gap-4 mt-8">
             {comments.map(
               (
-                { photoUrl, username, content, time }: CommentDataType,
+                { id, userPhoto, userAccount, commentContent, createDate },
                 index
               ) => (
                 <li
-                  key={index}
+                  key={`${id}${userAccount}`}
                   ref={index === comments.length - 1 ? scrollRef : null}
                   className="relative flex items-start gap-4"
                   onMouseEnter={() => setHoveredCommentIndex(index)}
@@ -178,19 +142,24 @@ const PostView: React.FC<PropsType> = ({ data }) => {
                 >
                   <Link href="#" className="shrink-0">
                     <Image
-                      src={`${photoUrl}`}
+                      src={userPhoto || "/images/default-photo.png"}
                       width={32}
                       height={32}
-                      alt={username}
+                      alt={userAccount}
                       className="rounded-full"
                     />
                   </Link>
                   <div className="flex-grow mr-8">
                     <Link href="#" className="mr-2 font-bold">
-                      {username}
+                      {userAccount}
                     </Link>
-                    <span className="text-note">{time}</span>
-                    <p>{content}</p>
+                    <span
+                      className="tooltip text-note"
+                      data-tooltip={moment.utc(createDate).format("YYYY-MM-DD")}
+                    >
+                      {moment.utc(createDate).fromNow()}
+                    </span>
+                    <p>{commentContent}</p>
                   </div>
                   {hoveredCommentIndex === index && (
                     <button type="button" className="absolute right-0">

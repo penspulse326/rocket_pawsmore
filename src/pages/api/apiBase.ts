@@ -10,6 +10,7 @@ const apiBase = {
   GET_ALL_POST: `${apiUrl}/social/posts/all`,
   ADD_POST: `${apiUrl}/social/posts`, // 動態路由 /:petId
   ADD_COMMENT: (id: string) => `${apiUrl}/social/posts/${id}/comments/add`, // 動態路由 /:postId
+  GET_COMMENT: (id: string) => `${apiUrl}/social/posts/${id}/comments`, // 動態路由 /:postId
 };
 
 export default apiBase;

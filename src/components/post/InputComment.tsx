@@ -43,9 +43,7 @@ const InputComment: React.FC<InputCommentPropsType> = ({
 
     try {
       const response = await fetchAddComment(token, { commentContent }, postId);
-      if (response.ok) {
-        alert("留言成功");
-      } else {
+      if (!response.ok) {
         alert("留言失敗，請稍後再試");
       }
     } catch (error) {
