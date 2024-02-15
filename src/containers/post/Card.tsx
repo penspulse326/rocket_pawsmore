@@ -111,8 +111,10 @@ const Card: React.FC<PropsType> = ({ data }) => {
           </Link>
         </div>
         <div className="flex gap-2 items-center">
+          {/* 按讚數 */}
           <IconHeart fill="#808080" color="#808080" />
           <span className="text-note">234</span>
+          {/* 開啟選單 */}
           <button
             type="button"
             className="relative"
@@ -138,9 +140,7 @@ const Card: React.FC<PropsType> = ({ data }) => {
         </div>
       </section>
       {/* 內文 */}
-      <section>
-        <p>{postContent}</p>
-      </section>
+      <p>{postContent}</p>
       {/* 留言 */}
       <section>
         <ul>

@@ -72,6 +72,7 @@ const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
       {/* 文字區 */}
       <section>
         <div className="flex justify-between mt-1 mb-4">
+          {/* 個人資訊 */}
           <div className="flex gap-2 items-center">
             <Link
               href="#"
@@ -171,6 +172,7 @@ const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
             )}
           </ul>
         </section>
+        {/* 按讚數與留言數 */}
         <div className="flex gap-4 my-4 text-note">
           <span className="flex items-center">
             <IconHeart className="mr-2 fill-note stroke-note" />
@@ -178,7 +180,7 @@ const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
           </span>
           <span className="flex items-center">
             <IconMessageCircle className="mr-2 stroke-note" />
-            10
+            {comments.length}
           </span>
         </div>
         <InputComment postId={postId} getComments={getComments} />
