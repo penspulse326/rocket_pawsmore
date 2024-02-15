@@ -18,10 +18,10 @@ export default async function handler(
   //   return res.status(401).json({ message: "請重新登入" });
   // }
 
-  const userAccount = req.query.account;
+  const account = req.query.account;
 
   try {
-    const response = await fetch(`${apiBase.CHECK_MEMBER}/${userAccount}`, {
+    const response = await fetch(`${apiBase.CHECK_MEMBER}/${account}`, {
       method: "GET",
       // headers: {
       //   "Content-Type": "application/json",
