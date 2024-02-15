@@ -11,6 +11,7 @@ const apiBase = {
   GET_PET_LIST: `${apiUrl}/member/pets/userpets`, // 動態路由 /:userId
   GET_ALL_POST: `${apiUrl}/social/posts/all`,
   ADD_POST: `${apiUrl}/social/posts`, // 動態路由 /:petId
+  LIKE_POST: (id: string) => `${apiUrl}/social/posts/${id}/likes`, // 動態路由 /:postId
   ADD_COMMENT: (id: string) => `${apiUrl}/social/posts/${id}/comments/add`, // 動態路由 /:postId
   GET_COMMENT: (id: string) => `${apiUrl}/social/posts/${id}/comments`, // 動態路由 /:postId
   DELETE_COMMENT: (postId: string, commentId: string) =>

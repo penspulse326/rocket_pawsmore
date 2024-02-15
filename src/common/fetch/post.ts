@@ -35,3 +35,18 @@ export const fetchAddPost = async (
     return { ok: false, status: 500 };
   }
 };
+
+export const fetchLikePost = async (token: string, id: number) => {
+  try {
+    const response = await fetch(`${apiNext.LIKE_POST}/${id}`, {
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const result = await response.json();
+
+    return { ok: response.ok, status: response.status, data: result.data };
+  } catch (error) {
+    return { ok: false, status: 500 };
+  }
+};

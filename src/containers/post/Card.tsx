@@ -13,6 +13,7 @@ import { fetchGetComment } from "@/common/fetch/comment";
 import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
 import { MediaType } from "@/common/lib/enums";
+import LikeBtn from "@/components/post/LikeBtn";
 
 interface PropsType {
   data: PostDataType;
@@ -91,6 +92,10 @@ const Card: React.FC<PropsType> = ({ data }) => {
     setIsMaskOpen(true);
   };
 
+  const handleLikeToggle = () => {
+    console.log("isLiked", isLiked);
+  };
+
   return (
     <div className="flex flex-col gap-4 p-8 border border-stroke rounded-[32px]">
       <section className="relative">
@@ -127,18 +132,8 @@ const Card: React.FC<PropsType> = ({ data }) => {
             />
           )}
         </div>
-        <button
-          type="button"
-          className="absolute bottom-8 right-8"
-          onClick={() => setIsLiked(!isLiked)}
-        >
-          <IconHeart
-            size={70}
-            className={`${
-              isLiked ? "fill-tertiary" : "fill-stroke"
-            } stroke-white stroke-1 filter drop-shadow-md duration-300`}
-          />
-        </button>
+        {/* 按讚按鈕 */}
+        <LikeBtn isLiked={isLiked} onClick={handleLikeToggle} />
       </section>
       {/* 個人資訊 */}
       <section className="flex justify-between items-center">
@@ -157,7 +152,7 @@ const Card: React.FC<PropsType> = ({ data }) => {
           <Link href="#" className="font-bold">
             {petAccount}
           </Link>
-          <span className="w-[5px] h-[5px] bg-note rounded-full"></span>
+          <span className="w-1 h-1 bg-note rounded-full"></span>
           <Link
             href="#"
             className="tooltip text-note"

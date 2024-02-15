@@ -16,6 +16,7 @@ import CommentMenu from "./CommentMenu";
 import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
 import { MediaType } from "@/common/lib/enums";
+import LikeBtn from "./LikeBtn";
 
 interface PropsType {
   data: PostDataType;
@@ -69,18 +70,7 @@ const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
           />
         )}
         {/* 按讚 */}
-        <button
-          type="button"
-          className="absolute bottom-8 right-8"
-          onClick={() => setIsLiked(!isLiked)}
-        >
-          <IconHeart
-            size={70}
-            className={`${
-              isLiked ? "fill-tertiary" : "fill-stroke"
-            } stroke-white stroke-1 filter drop-shadow-md duration-300`}
-          />
-        </button>
+        <LikeBtn isLiked={isLiked} onClick={() => setIsLiked(!isLiked)} />
       </section>
       {/* 文字區 */}
       <section>
