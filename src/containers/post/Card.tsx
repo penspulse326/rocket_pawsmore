@@ -3,14 +3,15 @@ import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 import Mask from "../../components/hint/Mask";
 import PostView from "../../components/post/PostView";
 import InputComment from "@/components/post/InputComment";
-import { CommentDataType, PostDataType } from "@/types";
-import { useSelector } from "react-redux";
-import { RootState } from "@/common/redux/store";
 import { fetchGetComment } from "@/common/fetch/comment";
+
+import type { RootState } from "@/common/redux/store";
+import type { CommentDataType, PostDataType } from "@/types";
 
 interface PropsType {
   data: PostDataType;

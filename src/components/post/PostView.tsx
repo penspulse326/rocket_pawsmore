@@ -3,17 +3,16 @@ import {
   IconMessageCircle,
   IconDotsVertical,
 } from "@tabler/icons-react";
+import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import InputComment from "./InputComment";
 
+import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
-import moment from "moment";
-import { fetchGetComment } from "@/common/fetch/comment";
-import { useSelector } from "react-redux";
-import { RootState } from "@/common/redux/store";
 
 interface PropsType {
   data: PostDataType;
