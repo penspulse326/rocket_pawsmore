@@ -30,8 +30,8 @@ const LeftBar: React.FC = () => {
     }
   };
 
-  const handleCheckProfile = (account: string) => {
-    router.push(`/member/${account}?id=${userId}`);
+  const handleCheckProfile = (userAccount: string) => {
+    router.push(`/member/${userAccount}`);
   };
 
   return (
