@@ -1,12 +1,10 @@
+import { IconHome, IconBrandGoogleAnalytics } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { IconHome, IconBrandGoogleAnalytics } from "@tabler/icons-react";
-
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/common/redux/store";
-import { clearUserInfo } from "@/common/redux/userInfoSlice";
+import { RootState, resetState } from "@/common/redux/store";
 
 import BurgerMenu from "./BurgerMenu";
 
@@ -26,7 +24,7 @@ const Navbar: React.FC = () => {
 `;
 
   const handleLogout = () => {
-    dispatch(clearUserInfo());
+    dispatch(resetState());
     router.push("/login");
   };
 
