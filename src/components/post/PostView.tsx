@@ -93,9 +93,10 @@ const PostView: React.FC<PropsType> = ({ data }) => {
           src={media}
           alt={petAccount}
           priority={false}
-          layout="fill"
-          objectFit="cover"
+          fill={true}
+          style={{ objectFit: "cover" }}
         />
+        {/* 按讚 */}
         <button
           type="button"
           className="absolute bottom-8 right-8"
@@ -113,22 +114,25 @@ const PostView: React.FC<PropsType> = ({ data }) => {
       <section>
         <div className="flex justify-between mt-1 mb-4">
           <div className="flex gap-2 items-center">
-            <Link href="#">
+            <Link
+              href="#"
+              className="relative max-w-12 max-h-12 w-12 h-12 rounded-full overflow-hidden"
+            >
               <Image
                 src={petPhoto || "images/default-photo.png"}
-                width={48}
-                height={48}
                 alt={petAccount}
-                className="rounded-full"
+                priority={false}
+                fill={true}
+                style={{ objectFit: "cover" }}
               />
             </Link>
             <Link href="#" className="font-bold">
               {petAccount}
             </Link>
-            <span className="w-[5px] h-[5px] bg-note rounded-full"></span>
+            <span className="w-1 h-1 bg-note rounded-full"></span>
             <Link
               href="#"
-              className="tooltip text-note"
+              className="tooltip text-note text-nowrap"
               data-tooltip={moment(createDate).format("YYYY-MM-DD HH:mm")}
             >
               {moment(createDate).fromNow()}

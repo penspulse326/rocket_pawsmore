@@ -38,13 +38,14 @@ const LeftBar: React.FC = () => {
         href="/user_profile"
         className="flex gap-4 p-4 border border-stroke bg-white  rounded-[30px] duration-300 hover:bg-stroke"
       >
-        <Image
-          src={headShot || "/images/default-photo.png"}
-          alt={username}
-          width={48}
-          height={48}
-          className="rounded-full"
-        />
+        <div className="relative w-[48px] h-[48px] rounded-full overflow-hidden">
+          <Image
+            src={headShot || "/images/default-photo.png"}
+            alt={username}
+            fill={true}
+            style={{ objectFit: "cover" }}
+          />
+        </div>
         <div>
           <p>{username}</p>
           <p className="text-note">{account}</p>
