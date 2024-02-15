@@ -13,6 +13,8 @@ import InputComment from "./InputComment";
 
 import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
+import PostMenu from "./PostMenu";
+import CommentMenu from "./CommentMenu";
 
 interface PropsType {
   data: PostDataType;
@@ -98,39 +100,23 @@ const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
             </Link>
           </div>
           {/* 選單 */}
-          <div className="flex gap-2 items-center">
-            <button
-              type="button"
-              className="relative"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              onBlur={() => setIsMenuOpen(false)}
-            >
-              <IconDotsVertical />
-              {isMenuOpen && (
-                <ul className="absolute right-0 mt-2 p-3 w-28 rounded-3xl bg-white shadow-[0_0px_10px_0_rgba(0,0,0,0.15)]">
-                  <li>
-                    <button type="button" className="px-3 py-1">
-                      複製連結
-                    </button>
-                  </li>
-                  <li>
-                    <button type="button" className="px-3 py-1 text-error">
-                      檢舉貼文
-                    </button>
-                  </li>
-                </ul>
-              )}
-            </button>
-          </div>
+          <PostMenu />
         </div>
-        <section className="scrollbar-none overflow-y-scroll w-[411px] max-h-[353px] h-full">
+        <section className="scrollbar-none overflow-y-scroll max-w-[411px] max-h-[353px] w-[411px] h-full">
           {/* 貼文內容 */}
-          <p className="mt-4">{postContent}</p>
+          <p className="mt-4 break-words">{postContent}</p>
           {/* 留言列表 */}
           <ul className="flex flex-col gap-4 mt-8">
             {comments.map(
               (
-                { id, userPhoto, userAccount, commentContent, createDate },
+                {
+                  id,
+                  userId,
+                  userPhoto,
+                  userAccount,
+                  commentContent,
+                  createDate,
+                },
                 index
               ) => (
                 <li
@@ -146,6 +132,7 @@ const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
                       width={32}
                       height={32}
                       alt={userAccount}
+                      style={{ objectFit: "cover" }}
                       className="rounded-full"
                     />
                   </Link>
@@ -162,9 +149,11 @@ const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
                     <p>{commentContent}</p>
                   </div>
                   {hoveredCommentIndex === index && (
-                    <button type="button" className="absolute right-0">
-                      <IconDotsVertical size={24} />
-                    </button>
+                    <CommentMenu
+                      authorId={userId}
+                      postId={postId}
+                      commentId={id}
+                    />
                   )}
                 </li>
               )
