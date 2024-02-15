@@ -22,10 +22,18 @@ interface PropsType {
   data: PostDataType;
   comments: CommentDataType[];
   getComments: () => void;
+  getList: () => void;
+  toggleLike: () => void;
 }
 
-const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
-  const { token } = useSelector((state: RootState) => state.userInfo);
+const PostView: React.FC<PropsType> = ({
+  data,
+  comments,
+  getComments,
+  getList,
+  toggleLike,
+}) => {
+  const { token, userId } = useSelector((state: RootState) => state.userInfo);
 
   const {
     petId,
@@ -39,14 +47,20 @@ const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
     createDate,
   } = data;
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredCommentIndex, setHoveredCommentIndex] = useState(-1);
   const scrollRef = useRef<HTMLLIElement | null>(null);
 
   useEffect(() => {
     if (token) getComments();
   }, [token]);
+
+  // 檢查是否按過讚
+  useEffect(() => {
+    const isLiked = likes.find((like) => like.userId === userId);
+    if (isLiked) setIsLiked(true);
+  }, [likes]);
 
   return (
     <section className="flex gap-8 p-8 rounded-[32px] bg-white">
@@ -70,7 +84,7 @@ const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
           />
         )}
         {/* 按讚 */}
-        <LikeBtn isLiked={isLiked} onClick={() => setIsLiked(!isLiked)} />
+        <LikeBtn isLiked={isLiked} onClick={toggleLike} />
       </section>
       {/* 文字區 */}
       <section>

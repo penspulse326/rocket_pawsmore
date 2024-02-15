@@ -14,13 +14,15 @@ import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
 import { MediaType } from "@/common/lib/enums";
 import LikeBtn from "@/components/post/LikeBtn";
+import { fetchLikePost } from "@/common/fetch/post";
 
 interface PropsType {
   data: PostDataType;
+  getList: () => void;
 }
 
-const Card: React.FC<PropsType> = ({ data }) => {
-  const { token } = useSelector((state: RootState) => state.userInfo);
+const Card: React.FC<PropsType> = ({ data, getList }) => {
+  const { token, userId } = useSelector((state: RootState) => state.userInfo);
 
   useEffect(() => {
     if (token) getComments();
@@ -39,13 +41,18 @@ const Card: React.FC<PropsType> = ({ data }) => {
   } = data;
 
   const [comments, setComments] = useState<CommentDataType[]>([]);
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
   const [isMaskOpen, setIsMaskOpen] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // 檢查是否按過讚
+  useEffect(() => {
+    const isLiked = likes.find((like) => like.userId === userId);
+    if (isLiked) setIsLiked(true);
+  }, [likes]);
 
   // 自動播放影片
-  const videoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -92,8 +99,11 @@ const Card: React.FC<PropsType> = ({ data }) => {
     setIsMaskOpen(true);
   };
 
-  const handleLikeToggle = () => {
-    console.log("isLiked", isLiked);
+  const handleLikeToggle = async () => {
+    if (isLiked) return;
+
+    const response = await fetchLikePost(token, postId);
+    if (response.ok) getList();
   };
 
   return (
@@ -106,6 +116,8 @@ const Card: React.FC<PropsType> = ({ data }) => {
               data={data}
               comments={comments}
               getComments={getComments}
+              getList={getList}
+              toggleLike={handleLikeToggle}
             />
           </Mask>
         )}

@@ -42,7 +42,7 @@ const List: React.FC = () => {
       <div className="flex flex-col gap-8 mt-4">
         {/* 貼文卡片 */}
         {list?.map((data) => (
-          <Card key={data.postId} data={data} />
+          <Card key={data.postId} data={data} getList={handleGetList} />
         ))}
       </div>
       <MorePostHint />
