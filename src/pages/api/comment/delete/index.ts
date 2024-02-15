@@ -17,23 +17,24 @@ export default async function handler(
     return res.status(401).json({ message: "請重新登入" });
   }
 
-  const id = req.query.id as string;
-  const requestBody = req.body;
+  const { postId, commentId } = req.query;
 
   try {
-    const response = await fetch(apiBase.ADD_COMMENT(id), {
-      method: "POST",
-      body: requestBody,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    });
+    const response = await fetch(
+      apiBase.DELETE_COMMENT(postId as string, commentId as string),
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
+    );
 
     const result = await response.json();
-    const { message, data } = result;
+    const { message } = result;
 
-    res.status(200).json({ message, data });
+    res.status(200).json({ message });
   } catch (error) {
     res.status(500).json({ message: "未知的錯誤" });
   }
