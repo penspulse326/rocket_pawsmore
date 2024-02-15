@@ -34,6 +34,7 @@ const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
     postContent,
     media,
     mediaType,
+    likes,
     createDate,
   } = data;
 
@@ -176,7 +177,7 @@ const PostView: React.FC<PropsType> = ({ data, comments, getComments }) => {
         <div className="flex gap-4 my-4 text-note">
           <span className="flex items-center">
             <IconHeart className="mr-2 fill-note stroke-note" />
-            234
+            {likes.length}
           </span>
           <span className="flex items-center">
             <IconMessageCircle className="mr-2 stroke-note" />
