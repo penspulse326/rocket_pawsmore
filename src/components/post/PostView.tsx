@@ -95,7 +95,7 @@ const PostView: React.FC<PropsType> = ({
               className="relative max-w-12 max-h-12 w-12 h-12 rounded-full overflow-hidden"
             >
               <Image
-                src={petPhoto || "images/default-photo.png"}
+                src={petPhoto || "/images/default-photo.png"}
                 alt={petAccount}
                 priority={false}
                 fill={true}

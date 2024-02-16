@@ -17,13 +17,7 @@ const Menu: React.FC<PropsType> = ({ postId, isAuthor, media, mediaType }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleDeletePost = async () => {
-    const response = await fetchDeletePost(
-      token,
-      postId,
-      media,
-      MediaType[mediaType]
-    );
-    console.log(response);
+    await fetchDeletePost(token, postId, media, MediaType[mediaType]);
   };
 
   return (

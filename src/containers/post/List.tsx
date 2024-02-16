@@ -22,12 +22,8 @@ const List: React.FC = () => {
     try {
       const response = await fetchGetAllPosts();
       const data: PostDataType[] = response.data;
-      const sortedList = data.sort(
-        (a, b) =>
-          new Date(b.createDate).getTime() - new Date(a.createDate).getTime()
-      );
-      setList(sortedList);
-      console.log(sortedList);
+
+      setList(data);
     } catch (error) {
       console.error(error);
     }

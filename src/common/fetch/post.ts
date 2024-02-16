@@ -1,6 +1,7 @@
 import { AddPostType } from "@/types";
 import apiNext from "./apiNext";
-import { useSelector } from "react-redux";
+import getMediaId from "../helpers/getMediaId";
+import { mediaDelete } from "./mediaManager";
 
 export const fetchGetAllPosts = async () => {
   try {
@@ -76,7 +77,9 @@ export const fetchDeletePost = async (
     });
 
     if (response.ok) {
-      console.log(media);
+      const mediaId = getMediaId(media);
+      const response = await mediaDelete(mediaId, mediaType);
+      console.log(response);
     }
 
     return { ok: response.ok, status: response.status };
