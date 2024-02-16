@@ -23,9 +23,12 @@ const ProfileCard: React.FC = () => {
   const { petAccount } = router.query;
 
   const postList = useContext(PostListContext);
-
   const [data, setData] = useState<PetDataType | undefined>();
+
   const [isMyPet, setIsMyPet] = useState(false);
+  const [isAlertShown, setIsAlertShown] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [isDisplayed, setIsDisplayed] = useState(false);
 
   const userInfo = useSelector((state: RootState) => state.userInfo);
   const petList = useSelector((state: RootState) => state.petList);
@@ -45,11 +48,7 @@ const ProfileCard: React.FC = () => {
     };
     petAccount && fetchData();
     petList.find((pet) => pet.petAccount === petAccount) && setIsMyPet(true);
-  }, [petAccount, petList]);
-
-  const [isAlertShown, setIsAlertShown] = useState(false);
-  const [isFollowing, setIsFollowing] = useState(true);
-  const [isDisplayed, setIsDisplayed] = useState(false);
+  }, [petAccount, petList, isFollowing]);
 
   if (!data) {
     return null;
@@ -70,6 +69,25 @@ const ProfileCard: React.FC = () => {
     followers,
     petId,
   } = data;
+
+  const handleFollow = async () => {
+    try {
+      const response = await fetch(`/api/follow/${petAccount}`, {
+        method: "PATCH",
+        headers: { Authorization: `Bearer ${userInfo.token}` },
+      });
+      if (!response.ok) {
+        throw new Error("failed");
+      }
+      if (userInfo.token !== "") {
+        if (isFollowing) {
+          setIsFollowing(false);
+        } else {
+          setIsFollowing(true);
+        }
+      }
+    } catch (error) {}
+  };
 
   const PetProfile = () => {
     const htmlIntro = petIntro.split("\n");
@@ -109,7 +127,7 @@ const ProfileCard: React.FC = () => {
         </ul>
         <ul className="flex gap-x-4">
           <li>
-            <span className="font-bold pr-1">{postList?.length}</span>貼文
+            <span className="font-bold pr-1">{postList?.length || 0}</span>貼文
           </li>
           <li
             className="hover:cursor-pointer"
@@ -173,10 +191,6 @@ const ProfileCard: React.FC = () => {
     );
   };
 
-  function handleUnFollow() {
-    setIsFollowing(!isFollowing);
-  }
-
   const Button = () => {
     const [isShown, setIsShown] = useState(false);
     const [buttonText, setButtonText] = useState("追蹤中");
@@ -234,8 +248,10 @@ const ProfileCard: React.FC = () => {
               onClick={() => {
                 if (isFollowing) {
                   setIsAlertShown(!isAlertShown);
+                  handleFreezeScroll(true);
                 } else {
-                  setIsFollowing(!isFollowing);
+                  // setIsFollowing(true);
+                  handleFollow();
                 }
               }}
               onMouseOver={() => setButtonText("取消追蹤")}
@@ -280,22 +296,6 @@ const ProfileCard: React.FC = () => {
         <Companionship />
         <Button />
       </div>
-      <div>
-        <div
-          onClick={() => {
-            router.push("/member/ppp222");
-          }}
-        >
-          其他帳號1
-        </div>
-        <div
-          onClick={() => {
-            router.push("/member/pp22");
-          }}
-        >
-          其他帳號2
-        </div>
-      </div>
       {/* show fans list */}
       {isDisplayed && (
         <Mask setIsOpen={setIsDisplayed} maskType="fans">
@@ -312,7 +312,7 @@ const ProfileCard: React.FC = () => {
           <AlertCard
             setIsDisplayed={setIsAlertShown}
             cardType="unFollow"
-            handleUnFollow={handleUnFollow}
+            handleUnFollow={handleFollow}
           />
         </Mask>
       )}
