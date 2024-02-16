@@ -7,7 +7,7 @@ interface PetCardProps {
   data?: PetDataType;
 }
 
-const Card: React.FC<PetCardProps> = ({ data }) => {
+const PetCard: React.FC<PetCardProps> = ({ data }) => {
   if (!data) {
     return (
       <div className="flex flex-col gap-7 mx-auto p-4 max-w-[204px] border border-stroke rounded-[30px] bg-white">
@@ -50,7 +50,7 @@ const Card: React.FC<PetCardProps> = ({ data }) => {
         <span>@{petAccount}</span>
       </div>
       <Link
-        href="/test/pet_profile"
+        href={`/pet/${petAccount}`}
         className="mb-4 py-2 rounded-[30px] bg-primary text-white text-center hover:bg-primary/70 duration-300"
       >
         寵物檔案
@@ -59,4 +59,4 @@ const Card: React.FC<PetCardProps> = ({ data }) => {
   );
 };
 
-export default Card;
+export default PetCard;

@@ -7,6 +7,7 @@ const apiNext = {
   UPDATE_PET: "/api/pet/update", // 動態路由 /:petId
   GET_PETS: "/api/pet/list", // 動態路由 /:userId
   GET_ALL_POSTS: "/api/post/all",
+  GET_PET_POSTS: (petId: number) => `/api/post/list?petId=${petId}`,
   ADD_POST: "/api/post/add", // 動態路由 /:petId
   LIKE_POST: "/api/post/like", // 動態路由 /:postId
   ADD_COMMENT: "/api/comment/add", // 動態路由 /:postId

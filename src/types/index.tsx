@@ -86,7 +86,6 @@ export interface PostDataType {
   mediaType: 0 | 1;
   likes: LikesType[];
   createDate: string;
-  likes: LikesType[];
   userId: number;
 }
 

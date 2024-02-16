@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import Image from "next/image";
 import { IconHeartFilled, IconMessageCircle2Filled } from "@tabler/icons-react";
@@ -10,12 +10,39 @@ import NoContent from "@/components/NoContent";
 import { PostListContext } from "@/pages/pet/[petAccount]";
 import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 import { PostDataType } from "@/types";
+import { fetchGetComment } from "@/common/fetch/comment";
+import { useSelector } from "react-redux";
+import { RootState } from "@/common/redux/store";
+import { fetchGetPetPost, fetchLikePost } from "@/common/fetch/post";
 
 const Posts: React.FC = () => {
+  const { token, userId } = useSelector((state: RootState) => state.userInfo);
+
   const postList = useContext(PostListContext);
 
   const [selectedPost, setSelectedPost] = useState<PostDataType>();
+  const [comments, setComments] = useState([]);
+  const [isLiked, setIsLiked] = useState(false);
   const [isMaskOpen, setIsMaskOpen] = useState(false);
+
+  // 檢查是否按過讚
+  useEffect(() => {
+    const isLiked = selectedPost?.likes.find((like) => like.userId === userId);
+    if (isLiked) setIsLiked(true);
+    else setIsLiked(false);
+  }, [selectedPost?.likes]);
+
+  // 點到貼文時去讀取留言
+  useEffect(() => {
+    if (selectedPost) getComments();
+  }, [selectedPost]);
+
+  const getComments = async () => {
+    if (selectedPost) {
+      const response = await fetchGetComment(selectedPost.postId);
+      setComments(response.data);
+    }
+  };
 
   return (
     <>
@@ -69,7 +96,12 @@ const Posts: React.FC = () => {
                 </div>
                 {selectedPost && isMaskOpen && (
                   <Mask setIsOpen={setIsMaskOpen} maskType="post">
-                    <PostView data={selectedPost} />
+                    <PostView
+                      data={selectedPost}
+                      comments={comments}
+                      getComments={getComments}
+                      toggleLike={() => setIsLiked(!isLiked)}
+                    />
                   </Mask>
                 )}
               </div>

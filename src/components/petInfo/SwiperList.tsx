@@ -5,11 +5,11 @@ import "swiper/css";
 import "swiper/css/effect-cards";
 import { useRef, useState } from "react";
 
-import PetCard from "./Card";
+import PetCard from "./PetCard";
 
 import type { PetDataType } from "@/types";
 
-const PetCards: React.FC<{ list: PetDataType[] }> = ({ list }) => {
+const SwiperList: React.FC<{ list: PetDataType[] }> = ({ list }) => {
   const swiperRef = useRef<SwiperClass>();
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -59,4 +59,4 @@ const PetCards: React.FC<{ list: PetDataType[] }> = ({ list }) => {
   );
 };
 
-export default PetCards;
+export default SwiperList;
