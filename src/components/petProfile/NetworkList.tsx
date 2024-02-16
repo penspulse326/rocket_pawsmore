@@ -77,7 +77,7 @@ const NetworkList: React.FC<PropsType> = (props) => {
                 <div className="w-12 h-12">
                   <Image
                     className="w-full h-full rounded-[53.3px] object-cover"
-                    src={userPhoto}
+                    src={userPhoto || "/images/default-photo.svg"}
                     width={48}
                     height={48}
                     alt={userName}
