@@ -24,8 +24,8 @@ export default async function handler(
 ) {
   const { publicId, resourceType } = JSON.parse(req.body);
   const url = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_NAME}/${resourceType}/destroy`;
-  const apiSecret = process.env.API_SECRET!;
-  const apiKey = process.env.API_KEY!;
+  const apiSecret = process.env.CLOUDINARY_SECRET!;
+  const apiKey = process.env.CLOUDINARY_KEY!;
   const signature = generateSHA1(generateSignature(publicId, apiSecret));
   const formData = new FormData();
 
@@ -44,6 +44,6 @@ export default async function handler(
     const result = await response.json();
     res.status(200).json(result);
   } catch (error) {
-    res.status(400).json({ error: error });
+    res.status(500).json({ error: error });
   }
 }
