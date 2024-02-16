@@ -22,7 +22,6 @@ interface PropsType {
   data: PostDataType;
   comments: CommentDataType[];
   getComments: () => void;
-  getList: () => void;
   toggleLike: () => void;
 }
 
@@ -30,7 +29,6 @@ const PostView: React.FC<PropsType> = ({
   data,
   comments,
   getComments,
-  getList,
   toggleLike,
 }) => {
   const { token, userId } = useSelector((state: RootState) => state.userInfo);

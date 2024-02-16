@@ -81,7 +81,7 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
   }, []);
 
   const getComments = async () => {
-    const response = await fetchGetComment(token, postId);
+    const response = await fetchGetComment(postId);
     if (response.ok) setComments(response.data);
   };
 
@@ -115,7 +115,6 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
               data={data}
               comments={comments}
               getComments={getComments}
-              getList={getList}
               toggleLike={handleLikeToggle}
             />
           </Mask>

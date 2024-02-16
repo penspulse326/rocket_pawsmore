@@ -1,10 +1,9 @@
 import apiNext from "./apiNext";
 
-export const fetchGetComment = async (token: string, id: number) => {
+export const fetchGetComment = async (id: number) => {
   try {
     const response = await fetch(`${apiNext.GET_COMMENT}/${id}`, {
       method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
     });
 
     const result = await response.json();
