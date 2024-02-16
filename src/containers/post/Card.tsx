@@ -181,7 +181,12 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
           <IconHeart fill="#808080" color="#808080" />
           <span className="text-note">{likes.length}</span>
           {/* 開啟選單 */}
-          <Menu postId={postId} isAuthor={userId === authorId} />
+          <Menu
+            postId={postId}
+            isAuthor={userId === authorId}
+            media={media}
+            mediaType={mediaType}
+          />
         </div>
       </section>
       {/* 內文 */}

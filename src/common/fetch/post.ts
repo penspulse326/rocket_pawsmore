@@ -1,5 +1,6 @@
 import { AddPostType } from "@/types";
 import apiNext from "./apiNext";
+import { useSelector } from "react-redux";
 
 export const fetchGetAllPosts = async () => {
   try {
@@ -55,6 +56,28 @@ export const fetchLikePost = async (token: string, id: number) => {
       method: "PATCH",
       headers: { Authorization: `Bearer ${token}` },
     });
+
+    return { ok: response.ok, status: response.status };
+  } catch (error) {
+    return { ok: false, status: 500 };
+  }
+};
+
+export const fetchDeletePost = async (
+  token: string,
+  id: number,
+  media: string,
+  mediaType: string
+) => {
+  try {
+    const response = await fetch(`${apiNext.DELETE_POST}/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (response.ok) {
+      console.log(media);
+    }
 
     return { ok: response.ok, status: response.status };
   } catch (error) {

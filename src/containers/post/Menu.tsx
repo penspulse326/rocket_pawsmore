@@ -1,16 +1,29 @@
+import { fetchDeletePost } from "@/common/fetch/post";
+import { MediaType } from "@/common/lib/enums";
+import { RootState } from "@/common/redux/store";
 import { IconDotsVertical } from "@tabler/icons-react";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 interface PropsType {
   postId: number;
   isAuthor: boolean;
+  media: string;
+  mediaType: MediaType;
 }
 
-const Menu: React.FC<PropsType> = ({ postId, isAuthor }) => {
+const Menu: React.FC<PropsType> = ({ postId, isAuthor, media, mediaType }) => {
+  const { token } = useSelector((state: RootState) => state.userInfo);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleDeletePost = async () => {
-    console.log("delete");
+    const response = await fetchDeletePost(
+      token,
+      postId,
+      media,
+      MediaType[mediaType]
+    );
+    console.log(response);
   };
 
   return (
