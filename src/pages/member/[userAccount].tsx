@@ -94,8 +94,8 @@ const UserProfile: React.FC = () => {
         />
       </svg>
     );
-    const htmlIntro = intro.split("\n");
-    const htmlLink = link.length > 35 ? link.slice(0, 33) + "⋯" : link;
+    const htmlIntro = intro?.split("\n");
+    const htmlLink = link?.length > 35 ? link.slice(0, 33) + "⋯" : link;
 
     const Report = () => {
       const [isAlertShown, setIsAlertShown] = useState(false);
@@ -148,7 +148,7 @@ const UserProfile: React.FC = () => {
         </div>
         <div className="flex flex-col gap-y-2">
           <div>
-            {htmlIntro.map((string, index) => (
+            {htmlIntro?.map((string, index) => (
               <React.Fragment key={index}>
                 {string}
                 {index !== htmlIntro.length - 1 && <br />}

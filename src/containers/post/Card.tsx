@@ -145,11 +145,11 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
         {/* 按讚按鈕 */}
         <LikeBtn isLiked={isLiked} onClick={handleLikeToggle} />
       </section>
-      {/* 個人資訊 */}
+      {/* 寵物資訊 */}
       <section className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <Link
-            href="#"
+            href={`/pet/${petAccount}`}
             className="relative max-w-12 max-h-12 w-12 h-12 rounded-full overflow-hidden"
           >
             <Image
@@ -159,17 +159,16 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
               style={{ objectFit: "cover" }}
             />
           </Link>
-          <Link href="#" className="font-bold">
+          <Link href={`/pet/${petAccount}`} className="font-bold">
             {petAccount}
           </Link>
           <span className="w-1 h-1 bg-note rounded-full"></span>
-          <Link
-            href="#"
+          <span
             className="tooltip text-note"
             data-tooltip={moment.utc(createDate).format("YYYY-MM-DD HH:mm")}
           >
             {moment.utc(createDate).fromNow()}
-          </Link>
+          </span>
         </div>
         <div className="flex gap-2 items-center">
           {/* 按讚數 */}
@@ -207,7 +206,9 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
         <ul>
           {comments.slice(0, 2).map(({ id, userAccount, commentContent }) => (
             <li key={`${id}-${userAccount}`}>
-              <span className="mr-4 font-bold">{userAccount}</span>
+              <Link href={`/member/${userAccount}`} className="mr-4 font-bold">
+                {userAccount}
+              </Link>
               <span>{commentContent}</span>
             </li>
           ))}
