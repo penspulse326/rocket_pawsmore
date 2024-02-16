@@ -28,6 +28,7 @@ const DateProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
 const RecordDashboard = () => {
   const [petId, setPetId] = useState<number | null>(null);
+
   const DataSummaryBtn = () => {
     return (
       <button
@@ -38,9 +39,10 @@ const RecordDashboard = () => {
       </button>
     );
   };
+
   return (
     <DateProvider>
-      <section className="inner mt-[96px] flex flex-col gap-y-[64px]">
+      <section className="inner mt-24 flex flex-col gap-y-16">
         <div className="flex gap-x-8">
           <div className="flex flex-col gap-y-8 max-w-[896px] w-full">
             <CalendarLayout />
