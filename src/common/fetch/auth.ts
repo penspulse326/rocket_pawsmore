@@ -17,3 +17,21 @@ export const fetchLogin = async (data: LoginFormType) => {
     return { ok: false, status: 500 };
   }
 };
+
+export const fetchSignup = async (data: LoginFormType) => {
+  try {
+    const response = await fetch(apiNext.SIGN_UP, {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      return { ok: response.ok, status: response.status };
+    }
+
+    return await fetchLogin(data);
+  } catch (error) {
+    console.error("未知的錯誤");
+    return { ok: false, status: 500 };
+  }
+};

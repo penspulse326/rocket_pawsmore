@@ -7,7 +7,7 @@ import { setUserInfo } from "@/common/redux/userInfoSlice";
 
 import Loading from "@/components/hint/Loading";
 import TextInput from "@/components/form/profile/TextInput";
-import PasswordInpput from "@/components/form/profile/PasswordInput";
+import PasswordInput from "@/components/form/profile/PasswordInput";
 import { errorText } from "@/common/lib/messageText";
 import { fetchLogin } from "@/common/fetch/auth";
 import useToken from "@/common/hooks/useToken";
@@ -27,9 +27,10 @@ const Login: React.FC = () => {
 
   const router = useRouter();
   const dispatch = useDispatch();
+  const { setToken } = useToken();
   const [isLoading, setIsLoading] = useState(false);
   const [statusCode, setStatusCode] = useState(0);
-  const { setToken } = useToken();
+
   const isBtnDisabled = !isValid || isLoading;
 
   useEffect(() => {
@@ -54,10 +55,8 @@ const Login: React.FC = () => {
 
     const response = await fetchLogin(data);
     if (response.ok) {
-      dispatch(setUserInfo(response.data));
       setToken(response.data.token);
-      console.log("這是 登入", response.data.token);
-
+      dispatch(setUserInfo(response.data));
       router.push("/social");
     }
     setStatusCode(response.status);
@@ -105,7 +104,7 @@ const Login: React.FC = () => {
               },
             }}
             render={({ field }) => (
-              <PasswordInpput
+              <PasswordInput
                 title="密碼"
                 placeholder="輸入密碼"
                 message={errors.password?.message}

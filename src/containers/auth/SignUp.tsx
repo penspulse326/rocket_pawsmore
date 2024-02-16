@@ -1,23 +1,21 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "@/common/redux/userInfoSlice";
 
-import { errorText } from "@/common/lib/messageText";
+import Loading from "@/components/hint/Loading";
 import TextInput from "@/components/form/profile/TextInput";
-import PasswordInpput from "@/components/form/profile/PasswordInput";
-import { LoginFormType, SignUpFormType } from "@/types";
-import { useEffect } from "react";
+import PasswordInput from "@/components/form/profile/PasswordInput";
+import { errorText } from "@/common/lib/messageText";
+import { fetchSignup } from "@/common/fetch/auth";
 
-interface SignUpPropsType {
-  isLoading: boolean;
-  statusCode: number;
-  onSubmit: (data: LoginFormType) => void;
-}
+import type { LoginFormType, SignUpFormType } from "@/types";
 
-const SignUp: React.FC<SignUpPropsType> = ({
-  isLoading,
-  statusCode,
-  onSubmit: handleSignUp,
-}) => {
+import useToken from "@/common/hooks/useToken";
+
+const SignUp: React.FC = () => {
   const {
     handleSubmit,
     control,
@@ -29,7 +27,31 @@ const SignUp: React.FC<SignUpPropsType> = ({
   // 用 watch 來監聽密碼的值
   const watchedPassword = watch("password");
 
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { setToken } = useToken();
+  const [statusCode, setStatusCode] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
   const isBtnDisabled = !isValid || isLoading;
+
+  const onSubmit = async (data: LoginFormType) => {
+    setIsLoading(true);
+    setStatusCode(0); // 重置狀態 否則 hook-form 的 error 會被清空
+
+    const { email, password } = data;
+    const formData = { email, password }; // 註冊不用傳 checkPassword
+
+    const response = await fetchSignup(formData);
+    if (response.ok) {
+      setToken(response.data.token);
+      dispatch(setUserInfo(response.data));
+      router.push("/social");
+    }
+
+    setStatusCode(response.status);
+    setIsLoading(false);
+  };
 
   useEffect(() => {
     switch (statusCode) {
@@ -43,13 +65,6 @@ const SignUp: React.FC<SignUpPropsType> = ({
         break;
     }
   }, [statusCode, setError]);
-
-  const onSubmit = (data: SignUpFormType) => {
-    const { email, password } = data;
-    const formData = { email, password }; // 註冊不用傳 checkPassword
-
-    handleSignUp(formData);
-  };
 
   return (
     <>
@@ -88,7 +103,7 @@ const SignUp: React.FC<SignUpPropsType> = ({
             },
           }}
           render={({ field }) => (
-            <PasswordInpput
+            <PasswordInput
               {...field}
               title="密碼"
               placeholder="輸入6個字以上英數字"
@@ -105,7 +120,7 @@ const SignUp: React.FC<SignUpPropsType> = ({
               value === watchedPassword || errorText.PASSWORD_NOT_MATCH,
           }}
           render={({ field }) => (
-            <PasswordInpput
+            <PasswordInput
               {...field}
               title="確認密碼"
               placeholder="再次輸入密碼"
@@ -129,6 +144,7 @@ const SignUp: React.FC<SignUpPropsType> = ({
           登入
         </Link>
       </div>
+      {isLoading && <Loading />}
     </>
   );
 };

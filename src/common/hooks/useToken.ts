@@ -13,18 +13,18 @@ const useToken = () => {
     };
 
     const token = getTokenFromCookies();
-    if (token) setToken(token);
+    if (token) setToken(() => token);
   }, []);
 
   // 更新 token
   const updateToken = (newToken: string) => {
-    setToken(newToken);
+    setToken(() => newToken);
     document.cookie = `token=${newToken}; path=/; Secure; SameSite=Strict`;
   };
 
   // 清除 token
   const clearToken = () => {
-    setToken(undefined);
+    setToken(() => undefined);
     document.cookie =
       "token=; path=/; expires=Thu, 01 Jan 1900 00:00:00 GMT; Secure; SameSite=Strict";
   };
