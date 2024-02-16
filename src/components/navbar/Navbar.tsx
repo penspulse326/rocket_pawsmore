@@ -2,13 +2,20 @@ import { IconHome, IconBrandGoogleAnalytics } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, resetState } from "@/common/redux/store";
 
 import BurgerMenu from "./BurgerMenu";
+import useToken from "@/common/hooks/useToken";
 
 const Navbar: React.FC = () => {
+  const { token, clearToken } = useToken();
+
+  useEffect(() => {
+    console.log("看看 token 是什麼", token);
+  }, [token]);
+
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -25,23 +32,9 @@ const Navbar: React.FC = () => {
 
   const handleLogout = () => {
     dispatch(resetState());
+    clearToken();
     router.push("/login");
   };
-
-  // 保護路由 驗證使用者是否登入 再決定要不要跳轉
-  // const router = useRouter();
-  // useEffect(() => {
-  //   if ((!userId && router.pathname === "/signup") || "/login") {
-  //     return;
-  //   }
-  //   if (!userId) {
-  //     router.push("/login");
-  //   } else if (!username) {
-  //     router.push("/member/new/create_profile");
-  //   } else {
-  //     router.push("/social");
-  //   }
-  // }, [userId, username]);
 
   return (
     <nav className="fixed top-0 z-50 w-[100vw] border-b border-stroke bg-white">

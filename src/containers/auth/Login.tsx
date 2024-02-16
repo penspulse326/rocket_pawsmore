@@ -10,6 +10,7 @@ import TextInput from "@/components/form/profile/TextInput";
 import PasswordInpput from "@/components/form/profile/PasswordInput";
 import { errorText } from "@/common/lib/messageText";
 import { fetchLogin } from "@/common/fetch/auth";
+import useToken from "@/common/hooks/useToken";
 
 interface LoginFormType {
   email: string;
@@ -26,24 +27,9 @@ const Login: React.FC = () => {
 
   const router = useRouter();
   const dispatch = useDispatch();
-
   const [isLoading, setIsLoading] = useState(false);
   const [statusCode, setStatusCode] = useState(0);
-
-  const onSubmit = async (data: LoginFormType) => {
-    setIsLoading(true);
-    setStatusCode(0); // 重置狀態 否則 hook-form 的 error 會被清空
-
-    const response = await fetchLogin(data);
-    if (response.ok) {
-      dispatch(setUserInfo(response.data));
-      router.push("/social");
-    }
-    setStatusCode(response.status);
-
-    setIsLoading(false);
-  };
-
+  const { setToken } = useToken();
   const isBtnDisabled = !isValid || isLoading;
 
   useEffect(() => {
@@ -61,6 +47,23 @@ const Login: React.FC = () => {
         break;
     }
   }, [statusCode]);
+
+  const onSubmit = async (data: LoginFormType) => {
+    setIsLoading(true);
+    setStatusCode(0); // 重置狀態 否則 hook-form 的 error 會被清空
+
+    const response = await fetchLogin(data);
+    if (response.ok) {
+      dispatch(setUserInfo(response.data));
+      setToken(response.data.token);
+      console.log("這是 登入", response.data.token);
+
+      router.push("/social");
+    }
+    setStatusCode(response.status);
+
+    setIsLoading(false);
+  };
 
   return (
     <>
