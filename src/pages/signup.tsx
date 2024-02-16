@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "@/common/redux/userInfoSlice";
 
-import HomeLayout from "@/containers/home/HomeLayout";
-import SignUp from "@/containers/home/SignUp";
+import HomeLayout from "@/containers/auth/Layout";
+import SignUp from "@/containers/auth/SignUp";
 import Loading from "@/components/hint/Loading";
 import apiNext from "../common/fetch/apiNext";
 
