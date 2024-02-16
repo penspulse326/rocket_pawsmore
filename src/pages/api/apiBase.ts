@@ -10,7 +10,7 @@ const apiBase = {
   UPDATE_PET: `${apiUrl}/member/pets/update`, // 動態路由 /:petId
   GET_PET_LIST: `${apiUrl}/member/pets/userpets`, // 動態路由 /:userId
   GET_ALL_POST: `${apiUrl}/social/posts/all`,
-  GET_PET_POST: `${apiUrl}/social/posts/pet`, // 動態路由 /:petId
+  GET_PET_POST: `${apiUrl}/social/posts/pet`, // 動態路由 /:petAccount
   ADD_POST: `${apiUrl}/social/posts`, // 動態路由 /:petId
 };
 
