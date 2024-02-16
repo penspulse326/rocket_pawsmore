@@ -18,27 +18,24 @@ import { PetDataType } from "@/types";
 
 const UserProfile: React.FC = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const { userAccount } = router.query;
 
   const userInfo = useSelector((state: RootState) => state.userInfo);
 
   const [username, setUsername] = useState("");
-  const [account, setAccount] = useState("");
+  const [userId, setUserId] = useState("");
   const [headShot, setHeadShot] = useState("");
   const [intro, setIntro] = useState("");
   const [link, setLink] = useState("");
 
-  const [petData, setPetData] = useState<PetDataType[] | undefined>();
+  const [petList, setPetList] = useState<PetDataType[] | undefined>();
   const [isMe, setIsMe] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/user/${id}`, {
+        const response = await fetch(`/api/user/${userAccount}`, {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${userInfo.token}`,
-          },
         });
         if (!response.ok) {
           throw new Error("failed");
@@ -46,16 +43,16 @@ const UserProfile: React.FC = () => {
         const data = await response.json();
 
         setUsername(data.data.name);
-        setAccount(data.data.account);
+        setUserId(data.data.userId);
         setHeadShot(data.data.headshot);
         setIntro(data.data.introduction);
         setLink(data.data.link);
       } catch (error) {}
     };
 
-    const fetchPet = async () => {
+    const fetchPetList = async () => {
       try {
-        const response = await fetch(`/api/pet/list/${id}`, {
+        const response = await fetch(`/api/pet/list/${userId}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${userInfo.token}`,
@@ -65,16 +62,16 @@ const UserProfile: React.FC = () => {
           throw new Error("failed");
         }
         const data = await response.json();
-        setPetData(data.data);
+        setPetList(data.data);
       } catch (error) {}
     };
 
-    if (id) {
-      fetchData();
-      fetchPet();
-      userInfo.userId !== Number(id) && setIsMe(false);
+    fetchData();
+    if (userId !== "") {
+      fetchPetList();
     }
-  }, [userInfo, id]);
+    userInfo.account !== userAccount && setIsMe(false);
+  }, [userInfo, userAccount, userId]);
 
   const Profile: React.FC = () => {
     const [isShown, setIsShown] = useState(false);
@@ -142,7 +139,7 @@ const UserProfile: React.FC = () => {
           <ul className="flex flex-col gap-y-4">
             <ol>
               <li className="text-[32px]">{username}</li>
-              <li>@{account}</li>
+              <li>@{userAccount}</li>
             </ol>
             <li className="flex gap-x-1">
               <span className="font-semibold">463</span>追蹤中
@@ -197,8 +194,8 @@ const UserProfile: React.FC = () => {
     const OwnList = () => {
       return (
         <div className="flex gap-4 flex-wrap">
-          {petData &&
-            petData.map((pet, index) => {
+          {petList &&
+            petList.map((pet, index) => {
               const {
                 petId,
                 petName,
@@ -211,7 +208,7 @@ const UserProfile: React.FC = () => {
               } = pet;
 
               const handleCheckPet = (petAccount: string) => {
-                router.push(`/pet/${petAccount}?id=${petId}`);
+                router.push(`/pet/${petAccount}`);
               };
               return (
                 <div
@@ -249,12 +246,12 @@ const UserProfile: React.FC = () => {
       <div className="flex flex-col gap-y-4 max-w-[704px] w-full">
         <div className="text-note">寵物檔案清單</div>
         {isMe ? (
-          petData ? (
+          petList ? (
             <OwnList />
           ) : (
             <AddPet />
           )
-        ) : petData ? (
+        ) : petList ? (
           <OwnList />
         ) : (
           <NoContent />
