@@ -27,13 +27,14 @@ const AccountList: React.FC<PropsType> = ({ setId }) => {
   const AccountCard = () => {
     return (
       <div className="flex gap-x-2 items-center w-full border border-stroke rounded-[60px] p-2 hover:cursor-pointer">
-        <Image
-          src={selectedPet?.petPhoto || "/images/default-photo.png"}
-          width={48}
-          height={48}
-          className="rounded-full"
-          alt={selectedPet.petAccount}
-        />
+        <div className="relative max-w-12 max-h-12 w-full h-full rounded-full overflow-hidden">
+          <Image
+            src={selectedPet.petPhoto || "/images/default-photo.png"}
+            alt={selectedPet.petAccount}
+            fill={true}
+            style={{ objectFit: "cover" }}
+          />
+        </div>
         <div className="flex grow justify-between items-center">
           <ul>
             <li>{selectedPet.petName}</li>
@@ -62,13 +63,15 @@ const AccountList: React.FC<PropsType> = ({ setId }) => {
               }}
               key={`${index}-${petAccount}`}
             >
-              <Image
-                src={petPhoto || "/images/default-photo.png"}
-                width={48}
-                height={48}
-                className="rounded-full"
-                alt="pet avatar"
-              />
+              <div className="relative max-w-12 max-h-12 w-full h-12 rounded-full overflow-hidden">
+                {" "}
+                <Image
+                  src={petPhoto || "/images/default-photo.png"}
+                  alt={petAccount}
+                  fill={true}
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
               <ol className="mr-2 truncate">
                 <li>{petName}</li>
                 <li className="text-note">@{petAccount}</li>

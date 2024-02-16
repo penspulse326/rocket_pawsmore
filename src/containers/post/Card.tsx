@@ -2,18 +2,32 @@ import { IconHeart, IconDotsVertical } from "@tabler/icons-react";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useSelector } from "react-redux";
 
 import Mask from "../../components/hint/Mask";
 import PostView from "../../components/post/PostView";
 import InputComment from "@/components/post/InputComment";
-import { PostDataType } from "@/types";
+import { fetchGetComment } from "@/common/fetch/comment";
+
+import type { RootState } from "@/common/redux/store";
+import type { CommentDataType, PostDataType } from "@/types";
+import { MediaType } from "@/common/lib/enums";
+import LikeBtn from "@/components/post/LikeBtn";
+import { fetchLikePost } from "@/common/fetch/post";
 
 interface PropsType {
   data: PostDataType;
+  getList: () => void;
 }
 
-const Card: React.FC<PropsType> = ({ data }) => {
+const Card: React.FC<PropsType> = ({ data, getList }) => {
+  const { token, userId } = useSelector((state: RootState) => state.userInfo);
+
+  useEffect(() => {
+    if (token) getComments();
+  }, [token]);
+
   const {
     petId,
     postId,
@@ -22,12 +36,74 @@ const Card: React.FC<PropsType> = ({ data }) => {
     postContent,
     media,
     mediaType,
+    likes,
     createDate,
   } = data;
 
-  const [isMaskOpen, setIsMaskOpen] = useState(false);
+  const [comments, setComments] = useState<CommentDataType[]>([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMaskOpen, setIsMaskOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // 檢查是否按過讚
+  useEffect(() => {
+    const isLiked = likes.find((like) => like.userId === userId);
+    if (isLiked) setIsLiked(true);
+    else setIsLiked(false);
+  }, [likes]);
+
+  // 自動播放影片
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {
+          videoRef.current?.play();
+        } else {
+          videoRef.current?.pause();
+        }
+      },
+      {
+        threshold: 1, // 調整此值以更改觸發播放的時間
+      }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => {
+      if (videoRef.current) {
+        observer.unobserve(videoRef.current);
+      }
+    };
+  }, []);
+
+  const getComments = async () => {
+    const response = await fetchGetComment(token, postId);
+    if (response.ok) setComments(response.data);
+  };
+
+  const handleVideoToggle = () => {
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  };
+
+  const handleVideoDoubleClick = () => {
+    videoRef.current?.pause();
+    setIsMaskOpen(true);
+  };
+
+  const handleLikeToggle = async () => {
+    const response = await fetchLikePost(token, postId);
+    if (response.ok) getList();
+  };
 
   return (
     <div className="flex flex-col gap-4 p-8 border border-stroke rounded-[32px]">
@@ -35,51 +111,59 @@ const Card: React.FC<PropsType> = ({ data }) => {
         {/* 遮罩 */}
         {isMaskOpen && (
           <Mask setIsOpen={setIsMaskOpen} maskType="post">
-            <PostView data={data} />
+            <PostView
+              data={data}
+              comments={comments}
+              getComments={getComments}
+              getList={getList}
+              toggleLike={handleLikeToggle}
+            />
           </Mask>
         )}
         {/* 多媒體內容 */}
-        <div
-          onClick={() => setIsMaskOpen(true)}
-          className="relative max-w-[528px] max-h-[528px] aspect-square rounded-[26px] overflow-hidden"
-        >
-          <Image
-            src={media}
-            alt={petAccount}
-            priority={false}
-            fill={true}
-            style={{ objectFit: "cover" }}
-          />
+        <div className="relative max-w-[528px] max-h-[528px] aspect-square rounded-[26px] overflow-hidden">
+          {mediaType === MediaType.image && (
+            <Image
+              src={media}
+              alt={petAccount}
+              priority={false}
+              fill={true}
+              style={{ objectFit: "cover" }}
+              onClick={() => setIsMaskOpen(true)}
+            />
+          )}
+          {mediaType === MediaType.video && (
+            <video
+              ref={videoRef}
+              src={media}
+              autoPlay={true}
+              onClick={handleVideoToggle}
+              onDoubleClick={handleVideoDoubleClick}
+              className="w-full h-full object-contain"
+            />
+          )}
         </div>
-        <button
-          type="button"
-          className="absolute bottom-8 right-8"
-          onClick={() => setIsLiked(!isLiked)}
-        >
-          <IconHeart
-            size={70}
-            className={`${
-              isLiked ? "fill-tertiary" : "fill-stroke"
-            } stroke-white stroke-1 filter drop-shadow-md duration-300`}
-          />
-        </button>
+        {/* 按讚按鈕 */}
+        <LikeBtn isLiked={isLiked} onClick={handleLikeToggle} />
       </section>
       {/* 個人資訊 */}
       <section className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
-          <Link href="#">
+          <Link
+            href="#"
+            className="relative max-w-12 max-h-12 w-12 h-12 rounded-full overflow-hidden"
+          >
             <Image
               src={petPhoto || "/images/default-photo.png"}
-              width={48}
-              height={48}
               alt={petAccount}
-              className="rounded-full"
+              fill={true}
+              style={{ objectFit: "cover" }}
             />
           </Link>
           <Link href="#" className="font-bold">
             {petAccount}
           </Link>
-          <span className="w-[5px] h-[5px] bg-note rounded-full"></span>
+          <span className="w-1 h-1 bg-note rounded-full"></span>
           <Link
             href="#"
             className="tooltip text-note"
@@ -89,8 +173,10 @@ const Card: React.FC<PropsType> = ({ data }) => {
           </Link>
         </div>
         <div className="flex gap-2 items-center">
+          {/* 按讚數 */}
           <IconHeart fill="#808080" color="#808080" />
-          <span className="text-note">234</span>
+          <span className="text-note">{likes.length}</span>
+          {/* 開啟選單 */}
           <button
             type="button"
             className="relative"
@@ -116,28 +202,28 @@ const Card: React.FC<PropsType> = ({ data }) => {
         </div>
       </section>
       {/* 內文 */}
-      <section>
-        <p>{postContent}</p>
-      </section>
+      <p>{postContent}</p>
       {/* 留言 */}
       <section>
-        <div>
-          <span className="mr-4 font-bold">rami7573</span>
-          <span>好想吃一口他的臉臉</span>
-        </div>
-        <div>
-          <span className="mr-4 font-bold">qetree_0209</span>
-          <span>超可愛⋯⋯</span>
-        </div>
-        <button
-          type="button"
-          onClick={() => setIsMaskOpen(true)}
-          className="mt-1 text-note"
-        >
-          查看所有留言
-        </button>
+        <ul>
+          {comments.slice(0, 2).map(({ id, userAccount, commentContent }) => (
+            <li key={`${id}-${userAccount}`}>
+              <span className="mr-4 font-bold">{userAccount}</span>
+              <span>{commentContent}</span>
+            </li>
+          ))}
+        </ul>
+        {comments.length > 2 && (
+          <button
+            type="button"
+            onClick={() => setIsMaskOpen(true)}
+            className="mt-1 text-note"
+          >
+            查看所有留言
+          </button>
+        )}
       </section>
-      <InputComment isEffect />
+      <InputComment postId={postId} getComments={getComments} isEffect />
     </div>
   );
 };
