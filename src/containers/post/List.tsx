@@ -27,6 +27,7 @@ const List: React.FC = () => {
           new Date(b.createDate).getTime() - new Date(a.createDate).getTime()
       );
       setList(sortedList);
+      console.log(sortedList);
     } catch (error) {
       console.error(error);
     }

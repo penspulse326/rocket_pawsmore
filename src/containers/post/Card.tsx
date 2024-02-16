@@ -15,6 +15,7 @@ import type { CommentDataType, PostDataType } from "@/types";
 import { MediaType } from "@/common/lib/enums";
 import LikeBtn from "@/components/post/LikeBtn";
 import { fetchLikePost } from "@/common/fetch/post";
+import Menu from "./Menu";
 
 interface PropsType {
   data: PostDataType;
@@ -29,6 +30,7 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
   }, [token]);
 
   const {
+    userId: authorId,
     petId,
     postId,
     petAccount,
@@ -105,6 +107,10 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
     if (response.ok) getList();
   };
 
+  const handleDeletePost = async () => {
+    console.log("delete");
+  };
+
   return (
     <div className="flex flex-col gap-4 p-8 border border-stroke rounded-[32px]">
       <section className="relative">
@@ -175,28 +181,7 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
           <IconHeart fill="#808080" color="#808080" />
           <span className="text-note">{likes.length}</span>
           {/* 開啟選單 */}
-          <button
-            type="button"
-            className="relative"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            onBlur={() => setIsMenuOpen(false)}
-          >
-            <IconDotsVertical />
-            {isMenuOpen && (
-              <ul className="absolute right-0 mt-2 p-3 w-28 rounded-3xl bg-white shadow-[0_0px_10px_0_rgba(0,0,0,0.15)]">
-                <li>
-                  <button type="button" className="px-3 py-1">
-                    複製連結
-                  </button>
-                </li>
-                <li>
-                  <button type="button" className="px-3 py-1 text-error">
-                    檢舉貼文
-                  </button>
-                </li>
-              </ul>
-            )}
-          </button>
+          <Menu postId={postId} isAuthor={userId === authorId} />
         </div>
       </section>
       {/* 內文 */}
