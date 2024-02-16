@@ -1,11 +1,10 @@
 import { AddPostType } from "@/types";
 import apiNext from "./apiNext";
 
-export const fetchGetAllPosts = async (token: string) => {
+export const fetchGetAllPosts = async () => {
   try {
     const response = await fetch(apiNext.GET_ALL_POSTS, {
       method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
     });
 
     const result = await response.json();

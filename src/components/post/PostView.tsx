@@ -60,6 +60,7 @@ const PostView: React.FC<PropsType> = ({
   useEffect(() => {
     const isLiked = likes.find((like) => like.userId === userId);
     if (isLiked) setIsLiked(true);
+    else setIsLiked(false);
   }, [likes]);
 
   return (

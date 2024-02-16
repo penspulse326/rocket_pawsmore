@@ -11,18 +11,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const token = req.headers.authorization;
-
-  if (!token) {
-    return res.status(401).json({ message: "請重新登入" });
-  }
-
   try {
     const response = await fetch(apiBase.GET_ALL_POST, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: token,
       },
     });
 
