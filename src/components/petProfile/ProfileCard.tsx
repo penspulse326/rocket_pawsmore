@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
@@ -6,20 +6,23 @@ import Image from "next/image";
 import moment from "moment";
 import { IconDotsVertical } from "@tabler/icons-react";
 
-import NoContent from "../NoContent";
 import Mask from "../hint/Mask";
-import ShowNetworkListCard from "./ShowNetworkListCard";
+import NetworkList from "./NetworkList";
 import AlertCard from "../hint/AlertCard";
 
+import { PostListContext } from "@/pages/pet/[petAccount]";
 import getPetAge from "@/common/helpers/getPetAge";
 import getPetSpecies from "@/common/helpers/getPetSpecies";
+import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 
 import { RootState } from "@/common/redux/store";
 import { PetDataType } from "@/types";
 
 const ProfileCard: React.FC = () => {
   const router = useRouter();
-  const { petAccount, id } = router.query;
+  const { petAccount } = router.query;
+
+  const postList = useContext(PostListContext);
 
   const [data, setData] = useState<PetDataType | undefined>();
   const [isMyPet, setIsMyPet] = useState(false);
@@ -30,11 +33,8 @@ const ProfileCard: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/pet/profile/${id}`, {
+        const response = await fetch(`/api/pet/profile/${petAccount}`, {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${userInfo.token}`,
-          },
         });
         if (!response.ok) {
           throw new Error("failed");
@@ -43,12 +43,9 @@ const ProfileCard: React.FC = () => {
         setData(data.data);
       } catch (error) {}
     };
-
-    if (petAccount && id) {
-      fetchData();
-      petList.find((pet) => pet.petAccount === petAccount) && setIsMyPet(true);
-    }
-  }, [petAccount, id, userInfo.token, petList]);
+    petAccount && fetchData();
+    petList.find((pet) => pet.petAccount === petAccount) && setIsMyPet(true);
+  }, [petAccount, petList]);
 
   const [isAlertShown, setIsAlertShown] = useState(false);
   const [isFollowing, setIsFollowing] = useState(true);
@@ -67,10 +64,14 @@ const ProfileCard: React.FC = () => {
     link,
     petPhoto,
     petSpecies,
+    userName,
+    userAccount,
+    userPhoto,
+    followers,
+    petId,
   } = data;
-  const { username, headShot } = userInfo;
 
-  const PetData = () => {
+  const PetProfile = () => {
     const htmlIntro = petIntro.split("\n");
     const linkIcon = (
       <svg
@@ -91,6 +92,7 @@ const ProfileCard: React.FC = () => {
       </svg>
     );
     const htmlLink = link && link.length > 43 ? link.slice(0, 41) + "⋯" : link;
+
     return (
       <div className="flex flex-col max-w-[368px] w-full gap-y-6">
         <ul className="flex flex-col gap-y-3">
@@ -107,13 +109,16 @@ const ProfileCard: React.FC = () => {
         </ul>
         <ul className="flex gap-x-4">
           <li>
-            <span className="font-bold pr-1">0</span>貼文
+            <span className="font-bold pr-1">{postList?.length}</span>貼文
           </li>
           <li
             className="hover:cursor-pointer"
-            onClick={() => setIsDisplayed(!isDisplayed)}
+            onClick={() => {
+              setIsDisplayed(!isDisplayed);
+              handleFreezeScroll(true);
+            }}
           >
-            <span className="font-bold pr-1">0</span>粉絲
+            <span className="font-bold pr-1">{followers.length}</span>粉絲
           </li>
         </ul>
         <ol className="flex flex-col gap-y-2">
@@ -142,27 +147,25 @@ const ProfileCard: React.FC = () => {
       ? moment().diff(moment(adoptedDate).format("YYYY-MM-DD"), "days")
       : moment().diff(moment(birthday).format("YYYY-MM-DD"), "days");
 
-    const handleCheckUser = (account: string, id: number) => {
-      router.push(`/member/${account}?id=${id}`);
+    const handleCheckUser = (account: string) => {
+      router.push(`/member/${account}`);
     };
     return (
       <div
         className="flex gap-x-4 justify-center items-center border border-stroke rounded-[30px] max-w-[272px] w-full py-4 hover:cursor-pointer"
-        onClick={() =>
-          userInfo.userId && handleCheckUser(userInfo.account, userInfo.userId)
-        }
+        onClick={() => handleCheckUser(userAccount)}
       >
         <div className="w-12 h-12">
           <Image
             className="rounded-[108px] w-full h-full object-cover"
-            src={headShot || "/images/default-photo.svg"}
+            src={userPhoto || "/images/default-photo.svg"}
             width={48}
             height={48}
             alt="owner avatar"
           />
         </div>
         <div>
-          已和 <span className="font-bold">{username}</span> 相伴
+          已和 <span className="font-bold">{userName}</span> 相伴
           <br />
           {duration} 天
         </div>
@@ -178,7 +181,7 @@ const ProfileCard: React.FC = () => {
     const [isShown, setIsShown] = useState(false);
     const [buttonText, setButtonText] = useState("追蹤中");
 
-    const handleEditPet = (petId: string | string[] | undefined) => {
+    const handleEditPet = (petId: number) => {
       router.push(`/user_dashboard/edit_pet/${petId}`);
     };
 
@@ -215,7 +218,7 @@ const ProfileCard: React.FC = () => {
           <button
             className="w-full bg-primary text-white rounded-[300px] py-2"
             type="button"
-            onClick={() => handleEditPet(id)}
+            onClick={() => handleEditPet(petId)}
           >
             編輯寵物檔案
           </button>
@@ -270,7 +273,7 @@ const ProfileCard: React.FC = () => {
             alt="pet avatar"
           />
         </div>
-        <PetData />
+        <PetProfile />
       </div>
       {/* owner & edit button */}
       <div className="flex items-center gap-x-[56px]">
@@ -280,14 +283,14 @@ const ProfileCard: React.FC = () => {
       <div>
         <div
           onClick={() => {
-            router.push("/member/ppp222?id=5");
+            router.push("/member/ppp222");
           }}
         >
           其他帳號1
         </div>
         <div
           onClick={() => {
-            router.push("/member/pp22?id=8");
+            router.push("/member/pp22");
           }}
         >
           其他帳號2
@@ -296,10 +299,11 @@ const ProfileCard: React.FC = () => {
       {/* show fans list */}
       {isDisplayed && (
         <Mask setIsOpen={setIsDisplayed} maskType="fans">
-          <ShowNetworkListCard
-            title="粉絲"
+          <NetworkList
+            type="follower"
             isClosed={isDisplayed}
             setIsClosed={setIsDisplayed}
+            userList={followers}
           />
         </Mask>
       )}
