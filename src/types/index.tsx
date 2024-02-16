@@ -38,6 +38,13 @@ export interface UserInfoType {
   token: string;
 }
 
+export interface FollowerDataType {
+  userId: number;
+  userAccount: string;
+  userName: string;
+  userPhoto: string;
+}
+
 export interface PetDataType {
   petId: number;
   petAccount: string;
@@ -50,12 +57,23 @@ export interface PetDataType {
   adoptedDate: string;
   petIntro: string;
   link: string;
+  userName: string;
+  userAccount: string;
+  userId: number;
+  userPhoto: string;
+  followers: FollowerDataType[];
 }
 
 export interface AddPostType {
   postContent: string;
   media: string;
   mediaType: 0 | 1;
+}
+
+interface LikesType {
+  postId: number;
+  userAccount: string;
+  userId: number;
 }
 
 export interface PostDataType {
@@ -67,6 +85,8 @@ export interface PostDataType {
   media: string;
   mediaType: 0 | 1;
   createDate: string;
+  likes: LikesType[];
+  userId: number;
 }
 
 export interface CommentDataType {
