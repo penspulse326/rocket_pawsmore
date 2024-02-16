@@ -26,25 +26,21 @@ const FoodInputs: React.FC<FoodInputsType> = ({
 }) => {
   const [isError, setIsError] = useState(false);
 
+  console.log(list);
+
   useEffect(() => {
     if (list.length < 5) setIsError(false);
   }, [list]);
 
   const handleSelectChange = (index: number, value: string) => {
-    let newData = list[index];
-    newData = { ...newData, type: value };
-
-    const newList = [...list].splice(index, 1, newData);
+    let newList = [...list];
+    newList[index] = { ...newList[index], type: value };
     handleFoodChange(newList);
   };
 
   const handleValueChange = (index: number, value: string) => {
-    const amount = parseInt(value);
-
-    let newData = list[index];
-    newData = { ...newData, amount };
-
-    const newList = [...list].splice(index, 1, newData);
+    let newList = [...list];
+    newList[index] = { ...newList[index], amount: Number(value) };
     handleFoodChange(newList);
   };
 
@@ -63,7 +59,7 @@ const FoodInputs: React.FC<FoodInputsType> = ({
   return (
     <ul className="flex flex-col gap-1">
       {list.map((food: FoodType, index) => (
-        <li key={food.type + index} className="flex items-center">
+        <li key={`food-${index}`} className="flex items-center gap-1">
           {/* 類型篩選 */}
           <Select
             title="類型"
@@ -80,18 +76,14 @@ const FoodInputs: React.FC<FoodInputsType> = ({
           />
           {/* 按鈕 */}
           <span className="mr-4">g</span>
+          {list.length !== 1 && (
+            <button type="button" onClick={() => handleDelete(index)}>
+              <IconCircleMinus size={24} className="stroke-primary" />
+            </button>
+          )}
           {index === list.length - 1 && (
             <button type="button" onClick={handleAdd}>
               <IconCirclePlus size={24} className="stroke-primary" />
-            </button>
-          )}
-          {list.length !== 1 && (
-            <button
-              type="button"
-              onClick={() => handleDelete(index)}
-              className="mr-2"
-            >
-              <IconCircleMinus size={24} className="stroke-primary" />
             </button>
           )}
         </li>

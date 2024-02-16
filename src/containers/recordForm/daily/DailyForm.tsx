@@ -15,7 +15,7 @@ interface FoodType {
 
 export interface DailyFormStateType {
   weight: number;
-  weight_unit: "kg" | "lb";
+  weight_unit: "kg" | "g";
   water: number;
   food: FoodType[];
   urine: string;
@@ -54,8 +54,6 @@ const initailState: DailyFormStateType = {
 
 const DailyForm = () => {
   const [formState, setFormState] = useState(initailState);
-
-  console.log(formState);
 
   const handleFoodChange = (value: FoodType[]) => {
     setFormState((prev) => ({ ...prev, food: value }));
@@ -160,7 +158,7 @@ const DailyForm = () => {
           <textarea
             name="remark"
             value={formState.remark}
-            onChange={(event) => handleTextChange("remark", event.target.value)}
+            onChange={(e) => handleTextChange("remark", e.target.value)}
             placeholder="其他特殊情況或遺漏的資訊，請填寫於此。"
             className="px-4 py-3 h-24 border border-stroke rounded-[10px]"
           ></textarea>

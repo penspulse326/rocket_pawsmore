@@ -50,6 +50,7 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
   useEffect(() => {
     const isLiked = likes.find((like) => like.userId === userId);
     if (isLiked) setIsLiked(true);
+    else setIsLiked(false);
   }, [likes]);
 
   // 自動播放影片
@@ -100,8 +101,6 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
   };
 
   const handleLikeToggle = async () => {
-    if (isLiked) return;
-
     const response = await fetchLikePost(token, postId);
     if (response.ok) getList();
   };
