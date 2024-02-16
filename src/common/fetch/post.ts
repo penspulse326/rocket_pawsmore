@@ -1,11 +1,10 @@
 import { AddPostType } from "@/types";
 import apiNext from "./apiNext";
 
-export const fetchGetAllPosts = async (token: string) => {
+export const fetchGetAllPosts = async () => {
   try {
     const response = await fetch(apiNext.GET_ALL_POSTS, {
       method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
     });
 
     const result = await response.json();
@@ -31,6 +30,19 @@ export const fetchAddPost = async (
     const result = await response.json();
 
     return { ok: response.ok, status: response.status, data: result.data };
+  } catch (error) {
+    return { ok: false, status: 500 };
+  }
+};
+
+export const fetchLikePost = async (token: string, id: number) => {
+  try {
+    const response = await fetch(`${apiNext.LIKE_POST}/${id}`, {
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return { ok: response.ok, status: response.status };
   } catch (error) {
     return { ok: false, status: 500 };
   }

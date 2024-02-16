@@ -70,10 +70,10 @@ export interface AddPostType {
   mediaType: 0 | 1;
 }
 
-interface LikesType {
+export interface LikesType {
   postId: number;
-  userAccount: string;
   userId: number;
+  userAccount: string;
 }
 
 export interface PostDataType {
@@ -84,14 +84,19 @@ export interface PostDataType {
   postContent: string;
   media: string;
   mediaType: 0 | 1;
+  likes: LikesType[];
   createDate: string;
   likes: LikesType[];
   userId: number;
 }
 
 export interface CommentDataType {
-  photoUrl: string;
-  username: string;
-  content: string;
-  time: string;
+  id: number;
+  petId: number;
+  postId: number;
+  userId: number;
+  userPhoto: string;
+  userAccount: string;
+  commentContent: string;
+  createDate: string;
 }
