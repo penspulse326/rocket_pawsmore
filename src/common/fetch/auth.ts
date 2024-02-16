@@ -35,3 +35,19 @@ export const fetchSignup = async (data: LoginFormType) => {
     return { ok: false, status: 500 };
   }
 };
+
+export const fetchCheckAuth = async (token: string) => {
+  try {
+    const response = await fetch(apiNext.CHECK_AUTH, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result = await response.json();
+    return { ok: response.ok, status: response.status, data: result.data };
+  } catch (error) {
+    console.error("未知的錯誤");
+    return { ok: false, status: 500 };
+  }
+};

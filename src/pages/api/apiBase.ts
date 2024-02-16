@@ -4,6 +4,7 @@ const apiBase = {
   // 登入註冊
   SIGN_UP: `${apiUrl}/signup`,
   LOGIN: `${apiUrl}/login`,
+  CHECK_AUTH: `${apiUrl}/member/profile`,
   // 會員資料
   CHECK_MEMBER: `${apiUrl}/social/user`, // 動態路由 /:userAccount
   CREATE_MEMBER: `${apiUrl}/member/profile/add`,

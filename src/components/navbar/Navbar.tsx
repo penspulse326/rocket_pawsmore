@@ -8,12 +8,14 @@ import { RootState, resetState } from "@/common/redux/store";
 
 import BurgerMenu from "./BurgerMenu";
 import useToken from "@/common/hooks/useToken";
+import { fetchCheckAuth } from "@/common/fetch/auth";
+import { setUserInfo } from "@/common/redux/userInfoSlice";
 
 const Navbar: React.FC = () => {
   const { token, clearToken } = useToken();
 
   useEffect(() => {
-    console.log("看看 token 是什麼", token);
+    checkLogin();
   }, [token]);
 
   const router = useRouter();
@@ -29,6 +31,15 @@ const Navbar: React.FC = () => {
     page ? "slide-r" : "slide-l"
   } absolute left-0 bottom-0 w-[50%] h-1 bg-gradient-to-r from-[#7CCBFF] via-[#7CCBFF] to-[#0057FF]
 `;
+
+  const checkLogin = async () => {
+    if (!token) return;
+    const response = await fetchCheckAuth(token);
+    if (!response.ok) {
+      alert("登入狀態過期，請重新登入");
+    }
+    dispatch(setUserInfo({ ...response.data, token }));
+  };
 
   const handleLogout = () => {
     dispatch(resetState());

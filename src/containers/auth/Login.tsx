@@ -55,6 +55,7 @@ const Login: React.FC = () => {
 
     const response = await fetchLogin(data);
     if (response.ok) {
+      console.log("偷肯", response.data.token);
       setToken(response.data.token);
       dispatch(setUserInfo(response.data));
       router.push("/social");
