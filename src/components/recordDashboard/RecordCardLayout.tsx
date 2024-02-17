@@ -10,7 +10,7 @@ const RecordCardLayout: React.FC = () => {
       <Date />
       <div className="scrollbar-none flex flex-col gap-y-4 max-h-[876px]">
         <Cards />
-        <DailyForm />
+        <AddRecordBtn />
       </div>
     </section>
   );

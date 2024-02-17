@@ -1,22 +1,11 @@
-import React, { useState } from "react";
 import { IconCirclePlus } from "@tabler/icons-react";
+import React, { useState } from "react";
+
+import Dot from "@/components/icon/Dot";
 
 const AddRecordBtn: React.FC = () => {
   const [isShown, setIsShown] = useState(false);
   const category = ["日常紀錄", "醫療紀錄", "重要時刻"];
-
-  const dotStyle = (name: string) => {
-    switch (name) {
-      case "日常紀錄":
-        return "#969AFF";
-      case "醫療紀錄":
-        return "#FF6D80";
-      case "重要時刻":
-        return "#FFA959";
-      default:
-        return "";
-    }
-  };
 
   const RecordCategoryCard = () => {
     return (
@@ -29,10 +18,7 @@ const AddRecordBtn: React.FC = () => {
             >
               <span>新增</span>
               <span className="flex items-center">
-                <span
-                  style={{ backgroundColor: dotStyle(name) }}
-                  className=" mr-1 w-[6px] h-[6px] rounded-full"
-                ></span>
+                <Dot name={name} size="sm" />
                 {name}
               </span>
             </li>
