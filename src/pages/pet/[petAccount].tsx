@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import ProfileCard from "@/components/petProfile/ProfileCard";
 import ProfileGallery from "@/components/petProfile/ProfileGallery";
 import Footer from "@/components/Footer";
+import Loading from "@/components/hint/Loading";
 
 import { PostDataType } from "@/types";
 
@@ -13,12 +14,15 @@ export const PostListContext = createContext<PostDataType[] | undefined>(
 
 const PetProfile: React.FC = () => {
   const [postList, setPostList] = useState<PostDataType[]>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
   const { petAccount } = router.query;
 
   useEffect(() => {
     const fetchPost = async () => {
+      setIsLoading(true);
+
       try {
         const response = await fetch(`/api/post/${petAccount}`, {
           method: "GET",
@@ -27,7 +31,9 @@ const PetProfile: React.FC = () => {
           throw new Error("failed");
         }
         const data = await response.json();
+
         setPostList(data.data);
+        setIsLoading(false);
       } catch (error) {}
     };
     petAccount && fetchPost();
@@ -35,6 +41,7 @@ const PetProfile: React.FC = () => {
 
   return (
     <PostListContext.Provider value={postList}>
+      {isLoading && <Loading />}
       <main className="flex flex-col gap-y-12 items-center mt-[64px]">
         <ProfileCard />
         <ProfileGallery />

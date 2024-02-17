@@ -2,18 +2,13 @@ import React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { IconX } from "@tabler/icons-react";
-import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 
-interface UserListType {
-  userId: number;
-  userAccount: string;
-  userName: string;
-  userPhoto: string;
-}
+import { UserListDataType } from "@/types";
+import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 
 interface PropsType {
   type: "following" | "follower";
-  userList: UserListType[];
+  userList: UserListDataType[];
   isClosed: boolean;
   setIsClosed: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -44,7 +39,8 @@ const NetworkList: React.FC<PropsType> = (props) => {
   const selectedCard = cardContent.find((item) => item.type === type);
 
   const handleCheckUser = (account: string) => {
-    router.push(`/member/${account}`);
+    (type === "follower" && router.push(`/member/${account}`)) ||
+      router.push(`/pet/${account}`);
   };
 
   const handleCloseCard = () => {
@@ -66,26 +62,25 @@ const NetworkList: React.FC<PropsType> = (props) => {
       <ul className="flex flex-col gap-y-4 max-h-[304px] h-full overflow-y-auto">
         {userList.length > 0 ? (
           userList.map((user, index) => {
-            const { userAccount, userName, userPhoto } = user;
-
+            const { name, account, photo } = user;
             return (
               <li
                 className="flex gap-x-4 hover:cursor-pointer"
-                onClick={() => handleCheckUser(userAccount)}
+                onClick={() => handleCheckUser(account)}
                 key={index}
               >
                 <div className="w-12 h-12">
                   <Image
                     className="w-full h-full rounded-[53.3px] object-cover"
-                    src={userPhoto}
+                    src={photo || "/images/default-photo.svg"}
                     width={48}
                     height={48}
-                    alt={userName}
+                    alt="avatar photo"
                   />
                 </div>
                 <ol>
-                  <li>{userName}</li>
-                  <li>@{userAccount}</li>
+                  <li>{name}</li>
+                  <li>@{account}</li>
                 </ol>
               </li>
             );

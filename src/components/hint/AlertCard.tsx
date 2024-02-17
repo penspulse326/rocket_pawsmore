@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { IconX, IconCircleCheck } from "@tabler/icons-react";
 
+import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
+
 interface ContentType {
   type: string;
   title: string;
@@ -35,6 +37,7 @@ const AlertCard: React.FC<AlertCardPropsType> = ({
     if (handleUnFollow) {
       handleUnFollow();
       setIsDisplayed(false);
+      handleFreezeScroll(false);
     }
   }
 
@@ -125,6 +128,11 @@ const AlertCard: React.FC<AlertCardPropsType> = ({
     setIsDisplayed(false);
   };
 
+  const handleClose = () => {
+    handleFreezeScroll(false);
+    setIsDisplayed(false);
+  };
+
   return (
     <>
       {selectedCard && !isReported && (
@@ -138,7 +146,7 @@ const AlertCard: React.FC<AlertCardPropsType> = ({
             <IconX
               size={24}
               className="hover:cursor-pointer"
-              onClick={() => setIsDisplayed(false)}
+              onClick={handleClose}
             />
           </ol>
           <li>{selectedCard.content}</li>
@@ -160,7 +168,7 @@ const AlertCard: React.FC<AlertCardPropsType> = ({
                   ? "border border-stroke"
                   : "bg-note text-white"
               } `}
-              onClick={() => setIsDisplayed(false)}
+              onClick={handleClose}
               type="button"
             >
               取消

@@ -11,6 +11,7 @@ const apiBase = {
   CREATE_PET: `${apiUrl}/member/pets`,
   GET_PET: `${apiUrl}/member/pets`, // 動態路由 /:petAccount
   UPDATE_PET: `${apiUrl}/member/pets/update`, // 動態路由 /:petId
+  FOLLOW_PET: `${apiUrl}/social/follow`, // 動態路由 /:petAccount
   GET_PET_LIST: `${apiUrl}/member/pets/userpets`, // 動態路由 /:userId
   // 貼文
   GET_ALL_POST: `${apiUrl}/social/posts/all`,
