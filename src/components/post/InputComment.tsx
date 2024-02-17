@@ -4,6 +4,7 @@ import { IconMessageCircle } from "@tabler/icons-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import Loading from "../hint/Loading";
+import { fetchCheckAuth } from "@/common/fetch/auth";
 
 interface InputCommentPropsType {
   postId: number;
@@ -31,17 +32,28 @@ const InputComment: React.FC<InputCommentPropsType> = ({
     backgroundColor: text ? "#203170" : "#808080",
   };
 
-  const handleBlur = () => {
+  const handleBlur = (event: React.FocusEvent) => {
+    event.stopPropagation();
     setTimeout(() => {
       setIsInputFocus(false);
-    }, 300);
+    }, 100);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const commentContent = text;
     setText("");
     setIsLoading(true);
+
+    // 確認 token 時效
+
+    const auth = await fetchCheckAuth(token);
+    if (!auth.ok) {
+      alert("登入狀態過期，請重新登入");
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const response = await fetchAddComment(token, { commentContent }, postId);
@@ -52,7 +64,7 @@ const InputComment: React.FC<InputCommentPropsType> = ({
       if (getComments) getComments();
     } catch (error) {
       alert("留言失敗，請稍後再試");
-      console.error("Error adding the comment:", error);
+      console.error("Error:", error);
     }
 
     setIsLoading(false);
@@ -64,14 +76,14 @@ const InputComment: React.FC<InputCommentPropsType> = ({
       <form onSubmit={handleSubmit} className={targetStyle}>
         <div className="flex-grow flex gap-2">
           <IconMessageCircle size={24} className="shrink-0" />
-          <input
-            type="text"
-            placeholder="留言⋯⋯"
-            className="w-full bg-transparent outline-none"
+          <textarea
+            placeholder={token ? "留言⋯⋯" : "登入後才能進行留言"}
             value={text}
+            disabled={!token}
             onChange={(e) => setText(e.target.value)}
             onFocus={() => setIsInputFocus(true)}
             onBlur={handleBlur}
+            className="w-full h-6 bg-transparent outline-none resize-none"
           />
         </div>
         <button

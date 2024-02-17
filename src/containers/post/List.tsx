@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/common/redux/store";
 
 import BtnPawk from "./Pawk";
 import Card from "./Card";
-import MorePostHint from "./MorePostHint";
 import { fetchGetAllPosts } from "@/common/fetch/post";
+import Loading from "@/components/hint/Loading";
 
 import type { PostDataType } from "@/types";
-import Loading from "@/components/hint/Loading";
 
 const List: React.FC = () => {
   const [list, setList] = useState<PostDataType[]>([]);
