@@ -65,6 +65,10 @@ const Navbar: React.FC = () => {
     router.push("/login");
   };
 
+  if (router.pathname === "/login" || router.pathname === "/signup") {
+    return <></>;
+  }
+
   return (
     <nav className="fixed top-0 z-10 w-[100%] border-b border-stroke bg-white">
       <div className="outer grid grid-cols-3 pl-8 pr-6 h-16">
