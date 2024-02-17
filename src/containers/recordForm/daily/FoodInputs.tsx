@@ -26,8 +26,6 @@ const FoodInputs: React.FC<FoodInputsType> = ({
 }) => {
   const [isError, setIsError] = useState(false);
 
-  console.log(list);
-
   useEffect(() => {
     if (list.length < 5) setIsError(false);
   }, [list]);

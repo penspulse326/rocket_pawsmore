@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import RecordFormLayout from "../RecordFormLayout";
 import ToggleGroup from "@/components/ToggleGroup";
 import FoodInputs from "./FoodInputs";
 import CareInputs from "./CareInputs";
@@ -52,7 +51,9 @@ const initailState: DailyFormStateType = {
   remark: "",
 };
 
-const DailyForm = () => {
+interface PropsType {}
+
+const DailyForm: React.FC<PropsType> = ({}) => {
   const [formState, setFormState] = useState(initailState);
 
   const handleFoodChange = (value: FoodType[]) => {
@@ -98,79 +99,74 @@ const DailyForm = () => {
   };
 
   return (
-    <RecordFormLayout category="daily">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <ToggleGroup title="一般">
-          <ul className="flex flex-col gap-4 mt-2">
-            <li className="flex items-center">
-              <span className="mr-8 font-semibold">體重</span>
-              <input
-                name="weight"
-                type="number"
-                min={0}
-                value={formState.weight}
-                onChange={(e) => handleTextChange("weight", e.target.value)}
-                className="form-input mr-1 w-16"
-              />
-              <Select
-                title="單位"
-                options={unitCategory}
-                onChange={(e) => handleSelectChange("weight_unit", e)}
-              />
-            </li>
-            <li>
-              <span className="mr-4 font-semibold">飲水量</span>
-              <input
-                type="number"
-                min={0}
-                value={formState.water}
-                onChange={(e) => handleTextChange("water", e.target.value)}
-                className="form-input mr-1 w-16"
-              />
-              <span>ml</span>
-            </li>
-            <li className="flex">
-              <span className="mr-8 my-1 font-semibold">進食</span>
-              <FoodInputs
-                list={formState.food}
-                onChange={(value: FoodType[]) => handleFoodChange(value)}
-              />
-            </li>
-          </ul>
-        </ToggleGroup>
-        <ToggleGroup title="異常">
-          <SickInputs
-            formState={formState}
-            onRadioChange={handleRadioChange}
-            onSelectChange={handleSelectChange}
-            onMultiChange={handleMultiChange}
-          />
-        </ToggleGroup>
-        <ToggleGroup title="日常照護">
-          <CareInputs
-            formState={formState}
-            onRadioChange={handleRadioChange}
-            onTextChange={handleTextChange}
-          />
-        </ToggleGroup>
-        <div className="flex flex-col gap-4">
-          <span className="text-note">備註</span>
-          <textarea
-            name="remark"
-            value={formState.remark}
-            onChange={(e) => handleTextChange("remark", e.target.value)}
-            placeholder="其他特殊情況或遺漏的資訊，請填寫於此。"
-            className="px-4 py-3 h-24 border border-stroke rounded-[10px]"
-          ></textarea>
-        </div>
-        <button
-          type="submit"
-          className="py-2 rounded-full bg-primary text-white"
-        >
-          儲存
-        </button>
-      </form>
-    </RecordFormLayout>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <ToggleGroup title="一般">
+        <ul className="flex flex-col gap-4 mt-2">
+          <li className="flex items-center">
+            <span className="mr-8 font-semibold">體重</span>
+            <input
+              name="weight"
+              type="number"
+              min={0}
+              value={formState.weight}
+              onChange={(e) => handleTextChange("weight", e.target.value)}
+              className="form-input mr-1 w-16"
+            />
+            <Select
+              title="單位"
+              options={unitCategory}
+              onChange={(e) => handleSelectChange("weight_unit", e)}
+            />
+          </li>
+          <li>
+            <span className="mr-4 font-semibold">飲水量</span>
+            <input
+              type="number"
+              min={0}
+              value={formState.water}
+              onChange={(e) => handleTextChange("water", e.target.value)}
+              className="form-input mr-1 w-16"
+            />
+            <span>ml</span>
+          </li>
+          <li className="flex">
+            <span className="mr-8 my-1 font-semibold">進食</span>
+            <FoodInputs
+              list={formState.food}
+              onChange={(value: FoodType[]) => handleFoodChange(value)}
+            />
+          </li>
+        </ul>
+      </ToggleGroup>
+      <ToggleGroup title="異常">
+        <SickInputs
+          formState={formState}
+          onRadioChange={handleRadioChange}
+          onSelectChange={handleSelectChange}
+          onMultiChange={handleMultiChange}
+        />
+      </ToggleGroup>
+      <ToggleGroup title="日常照護">
+        <CareInputs
+          formState={formState}
+          onRadioChange={handleRadioChange}
+          onTextChange={handleTextChange}
+        />
+      </ToggleGroup>
+      <div className="flex flex-col gap-4">
+        <span className="text-note">備註</span>
+        <textarea
+          name="remark"
+          value={formState.remark}
+          onChange={(e) => handleTextChange("remark", e.target.value)}
+          placeholder="其他特殊情況或遺漏的資訊，請填寫於此。"
+          className="px-4 py-3 h-24 border border-stroke rounded-[10px]"
+        ></textarea>
+      </div>
+      <button type="submit" className="py-2 rounded-full bg-primary text-white">
+        儲存
+      </button>
+    </form>
   );
 };
 

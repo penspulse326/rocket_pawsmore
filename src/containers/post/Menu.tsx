@@ -1,5 +1,5 @@
 import { fetchDeletePost } from "@/common/fetch/post";
-import { MediaType } from "@/common/lib/enums";
+import { MediaType } from "@/types/enums";
 import { RootState } from "@/common/redux/store";
 import { IconDotsVertical } from "@tabler/icons-react";
 import { useState } from "react";

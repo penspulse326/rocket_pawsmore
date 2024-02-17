@@ -17,7 +17,7 @@ import Mask from "../hint/Mask";
 import { mediaUpload } from "@/common/fetch/mediaManager";
 import { fetchAddPost } from "@/common/fetch/post";
 
-import { MediaType } from "@/common/lib/enums";
+import { MediaType } from "@/types/enums";
 import type { RootState } from "@/common/redux/store";
 
 interface UploadViewPropsType {

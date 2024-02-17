@@ -15,7 +15,7 @@ import CommentMenu from "./CommentMenu";
 
 import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
-import { MediaType } from "@/common/lib/enums";
+import { MediaType } from "@/types/enums";
 import LikeBtn from "./LikeBtn";
 
 interface PropsType {

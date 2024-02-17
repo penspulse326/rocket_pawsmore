@@ -12,7 +12,7 @@ import { fetchGetComment } from "@/common/fetch/comment";
 
 import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
-import { MediaType } from "@/common/lib/enums";
+import { MediaType } from "@/types/enums";
 import LikeBtn from "@/components/post/LikeBtn";
 import { fetchLikePost } from "@/common/fetch/post";
 import Menu from "./Menu";
