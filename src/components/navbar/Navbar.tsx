@@ -52,6 +52,8 @@ const Navbar: React.FC = () => {
     const response = await fetchCheckAuth(localToken);
     if (!response.ok) {
       alert("登入狀態過期，請重新登入");
+      clearToken();
+      setIsLoggedIn(false);
     }
 
     dispatch(setUserInfo({ ...response.data, token }));
