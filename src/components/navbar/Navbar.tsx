@@ -12,8 +12,7 @@ import useToken from "@/common/hooks/useToken";
 import { fetchCheckAuth } from "@/common/fetch/auth";
 
 const Navbar: React.FC = () => {
-  // 登入後的 Navbar 的生命週期不會到剛存進來的 token，重新整理後才會取到
-  const { token: localToken, setToken, clearToken } = useToken();
+  const { token: localToken, clearToken } = useToken();
   const router = useRouter();
   const dispatch = useDispatch();
   const { token, headShot, username } = useSelector(
@@ -23,26 +22,14 @@ const Navbar: React.FC = () => {
   const [page, setPage] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    if (token) {
-      // 在登入頁面登入，會執行這裡，因為 redux 的 token 有被改變
-      // 但是這時還取不到 localToken
-      setToken(token);
-      setIsLoggedIn(true);
-      return;
-    }
-
-    if (localToken) {
-      console.log("執行");
-      // 從其他頁面進來會執行這裡
-      checkLogin();
-    }
-  }, [token, localToken]);
-
   const sliderStyle = `${
     page ? "slide-r" : "slide-l"
   } absolute left-0 bottom-0 w-[50%] h-1 bg-gradient-to-r from-[#7CCBFF] via-[#7CCBFF] to-[#0057FF]
 `;
+
+  useEffect(() => {
+    checkLogin();
+  }, [localToken]);
 
   const checkLogin = async () => {
     if (!localToken) {
@@ -56,7 +43,7 @@ const Navbar: React.FC = () => {
       setIsLoggedIn(false);
     }
 
-    dispatch(setUserInfo({ ...response.data, token }));
+    dispatch(setUserInfo({ ...response.data, token: localToken }));
     setIsLoggedIn(true);
   };
 

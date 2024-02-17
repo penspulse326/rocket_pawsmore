@@ -19,6 +19,7 @@ import { fetchAddPost } from "@/common/fetch/post";
 
 import { MediaType } from "@/common/lib/enums";
 import type { RootState } from "@/common/redux/store";
+import { fetchCheckAuth } from "@/common/fetch/auth";
 
 interface UploadViewPropsType {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -84,6 +85,18 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
     event.preventDefault();
 
     setIsLoading(true);
+
+    // 確認 token 時效
+    try {
+      const response = await fetchCheckAuth(token);
+      if (!response.ok) {
+        alert("登入狀態過期，請重新登入");
+        return;
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      return;
+    }
 
     // 上傳圖片影片
     try {

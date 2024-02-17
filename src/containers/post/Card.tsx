@@ -16,6 +16,7 @@ import { MediaType } from "@/common/lib/enums";
 import LikeBtn from "@/components/post/LikeBtn";
 import { fetchLikePost } from "@/common/fetch/post";
 import Menu from "./Menu";
+import { fetchCheckAuth } from "@/common/fetch/auth";
 
 interface PropsType {
   data: PostDataType;
@@ -26,8 +27,8 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
   const { token, userId } = useSelector((state: RootState) => state.userInfo);
 
   useEffect(() => {
-    if (token) getComments();
-  }, [token]);
+    getComments();
+  }, [data]);
 
   const {
     userId: authorId,
@@ -103,6 +104,19 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
   };
 
   const handleLikeToggle = async () => {
+    if (!token) {
+      alert("請先登入");
+      return;
+    }
+
+    setIsLiked(!isLiked);
+
+    const auth = await fetchCheckAuth(token);
+    if (!auth.ok) {
+      alert("登入狀態過期，請重新登入");
+      return;
+    }
+
     const response = await fetchLikePost(token, postId);
     if (response.ok) getList();
   };
@@ -213,7 +227,9 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
           </button>
         )}
       </section>
-      <InputComment postId={postId} getComments={getComments} isEffect />
+      {token && (
+        <InputComment postId={postId} getComments={getComments} isEffect />
+      )}
     </div>
   );
 };
