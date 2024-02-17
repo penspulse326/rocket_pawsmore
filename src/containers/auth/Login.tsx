@@ -10,7 +10,6 @@ import TextInput from "@/components/form/profile/TextInput";
 import PasswordInput from "@/components/form/profile/PasswordInput";
 import { errorText } from "@/common/lib/messageText";
 import { fetchLogin } from "@/common/fetch/auth";
-import useToken from "@/common/hooks/useToken";
 
 interface LoginFormType {
   email: string;
@@ -27,7 +26,6 @@ const Login: React.FC = () => {
 
   const router = useRouter();
   const dispatch = useDispatch();
-  const { setToken } = useToken();
   const [isLoading, setIsLoading] = useState(false);
   const [statusCode, setStatusCode] = useState(0);
 
@@ -55,10 +53,8 @@ const Login: React.FC = () => {
 
     const response = await fetchLogin(data);
     if (response.ok) {
-      console.log("偷肯", response.data.token);
-      setToken(response.data.token);
       dispatch(setUserInfo(response.data));
-      router.push("/social");
+      router.push("/");
     }
     setStatusCode(response.status);
 

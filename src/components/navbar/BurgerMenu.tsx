@@ -28,7 +28,7 @@ const Menu: React.FC<MenuPropsType> = ({
       <div
         className={`${
           isMenuOpen && "shadow-custom"
-        } relative col-span-1 w-20 border border-stroke rounded-[30px] duration-300`}
+        } relative w-20 border border-stroke rounded-[30px] duration-300`}
       >
         <button
           type="button"
@@ -41,6 +41,7 @@ const Menu: React.FC<MenuPropsType> = ({
               src={headShot || "/images/default-photo.png"}
               alt={username}
               fill={true}
+              sizes="100%"
               style={{ objectFit: "cover" }}
             />
           </div>
