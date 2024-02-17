@@ -13,8 +13,6 @@ import { fetchSignup } from "@/common/fetch/auth";
 
 import type { LoginFormType, SignUpFormType } from "@/types";
 
-import useToken from "@/common/hooks/useToken";
-
 const SignUp: React.FC = () => {
   const {
     handleSubmit,
@@ -29,7 +27,6 @@ const SignUp: React.FC = () => {
 
   const router = useRouter();
   const dispatch = useDispatch();
-  const { setToken } = useToken();
   const [statusCode, setStatusCode] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -44,9 +41,8 @@ const SignUp: React.FC = () => {
 
     const response = await fetchSignup(formData);
     if (response.ok) {
-      setToken(response.data.token);
       dispatch(setUserInfo(response.data));
-      router.push("/social");
+      router.push("/");
     }
 
     setStatusCode(response.status);

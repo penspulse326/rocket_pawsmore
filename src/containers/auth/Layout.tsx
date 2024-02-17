@@ -11,21 +11,26 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
             <Image
               src="/images/logo-rounded.svg"
               alt="logo"
+              priority={true}
               width={82}
               height={82}
             />
             <Image
               src="/images/logo-text.svg"
               alt="logo-text"
+              priority={true}
               width={297}
               height={62}
+              className="w-auto h-auto"
             />
           </div>
           <Image
             src="/images/banner-home.png"
             alt="home-banner"
+            priority={true}
             width={563}
             height={70}
+            className="w-auto h-auto"
           />
         </header>
         {/* 表單*/}
