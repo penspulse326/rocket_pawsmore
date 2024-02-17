@@ -8,13 +8,18 @@ import { IconDotsVertical } from "@tabler/icons-react";
 import Footer from "@/components/Footer";
 import AddPet from "@/components/AddPet";
 import NoContent from "@/components/NoContent";
+
 import Mask from "@/components/hint/Mask";
 import AlertCard from "@/components/hint/AlertCard";
+import NetworkList from "@/components/petProfile/NetworkList";
+import Loading from "@/components/hint/Loading";
 
 import { RootState } from "@/common/redux/store";
 import getPetSpecies from "@/common/helpers/getPetSpecies";
 import getPetAge from "@/common/helpers/getPetAge";
-import { PetDataType } from "@/types";
+import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
+
+import { PetDataType, RequestedUserInfoType } from "@/types";
 
 const UserProfile: React.FC = () => {
   const router = useRouter();
@@ -22,17 +27,19 @@ const UserProfile: React.FC = () => {
 
   const userInfo = useSelector((state: RootState) => state.userInfo);
 
-  const [username, setUsername] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [userId, setUserId] = useState("");
-  const [headShot, setHeadShot] = useState("");
-  const [intro, setIntro] = useState("");
-  const [link, setLink] = useState("");
+
+  const [userData, setUserData] = useState<RequestedUserInfoType | undefined>();
 
   const [petList, setPetList] = useState<PetDataType[] | undefined>();
   const [isMe, setIsMe] = useState(true);
+  const [showFollowing, setShowFollowing] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
+
       try {
         const response = await fetch(`/api/user/${userAccount}`, {
           method: "GET",
@@ -41,12 +48,10 @@ const UserProfile: React.FC = () => {
           throw new Error("failed");
         }
         const data = await response.json();
-
-        setUsername(data.data.name);
-        setUserId(data.data.userId);
-        setHeadShot(data.data.headshot);
-        setIntro(data.data.introduction);
-        setLink(data.data.link);
+        if (data) {
+          setUserData(data.data);
+          setUserId(data.data.userId);
+        }
       } catch (error) {}
     };
 
@@ -63,15 +68,18 @@ const UserProfile: React.FC = () => {
         }
         const data = await response.json();
         setPetList(data.data);
+
+        setIsLoading(false);
       } catch (error) {}
     };
-
-    fetchData();
+    userAccount && fetchData();
     if (userId !== "") {
       fetchPetList();
     }
     userInfo.account !== userAccount && setIsMe(false);
   }, [userInfo, userAccount, userId]);
+
+  const { name, headshot, introduction, link, following } = userData || {};
 
   const Profile: React.FC = () => {
     const [isShown, setIsShown] = useState(false);
@@ -94,8 +102,8 @@ const UserProfile: React.FC = () => {
         />
       </svg>
     );
-    const htmlIntro = intro?.split("\n");
-    const htmlLink = link?.length > 35 ? link.slice(0, 33) + "⋯" : link;
+    const htmlIntro = introduction?.split("\n");
+    const htmlLink = link && link.length > 35 ? link.slice(0, 33) + "⋯" : link;
 
     const Report = () => {
       const [isAlertShown, setIsAlertShown] = useState(false);
@@ -124,12 +132,17 @@ const UserProfile: React.FC = () => {
       );
     };
 
+    const handleShowList = () => {
+      setShowFollowing(true);
+      handleFreezeScroll(true);
+    };
+
     return (
       <div className="flex flex-col gap-y-8 max-w-[320px] w-full">
         <div className="flex gap-x-4">
           <div className="w-[128px] h-[128px]">
             <Image
-              src={headShot || "/images/default-photo.svg"}
+              src={headshot || "/images/default-photo.svg"}
               width={128}
               height={128}
               alt="user avatar"
@@ -138,11 +151,15 @@ const UserProfile: React.FC = () => {
           </div>
           <ul className="flex flex-col gap-y-4">
             <ol>
-              <li className="text-[32px]">{username}</li>
+              <li className="text-[32px]">{name}</li>
               <li>@{userAccount}</li>
             </ol>
-            <li className="flex gap-x-1">
-              <span className="font-semibold">463</span>追蹤中
+            <li
+              className="flex gap-x-1 hover:cursor-pointer"
+              onClick={handleShowList}
+            >
+              <span className="font-semibold">{following?.length || 0}</span>
+              追蹤中
             </li>
           </ul>
         </div>
@@ -259,14 +276,28 @@ const UserProfile: React.FC = () => {
       </div>
     );
   };
+
   return (
-    <main className="mt-[112px] flex flex-col gap-y-16">
-      <div className="flex gap-x-16 justify-center">
-        <Profile />
-        <PetList />
-      </div>
-      <Footer />
-    </main>
+    <>
+      {isLoading && <Loading />}
+      <main className="mt-[112px] flex flex-col gap-y-16">
+        <div className="flex gap-x-16 justify-center">
+          <Profile />
+          <PetList />
+          {following && showFollowing && (
+            <Mask setIsOpen={setShowFollowing} maskType="fans">
+              <NetworkList
+                type="following"
+                isClosed={showFollowing}
+                setIsClosed={setShowFollowing}
+                userList={following}
+              />
+            </Mask>
+          )}
+        </div>
+        <Footer />
+      </main>
+    </>
   );
 };
 
