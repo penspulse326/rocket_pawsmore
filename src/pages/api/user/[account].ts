@@ -11,13 +11,22 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const body = req.body;
+  // const requestBody = req.body;
+  // const token = req.headers.authorization;
+
+  // if (!token) {
+  //   return res.status(401).json({ message: "請重新登入" });
+  // }
+
+  const account = req.query.account;
 
   try {
-    const response = await fetch(apiBase.LOGIN, {
-      method: "POST",
-      body,
-      headers: { "Content-Type": "application/json" },
+    const response = await fetch(`${apiBase.CHECK_MEMBER}/${account}`, {
+      method: "GET",
+      // headers: {
+      //   "Content-Type": "application/json",
+      //   Authorization: token,
+      // },
     });
 
     const result = await response.json();
@@ -32,8 +41,6 @@ export default async function handler(
         break;
     }
   } catch (error) {
-    // 一律拋出未知的錯誤 只有在此 Server 端可以查看詳細錯誤
-    console.error("Error:", error);
     res.status(500).json({ message: "未知的錯誤" });
   }
 }

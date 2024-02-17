@@ -15,6 +15,7 @@ import type { CommentDataType, PostDataType } from "@/types";
 import { MediaType } from "@/common/lib/enums";
 import LikeBtn from "@/components/post/LikeBtn";
 import { fetchLikePost } from "@/common/fetch/post";
+import Menu from "./Menu";
 
 interface PropsType {
   data: PostDataType;
@@ -29,6 +30,7 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
   }, [token]);
 
   const {
+    userId: authorId,
     petId,
     postId,
     petAccount,
@@ -81,7 +83,7 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
   }, []);
 
   const getComments = async () => {
-    const response = await fetchGetComment(token, postId);
+    const response = await fetchGetComment(postId);
     if (response.ok) setComments(response.data);
   };
 
@@ -105,6 +107,10 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
     if (response.ok) getList();
   };
 
+  const handleDeletePost = async () => {
+    console.log("delete");
+  };
+
   return (
     <div className="flex flex-col gap-4 p-8 border border-stroke rounded-[32px]">
       <section className="relative">
@@ -115,7 +121,6 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
               data={data}
               comments={comments}
               getComments={getComments}
-              getList={getList}
               toggleLike={handleLikeToggle}
             />
           </Mask>
@@ -146,11 +151,11 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
         {/* 按讚按鈕 */}
         <LikeBtn isLiked={isLiked} onClick={handleLikeToggle} />
       </section>
-      {/* 個人資訊 */}
+      {/* 寵物資訊 */}
       <section className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <Link
-            href="#"
+            href={`/pet/${petAccount}`}
             className="relative max-w-12 max-h-12 w-12 h-12 rounded-full overflow-hidden"
           >
             <Image
@@ -160,45 +165,28 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
               style={{ objectFit: "cover" }}
             />
           </Link>
-          <Link href="#" className="font-bold">
+          <Link href={`/pet/${petAccount}`} className="font-bold">
             {petAccount}
           </Link>
           <span className="w-1 h-1 bg-note rounded-full"></span>
-          <Link
-            href="#"
+          <span
             className="tooltip text-note"
             data-tooltip={moment.utc(createDate).format("YYYY-MM-DD HH:mm")}
           >
             {moment.utc(createDate).fromNow()}
-          </Link>
+          </span>
         </div>
         <div className="flex gap-2 items-center">
           {/* 按讚數 */}
           <IconHeart fill="#808080" color="#808080" />
           <span className="text-note">{likes.length}</span>
           {/* 開啟選單 */}
-          <button
-            type="button"
-            className="relative"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            onBlur={() => setIsMenuOpen(false)}
-          >
-            <IconDotsVertical />
-            {isMenuOpen && (
-              <ul className="absolute right-0 mt-2 p-3 w-28 rounded-3xl bg-white shadow-[0_0px_10px_0_rgba(0,0,0,0.15)]">
-                <li>
-                  <button type="button" className="px-3 py-1">
-                    複製連結
-                  </button>
-                </li>
-                <li>
-                  <button type="button" className="px-3 py-1 text-error">
-                    檢舉貼文
-                  </button>
-                </li>
-              </ul>
-            )}
-          </button>
+          <Menu
+            postId={postId}
+            isAuthor={userId === authorId}
+            media={media}
+            mediaType={mediaType}
+          />
         </div>
       </section>
       {/* 內文 */}
@@ -208,7 +196,9 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
         <ul>
           {comments.slice(0, 2).map(({ id, userAccount, commentContent }) => (
             <li key={`${id}-${userAccount}`}>
-              <span className="mr-4 font-bold">{userAccount}</span>
+              <Link href={`/member/${userAccount}`} className="mr-4 font-bold">
+                {userAccount}
+              </Link>
               <span>{commentContent}</span>
             </li>
           ))}

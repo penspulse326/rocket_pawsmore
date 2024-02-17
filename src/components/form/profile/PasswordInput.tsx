@@ -35,6 +35,7 @@ const PasswordInpput = forwardRef<HTMLInputElement, InputPropsType>(
             ref={ref}
             onChange={onChange}
             onBlur={onBlur}
+            autoComplete="off"
             className="w-full outline-none"
           />
           {/* an beautiful eye */}

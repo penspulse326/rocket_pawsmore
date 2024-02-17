@@ -20,25 +20,21 @@ export default async function handler(
   const id = req.query.id;
 
   try {
-    const response = await fetch(`${apiBase.GET_PET}/${id}`, {
-      method: "GET",
+    const response = await fetch(`${apiBase.DELETE_POST}/${id}`, {
+      method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
         Authorization: token,
       },
     });
 
     const result = await response.json();
-    const { statusCode, message, data } = result;
+    const { message, data } = result;
 
-    switch (statusCode) {
-      case 200:
-        res.status(200).json({ message, data });
-        break;
-      default:
-        res.status(statusCode).json({ message });
-        break;
+    if (!response.ok) {
+      return res.status(500).json({ message: "未知的錯誤" });
     }
+
+    res.status(200).json({ message, data });
   } catch (error) {
     res.status(500).json({ message: "未知的錯誤" });
   }

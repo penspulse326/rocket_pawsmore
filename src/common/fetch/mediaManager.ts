@@ -47,13 +47,13 @@ export const mediaDelete = async (publicId: string, resourceType: string) => {
       });
 
       if (!response.ok) {
-        reject("Error deleting the photo");
+        reject("Error Deleting");
       }
 
       const result = await response.json();
       resolve(result);
     } catch (error) {
-      console.error("Error deleting the photo:", error);
+      console.error("Error Deleting:", error);
       reject(error);
     }
   });

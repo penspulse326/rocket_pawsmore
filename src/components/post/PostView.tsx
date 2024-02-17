@@ -22,7 +22,6 @@ interface PropsType {
   data: PostDataType;
   comments: CommentDataType[];
   getComments: () => void;
-  getList: () => void;
   toggleLike: () => void;
 }
 
@@ -30,7 +29,6 @@ const PostView: React.FC<PropsType> = ({
   data,
   comments,
   getComments,
-  getList,
   toggleLike,
 }) => {
   const { token, userId } = useSelector((state: RootState) => state.userInfo);
@@ -93,28 +91,27 @@ const PostView: React.FC<PropsType> = ({
           {/* 個人資訊 */}
           <div className="flex gap-2 items-center">
             <Link
-              href="#"
+              href={`/pet/${petAccount}`}
               className="relative max-w-12 max-h-12 w-12 h-12 rounded-full overflow-hidden"
             >
               <Image
-                src={petPhoto || "images/default-photo.png"}
+                src={petPhoto || "/images/default-photo.png"}
                 alt={petAccount}
                 priority={false}
                 fill={true}
                 style={{ objectFit: "cover" }}
               />
             </Link>
-            <Link href="#" className="font-bold">
+            <Link href={`/pet/${petAccount}`} className="font-bold">
               {petAccount}
             </Link>
             <span className="w-1 h-1 bg-note rounded-full"></span>
-            <Link
-              href="#"
+            <span
               className="tooltip text-note text-nowrap"
               data-tooltip={moment(createDate).format("YYYY-MM-DD HH:mm")}
             >
               {moment(createDate).fromNow()}
-            </Link>
+            </span>
           </div>
           {/* 選單 */}
           <PostMenu />
@@ -154,7 +151,10 @@ const PostView: React.FC<PropsType> = ({
                     />
                   </Link>
                   <div className="flex-grow mr-8">
-                    <Link href="#" className="mr-2 font-bold">
+                    <Link
+                      href={`/member/${userAccount}`}
+                      className="mr-2 font-bold"
+                    >
                       {userAccount}
                     </Link>
                     <span

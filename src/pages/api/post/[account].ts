@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import apiBase from "../../apiBase";
+import apiBase from "../apiBase";
 
 interface ResponseType {
   statusCode?: number;
@@ -11,10 +11,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const id = req.query.id as string;
+  const account = req.query.account;
 
   try {
-    const response = await fetch(apiBase.GET_COMMENT(id), {
+    const response = await fetch(`${apiBase.GET_PET_POST}/${account}`, {
       method: "GET",
     });
 
