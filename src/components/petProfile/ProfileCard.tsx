@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import { debounce } from "lodash";
 
 import Image from "next/image";
 import moment from "moment";
@@ -16,7 +17,7 @@ import getPetSpecies from "@/common/helpers/getPetSpecies";
 import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 
 import { RootState } from "@/common/redux/store";
-import { PetDataType } from "@/types";
+import { PetDataType, UserListDataType } from "@/types";
 
 const ProfileCard: React.FC = () => {
   const router = useRouter();
@@ -43,12 +44,16 @@ const ProfileCard: React.FC = () => {
           throw new Error("failed");
         }
         const data = await response.json();
+
         setData(data.data);
+        data.data.petsfollowers.find(
+          (follower: UserListDataType) => userInfo.account === follower.account
+        ) && setIsFollowing(true);
       } catch (error) {}
     };
     petAccount && fetchData();
     petList.find((pet) => pet.petAccount === petAccount) && setIsMyPet(true);
-  }, [petAccount, petList, isFollowing]);
+  }, [petAccount, petList, isFollowing, userInfo]);
 
   if (!data) {
     return null;
@@ -63,14 +68,12 @@ const ProfileCard: React.FC = () => {
     link,
     petPhoto,
     petSpecies,
-    userName,
-    userAccount,
-    userPhoto,
-    followers,
+    petsfollowers,
     petId,
+    owner,
   } = data;
 
-  const handleFollow = async () => {
+  const handleFollow = debounce(async () => {
     try {
       const response = await fetch(`/api/follow/${petAccount}`, {
         method: "PATCH",
@@ -87,7 +90,7 @@ const ProfileCard: React.FC = () => {
         }
       }
     } catch (error) {}
-  };
+  }, 500);
 
   const PetProfile = () => {
     const htmlIntro = petIntro.split("\n");
@@ -136,7 +139,8 @@ const ProfileCard: React.FC = () => {
               handleFreezeScroll(true);
             }}
           >
-            <span className="font-bold pr-1">{followers.length}</span>粉絲
+            <span className="font-bold pr-1">{petsfollowers?.length || 0}</span>
+            粉絲
           </li>
         </ul>
         <ol className="flex flex-col gap-y-2">
@@ -164,6 +168,8 @@ const ProfileCard: React.FC = () => {
     const duration: number = adoptedDate
       ? moment().diff(moment(adoptedDate).format("YYYY-MM-DD"), "days")
       : moment().diff(moment(birthday).format("YYYY-MM-DD"), "days");
+
+    const { userAccount, userName, userPhoto } = owner;
 
     const handleCheckUser = (account: string) => {
       router.push(`/member/${account}`);
@@ -249,8 +255,7 @@ const ProfileCard: React.FC = () => {
                 if (isFollowing) {
                   setIsAlertShown(!isAlertShown);
                   handleFreezeScroll(true);
-                } else {
-                  // setIsFollowing(true);
+                } else if (userInfo.token) {
                   handleFollow();
                 }
               }}
@@ -303,7 +308,7 @@ const ProfileCard: React.FC = () => {
             type="follower"
             isClosed={isDisplayed}
             setIsClosed={setIsDisplayed}
-            userList={followers}
+            userList={petsfollowers}
           />
         </Mask>
       )}
