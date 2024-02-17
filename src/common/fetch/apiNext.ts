@@ -2,6 +2,7 @@ const apiNext = {
   //登入註冊
   SIGN_UP: "/api/auth/signup",
   LOGIN: "/api/auth/login",
+  CHECK_AUTH: "/api/auth/check",
   // 上傳檔案
   UPLOAD: "/api/cld/upload",
   // 會員資料

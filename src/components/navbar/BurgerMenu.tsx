@@ -16,6 +16,13 @@ const Menu: React.FC<MenuPropsType> = ({
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const handleBlur = (event: React.FocusEvent) => {
+    event.stopPropagation();
+    setTimeout(() => {
+      setIsMenuOpen(false);
+    }, 100);
+  };
+
   return (
     <div className="col-span-1 flex justify-end items-center">
       <div
@@ -26,7 +33,7 @@ const Menu: React.FC<MenuPropsType> = ({
         <button
           type="button"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          onBlur={() => setIsMenuOpen(false)}
+          onBlur={handleBlur}
           className="flex items-center gap-2 p-2 w-full h-full"
         >
           <div className="relative w-8 h-8 rounded-full overflow-hidden">
@@ -44,7 +51,7 @@ const Menu: React.FC<MenuPropsType> = ({
         <ul
           className={`${
             isMenuOpen ? "tenkai-t-r" : "fuuin-t-r"
-          } absolute right-0 mt-2 p-3 w-40 rounded-[24px] bg-white shadow-[0_0px_10px_0_rgba(0,0,0,0.15)]`}
+          } absolute right-0 mt-2 p-3 w-40 rounded-[24px] bg-white shadow-custom`}
         >
           <li className="rounded-[30px] hover:bg-secondary duration-300">
             <Link href="#" className="block px-3 py-1 w-full">

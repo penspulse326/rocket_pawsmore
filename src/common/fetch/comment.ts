@@ -44,7 +44,9 @@ export const fetchDeleteComment = async (
       `${apiNext.DELETE_COMMENT(postId, commentId)}`,
       {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
 

@@ -2,13 +2,22 @@ import { IconHome, IconBrandGoogleAnalytics } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, resetState } from "@/common/redux/store";
 
 import BurgerMenu from "./BurgerMenu";
+import useToken from "@/common/hooks/useToken";
+import { fetchCheckAuth } from "@/common/fetch/auth";
+import { setUserInfo } from "@/common/redux/userInfoSlice";
 
 const Navbar: React.FC = () => {
+  const { token, clearToken } = useToken();
+
+  useEffect(() => {
+    checkLogin();
+  }, [token]);
+
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -23,25 +32,20 @@ const Navbar: React.FC = () => {
   } absolute left-0 bottom-0 w-[50%] h-1 bg-gradient-to-r from-[#7CCBFF] via-[#7CCBFF] to-[#0057FF]
 `;
 
-  const handleLogout = () => {
-    dispatch(resetState());
-    router.push("/login");
+  const checkLogin = async () => {
+    if (!token) return;
+    const response = await fetchCheckAuth(token);
+    if (!response.ok) {
+      alert("登入狀態過期，請重新登入");
+    }
+    dispatch(setUserInfo({ ...response.data, token }));
   };
 
-  // 保護路由 驗證使用者是否登入 再決定要不要跳轉
-  // const router = useRouter();
-  // useEffect(() => {
-  //   if ((!userId && router.pathname === "/signup") || "/login") {
-  //     return;
-  //   }
-  //   if (!userId) {
-  //     router.push("/login");
-  //   } else if (!username) {
-  //     router.push("/member/new/create_profile");
-  //   } else {
-  //     router.push("/social");
-  //   }
-  // }, [userId, username]);
+  const handleLogout = () => {
+    dispatch(resetState());
+    clearToken();
+    router.push("/login");
+  };
 
   return (
     <nav className="fixed top-0 z-50 w-[100vw] border-b border-stroke bg-white">
