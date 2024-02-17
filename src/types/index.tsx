@@ -30,6 +30,16 @@ export interface PetFormType {
   link?: string;
 }
 
+export interface RequestedUserInfoType {
+  account: string;
+  following: UserListDataType[];
+  headshot: string;
+  introduction: string;
+  link: string;
+  name: string;
+  userId: number;
+}
+
 export interface UserInfoType {
   userId: number | null;
   username: string;
@@ -38,10 +48,17 @@ export interface UserInfoType {
   token: string;
 }
 
-export interface FollowerDataType {
-  userId: number;
-  userAccount: string;
+export interface UserListDataType {
+  id: number;
+  account: string;
+  name: string;
+  photo: string;
+}
+
+interface OwnerDataType {
   userName: string;
+  userAccount: string;
+  userId: number;
   userPhoto: string;
 }
 
@@ -57,11 +74,8 @@ export interface PetDataType {
   adoptedDate: string;
   petIntro: string;
   link: string;
-  userName: string;
-  userAccount: string;
-  userId: number;
-  userPhoto: string;
-  followers: FollowerDataType[];
+  petsfollowers: UserListDataType[];
+  owner: OwnerDataType;
 }
 
 export interface AddPostType {
