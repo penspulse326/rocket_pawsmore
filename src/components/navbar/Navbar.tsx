@@ -118,9 +118,13 @@ const Navbar: React.FC = () => {
             />
           </>
         ) : (
-          <div className="col-start-3 flex justify-end items-center gap-3 text-primary">
-            <Link href="/login">登入</Link>
-            <Link href="/signup">註冊</Link>
+          <div className="col-start-3 flex justify-end items-center gap-3 text-primary font-semibold">
+            <Link href="/login" className="hover:scale-110 duration-100">
+              登入
+            </Link>
+            <Link href="/signup" className="hover:scale-110 duration-100">
+              註冊
+            </Link>
           </div>
         )}
       </div>
