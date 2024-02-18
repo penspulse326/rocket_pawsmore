@@ -8,19 +8,29 @@ const Title: React.FC = () => {
   if (!data) {
     return null;
   }
-  const { card, type, reserve_type } = data;
+  const { card, type, reserve_type, category } = data;
   const isReminder: boolean = card === "醫療紀錄" && type === "醫療提醒";
+  const isAnniversary: boolean = card === "紀念日";
 
   return (
     <div className="flex gap-x-4 items-center h-9">
-      {isReminder ? (
+      {isAnniversary && (
+        <Image
+          src="/test/icon-flag.svg"
+          width={36}
+          height={36}
+          alt="flag icon"
+        />
+      )}
+      {isReminder && (
         <Image
           src="/test/icon-exclamation.svg"
           width={9}
           height={36}
           alt="exclamation symbol"
         />
-      ) : (
+      )}
+      {!isReminder && !isAnniversary && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="11"
@@ -32,7 +42,7 @@ const Title: React.FC = () => {
         </svg>
       )}
       <span className="text-2xl font-bold">
-        {isReminder ? reserve_type : card}
+        {isReminder ? reserve_type : isAnniversary ? category : card}
       </span>
     </div>
   );

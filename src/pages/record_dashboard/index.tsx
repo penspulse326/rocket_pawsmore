@@ -3,7 +3,7 @@ import moment from "moment";
 
 import CalendarLayout from "@/components/recordDashboard/CalendarLayout";
 import Upcoming from "@/components/recordDashboard/Upcoming";
-import AccountList from "@/components/petInfo/AccountList";
+import AccountList from "@/components/petInfo/PetAccountList";
 import RecordCardLayout from "@/components/recordDashboard/RecordCardLayout";
 import Footer from "@/components/Footer";
 
