@@ -1,4 +1,4 @@
-import { IconHeart, IconDotsVertical } from "@tabler/icons-react";
+import { IconHeart } from "@tabler/icons-react";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,9 +14,7 @@ import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
 import { MediaType } from "@/common/lib/enums";
 import LikeBtn from "@/components/post/LikeBtn";
-import { fetchLikePost } from "@/common/fetch/post";
-import Menu from "./PostMenu";
-import { fetchCheckAuth } from "@/common/fetch/auth";
+import Menu from "../../../components/post/PostMenu";
 import CommentList from "@/components/comment/CommentList";
 
 interface PropsType {
@@ -46,15 +44,9 @@ const PostCard: React.FC<PropsType> = ({ data, getList }) => {
 
   const [comments, setComments] = useState<CommentDataType[]>([]);
   const [isMaskOpen, setIsMaskOpen] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // 檢查是否按過讚
-  useEffect(() => {
-    const isLiked = likes.find((like) => like.userId === userId);
-    if (isLiked) setIsLiked(true);
-    else setIsLiked(false);
-  }, [likes]);
+  const isLiked = likes.some((like) => like.userId === userId);
 
   // 自動播放影片
   useEffect(() => {
@@ -103,31 +95,13 @@ const PostCard: React.FC<PropsType> = ({ data, getList }) => {
     setIsMaskOpen(true);
   };
 
-  const handleLikeToggle = async () => {
-    if (!token) {
-      alert("請先登入");
-      return;
-    }
-
-    setIsLiked(!isLiked);
-
-    const auth = await fetchCheckAuth(token);
-    if (!auth.ok) {
-      alert("登入狀態過期，請重新登入");
-      return;
-    }
-
-    const response = await fetchLikePost(token, postId);
-    if (response.ok) getList();
-  };
-
   return (
     <div className="flex flex-col gap-4 p-8 border border-stroke rounded-[32px]">
       <section className="relative">
         {/* 遮罩 */}
         {isMaskOpen && (
           <Mask setIsOpen={setIsMaskOpen} maskType="post">
-            <PostView data={data} toggleLike={handleLikeToggle} />
+            <PostView data={data} />
           </Mask>
         )}
         {/* 多媒體內容 */}
@@ -156,7 +130,12 @@ const PostCard: React.FC<PropsType> = ({ data, getList }) => {
           )}
         </div>
         {/* 按讚按鈕 */}
-        <LikeBtn isLiked={isLiked} onClick={handleLikeToggle} />
+        <LikeBtn
+          userId={userId}
+          postId={postId}
+          isLiked={isLiked}
+          getList={getList}
+        />
       </section>
       {/* 寵物資訊 */}
       <section className="flex justify-between items-center">
