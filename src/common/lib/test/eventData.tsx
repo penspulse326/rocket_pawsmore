@@ -196,7 +196,7 @@ export const originalData: DataType[] = [
   {
     card: "重要時刻",
     created_at: "2024-02-06",
-    target_date: "2024-02-26",
+    target_date: "2024-02-06",
     category: "驚喜",
     content: "收到「禮物」",
     desc: "收到「禮物」",

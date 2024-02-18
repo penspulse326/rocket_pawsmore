@@ -1,15 +1,48 @@
-import moment from "moment";
+import React, { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Image from "next/image";
-import { useContext } from "react";
-import { DataType } from "@/common/lib/test/eventData";
+import moment from "moment";
+
 import { CategoryContext } from "../CalendarLayout";
 import { MonthContext } from "../CalendarLayout";
+import { PetIdContext } from "@/pages/record_dashboard";
+
 import sortData from "@/common/helpers/sortData";
 import getIconColor from "@/common/helpers/getIconColor";
+import createAnniversary from "@/common/helpers/createAnniversary";
+
+import type { RootState } from "@/common/redux/store";
+import { PetDataType } from "@/types";
+
+import { originalData } from "@/common/lib/test/eventData";
 
 const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
   const { monthState } = useContext(MonthContext);
   const { filterEvent } = useContext(CategoryContext);
+  const { petId } = useContext(PetIdContext);
+
+  const petList = useSelector((state: RootState) => state.petList);
+  const [selectedPet, setSelectedPet] = useState<PetDataType>();
+
+  useEffect(() => {
+    if (petList.length > 0 && petId !== null) {
+      const foundIndex = petList.findIndex((pet) => pet.petId === petId);
+      if (foundIndex !== -1) {
+        setSelectedPet(petList[foundIndex]);
+      }
+    } else {
+      setSelectedPet(petList[0]);
+    }
+  }, [petId, petList]);
+
+  useEffect(() => {
+    selectedPet &&
+      createAnniversary({
+        birthday: selectedPet.birthday,
+        adoptedDate: selectedPet.adoptedDate,
+        petId: selectedPet.petId,
+      });
+  }, [selectedPet]);
 
   const selectedMonth = moment(monthState);
 
@@ -18,6 +51,7 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
   };
 
   const sortedData = sortData();
+
   const eventData = sortedData.filter((event) => {
     if (filterEvent === "全部類型") {
       return sortedData;
@@ -26,13 +60,15 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
     }
   });
 
-  const eventTitle = (prop: DataType): string | null => {
-    const { card, content, title, type, reserve_type } = prop;
+  const eventTitle = (prop: any) => {
+    const { card, content, title, type, reserve_type, category } = prop;
     switch (card) {
       case "日常紀錄":
         return card;
       case "重要時刻":
         return content || null;
+      case "紀念日":
+        return category;
       case "醫療紀錄":
         if (type === "醫療提醒") {
           return reserve_type || null;
@@ -47,8 +83,8 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
   const filteredEvents = eventData.filter(
     (event) =>
       (event.type !== "醫療提醒" &&
-        event.created_at &&
-        moment(event.created_at).format("YYYYMMDD") ===
+        event.target_date &&
+        moment(event.target_date).format("YYYYMMDD") ===
           moment(prop).format("YYYYMMDD")) ||
       (event.type === "醫療提醒" &&
         event.reserve_at &&
@@ -61,7 +97,9 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
         <ol key={index}>
           <li
             className={`flex gap-x-1 items-center ${
-              (event.type !== "醫療提醒" && isCurrentMonth(event.created_at)) ||
+              (event.type !== "醫療提醒" &&
+                event.target_date &&
+                isCurrentMonth(event.target_date)) ||
               (event.type === "醫療提醒" &&
                 event.reserve_at &&
                 isCurrentMonth(event.reserve_at))
@@ -86,6 +124,14 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
               >
                 <circle cx="3" cy="3" r="3" fill={getIconColor(event.card)} />
               </svg>
+            )}
+            {event.card === "紀念日" && (
+              <Image
+                src="/test/icon-flag.svg"
+                width={24}
+                height={24}
+                alt="flag icon"
+              />
             )}
             {eventTitle(event) && eventTitle(event)!.length > 5 ? (
               <>
