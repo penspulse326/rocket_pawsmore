@@ -40,15 +40,18 @@ const LeftBar: React.FC = () => {
       <SwiperList list={petList} />
       {/* 個人連結 */}
       <div
-        className="flex gap-4 p-4 border border-stroke bg-white  rounded-[30px] duration-300 hover:bg-stroke hover:cursor-pointer"
         onClick={() => handleCheckProfile(account)}
+        className="flex gap-4 p-4 border border-stroke bg-white  rounded-[30px] duration-300 hover:bg-stroke hover:cursor-pointer"
       >
         <div className="relative w-[48px] h-[48px] rounded-full overflow-hidden">
           <Image
             src={headShot || "/images/default-photo.png"}
             alt={username}
+            priority={true}
             fill={true}
+            sizes="100%"
             style={{ objectFit: "cover" }}
+            className="w-auto h-auto"
           />
         </div>
         <div>

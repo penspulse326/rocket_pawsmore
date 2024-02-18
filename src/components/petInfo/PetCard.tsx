@@ -11,13 +11,15 @@ const PetCard: React.FC<PetCardProps> = ({ data }) => {
   if (!data) {
     return (
       <div className="flex flex-col gap-7 mx-auto p-4 max-w-[204px] border border-stroke rounded-[30px] bg-white">
-        <div className="relative w-[172px] h-[172px] rounded-[30px] overflow-hidden">
+        <div className="relative w-[172px] h-[172px] rounded-[30px] hover:scale-110">
           <Image
             src="/images/default-photo.png"
             alt="尚未有寵物照片"
             priority={true}
             fill={true}
+            sizes="100%"
             style={{ objectFit: "cover" }}
+            className="w-auto h-auto"
           />
         </div>
         <span className="text-center">尚未有寵物資料</span>
@@ -32,7 +34,7 @@ const PetCard: React.FC<PetCardProps> = ({ data }) => {
     );
   }
 
-  const { petId, petAccount, petName, petPhoto } = data;
+  const { petAccount, petName, petPhoto } = data;
 
   return (
     <div className="flex flex-col gap-4 mx-auto p-4 max-w-[204px] border border-stroke rounded-[30px] bg-white">
@@ -42,7 +44,9 @@ const PetCard: React.FC<PetCardProps> = ({ data }) => {
           alt={petName}
           priority={true}
           fill={true}
+          sizes="100%"
           style={{ objectFit: "cover" }}
+          className="w-auto h-auto hover:scale-110 duration-150"
         />
       </div>
       <div className="flex flex-col gap-1">

@@ -71,7 +71,9 @@ const PostView: React.FC<PropsType> = ({
             alt={petAccount}
             priority={false}
             fill={true}
+            sizes="100%"
             style={{ objectFit: "cover" }}
+            className="w-auto h-auto"
           />
         )}
         {mediaType === MediaType.video && (
@@ -99,7 +101,9 @@ const PostView: React.FC<PropsType> = ({
                 alt={petAccount}
                 priority={false}
                 fill={true}
+                sizes="100%"
                 style={{ objectFit: "cover" }}
+                className="w-auto h-auto"
               />
             </Link>
             <Link href={`/pet/${petAccount}`} className="font-bold">
@@ -108,9 +112,9 @@ const PostView: React.FC<PropsType> = ({
             <span className="w-1 h-1 bg-note rounded-full"></span>
             <span
               className="tooltip text-note text-nowrap"
-              data-tooltip={moment(createDate).format("YYYY-MM-DD HH:mm")}
+              data-tooltip={moment.utc(createDate).format("YYYY-MM-DD HH:mm")}
             >
-              {moment(createDate).fromNow()}
+              {moment.utc(createDate).fromNow()}
             </span>
           </div>
           {/* 選單 */}
@@ -140,14 +144,18 @@ const PostView: React.FC<PropsType> = ({
                   onMouseEnter={() => setHoveredCommentIndex(index)}
                   onMouseLeave={() => setHoveredCommentIndex(-1)}
                 >
-                  <Link href="#" className="shrink-0">
+                  <Link
+                    href="#"
+                    className="relative shrink-0 w-8 h-8 rounded-full overflow-hidden"
+                  >
                     <Image
                       src={userPhoto || "/images/default-photo.png"}
-                      width={32}
-                      height={32}
                       alt={userAccount}
+                      priority={false}
+                      fill={true}
+                      sizes="100%"
                       style={{ objectFit: "cover" }}
-                      className="rounded-full"
+                      className="w-auto h-auto"
                     />
                   </Link>
                   <div className="flex-grow mr-8">

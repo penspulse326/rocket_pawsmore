@@ -1,4 +1,4 @@
-import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
+import { IconChevronDown } from "@tabler/icons-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -31,8 +31,11 @@ const AccountList: React.FC<PropsType> = ({ setId }) => {
           <Image
             src={selectedPet.petPhoto || "/images/default-photo.png"}
             alt={selectedPet.petAccount}
+            priority={false}
             fill={true}
+            sizes="100%"
             style={{ objectFit: "cover" }}
+            className="w-auto h-auto"
           />
         </div>
         <div className="flex grow justify-between items-center">
@@ -40,11 +43,11 @@ const AccountList: React.FC<PropsType> = ({ setId }) => {
             <li>{selectedPet.petName}</li>
             <li className="text-note">@{selectedPet.petAccount}</li>
           </ul>
-          {isExpanded ? (
-            <IconChevronDown size={24} className="mr-2" />
-          ) : (
-            <IconChevronUp size={24} className="mr-2" />
-          )}
+
+          <IconChevronDown
+            size={24}
+            className={`${isExpanded && "rotate-180"} mr-2`}
+          />
         </div>
       </div>
     );
@@ -64,12 +67,14 @@ const AccountList: React.FC<PropsType> = ({ setId }) => {
               key={`${index}-${petAccount}`}
             >
               <div className="relative max-w-12 max-h-12 w-full h-12 rounded-full overflow-hidden">
-                {" "}
                 <Image
                   src={petPhoto || "/images/default-photo.png"}
                   alt={petAccount}
+                  priority={false}
                   fill={true}
+                  sizes="100%"
                   style={{ objectFit: "cover" }}
+                  className="w-auto h-auto"
                 />
               </div>
               <ol className="mr-2 truncate">
@@ -96,7 +101,7 @@ const AccountList: React.FC<PropsType> = ({ setId }) => {
           您尚未建立寵物檔案
         </Link>
       )}
-      {selectedPet && isExpanded && <ExpandedCard />}
+      {isExpanded && <ExpandedCard />}
     </section>
   );
 };

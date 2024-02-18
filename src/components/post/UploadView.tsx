@@ -213,7 +213,7 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
                 <IconMedal size={48} className="mx-auto" />
                 <span className="block mt-4 text-note">加上里程碑</span>
               </button>
-              <div className="flex-grow flex flex-col gap-8 max-w-[250px]">
+              <div className="flex-grow flex flex-col gap-8 max-w-[250px] w-full">
                 {/* 寵物列表 */}
                 <AccountList setId={setSelectedPetId} />
                 {/* 送出 */}
