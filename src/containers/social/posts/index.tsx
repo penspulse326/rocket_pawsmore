@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 
-import BtnPawk from "./Pawk";
+import BtnPawk from "./PawkBtn";
 import Card from "./Card";
-import { fetchGetAllPosts } from "@/common/fetch/post";
 import Loading from "@/components/hint/Loading";
+import { fetchGetAllPosts } from "@/common/fetch/post";
 
 import type { PostDataType } from "@/types";
 
-const List: React.FC = () => {
-  const [list, setList] = useState<PostDataType[]>([]);
+const Posts: React.FC<{ initialPosts: PostDataType[] }> = ({
+  initialPosts,
+}) => {
+  const [list, setList] = useState(initialPosts || []);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -46,4 +48,4 @@ const List: React.FC = () => {
   );
 };
 
-export default List;
+export default Posts;
