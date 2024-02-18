@@ -1,33 +1,33 @@
-import { IconHeart, IconDotsVertical } from "@tabler/icons-react";
+import { IconHeart } from "@tabler/icons-react";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 
-import Mask from "../../components/hint/Mask";
-import PostView from "../../components/post/PostView";
-import InputComment from "@/components/post/InputComment";
+import Mask from "../../../components/hint/Mask";
+import PostView from "../../../components/post/PostView";
+import InputComment from "@/components/comment/InputComment";
 import { fetchGetComment } from "@/common/fetch/comment";
 
 import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
 import { MediaType } from "@/types/enums";
 import LikeBtn from "@/components/post/LikeBtn";
-import { fetchLikePost } from "@/common/fetch/post";
-import Menu from "./Menu";
+import Menu from "../../../components/post/PostMenu";
+import CommentList from "@/components/comment/CommentList";
 
 interface PropsType {
   data: PostDataType;
   getList: () => void;
 }
 
-const Card: React.FC<PropsType> = ({ data, getList }) => {
+const PostCard: React.FC<PropsType> = ({ data, getList }) => {
   const { token, userId } = useSelector((state: RootState) => state.userInfo);
 
   useEffect(() => {
-    if (token) getComments();
-  }, [token]);
+    getComments();
+  }, [data]);
 
   const {
     userId: authorId,
@@ -43,17 +43,10 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
   } = data;
 
   const [comments, setComments] = useState<CommentDataType[]>([]);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMaskOpen, setIsMaskOpen] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // 檢查是否按過讚
-  useEffect(() => {
-    const isLiked = likes.find((like) => like.userId === userId);
-    if (isLiked) setIsLiked(true);
-    else setIsLiked(false);
-  }, [likes]);
+  const isLiked = likes.some((like) => like.userId === userId);
 
   // 自動播放影片
   useEffect(() => {
@@ -102,27 +95,13 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
     setIsMaskOpen(true);
   };
 
-  const handleLikeToggle = async () => {
-    const response = await fetchLikePost(token, postId);
-    if (response.ok) getList();
-  };
-
-  const handleDeletePost = async () => {
-    console.log("delete");
-  };
-
   return (
     <div className="flex flex-col gap-4 p-8 border border-stroke rounded-[32px]">
       <section className="relative">
         {/* 遮罩 */}
         {isMaskOpen && (
           <Mask setIsOpen={setIsMaskOpen} maskType="post">
-            <PostView
-              data={data}
-              comments={comments}
-              getComments={getComments}
-              toggleLike={handleLikeToggle}
-            />
+            <PostView data={data} />
           </Mask>
         )}
         {/* 多媒體內容 */}
@@ -131,10 +110,12 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
             <Image
               src={media}
               alt={petAccount}
-              priority={false}
-              fill={true}
-              style={{ objectFit: "cover" }}
+              priority={true}
               onClick={() => setIsMaskOpen(true)}
+              fill={true}
+              sizes="100%"
+              style={{ objectFit: "cover" }}
+              className="w-auto h-auto cursor-pointer"
             />
           )}
           {mediaType === MediaType.video && (
@@ -144,12 +125,17 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
               autoPlay={true}
               onClick={handleVideoToggle}
               onDoubleClick={handleVideoDoubleClick}
-              className="w-full h-full object-contain"
+              className="w-full h-full bg-black object-contain cursor-pointer"
             />
           )}
         </div>
         {/* 按讚按鈕 */}
-        <LikeBtn isLiked={isLiked} onClick={handleLikeToggle} />
+        <LikeBtn
+          userId={userId}
+          postId={postId}
+          isLiked={isLiked}
+          getList={getList}
+        />
       </section>
       {/* 寵物資訊 */}
       <section className="flex justify-between items-center">
@@ -162,7 +148,9 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
               src={petPhoto || "/images/default-photo.png"}
               alt={petAccount}
               fill={true}
+              sizes="100%"
               style={{ objectFit: "cover" }}
+              className="w-auto h-auto"
             />
           </Link>
           <Link href={`/pet/${petAccount}`} className="font-bold">
@@ -192,30 +180,17 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
       {/* 內文 */}
       <p>{postContent}</p>
       {/* 留言 */}
-      <section>
-        <ul>
-          {comments.slice(0, 2).map(({ id, userAccount, commentContent }) => (
-            <li key={`${id}-${userAccount}`}>
-              <Link href={`/member/${userAccount}`} className="mr-4 font-bold">
-                {userAccount}
-              </Link>
-              <span>{commentContent}</span>
-            </li>
-          ))}
-        </ul>
-        {comments.length > 2 && (
-          <button
-            type="button"
-            onClick={() => setIsMaskOpen(true)}
-            className="mt-1 text-note"
-          >
-            查看所有留言
-          </button>
-        )}
-      </section>
-      <InputComment postId={postId} getComments={getComments} isEffect />
+      <CommentList
+        from="postList"
+        postId={postId}
+        comments={comments}
+        onClick={() => setIsMaskOpen(true)}
+      />
+      {token && (
+        <InputComment postId={postId} getComments={getComments} isEffect />
+      )}
     </div>
   );
 };
 
-export default Card;
+export default PostCard;

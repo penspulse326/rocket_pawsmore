@@ -1,9 +1,36 @@
+import React, { useState, useEffect, useContext } from "react";
+import { useSelector } from "react-redux";
 import Image from "next/image";
 import moment from "moment";
+
+import { PetIdContext } from "@/pages/record_dashboard";
+import type { RootState } from "@/common/redux/store";
+import type { PetDataType } from "@/types";
+
 import { originalData } from "@/common/lib/test/eventData";
 
-const Upcoming = () => {
-  const Reminders = () => {
+const Upcoming: React.FC = () => {
+  const { petId } = useContext(PetIdContext);
+  const petList = useSelector((state: RootState) => state.petList);
+
+  const [selectedPet, setSelectedPet] = useState<PetDataType>();
+
+  useEffect(() => {
+    if (petList.length > 0 && petId !== null) {
+      const foundIndex = petList.findIndex((pet) => pet.petId === petId);
+      if (foundIndex !== -1) {
+        setSelectedPet(petList[foundIndex]);
+      }
+    } else {
+      setSelectedPet(petList[0]);
+    }
+  }, [petId, petList]);
+
+  if (!selectedPet) {
+    return null;
+  }
+
+  const Reminders: React.FC = () => {
     const eventData = originalData
       // 篩選即將到來事件
       .filter(
@@ -39,7 +66,9 @@ const Upcoming = () => {
       </div>
     );
   };
-  const Moments = () => {
+  const Moments: React.FC = () => {
+    const { birthday, adoptedDate } = selectedPet;
+
     return (
       <div className="flex flex-col gap-y-2 w-1/2">
         <div className="flex gap-x-1 items-center">
@@ -52,13 +81,15 @@ const Upcoming = () => {
           <div>紀念日</div>
         </div>
         <ul className="flex gap-x-4">
-          <li className="w-[42px]">2/2</li>
+          <li className="w-[42px]">{moment(birthday).format("M/D")}</li>
           <li>生日</li>
         </ul>
-        <ul className="flex gap-x-4">
-          <li className="w-[42px]">2/22</li>
-          <li>領養日</li>
-        </ul>
+        {adoptedDate && (
+          <ul className="flex gap-x-4">
+            <li className="w-[42px]">{moment(adoptedDate).format("M/D")}</li>
+            <li>領養日</li>
+          </ul>
+        )}
       </div>
     );
   };

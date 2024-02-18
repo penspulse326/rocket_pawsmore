@@ -10,6 +10,7 @@ import TextInput from "@/components/form/profile/TextInput";
 import PasswordInput from "@/components/form/profile/PasswordInput";
 import { errorText } from "@/common/lib/messageText";
 import { fetchLogin } from "@/common/fetch/auth";
+import useToken from "@/common/hooks/useToken";
 
 interface LoginFormType {
   email: string;
@@ -24,6 +25,7 @@ const Login: React.FC = () => {
     formState: { errors, isValid },
   } = useForm<LoginFormType>();
 
+  const { setToken } = useToken();
   const router = useRouter();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -54,6 +56,7 @@ const Login: React.FC = () => {
     const response = await fetchLogin(data);
     if (response.ok) {
       dispatch(setUserInfo(response.data));
+      setToken(response.data.token);
       router.push("/");
     }
     setStatusCode(response.status);

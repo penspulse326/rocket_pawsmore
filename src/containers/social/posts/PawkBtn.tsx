@@ -1,18 +1,29 @@
 import { IconPhoto, IconMovie, IconMedal } from "@tabler/icons-react";
 import { useState } from "react";
 
-import Mask from "../../components/hint/Mask";
-import UploadView from "../../components/post/UploadView";
+import Mask from "../../../components/hint/Mask";
+import UploadView from "../../../components/post/UploadView";
+import { useSelector } from "react-redux";
+import { RootState } from "@/common/redux/store";
 
 const Pawk = () => {
+  const { token } = useSelector((state: RootState) => state.userInfo);
   const [isUploadOpen, setIsUploadOpen] = useState(false);
+
+  const handleClick = () => {
+    if (!token) {
+      alert("請先登入");
+      return;
+    }
+    setIsUploadOpen(!isUploadOpen);
+  };
 
   return (
     <section>
       {/* 貼文按鈕 */}
       <div
-        className="px-8 pt-8 pb-6 border border-stroke rounded-[30px]"
-        onClick={() => setIsUploadOpen(!isUploadOpen)}
+        className="px-8 pt-8 pb-6 border border-stroke rounded-[30px] cursor-pointer"
+        onClick={handleClick}
       >
         {isUploadOpen && (
           <Mask maskType="upload" setIsOpen={setIsUploadOpen}>

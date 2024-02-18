@@ -10,6 +10,7 @@ const RightBar: React.FC = () => {
       <section className="flex items-center gap-2 mt-8 px-8 py-4 rounded-full bg-stroke">
         <input
           type="text"
+          name="search"
           placeholder="搜尋名稱、分類⋯⋯"
           className="w-full outline-none bg-transparent"
         />

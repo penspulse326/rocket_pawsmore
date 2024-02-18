@@ -1,12 +1,16 @@
 import React, { createContext, useMemo } from "react";
 import moment from "moment";
 import { IconChevronUp, IconEdit } from "@tabler/icons-react";
+
 import { DataType } from "@/common/lib/test/eventData";
+
 import Title from "./card/Title";
 import ShareBtn from "./card/ShareBtn";
+
 import Moment from "./content/Moment";
 import Medical from "./content/Medical";
 import Daily from "./content/Daily";
+import Anniversary from "./content/Anniversary";
 
 export const DataContext = createContext<DataType | undefined>(undefined);
 
@@ -63,6 +67,8 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
           return <Moment />;
         case "日常紀錄":
           return <Daily />;
+        case "紀念日":
+          return <Anniversary />;
         default:
           return null;
       }

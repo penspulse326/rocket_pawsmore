@@ -11,10 +11,12 @@ const apiBase = {
   CREATE_PET: `${apiUrl}/member/pets`,
   GET_PET: `${apiUrl}/member/pets`, // 動態路由 /:petAccount
   UPDATE_PET: `${apiUrl}/member/pets/update`, // 動態路由 /:petId
+  FOLLOW_PET: `${apiUrl}/social/follow`, // 動態路由 /:petAccount
   GET_PET_LIST: `${apiUrl}/member/pets/userpets`, // 動態路由 /:userId
   // 貼文
   GET_ALL_POST: `${apiUrl}/social/posts/all`,
   GET_PET_POST: `${apiUrl}/social/posts/pet`, // 動態路由 /:petAccount
+  GET_SINGLE_POST: `${apiUrl}/social/posts`, // 動態路由 /:postId
   ADD_POST: `${apiUrl}/social/posts`, // 動態路由 /:petId
   DELETE_POST: `${apiUrl}/social/posts/delete`, // 動態路由 /:postId
   LIKE_POST: (id: string) => `${apiUrl}/social/posts/${id}/likes`, // 動態路由 /:postId

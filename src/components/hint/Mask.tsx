@@ -1,6 +1,8 @@
 import { IconX } from "@tabler/icons-react";
 import { ReactNode, useEffect } from "react";
 
+import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
+
 interface MaskPropsType {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   children: ReactNode;
@@ -21,12 +23,14 @@ const Mask: React.FC<MaskPropsType> = ({ setIsOpen, children, maskType }) => {
 
     const target = e.target as HTMLElement;
     if (target.classList.contains("mask")) setIsOpen(false);
+    handleFreezeScroll(false);
   };
 
   return (
     <div
       onClick={handleCloseClick}
       className="mask fixed top-0 left-0 z-50 flex justify-center items-center w-full h-full bg-black/50"
+      tabIndex={0}
     >
       {maskType === "post" && (
         <button type="button" className="fixed top-12 right-12">

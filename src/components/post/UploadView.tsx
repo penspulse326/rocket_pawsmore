@@ -19,6 +19,7 @@ import { fetchAddPost } from "@/common/fetch/post";
 
 import { MediaType } from "@/types/enums";
 import type { RootState } from "@/common/redux/store";
+import { fetchCheckAuth } from "@/common/fetch/auth";
 
 interface UploadViewPropsType {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -84,6 +85,18 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
     event.preventDefault();
 
     setIsLoading(true);
+
+    // 確認 token 時效
+    try {
+      const response = await fetchCheckAuth(token);
+      if (!response.ok) {
+        alert("登入狀態過期，請重新登入");
+        return;
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      return;
+    }
 
     // 上傳圖片影片
     try {
@@ -200,7 +213,7 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
                 <IconMedal size={48} className="mx-auto" />
                 <span className="block mt-4 text-note">加上里程碑</span>
               </button>
-              <div className="flex-grow flex flex-col gap-8 max-w-[250px]">
+              <div className="flex-grow flex flex-col gap-8 max-w-[250px] w-full">
                 {/* 寵物列表 */}
                 <AccountList setId={setSelectedPetId} />
                 {/* 送出 */}

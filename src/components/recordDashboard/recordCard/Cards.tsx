@@ -17,7 +17,7 @@ const Cards: React.FC = () => {
       {sortedData
         .filter(
           (data) =>
-            (data.created_at === selectedDate && data.type !== "醫療提醒") ||
+            (data.target_date === selectedDate && data.type !== "醫療提醒") ||
             data.reserve_at === selectedDate
         )
         .map((data, index) => (

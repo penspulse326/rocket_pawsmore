@@ -15,6 +15,7 @@ const apiNext = {
   // 貼文
   GET_ALL_POSTS: `${baseUrl}/api/post/all`,
   GET_PET_POSTS: (petId: number) => `${baseUrl}/api/post/list?petId=${petId}`,
+  GET_SINGLE_POST: `${baseUrl}/api/post/single`, // 動態路由 /:postId
   ADD_POST: `${baseUrl}/api/post/add`, // 動態路由 /:petId
   LIKE_POST: `${baseUrl}/api/post/like`, // 動態路由 /:postId
   DELETE_POST: `${baseUrl}/api/post/delete`, // 動態路由 /:postId

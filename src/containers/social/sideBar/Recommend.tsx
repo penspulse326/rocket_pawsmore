@@ -24,13 +24,17 @@ const Recommend: React.FC = () => {
         {accountList.map(({ pet_id, pet_name, pet_account, photoUrl }) => (
           <li key={pet_id} className="flex justify-between items-center">
             <div className="flex items-center gap-4">
-              <Link href="#">
+              <Link
+                href="#"
+                className="relative w-12 h-12 rounded-full overflow-hidden"
+              >
                 <Image
                   src={photoUrl}
-                  width={48}
-                  height={48}
                   alt={pet_name}
-                  className="rounded-full"
+                  priority={false}
+                  fill={true}
+                  sizes="100%"
+                  className="w-auto h-auto"
                 />
               </Link>
               <Link href="#">

@@ -1,40 +1,32 @@
-import {
-  IconHeart,
-  IconMessageCircle,
-  IconDotsVertical,
-} from "@tabler/icons-react";
+import { IconHeart, IconMessageCircle } from "@tabler/icons-react";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import InputComment from "./InputComment";
+import CommentList from "../comment/CommentList";
+import InputComment from "../comment/InputComment";
 import PostMenu from "./PostMenu";
-import CommentMenu from "./CommentMenu";
+import LikeBtn from "./LikeBtn";
+import { fetchGetSinglePost } from "@/common/fetch/post";
+import { fetchGetComment } from "@/common/fetch/comment";
 
+import { MediaType } from "@/common/lib/enums";
 import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
-import { MediaType } from "@/types/enums";
-import LikeBtn from "./LikeBtn";
 
 interface PropsType {
   data: PostDataType;
-  comments: CommentDataType[];
-  getComments: () => void;
-  toggleLike: () => void;
 }
 
-const PostView: React.FC<PropsType> = ({
-  data,
-  comments,
-  getComments,
-  toggleLike,
-}) => {
-  const { token, userId } = useSelector((state: RootState) => state.userInfo);
+const PostView: React.FC<PropsType> = ({ data }) => {
+  const { userId } = useSelector((state: RootState) => state.userInfo);
+  const [postData, setPostData] = useState<PostDataType>(data);
+  const [comments, setComments] = useState<CommentDataType[]>([]);
 
   const {
-    petId,
+    userId: authorId,
     postId,
     petAccount,
     petPhoto,
@@ -43,23 +35,24 @@ const PostView: React.FC<PropsType> = ({
     mediaType,
     likes,
     createDate,
-  } = data;
+  } = postData;
 
-  const [isLiked, setIsLiked] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [hoveredCommentIndex, setHoveredCommentIndex] = useState(-1);
-  const scrollRef = useRef<HTMLLIElement | null>(null);
+  const isLiked = likes.some((like) => like.userId === userId);
 
+  const getPost = async () => {
+    const response = await fetchGetSinglePost(postId);
+    if (response.ok) setPostData(response.data);
+  };
+
+  const getComments = async () => {
+    const response = await fetchGetComment(postId);
+    if (response.ok) setComments(response.data);
+  };
+
+  // 讀取留言
   useEffect(() => {
-    if (token) getComments();
-  }, [token]);
-
-  // 檢查是否按過讚
-  useEffect(() => {
-    const isLiked = likes.find((like) => like.userId === userId);
-    if (isLiked) setIsLiked(true);
-    else setIsLiked(false);
-  }, [likes]);
+    getComments();
+  }, [data]);
 
   return (
     <section className="flex gap-8 p-8 rounded-[32px] bg-white">
@@ -71,7 +64,9 @@ const PostView: React.FC<PropsType> = ({
             alt={petAccount}
             priority={false}
             fill={true}
+            sizes="100%"
             style={{ objectFit: "cover" }}
+            className="w-auto h-auto"
           />
         )}
         {mediaType === MediaType.video && (
@@ -79,11 +74,16 @@ const PostView: React.FC<PropsType> = ({
             src={media}
             controls={true}
             autoPlay={true}
-            className="w-full h-full object-contain"
+            className="w-full h-full bg-black object-contain"
           />
         )}
         {/* 按讚 */}
-        <LikeBtn isLiked={isLiked} onClick={toggleLike} />
+        <LikeBtn
+          userId={userId}
+          postId={postId}
+          isLiked={isLiked}
+          getPost={getPost}
+        />
       </section>
       {/* 文字區 */}
       <section>
@@ -99,7 +99,9 @@ const PostView: React.FC<PropsType> = ({
                 alt={petAccount}
                 priority={false}
                 fill={true}
+                sizes="100%"
                 style={{ objectFit: "cover" }}
+                className="w-auto h-auto"
               />
             </Link>
             <Link href={`/pet/${petAccount}`} className="font-bold">
@@ -108,75 +110,29 @@ const PostView: React.FC<PropsType> = ({
             <span className="w-1 h-1 bg-note rounded-full"></span>
             <span
               className="tooltip text-note text-nowrap"
-              data-tooltip={moment(createDate).format("YYYY-MM-DD HH:mm")}
+              data-tooltip={moment.utc(createDate).format("YYYY-MM-DD HH:mm")}
             >
-              {moment(createDate).fromNow()}
+              {moment.utc(createDate).fromNow()}
             </span>
           </div>
           {/* 選單 */}
-          <PostMenu />
+          <PostMenu
+            postId={postId}
+            isAuthor={userId === authorId}
+            media={media}
+            mediaType={MediaType.image}
+          />
         </div>
         <section className="scrollbar-none overflow-y-scroll max-w-[411px] max-h-[353px] w-[411px] h-full">
           {/* 貼文內容 */}
           <p className="mt-4 break-words">{postContent}</p>
           {/* 留言列表 */}
-          <ul className="flex flex-col gap-4 mt-8">
-            {comments.map(
-              (
-                {
-                  id,
-                  userId,
-                  userPhoto,
-                  userAccount,
-                  commentContent,
-                  createDate,
-                },
-                index
-              ) => (
-                <li
-                  key={`${id}${userAccount}`}
-                  ref={index === comments.length - 1 ? scrollRef : null}
-                  className="relative flex items-start gap-4"
-                  onMouseEnter={() => setHoveredCommentIndex(index)}
-                  onMouseLeave={() => setHoveredCommentIndex(-1)}
-                >
-                  <Link href="#" className="shrink-0">
-                    <Image
-                      src={userPhoto || "/images/default-photo.png"}
-                      width={32}
-                      height={32}
-                      alt={userAccount}
-                      style={{ objectFit: "cover" }}
-                      className="rounded-full"
-                    />
-                  </Link>
-                  <div className="flex-grow mr-8">
-                    <Link
-                      href={`/member/${userAccount}`}
-                      className="mr-2 font-bold"
-                    >
-                      {userAccount}
-                    </Link>
-                    <span
-                      className="tooltip text-note"
-                      data-tooltip={moment.utc(createDate).format("YYYY-MM-DD")}
-                    >
-                      {moment.utc(createDate).fromNow()}
-                    </span>
-                    <p>{commentContent}</p>
-                  </div>
-                  {hoveredCommentIndex === index && (
-                    <CommentMenu
-                      authorId={userId}
-                      postId={postId}
-                      commentId={id}
-                      getComments={getComments}
-                    />
-                  )}
-                </li>
-              )
-            )}
-          </ul>
+          <CommentList
+            from="postView"
+            postId={postId}
+            comments={comments}
+            getComments={getComments}
+          />
         </section>
         {/* 按讚數與留言數 */}
         <div className="flex gap-4 my-4 text-note">
