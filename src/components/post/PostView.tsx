@@ -1,8 +1,4 @@
-import {
-  IconHeart,
-  IconMessageCircle,
-  IconDotsVertical,
-} from "@tabler/icons-react";
+import { IconHeart, IconMessageCircle } from "@tabler/icons-react";
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,6 +9,7 @@ import CommentList from "../comment/CommentList";
 import InputComment from "../comment/InputComment";
 import PostMenu from "./PostMenu";
 import LikeBtn from "./LikeBtn";
+import { fetchGetSinglePost } from "@/common/fetch/post";
 import { fetchGetComment } from "@/common/fetch/comment";
 
 import { MediaType } from "@/common/lib/enums";
@@ -21,14 +18,15 @@ import type { CommentDataType, PostDataType } from "@/types";
 
 interface PropsType {
   data: PostDataType;
-  toggleLike: () => void;
 }
 
-const PostView: React.FC<PropsType> = ({ data, toggleLike }) => {
+const PostView: React.FC<PropsType> = ({ data }) => {
   const { userId } = useSelector((state: RootState) => state.userInfo);
+  const [postData, setPostData] = useState<PostDataType>(data);
+  const [comments, setComments] = useState<CommentDataType[]>([]);
 
   const {
-    petId,
+    userId: authorId,
     postId,
     petAccount,
     petPhoto,
@@ -37,10 +35,14 @@ const PostView: React.FC<PropsType> = ({ data, toggleLike }) => {
     mediaType,
     likes,
     createDate,
-  } = data;
+  } = postData;
 
-  const [comments, setComments] = useState<CommentDataType[]>([]);
-  const [isLiked, setIsLiked] = useState(false);
+  const isLiked = likes.some((like) => like.userId === userId);
+
+  const getPost = async () => {
+    const response = await fetchGetSinglePost(postId);
+    if (response.ok) setPostData(response.data);
+  };
 
   const getComments = async () => {
     const response = await fetchGetComment(postId);
@@ -51,13 +53,6 @@ const PostView: React.FC<PropsType> = ({ data, toggleLike }) => {
   useEffect(() => {
     getComments();
   }, [data]);
-
-  // 檢查是否按過讚
-  useEffect(() => {
-    const isLiked = likes.find((like) => like.userId === userId);
-    if (isLiked) setIsLiked(true);
-    else setIsLiked(false);
-  }, [likes]);
 
   return (
     <section className="flex gap-8 p-8 rounded-[32px] bg-white">
@@ -83,7 +78,12 @@ const PostView: React.FC<PropsType> = ({ data, toggleLike }) => {
           />
         )}
         {/* 按讚 */}
-        <LikeBtn isLiked={isLiked} onClick={toggleLike} />
+        <LikeBtn
+          userId={userId}
+          postId={postId}
+          isLiked={isLiked}
+          getPost={getPost}
+        />
       </section>
       {/* 文字區 */}
       <section>
@@ -116,7 +116,12 @@ const PostView: React.FC<PropsType> = ({ data, toggleLike }) => {
             </span>
           </div>
           {/* 選單 */}
-          <PostMenu />
+          <PostMenu
+            postId={postId}
+            isAuthor={userId === authorId}
+            media={media}
+            mediaType={MediaType.image}
+          />
         </div>
         <section className="scrollbar-none overflow-y-scroll max-w-[411px] max-h-[353px] w-[411px] h-full">
           {/* 貼文內容 */}

@@ -51,6 +51,21 @@ export const fetchGetPetPost = async (id: number) => {
   }
 };
 
+export const fetchGetSinglePost = async (id: number) => {
+  try {
+    const response = await fetch(`${apiNext.GET_SINGLE_POST}/${id}`, {
+      method: "GET",
+    });
+
+    const result = await response.json();
+    console.log(result);
+
+    return { ok: response.ok, status: response.status, data: result.data };
+  } catch (error) {
+    return { ok: false, status: 500 };
+  }
+};
+
 export const fetchLikePost = async (token: string, id: number) => {
   try {
     const response = await fetch(`${apiNext.LIKE_POST}/${id}`, {

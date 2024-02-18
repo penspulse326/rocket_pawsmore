@@ -16,6 +16,7 @@ const apiBase = {
   // 貼文
   GET_ALL_POST: `${apiUrl}/social/posts/all`,
   GET_PET_POST: `${apiUrl}/social/posts/pet`, // 動態路由 /:petAccount
+  GET_SINGLE_POST: `${apiUrl}/social/posts`, // 動態路由 /:postId
   ADD_POST: `${apiUrl}/social/posts`, // 動態路由 /:petId
   DELETE_POST: `${apiUrl}/social/posts/delete`, // 動態路由 /:postId
   LIKE_POST: (id: string) => `${apiUrl}/social/posts/${id}/likes`, // 動態路由 /:postId
