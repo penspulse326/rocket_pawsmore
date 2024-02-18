@@ -17,6 +17,10 @@ const AccountList: React.FC = () => {
   const [selectedPet, setSelectedPet] = useState<PetDataType>(petList[0]);
 
   useEffect(() => {
+    setSelectedPet(petList[0]);
+  }, [petList]);
+
+  useEffect(() => {
     if (selectedPet) {
       setPetId(selectedPet.petId);
     }

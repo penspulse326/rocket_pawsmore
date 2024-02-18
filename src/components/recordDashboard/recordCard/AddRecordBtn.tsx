@@ -18,7 +18,7 @@ const AddRecordBtn: React.FC<PropsType> = ({ setFormType }) => {
     event.stopPropagation();
     setTimeout(() => {
       setIsMenuOpen(false);
-    }, 100);
+    }, 300);
   };
 
   const CategoryList = () => {

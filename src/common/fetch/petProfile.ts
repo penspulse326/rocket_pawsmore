@@ -43,11 +43,10 @@ export const fetchUpdatePet = async (
   }
 };
 
-export const fetchGetPetList = async (userId: number, token: string) => {
+export const fetchGetPetList = async (userId: number) => {
   try {
     const response = await fetch(`${apiNext.GET_PETS}/${userId}`, {
       method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
     });
 
     const result = await response.json();

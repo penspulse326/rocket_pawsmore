@@ -6,16 +6,18 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, resetState } from "@/common/redux/store";
 import { setUserInfo } from "@/common/redux/userInfoSlice";
+import { setPetList } from "@/common/redux/petListSlice";
 
 import BurgerMenu from "./BurgerMenu";
 import useToken from "@/common/hooks/useToken";
 import { fetchCheckAuth } from "@/common/fetch/auth";
+import { fetchGetPetList } from "@/common/fetch/petProfile";
 
 const Navbar: React.FC = () => {
   const { token: localToken, clearToken } = useToken();
   const router = useRouter();
   const dispatch = useDispatch();
-  const { token, headShot, username } = useSelector(
+  const { headShot, username, userId } = useSelector(
     (state: RootState) => state.userInfo
   );
 
@@ -31,6 +33,10 @@ const Navbar: React.FC = () => {
     checkLogin();
   }, [localToken]);
 
+  useEffect(() => {
+    handleGetPetList();
+  }, [userId]);
+
   const checkLogin = async () => {
     if (!localToken) {
       return;
@@ -45,6 +51,13 @@ const Navbar: React.FC = () => {
 
     dispatch(setUserInfo({ ...response.data, token: localToken }));
     setIsLoggedIn(true);
+  };
+
+  const handleGetPetList = async () => {
+    if (userId) {
+      const result = await fetchGetPetList(userId);
+      dispatch(setPetList(result.data));
+    }
   };
 
   const handleLogout = () => {

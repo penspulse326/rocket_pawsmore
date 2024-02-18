@@ -19,17 +19,6 @@ const LeftBar: React.FC = () => {
   );
   const petList = useSelector((state: RootState) => state.petList);
 
-  useEffect(() => {
-    handleGetPetList();
-  }, [userId]);
-
-  const handleGetPetList = async () => {
-    if (userId) {
-      const result = await fetchGetPetList(userId, token);
-      dispatch(setPetList(result.data));
-    }
-  };
-
   const handleCheckProfile = (userAccount: string) => {
     router.push(`/member/${userAccount}`);
   };

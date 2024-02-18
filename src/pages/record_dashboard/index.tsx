@@ -45,8 +45,6 @@ const DateProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 const RecordDashboard = () => {
-  const [petId, setPetId] = useState<number | null>(null);
-
   const DataSummaryBtn = () => {
     return (
       <button
