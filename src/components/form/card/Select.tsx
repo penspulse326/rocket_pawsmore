@@ -18,7 +18,7 @@ const Select: React.FC<SelectProps> = ({
   onChange: handleChange,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(options[0].value);
 
   const handleSelectChange = (selectedValue: string) => {
     setSelected(() => selectedValue);

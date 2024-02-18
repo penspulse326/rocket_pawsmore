@@ -7,6 +7,7 @@ import SickInputs from "./SickInputs";
 import Select from "@/components/form/card/Select";
 import { unitCategory } from "@/common/lib/formText";
 import { PetIdContext } from "@/pages/record_dashboard";
+import { formatDailyData } from "@/common/helpers/formatDailyData";
 
 interface FoodType {
   type: string;
@@ -100,8 +101,7 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(formState);
-    console.log(petId);
+    formatDailyData(formState);
     handleClose();
   };
 
