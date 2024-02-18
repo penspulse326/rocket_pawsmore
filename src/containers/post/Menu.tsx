@@ -21,10 +21,9 @@ const Menu: React.FC<PropsType> = ({ postId, isAuthor, media, mediaType }) => {
   };
 
   return (
-    <button
-      type="button"
+    <div
       onClick={() => setIsMenuOpen(!isMenuOpen)}
-      className="relative"
+      className="relative cursor-pointer"
     >
       <IconDotsVertical />
       {isMenuOpen && (
@@ -52,7 +51,7 @@ const Menu: React.FC<PropsType> = ({ postId, isAuthor, media, mediaType }) => {
           )}
         </ul>
       )}
-    </button>
+    </div>
   );
 };
 
