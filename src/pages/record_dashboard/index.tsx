@@ -44,7 +44,7 @@ const RecordDashboard = () => {
         <div className="flex gap-x-8">
           <div className="flex flex-col gap-y-8 max-w-[896px] w-full">
             <CalendarLayout />
-            <Upcoming />
+            <Upcoming petId={petId} />
           </div>
           <div className="flex flex-col gap-y-8 max-w-[480px] w-full">
             <div className="flex justify-between">
