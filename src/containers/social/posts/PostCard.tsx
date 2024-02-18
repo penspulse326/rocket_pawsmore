@@ -15,7 +15,7 @@ import type { CommentDataType, PostDataType } from "@/types";
 import { MediaType } from "@/common/lib/enums";
 import LikeBtn from "@/components/post/LikeBtn";
 import { fetchLikePost } from "@/common/fetch/post";
-import Menu from "./Menu";
+import Menu from "./PostMenu";
 import { fetchCheckAuth } from "@/common/fetch/auth";
 import CommentList from "@/components/comment/CommentList";
 
