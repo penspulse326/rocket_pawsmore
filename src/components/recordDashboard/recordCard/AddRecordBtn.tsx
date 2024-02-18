@@ -34,7 +34,7 @@ const AddRecordBtn: React.FC<PropsType> = ({ setFormType }) => {
               >
                 <span>新增</span>
                 <span className="flex items-center">
-                  <Dot name={name} size="sm" />
+                  <Dot name={CardType[name]} size="sm" />
                   {name}
                 </span>
               </button>

@@ -12,7 +12,7 @@ import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 import { PostDataType } from "@/types";
 import { useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
-import { MediaType } from "@/common/lib/enums";
+import { MediaType } from "@/types/enums";
 
 const Posts: React.FC = () => {
   const { userId } = useSelector((state: RootState) => state.userInfo);
