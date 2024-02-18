@@ -108,9 +108,9 @@ const PostView: React.FC<PropsType> = ({
             <span className="w-1 h-1 bg-note rounded-full"></span>
             <span
               className="tooltip text-note text-nowrap"
-              data-tooltip={moment(createDate).format("YYYY-MM-DD HH:mm")}
+              data-tooltip={moment.utc(createDate).format("YYYY-MM-DD HH:mm")}
             >
-              {moment(createDate).fromNow()}
+              {moment.utc(createDate).fromNow()}
             </span>
           </div>
           {/* 選單 */}
