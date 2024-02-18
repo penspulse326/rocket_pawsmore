@@ -1,16 +1,18 @@
-import { useEffect, useState, useContext } from "react";
-import { useSelector } from "react-redux";
-import Link from "next/link";
+import { IconChevronDown } from "@tabler/icons-react";
 import Image from "next/image";
-import { IconChevronUp } from "@tabler/icons-react";
-
-import { PetIdContext } from "@/pages/record_dashboard";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 import type { RootState } from "@/common/redux/store";
-import type { PetDataType } from "@/types";
 
-const AccountList: React.FC = () => {
-  const { setPetId } = useContext(PetIdContext);
+import type { PetDataType } from "@/types";
+import Link from "next/link";
+
+interface PropsType {
+  setId: React.Dispatch<React.SetStateAction<number | null>>;
+}
+
+const AccountList: React.FC<PropsType> = ({ setId }) => {
   const petList = useSelector((state: RootState) => state.petList);
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -18,9 +20,9 @@ const AccountList: React.FC = () => {
 
   useEffect(() => {
     if (selectedPet) {
-      setPetId(selectedPet.petId);
+      setId(selectedPet.petId);
     }
-  }, [selectedPet, setPetId]);
+  }, [selectedPet]);
 
   const AccountCard = () => {
     return (
@@ -29,8 +31,11 @@ const AccountList: React.FC = () => {
           <Image
             src={selectedPet.petPhoto || "/images/default-photo.png"}
             alt={selectedPet.petAccount}
+            priority={false}
             fill={true}
+            sizes="100%"
             style={{ objectFit: "cover" }}
+            className="w-auto h-auto"
           />
         </div>
         <div className="flex grow justify-between items-center">
@@ -38,9 +43,10 @@ const AccountList: React.FC = () => {
             <li>{selectedPet.petName}</li>
             <li className="text-note">@{selectedPet.petAccount}</li>
           </ul>
-          <IconChevronUp
+
+          <IconChevronDown
             size={24}
-            className={`${!isExpanded && "rotate-180"} duration-300 mr-2`}
+            className={`${isExpanded && "rotate-180"} mr-2`}
           />
         </div>
       </div>
@@ -56,7 +62,7 @@ const AccountList: React.FC = () => {
               onClick={() => {
                 setSelectedPet(petList[index]);
                 setIsExpanded(false);
-                setPetId(petId);
+                setId(petId);
               }}
               key={`${index}-${petAccount}`}
             >
@@ -64,8 +70,11 @@ const AccountList: React.FC = () => {
                 <Image
                   src={petPhoto || "/images/default-photo.png"}
                   alt={petAccount}
+                  priority={false}
                   fill={true}
+                  sizes="100%"
                   style={{ objectFit: "cover" }}
+                  className="w-auto h-auto"
                 />
               </div>
               <ol className="mr-2 truncate">
@@ -92,7 +101,7 @@ const AccountList: React.FC = () => {
           您尚未建立寵物檔案
         </Link>
       )}
-      {selectedPet && isExpanded && <ExpandedCard />}
+      {isExpanded && <ExpandedCard />}
     </section>
   );
 };
