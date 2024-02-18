@@ -10,39 +10,17 @@ import NoContent from "@/components/NoContent";
 import { PostListContext } from "@/pages/pet/[petAccount]";
 import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 import { PostDataType } from "@/types";
-import { fetchGetComment } from "@/common/fetch/comment";
 import { useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
-import { fetchGetPetPost, fetchLikePost } from "@/common/fetch/post";
+import { MediaType } from "@/common/lib/enums";
 
 const Posts: React.FC = () => {
-  const { token, userId } = useSelector((state: RootState) => state.userInfo);
+  const { userId } = useSelector((state: RootState) => state.userInfo);
 
   const postList = useContext(PostListContext);
 
   const [selectedPost, setSelectedPost] = useState<PostDataType>();
-  const [comments, setComments] = useState([]);
-  const [isLiked, setIsLiked] = useState(false);
   const [isMaskOpen, setIsMaskOpen] = useState(false);
-
-  // 檢查是否按過讚
-  useEffect(() => {
-    const isLiked = selectedPost?.likes.find((like) => like.userId === userId);
-    if (isLiked) setIsLiked(true);
-    else setIsLiked(false);
-  }, [selectedPost?.likes]);
-
-  // 點到貼文時去讀取留言
-  useEffect(() => {
-    if (selectedPost) getComments();
-  }, [selectedPost]);
-
-  const getComments = async () => {
-    if (selectedPost) {
-      const response = await fetchGetComment(selectedPost.postId);
-      setComments(response.data);
-    }
-  };
 
   return (
     <>
@@ -53,25 +31,37 @@ const Posts: React.FC = () => {
           // onBlur={() => handleFreezeScroll(false)}
         >
           {postList.map((post, index) => {
-            const { media, likes } = post;
+            const { postId, petAccount, media, likes, mediaType } = post;
 
             return (
               <div key={index}>
                 <div
-                  className="gallery-card relative w-[352px] h-[352px] z-0 hover:cursor-pointer"
+                  className="gallery-card relative z-0 w-[352px] h-[352px] rounded-[30px] overflow-hidden hover:cursor-pointer"
                   onClick={() => {
                     setSelectedPost(post);
                     setIsMaskOpen(true);
                     // handleFreezeScroll(true);
                   }}
                 >
-                  <Image
-                    className="w-full h-full rounded-[30px] object-cover"
-                    src={media}
-                    width={352}
-                    height={352}
-                    alt="gallery photos"
-                  />
+                  {/* 圖片 */}
+                  {mediaType === MediaType.image && (
+                    <Image
+                      alt={`${petAccount}-${postId}`}
+                      className="w-full h-full  object-cover"
+                      src={media}
+                      width={352}
+                      height={352}
+                      priority={false}
+                    />
+                  )}
+                  {/* 影片 */}
+                  {mediaType === MediaType.video && (
+                    <video
+                      src={media}
+                      controls={false}
+                      className="w-full h-full object-cover"
+                    ></video>
+                  )}
                   {/* milestone badge */}
                   {/* {value.hasMilestone ? (
                 <Image
@@ -96,12 +86,7 @@ const Posts: React.FC = () => {
                 </div>
                 {selectedPost && isMaskOpen && (
                   <Mask setIsOpen={setIsMaskOpen} maskType="post">
-                    <PostView
-                      data={selectedPost}
-                      comments={comments}
-                      getComments={getComments}
-                      toggleLike={() => setIsLiked(!isLiked)}
-                    />
+                    <PostView data={selectedPost} toggleLike={() => 123} />
                   </Mask>
                 )}
               </div>

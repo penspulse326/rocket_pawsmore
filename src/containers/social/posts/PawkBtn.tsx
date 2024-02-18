@@ -1,8 +1,8 @@
 import { IconPhoto, IconMovie, IconMedal } from "@tabler/icons-react";
 import { useState } from "react";
 
-import Mask from "../../components/hint/Mask";
-import UploadView from "../../components/post/UploadView";
+import Mask from "../../../components/hint/Mask";
+import UploadView from "../../../components/post/UploadView";
 import { useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
 

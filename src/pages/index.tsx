@@ -1,15 +1,29 @@
-import SocialLayout from "@/containers/social/SocialLayout";
-import List from "@/containers/post/List";
+// 引入依赖
+import Layout from "@/containers/social/Layout";
+import Posts from "@/containers/social/posts";
+import { fetchGetAllPosts } from "@/common/fetch/post";
 
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "./_app";
+import type { PostDataType } from "@/types";
 
-const SocialPage: NextPageWithLayout = () => {
-  return <List />;
+const SocialPage: NextPageWithLayout<{ data: PostDataType[] }> = ({ data }) => {
+  return <Posts initialList={data} />;
 };
 
+export async function getServerSideProps() {
+  try {
+    const response = await fetchGetAllPosts();
+    const data: PostDataType[] = response.data;
+    return { props: { data } };
+  } catch (error) {
+    console.error(error);
+    return { props: { data: [] } };
+  }
+}
+
 SocialPage.getLayout = function getLayout(page: ReactElement) {
-  return <SocialLayout>{page}</SocialLayout>;
+  return <Layout>{page}</Layout>;
 };
 
 export default SocialPage;
