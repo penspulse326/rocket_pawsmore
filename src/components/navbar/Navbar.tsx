@@ -66,14 +66,14 @@ const Navbar: React.FC = () => {
           <Image
             src="/images/logo.svg"
             alt="logo"
-            priority={true}
+            priority={false}
             width={32}
             height={32}
           />
           <Image
             src="/images/logo-text.svg"
             alt="logo-text"
-            priority={true}
+            priority={false}
             width={0}
             height={0}
             className="ml-2 w-auto h-6"

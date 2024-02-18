@@ -71,7 +71,9 @@ const PostView: React.FC<PropsType> = ({
             alt={petAccount}
             priority={false}
             fill={true}
+            sizes="100%"
             style={{ objectFit: "cover" }}
+            className="w-auto h-auto"
           />
         )}
         {mediaType === MediaType.video && (
@@ -99,7 +101,9 @@ const PostView: React.FC<PropsType> = ({
                 alt={petAccount}
                 priority={false}
                 fill={true}
+                sizes="100%"
                 style={{ objectFit: "cover" }}
+                className="w-auto h-auto"
               />
             </Link>
             <Link href={`/pet/${petAccount}`} className="font-bold">
@@ -140,14 +144,18 @@ const PostView: React.FC<PropsType> = ({
                   onMouseEnter={() => setHoveredCommentIndex(index)}
                   onMouseLeave={() => setHoveredCommentIndex(-1)}
                 >
-                  <Link href="#" className="shrink-0">
+                  <Link
+                    href="#"
+                    className="relative shrink-0 w-8 h-8 rounded-full overflow-hidden"
+                  >
                     <Image
                       src={userPhoto || "/images/default-photo.png"}
-                      width={32}
-                      height={32}
                       alt={userAccount}
+                      priority={false}
+                      fill={true}
+                      sizes="100%"
                       style={{ objectFit: "cover" }}
-                      className="rounded-full"
+                      className="w-auto h-auto"
                     />
                   </Link>
                   <div className="flex-grow mr-8">

@@ -44,7 +44,6 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
   } = data;
 
   const [comments, setComments] = useState<CommentDataType[]>([]);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMaskOpen, setIsMaskOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -145,10 +144,12 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
             <Image
               src={media}
               alt={petAccount}
-              priority={false}
-              fill={true}
-              style={{ objectFit: "cover" }}
+              priority={true}
               onClick={() => setIsMaskOpen(true)}
+              fill={true}
+              sizes="100%"
+              style={{ objectFit: "cover" }}
+              className="w-auto h-auto cursor-pointer"
             />
           )}
           {mediaType === MediaType.video && (
@@ -158,7 +159,7 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
               autoPlay={true}
               onClick={handleVideoToggle}
               onDoubleClick={handleVideoDoubleClick}
-              className="w-full h-full object-contain"
+              className="w-full h-full bg-black object-contain cursor-pointer"
             />
           )}
         </div>
@@ -176,7 +177,9 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
               src={petPhoto || "/images/default-photo.png"}
               alt={petAccount}
               fill={true}
+              sizes="100%"
               style={{ objectFit: "cover" }}
+              className="w-auto h-auto"
             />
           </Link>
           <Link href={`/pet/${petAccount}`} className="font-bold">

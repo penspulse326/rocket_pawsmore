@@ -47,7 +47,6 @@ const InputComment: React.FC<InputCommentPropsType> = ({
     setIsLoading(true);
 
     // 確認 token 時效
-
     const auth = await fetchCheckAuth(token);
     if (!auth.ok) {
       alert("登入狀態過期，請重新登入");
@@ -78,6 +77,7 @@ const InputComment: React.FC<InputCommentPropsType> = ({
           <IconMessageCircle size={24} className="shrink-0" />
           <input
             type="text"
+            name="commentContent"
             placeholder={token ? "留言⋯⋯" : "登入後才能進行留言"}
             value={text}
             disabled={!token}
