@@ -37,13 +37,15 @@ const CommentList: React.FC<PropsType> = ({
             </li>
           ))}
         </ul>
-        <button
-          type="button"
-          onClick={() => handleClick()}
-          className="mt-1 text-note"
-        >
-          查看所有留言
-        </button>
+        {comments.length > 2 && (
+          <button
+            type="button"
+            onClick={() => handleClick()}
+            className="mt-1 text-note"
+          >
+            查看更多留言
+          </button>
+        )}
       </section>
     );
   }
