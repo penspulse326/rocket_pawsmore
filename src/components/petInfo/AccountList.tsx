@@ -1,18 +1,16 @@
-import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
+import Link from "next/link";
+import Image from "next/image";
+import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 
 import type { RootState } from "@/common/redux/store";
+import { PetIdContext } from "@/pages/record_dashboard";
 
 import type { PetDataType } from "@/types";
-import Link from "next/link";
 
-interface PropsType {
-  setId: React.Dispatch<React.SetStateAction<number | null>>;
-}
-
-const AccountList: React.FC<PropsType> = ({ setId }) => {
+const AccountList: React.FC = () => {
+  const { setPetId } = useContext(PetIdContext);
   const petList = useSelector((state: RootState) => state.petList);
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -20,9 +18,9 @@ const AccountList: React.FC<PropsType> = ({ setId }) => {
 
   useEffect(() => {
     if (selectedPet) {
-      setId(selectedPet.petId);
+      setPetId(selectedPet.petId);
     }
-  }, [selectedPet]);
+  }, [selectedPet, setPetId]);
 
   const AccountCard = () => {
     return (
@@ -59,7 +57,7 @@ const AccountList: React.FC<PropsType> = ({ setId }) => {
               onClick={() => {
                 setSelectedPet(petList[index]);
                 setIsExpanded(false);
-                setId(petId);
+                setPetId(petId);
               }}
               key={`${index}-${petAccount}`}
             >

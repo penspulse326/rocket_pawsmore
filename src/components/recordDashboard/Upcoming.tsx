@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import moment from "moment";
 
+import { PetIdContext } from "@/pages/record_dashboard";
 import type { RootState } from "@/common/redux/store";
 import type { PetDataType } from "@/types";
 
 import { originalData } from "@/common/lib/test/eventData";
 
-const Upcoming: React.FC<{ petId: number | null }> = ({ petId }) => {
+const Upcoming: React.FC = () => {
+  const { petId } = useContext(PetIdContext);
   const petList = useSelector((state: RootState) => state.petList);
+
   const [selectedPet, setSelectedPet] = useState<PetDataType>();
 
   useEffect(() => {
