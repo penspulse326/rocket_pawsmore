@@ -2,11 +2,11 @@ import { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
-import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
+import { IconChevronUp } from "@tabler/icons-react";
 
-import type { RootState } from "@/common/redux/store";
 import { PetIdContext } from "@/pages/record_dashboard";
 
+import type { RootState } from "@/common/redux/store";
 import type { PetDataType } from "@/types";
 
 const AccountList: React.FC = () => {
@@ -38,11 +38,10 @@ const AccountList: React.FC = () => {
             <li>{selectedPet.petName}</li>
             <li className="text-note">@{selectedPet.petAccount}</li>
           </ul>
-          {isExpanded ? (
-            <IconChevronDown size={24} className="mr-2" />
-          ) : (
-            <IconChevronUp size={24} className="mr-2" />
-          )}
+          <IconChevronUp
+            size={24}
+            className={`${!isExpanded && "rotate-180"} duration-300 mr-2`}
+          />
         </div>
       </div>
     );
@@ -62,7 +61,6 @@ const AccountList: React.FC = () => {
               key={`${index}-${petAccount}`}
             >
               <div className="relative max-w-12 max-h-12 w-full h-12 rounded-full overflow-hidden">
-                {" "}
                 <Image
                   src={petPhoto || "/images/default-photo.png"}
                   alt={petAccount}
