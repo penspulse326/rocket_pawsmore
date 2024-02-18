@@ -76,7 +76,8 @@ const InputComment: React.FC<InputCommentPropsType> = ({
       <form onSubmit={handleSubmit} className={targetStyle}>
         <div className="flex-grow flex gap-2">
           <IconMessageCircle size={24} className="shrink-0" />
-          <textarea
+          <input
+            type="text"
             placeholder={token ? "留言⋯⋯" : "登入後才能進行留言"}
             value={text}
             disabled={!token}
