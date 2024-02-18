@@ -1,12 +1,10 @@
 import { IconHeart } from "@tabler/icons-react";
-import { useState } from "react";
 import { useSelector } from "react-redux";
 
-import type { RootState } from "@/common/redux/store";
 import { fetchCheckAuth } from "@/common/fetch/auth";
-import { fetchGetSinglePost, fetchLikePost } from "@/common/fetch/post";
+import { fetchLikePost } from "@/common/fetch/post";
 
-import type { LikesType } from "@/types";
+import type { RootState } from "@/common/redux/store";
 
 interface PropsType {
   userId: number | null;
