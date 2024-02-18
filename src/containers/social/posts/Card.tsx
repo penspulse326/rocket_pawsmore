@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 
-import Mask from "../../components/hint/Mask";
-import PostView from "../../components/post/PostView";
+import Mask from "../../../components/hint/Mask";
+import PostView from "../../../components/post/PostView";
 import InputComment from "@/components/post/InputComment";
 import { fetchGetComment } from "@/common/fetch/comment";
 

@@ -1,9 +1,7 @@
 import LeftBar from "./sideBar/LeftBar";
 import RightBar from "./sideBar/RightBar";
 
-const SocialLayout: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <section className="outer px-8">
       <div className="inner grid grid-cols-12 gap-8 pt-16 h-screen">
@@ -15,4 +13,4 @@ const SocialLayout: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export default SocialLayout;
+export default Layout;
