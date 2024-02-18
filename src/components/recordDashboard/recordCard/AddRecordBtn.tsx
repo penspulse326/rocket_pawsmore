@@ -10,6 +10,7 @@ interface PropsType {
 
 const AddRecordBtn: React.FC<PropsType> = ({ setFormType }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // 使用斷言保證轉換出來的字串是 enum CardType 可以索引的值
   const category = Object.values(CardType).filter(
     (key) => typeof key === "string"
   ) as (keyof typeof CardType)[];

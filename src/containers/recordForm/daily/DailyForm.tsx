@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import ToggleGroup from "@/components/ToggleGroup";
 import FoodInputs from "./FoodInputs";
@@ -6,6 +6,7 @@ import CareInputs from "./CareInputs";
 import SickInputs from "./SickInputs";
 import Select from "@/components/form/card/Select";
 import { unitCategory } from "@/common/lib/formText";
+import { PetIdContext } from "@/pages/record_dashboard";
 
 interface FoodType {
   type: string;
@@ -51,9 +52,12 @@ const initailState: DailyFormStateType = {
   remark: "",
 };
 
-interface PropsType {}
+interface PropsType {
+  onClose: () => void;
+}
 
-const DailyForm: React.FC<PropsType> = ({}) => {
+const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
+  const { petId } = useContext(PetIdContext);
   const [formState, setFormState] = useState(initailState);
 
   const handleFoodChange = (value: FoodType[]) => {
@@ -96,6 +100,9 @@ const DailyForm: React.FC<PropsType> = ({}) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    console.log(formState);
+    console.log(petId);
+    handleClose();
   };
 
   return (
