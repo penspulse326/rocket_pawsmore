@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 import Mask from "../../../components/hint/Mask";
 import PostView from "../../../components/post/PostView";
-import InputComment from "@/components/post/InputComment";
+import InputComment from "@/components/comment/InputComment";
 import { fetchGetComment } from "@/common/fetch/comment";
 
 import type { RootState } from "@/common/redux/store";
@@ -17,13 +17,14 @@ import LikeBtn from "@/components/post/LikeBtn";
 import { fetchLikePost } from "@/common/fetch/post";
 import Menu from "./Menu";
 import { fetchCheckAuth } from "@/common/fetch/auth";
+import CommentList from "@/components/comment/CommentList";
 
 interface PropsType {
   data: PostDataType;
   getList: () => void;
 }
 
-const Card: React.FC<PropsType> = ({ data, getList }) => {
+const PostCard: React.FC<PropsType> = ({ data, getList }) => {
   const { token, userId } = useSelector((state: RootState) => state.userInfo);
 
   useEffect(() => {
@@ -120,22 +121,13 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
     if (response.ok) getList();
   };
 
-  const handleDeletePost = async () => {
-    console.log("delete");
-  };
-
   return (
     <div className="flex flex-col gap-4 p-8 border border-stroke rounded-[32px]">
       <section className="relative">
         {/* 遮罩 */}
         {isMaskOpen && (
           <Mask setIsOpen={setIsMaskOpen} maskType="post">
-            <PostView
-              data={data}
-              comments={comments}
-              getComments={getComments}
-              toggleLike={handleLikeToggle}
-            />
+            <PostView data={data} toggleLike={handleLikeToggle} />
           </Mask>
         )}
         {/* 多媒體內容 */}
@@ -209,27 +201,12 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
       {/* 內文 */}
       <p>{postContent}</p>
       {/* 留言 */}
-      <section>
-        <ul>
-          {comments.slice(0, 2).map(({ id, userAccount, commentContent }) => (
-            <li key={`${id}-${userAccount}`}>
-              <Link href={`/member/${userAccount}`} className="mr-4 font-bold">
-                {userAccount}
-              </Link>
-              <span>{commentContent}</span>
-            </li>
-          ))}
-        </ul>
-        {comments.length > 2 && (
-          <button
-            type="button"
-            onClick={() => setIsMaskOpen(true)}
-            className="mt-1 text-note"
-          >
-            查看所有留言
-          </button>
-        )}
-      </section>
+      <CommentList
+        from="postList"
+        postId={postId}
+        comments={comments}
+        onClick={() => setIsMaskOpen(true)}
+      />
       {token && (
         <InputComment postId={postId} getComments={getComments} isEffect />
       )}
@@ -237,4 +214,4 @@ const Card: React.FC<PropsType> = ({ data, getList }) => {
   );
 };
 
-export default Card;
+export default PostCard;

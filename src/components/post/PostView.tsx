@@ -6,32 +6,26 @@ import {
 import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import InputComment from "./InputComment";
+import CommentList from "../comment/CommentList";
+import InputComment from "../comment/InputComment";
 import PostMenu from "./PostMenu";
-import CommentMenu from "./CommentMenu";
+import LikeBtn from "./LikeBtn";
+import { fetchGetComment } from "@/common/fetch/comment";
 
+import { MediaType } from "@/common/lib/enums";
 import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
-import { MediaType } from "@/common/lib/enums";
-import LikeBtn from "./LikeBtn";
 
 interface PropsType {
   data: PostDataType;
-  comments: CommentDataType[];
-  getComments: () => void;
   toggleLike: () => void;
 }
 
-const PostView: React.FC<PropsType> = ({
-  data,
-  comments,
-  getComments,
-  toggleLike,
-}) => {
-  const { token, userId } = useSelector((state: RootState) => state.userInfo);
+const PostView: React.FC<PropsType> = ({ data, toggleLike }) => {
+  const { userId } = useSelector((state: RootState) => state.userInfo);
 
   const {
     petId,
@@ -45,14 +39,18 @@ const PostView: React.FC<PropsType> = ({
     createDate,
   } = data;
 
+  const [comments, setComments] = useState<CommentDataType[]>([]);
   const [isLiked, setIsLiked] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [hoveredCommentIndex, setHoveredCommentIndex] = useState(-1);
-  const scrollRef = useRef<HTMLLIElement | null>(null);
 
+  const getComments = async () => {
+    const response = await fetchGetComment(postId);
+    if (response.ok) setComments(response.data);
+  };
+
+  // 讀取留言
   useEffect(() => {
-    if (token) getComments();
-  }, [token]);
+    getComments();
+  }, [data]);
 
   // 檢查是否按過讚
   useEffect(() => {
@@ -81,7 +79,7 @@ const PostView: React.FC<PropsType> = ({
             src={media}
             controls={true}
             autoPlay={true}
-            className="w-full h-full object-contain"
+            className="w-full h-full bg-black object-contain"
           />
         )}
         {/* 按讚 */}
@@ -124,67 +122,12 @@ const PostView: React.FC<PropsType> = ({
           {/* 貼文內容 */}
           <p className="mt-4 break-words">{postContent}</p>
           {/* 留言列表 */}
-          <ul className="flex flex-col gap-4 mt-8">
-            {comments.map(
-              (
-                {
-                  id,
-                  userId,
-                  userPhoto,
-                  userAccount,
-                  commentContent,
-                  createDate,
-                },
-                index
-              ) => (
-                <li
-                  key={`${id}${userAccount}`}
-                  ref={index === comments.length - 1 ? scrollRef : null}
-                  className="relative flex items-start gap-4"
-                  onMouseEnter={() => setHoveredCommentIndex(index)}
-                  onMouseLeave={() => setHoveredCommentIndex(-1)}
-                >
-                  <Link
-                    href="#"
-                    className="relative shrink-0 w-8 h-8 rounded-full overflow-hidden"
-                  >
-                    <Image
-                      src={userPhoto || "/images/default-photo.png"}
-                      alt={userAccount}
-                      priority={false}
-                      fill={true}
-                      sizes="100%"
-                      style={{ objectFit: "cover" }}
-                      className="w-auto h-auto"
-                    />
-                  </Link>
-                  <div className="flex-grow mr-8">
-                    <Link
-                      href={`/member/${userAccount}`}
-                      className="mr-2 font-bold"
-                    >
-                      {userAccount}
-                    </Link>
-                    <span
-                      className="tooltip text-note"
-                      data-tooltip={moment.utc(createDate).format("YYYY-MM-DD")}
-                    >
-                      {moment.utc(createDate).fromNow()}
-                    </span>
-                    <p>{commentContent}</p>
-                  </div>
-                  {hoveredCommentIndex === index && (
-                    <CommentMenu
-                      authorId={userId}
-                      postId={postId}
-                      commentId={id}
-                      getComments={getComments}
-                    />
-                  )}
-                </li>
-              )
-            )}
-          </ul>
+          <CommentList
+            from="postView"
+            postId={postId}
+            comments={comments}
+            getComments={getComments}
+          />
         </section>
         {/* 按讚數與留言數 */}
         <div className="flex gap-4 my-4 text-note">

@@ -8,17 +8,17 @@ import type { NextPageWithLayout } from "./_app";
 import type { PostDataType } from "@/types";
 
 const SocialPage: NextPageWithLayout<{ data: PostDataType[] }> = ({ data }) => {
-  return <Posts initialPosts={data} />;
+  return <Posts initialList={data} />;
 };
 
 export async function getServerSideProps() {
   try {
     const response = await fetchGetAllPosts();
-    const list: PostDataType[] = response.data;
-    return { props: { list } };
+    const data: PostDataType[] = response.data;
+    return { props: { data } };
   } catch (error) {
     console.error(error);
-    return { props: { list: [] } };
+    return { props: { data: [] } };
   }
 }
 
