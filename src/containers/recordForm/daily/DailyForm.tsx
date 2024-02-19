@@ -20,7 +20,7 @@ export interface DailyFormStateType {
   water: number;
   food: FoodType[];
   urine: string;
-  stool: string;
+  poo: string;
   vomit: string;
   symptom: string[];
   deworming: string;
@@ -43,7 +43,7 @@ const initailState: DailyFormStateType = {
     },
   ],
   urine: "",
-  stool: "",
+  poo: "",
   vomit: "",
   symptom: [],
   deworming: "",
