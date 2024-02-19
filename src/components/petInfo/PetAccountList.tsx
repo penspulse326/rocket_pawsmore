@@ -34,6 +34,7 @@ const AccountList: React.FC = () => {
             src={selectedPet.petPhoto || "/images/default-photo.png"}
             alt={selectedPet.petAccount}
             fill={true}
+            sizes="100%"
             style={{ objectFit: "cover" }}
           />
         </div>
@@ -69,6 +70,7 @@ const AccountList: React.FC = () => {
                   src={petPhoto || "/images/default-photo.png"}
                   alt={petAccount}
                   fill={true}
+                  sizes="100%"
                   style={{ objectFit: "cover" }}
                 />
               </div>
