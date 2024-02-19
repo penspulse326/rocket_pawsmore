@@ -1,32 +1,48 @@
 interface PropsType {
   title: string;
   name: string;
+  placeholder: string;
   star?: boolean;
   isMoney?: boolean;
+  isArea?: boolean;
   onChange?: () => void;
 }
 
 const TextInput: React.FC<PropsType> = ({
   title,
   name,
+  placeholder,
   star,
   isMoney,
+  isArea,
   onChange: handleChange,
 }) => {
   return (
     <div className="flex justify-between items-center">
-      <span className="font-semibold">
+      <span className={`${isArea && "self-start mt-1"} font-semibold`}>
         {title}
         {star && <span className="text-error">*</span>}
       </span>
-      <div className="flex items-center">
-        {isMoney && <span className="mr-2">NTD</span>}
-        <input
-          type="text"
-          name={name}
-          onChange={handleChange}
-          className="px-2 py-1 max-w-[248px] w-full border border-stroke outline-note rounded-[10px]"
-        />
+      <div className="flex-grow flex items-center max-w-[248px]">
+        {isArea ? (
+          <textarea
+            name={name}
+            placeholder={placeholder}
+            onChange={handleChange}
+            className="px-2 py-1 w-full h-8 border border-stroke outline-note rounded-[10px]"
+          />
+        ) : (
+          <>
+            {isMoney && <span className="mr-2">NTD</span>}
+            <input
+              type="text"
+              name={name}
+              placeholder={placeholder}
+              onChange={handleChange}
+              className="px-2 py-1 w-full border border-stroke outline-note rounded-[10px]"
+            />
+          </>
+        )}
       </div>
     </div>
   );
