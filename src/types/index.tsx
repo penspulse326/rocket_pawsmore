@@ -1,3 +1,5 @@
+import { PooType, UrineType, VomitType } from "./enums";
+
 export interface LoginFormType {
   email: string;
   password: string;
@@ -112,4 +114,25 @@ export interface CommentDataType {
   userAccount: string;
   commentContent: string;
   createDate: string;
+}
+
+export interface DailyDataType {
+  petId?: 15;
+  cardId?: 26;
+  card?: number;
+  createDate?: string;
+  weight: string;
+  food: string;
+  water: number;
+  urine: string | (typeof UrineType)[""];
+  poo: string | (typeof PooType)[""];
+  vomit: string | (typeof VomitType)[""];
+  symptom: string;
+  deworming: string;
+  medicine: string;
+  injection: string;
+  rehab: string;
+  remark: string;
+  selected: string;
+  targetDate: string;
 }

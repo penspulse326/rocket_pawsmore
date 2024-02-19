@@ -1,7 +1,8 @@
 import { DailyFormStateType } from "@/containers/recordForm/daily/DailyForm";
+import { DailyDataType } from "@/types";
 import { PooType, UrineType, VomitType } from "@/types/enums";
 
-export const formatDailyData = (data: DailyFormStateType) => {
+export const formatDailyData = (data: DailyFormStateType): DailyDataType => {
   const {
     weight,
     weight_unit,
@@ -20,9 +21,9 @@ export const formatDailyData = (data: DailyFormStateType) => {
     ...rest,
     weight: `${weight}.${weight_unit}`,
     food: JSON.stringify(foodData),
-    vomit: VomitType[vomit],
-    urine: UrineType[urine],
-    poo: PooType[poo],
+    vomit: vomit && VomitType[vomit],
+    urine: urine && UrineType[urine],
+    poo: poo && PooType[poo],
     symptom: JSON.stringify(symptom),
     selected: JSON.stringify(selected),
   };

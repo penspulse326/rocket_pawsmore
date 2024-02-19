@@ -70,7 +70,7 @@ export const sickCategory: SickCategoryType = {
       { label: "其他", value: "其他" },
     ],
   },
-  stool: {
+  poo: {
     TITLE: "糞便",
     INPUT_TYPE: "select",
     OPTIONS: [

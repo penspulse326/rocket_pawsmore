@@ -9,6 +9,9 @@ import { unitCategory } from "@/common/lib/formText";
 import { DateContext, PetIdContext } from "@/pages/record_dashboard";
 import { formatDailyData } from "@/common/helpers/formatDailyData";
 import { PooType, UrineType, VomitType } from "@/types/enums";
+import { fetchAddDailyCard } from "@/common/fetch/recordCard";
+import { useSelector } from "react-redux";
+import { RootState } from "@/common/redux/store";
 
 interface FoodType {
   type: string;
@@ -61,6 +64,7 @@ interface PropsType {
 }
 
 const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
+  const { token } = useSelector((state: RootState) => state.userInfo);
   const { selectedDate } = useContext(DateContext);
   const { petId } = useContext(PetIdContext);
   const [formState, setFormState] = useState({
@@ -106,9 +110,10 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const data = formatDailyData(formState);
+    const res = await fetchAddDailyCard(token, petId!, data);
     // handleClose();
   };
 

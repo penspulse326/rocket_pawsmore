@@ -25,6 +25,9 @@ const apiBase = {
   GET_COMMENT: (id: string) => `${apiUrl}/social/posts/${id}/comments`, // 動態路由 /:postId
   DELETE_COMMENT: (postId: string, commentId: string) =>
     `${apiUrl}/social/posts/${postId}/comments/delete/${commentId}`,
+  // 新增日常卡片
+  ADD_DAILY_CARD: (petId: string) =>
+    `${apiUrl}/dashboard/cards/daily/add/${petId}`,
 };
 
 export default apiBase;
