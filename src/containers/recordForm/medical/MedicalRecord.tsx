@@ -1,3 +1,4 @@
+import ImageInput from "./ImageInput";
 import TextInput from "./TextInput";
 
 const MedicalRecordInputs = () => {
@@ -31,6 +32,7 @@ const MedicalRecordInputs = () => {
         isMoney
         onChange={handleInputChange}
       />
+      <ImageInput />
     </div>
   );
 };

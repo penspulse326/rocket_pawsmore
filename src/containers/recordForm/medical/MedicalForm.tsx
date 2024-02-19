@@ -1,11 +1,9 @@
 import { useContext, useState } from "react";
 
-import Select from "@/components/form/card/Select";
-
 import { PetIdContext } from "@/pages/record_dashboard";
 import RadioCheck from "@/components/form/card/RadioCheck";
 import { MedicalCardType } from "@/types/enums";
-import MedicalRecordInputs from "./MedicalRecord";
+import MedicalRecord from "./MedicalRecord";
 
 interface PropsType {
   onClose: () => void;
@@ -50,7 +48,7 @@ const MedicalForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
           />
         </div>
       </div>
-      <MedicalRecordInputs />
+      <MedicalRecord />
       <button
         type="submit"
         disabled={!cardType}
