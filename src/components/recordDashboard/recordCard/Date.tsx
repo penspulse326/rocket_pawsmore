@@ -1,5 +1,6 @@
-import moment from "moment";
 import React, { useState, useContext, useEffect } from "react";
+import moment from "moment";
+import { debounce } from "lodash";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { DateContext } from "@/pages/record_dashboard";
 
@@ -17,11 +18,13 @@ const Date: React.FC = () => {
         size={24}
         color={"#808080"}
         className="hover:cursor-pointer"
-        onClick={() =>
-          setSelectedDate(
-            currentTime.clone().subtract(1, "day").format("YYYY-MM-DD")
-          )
-        }
+        onClick={debounce(
+          () =>
+            setSelectedDate(
+              currentTime.clone().subtract(1, "day").format("YYYY-MM-DD")
+            ),
+          200
+        )}
       />
       <ul className="flex gap-x-2 text-2xl justify-center font-medium max-w-[124px] w-full">
         <ol className="flex gap-x-1">
@@ -41,11 +44,13 @@ const Date: React.FC = () => {
         size={24}
         color={"#808080"}
         className="hover:cursor-pointer"
-        onClick={() =>
-          setSelectedDate(
-            currentTime.clone().add(1, "day").format("YYYY-MM-DD")
-          )
-        }
+        onClick={debounce(
+          () =>
+            setSelectedDate(
+              currentTime.clone().add(1, "day").format("YYYY-MM-DD")
+            ),
+          200
+        )}
       />
     </div>
   );
