@@ -3,21 +3,21 @@ import { IconX } from "@tabler/icons-react";
 import { recordCard } from "@/common/lib/formText";
 import DailyForm from "./daily/DailyForm";
 import Dot from "@/components/icon/Dot";
-import { CardType } from "@/types/enums";
+import { RecordCardType } from "@/types/enums";
 import MedicalForm from "./midical/MedicalForm";
 import MomemtForm from "./moment/MomentForm";
 
 interface PropsType {
-  category: CardType;
+  category: RecordCardType;
   onClose: () => void;
 }
 
 const RecordForm: React.FC<PropsType> = ({ category, onClose }) => {
   const { TITLE, SUB_TITLE } = recordCard[category];
   const forms = {
-    [CardType["日常紀錄"]]: <DailyForm onClose={onClose} />,
-    [CardType["醫療紀錄"]]: <MedicalForm onClose={onClose} />,
-    [CardType["重要時刻"]]: <MomemtForm onClose={onClose} />,
+    [RecordCardType.日常紀錄]: <DailyForm onClose={onClose} />,
+    [RecordCardType.醫療紀錄]: <MedicalForm onClose={onClose} />,
+    [RecordCardType.重要時刻]: <MomemtForm onClose={onClose} />,
   };
 
   return (

@@ -2,7 +2,7 @@ import { IconCirclePlus } from "@tabler/icons-react";
 import React, { useState } from "react";
 
 import Dot from "@/components/icon/Dot";
-import { CardType } from "@/types/enums";
+import { RecordCardType } from "@/types/enums";
 
 interface PropsType {
   setFormType: (value: number) => void;
@@ -11,9 +11,9 @@ interface PropsType {
 const AddRecordBtn: React.FC<PropsType> = ({ setFormType }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   // 使用斷言保證轉換出來的字串是 enum CardType 可以索引的值
-  const category = Object.values(CardType).filter(
+  const category = Object.values(RecordCardType).filter(
     (key) => typeof key === "string"
-  ) as (keyof typeof CardType)[];
+  ) as (keyof typeof RecordCardType)[];
 
   const handleBlur = (event: React.FocusEvent) => {
     event.stopPropagation();
@@ -30,12 +30,12 @@ const AddRecordBtn: React.FC<PropsType> = ({ setFormType }) => {
             <li key={index}>
               <button
                 type="button"
-                onClick={() => setFormType(CardType[name])}
+                onClick={() => setFormType(RecordCardType[name])}
                 className="flex items-center gap-x-[10px] px-3 py-1 rounded-[30px] hover:bg-secondary"
               >
                 <span>新增</span>
                 <span className="flex items-center">
-                  <Dot name={CardType[name]} size="sm" />
+                  <Dot name={RecordCardType[name]} size="sm" />
                   {name}
                 </span>
               </button>

@@ -5,28 +5,28 @@ import AddRecordBtn from "./recordCard/AddRecordBtn";
 import RecordForm from "@/containers/recordForm";
 import { PetIdContext } from "@/pages/record_dashboard";
 
-import { CardType } from "@/types/enums";
+import { RecordCardType } from "@/types/enums";
 
 const RecordCardLayout: React.FC = () => {
   const { petId } = useContext(PetIdContext);
   const [formType, setFormType] = useState<number | null>(null);
 
   const components: { [key: string]: JSX.Element } = {
-    [CardType["日常紀錄"]]: (
+    [RecordCardType.日常紀錄]: (
       <RecordForm
-        category={CardType["日常紀錄"]}
+        category={RecordCardType.日常紀錄}
         onClose={() => setFormType(null)}
       />
     ),
-    [CardType["醫療紀錄"]]: (
+    [RecordCardType.醫療紀錄]: (
       <RecordForm
-        category={CardType["醫療紀錄"]}
+        category={RecordCardType.醫療紀錄}
         onClose={() => setFormType(null)}
       />
     ),
-    [CardType["重要時刻"]]: (
+    [RecordCardType.重要時刻]: (
       <RecordForm
-        category={CardType["重要時刻"]}
+        category={RecordCardType.重要時刻}
         onClose={() => setFormType(null)}
       />
     ),
