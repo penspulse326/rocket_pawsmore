@@ -6,7 +6,10 @@ import Recommend from "./Recommend";
 
 const RightBar: React.FC = () => {
   return (
-    <aside className="col-span-3 flex flex-col gap-8 bg-white">
+    <aside
+      style={{ height: "calc(100vh - 64px)" }}
+      className="sticky top-16 flex flex-col gap-8 bg-white"
+    >
       <section className="flex items-center gap-2 mt-8 px-8 py-4 rounded-full bg-stroke">
         <input
           type="text"

@@ -22,7 +22,7 @@ const Posts: React.FC<{ initialList: PostDataType[] }> = ({ initialList }) => {
 
   return (
     <>
-      <div className="scrollbar-none col-span-6 p-8 border-x border-stroke bg-white overflow-y-scroll">
+      <div className="col-start-4 col-span-6 mx-auto p-8 border-x border-stroke bg-white">
         <PawkBtn />
         <h2 className="mt-8 text-note">動態消息</h2>
         {/* 貼文列表 */}

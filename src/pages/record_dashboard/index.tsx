@@ -12,7 +12,7 @@ export interface DateContextProp {
   setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
 }
 export const DateContext = createContext<DateContextProp>({
-  selectedDate: moment.utc().format("YYYY-MM-DD"),
+  selectedDate: moment().format("YYYY-MM-DD"),
   setSelectedDate: () => {},
 });
 
@@ -37,6 +37,8 @@ const DateProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [selectedDate, setSelectedDate] = useState(
     moment().format("YYYY-MM-DD")
   );
+
+  console.log(selectedDate);
   return (
     <DateContext.Provider value={{ selectedDate, setSelectedDate }}>
       {children}
