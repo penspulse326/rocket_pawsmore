@@ -113,8 +113,19 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const data = formatDailyData(formState);
-    const res = await fetchAddDailyCard(token, petId!, data);
-    // handleClose();
+
+    try {
+      const response = await fetchAddDailyCard(token, petId!, data);
+      if (!response.ok) {
+        alert("新增失敗，請稍後再試");
+        return;
+      }
+      alert("新增成功");
+      handleClose();
+    } catch (error) {
+      alert("新增失敗，請稍後再試");
+      console.log(error);
+    }
   };
 
   return (
