@@ -11,7 +11,7 @@ const PetCard: React.FC<PetCardProps> = ({ data }) => {
   if (!data) {
     return (
       <div className="flex flex-col gap-7 mx-auto p-4 max-w-[204px] border border-stroke rounded-[30px] bg-white">
-        <div className="relative w-[172px] h-[172px] rounded-[30px] hover:scale-110">
+        <div className="relative w-[172px] h-[172px] rounded-[30px] overflow-hidden hover:scale-110">
           <Image
             src="/images/default-photo.png"
             alt="尚未有寵物照片"

@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
-import RecordFormLayout from "../RecordFormLayout";
 import ToggleGroup from "@/components/ToggleGroup";
 import FoodInputs from "./FoodInputs";
 import CareInputs from "./CareInputs";
 import SickInputs from "./SickInputs";
 import Select from "@/components/form/card/Select";
 import { unitCategory } from "@/common/lib/formText";
+import { DateContext, PetIdContext } from "@/pages/record_dashboard";
+import { formatDailyData } from "@/common/helpers/formatDailyData";
+import { PooType, UrineType, VomitType } from "@/types/enums";
+import { fetchAddDailyCard } from "@/common/fetch/recordCard";
+import { useSelector } from "react-redux";
+import { RootState } from "@/common/redux/store";
 
 interface FoodType {
   type: string;
@@ -15,12 +20,12 @@ interface FoodType {
 
 export interface DailyFormStateType {
   weight: number;
-  weight_unit: "kg" | "lb";
+  weight_unit: "kg" | "g";
   water: number;
   food: FoodType[];
-  urine: string;
-  stool: string;
-  vomit: string;
+  urine: UrineType;
+  poo: PooType;
+  vomit: VomitType;
   symptom: string[];
   deworming: string;
   medicine: string;
@@ -28,6 +33,7 @@ export interface DailyFormStateType {
   rehab: string;
   selected: string[];
   remark: string;
+  targetDate: string;
 }
 
 const initailState: DailyFormStateType = {
@@ -40,9 +46,9 @@ const initailState: DailyFormStateType = {
       amount: 0,
     },
   ],
-  urine: "",
-  stool: "",
-  vomit: "",
+  urine: 0,
+  poo: 0,
+  vomit: 0,
   symptom: [],
   deworming: "",
   medicine: "",
@@ -50,12 +56,21 @@ const initailState: DailyFormStateType = {
   rehab: "",
   selected: [],
   remark: "",
+  targetDate: "",
 };
 
-const DailyForm = () => {
-  const [formState, setFormState] = useState(initailState);
+interface PropsType {
+  onClose: () => void;
+}
 
-  console.log(formState);
+const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
+  const { token } = useSelector((state: RootState) => state.userInfo);
+  const { selectedDate } = useContext(DateContext);
+  const { petId } = useContext(PetIdContext);
+  const [formState, setFormState] = useState({
+    ...initailState,
+    targetDate: selectedDate,
+  });
 
   const handleFoodChange = (value: FoodType[]) => {
     setFormState((prev) => ({ ...prev, food: value }));
@@ -95,84 +110,93 @@ const DailyForm = () => {
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    const data = formatDailyData(formState);
+
+    try {
+      const response = await fetchAddDailyCard(token, petId!, data);
+      if (!response.ok) {
+        alert("新增失敗，請稍後再試");
+        return;
+      }
+      alert("新增成功");
+      handleClose();
+    } catch (error) {
+      alert("新增失敗，請稍後再試");
+      console.log(error);
+    }
   };
 
   return (
-    <RecordFormLayout category="daily">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <ToggleGroup title="一般">
-          <ul className="flex flex-col gap-4 mt-2">
-            <li className="flex items-center">
-              <span className="mr-8 font-semibold">體重</span>
-              <input
-                name="weight"
-                type="number"
-                min={0}
-                value={formState.weight}
-                onChange={(e) => handleTextChange("weight", e.target.value)}
-                className="form-input mr-1 w-16"
-              />
-              <Select
-                title="單位"
-                options={unitCategory}
-                onChange={(e) => handleSelectChange("weight_unit", e)}
-              />
-            </li>
-            <li>
-              <span className="mr-4 font-semibold">飲水量</span>
-              <input
-                type="number"
-                min={0}
-                value={formState.water}
-                onChange={(e) => handleTextChange("water", e.target.value)}
-                className="form-input mr-1 w-16"
-              />
-              <span>ml</span>
-            </li>
-            <li className="flex">
-              <span className="mr-8 my-1 font-semibold">進食</span>
-              <FoodInputs
-                list={formState.food}
-                onChange={(value: FoodType[]) => handleFoodChange(value)}
-              />
-            </li>
-          </ul>
-        </ToggleGroup>
-        <ToggleGroup title="異常">
-          <SickInputs
-            formState={formState}
-            onRadioChange={handleRadioChange}
-            onSelectChange={handleSelectChange}
-            onMultiChange={handleMultiChange}
-          />
-        </ToggleGroup>
-        <ToggleGroup title="日常照護">
-          <CareInputs
-            formState={formState}
-            onRadioChange={handleRadioChange}
-            onTextChange={handleTextChange}
-          />
-        </ToggleGroup>
-        <div className="flex flex-col gap-4">
-          <span className="text-note">備註</span>
-          <textarea
-            name="remark"
-            value={formState.remark}
-            onChange={(event) => handleTextChange("remark", event.target.value)}
-            placeholder="其他特殊情況或遺漏的資訊，請填寫於此。"
-            className="px-4 py-3 h-24 border border-stroke rounded-[10px]"
-          ></textarea>
-        </div>
-        <button
-          type="submit"
-          className="py-2 rounded-full bg-primary text-white"
-        >
-          儲存
-        </button>
-      </form>
-    </RecordFormLayout>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <ToggleGroup title="一般">
+        <ul className="flex flex-col gap-4 mt-2">
+          <li className="flex items-center">
+            <span className="mr-8 font-semibold">體重</span>
+            <input
+              name="weight"
+              type="number"
+              min={0}
+              value={formState.weight}
+              onChange={(e) => handleTextChange("weight", e.target.value)}
+              className="form-input mr-1 w-16"
+            />
+            <Select
+              title="單位"
+              options={unitCategory}
+              onChange={(e) => handleSelectChange("weight_unit", e)}
+            />
+          </li>
+          <li>
+            <span className="mr-4 font-semibold">飲水量</span>
+            <input
+              type="number"
+              min={0}
+              value={formState.water}
+              onChange={(e) => handleTextChange("water", e.target.value)}
+              className="form-input mr-1 w-16"
+            />
+            <span>ml</span>
+          </li>
+          <li className="flex">
+            <span className="mr-8 my-1 font-semibold">進食</span>
+            <FoodInputs
+              list={formState.food}
+              onChange={(value: FoodType[]) => handleFoodChange(value)}
+            />
+          </li>
+        </ul>
+      </ToggleGroup>
+      <ToggleGroup title="異常">
+        <SickInputs
+          formState={formState}
+          onRadioChange={handleRadioChange}
+          onSelectChange={handleSelectChange}
+          onMultiChange={handleMultiChange}
+        />
+      </ToggleGroup>
+      <ToggleGroup title="日常照護">
+        <CareInputs
+          formState={formState}
+          onRadioChange={handleRadioChange}
+          onTextChange={handleTextChange}
+        />
+      </ToggleGroup>
+      <div className="flex flex-col gap-4">
+        <span className="text-note">備註</span>
+        <textarea
+          name="remark"
+          value={formState.remark}
+          onChange={(e) => handleTextChange("remark", e.target.value)}
+          placeholder="其他特殊情況或遺漏的資訊，請填寫於此。"
+          className="px-4 py-3 h-24 border border-stroke rounded-[10px]"
+        ></textarea>
+      </div>
+      <button type="submit" className="py-2 rounded-full bg-primary text-white">
+        儲存
+      </button>
+    </form>
   );
 };
 

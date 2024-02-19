@@ -1,6 +1,6 @@
 import { fetchDeletePost } from "@/common/fetch/post";
-import { RootState } from "@/common/redux/store";
 import { MediaType } from "@/types/enums";
+import { RootState } from "@/common/redux/store";
 import { IconDotsVertical } from "@tabler/icons-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -21,9 +21,10 @@ const Menu: React.FC<PropsType> = ({ postId, isAuthor, media, mediaType }) => {
   };
 
   return (
-    <div
+    <button
+      type="button"
       onClick={() => setIsMenuOpen(!isMenuOpen)}
-      className="relative cursor-pointer"
+      className="relative"
     >
       <IconDotsVertical />
       {isMenuOpen && (
@@ -51,7 +52,7 @@ const Menu: React.FC<PropsType> = ({ postId, isAuthor, media, mediaType }) => {
           )}
         </ul>
       )}
-    </div>
+    </button>
   );
 };
 

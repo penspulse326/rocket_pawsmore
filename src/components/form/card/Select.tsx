@@ -21,9 +21,16 @@ const Select: React.FC<SelectProps> = ({
   const [selected, setSelected] = useState("");
 
   const handleSelectChange = (selectedValue: string) => {
-    setSelected(selectedValue);
+    setSelected(() => selectedValue);
     handleChange(selectedValue);
     setIsOpen(false);
+  };
+
+  const handleBlur = (e: React.FocusEvent) => {
+    e.stopPropagation();
+    setTimeout(() => {
+      setIsOpen(false);
+    }, 300);
   };
 
   return (
@@ -32,6 +39,7 @@ const Select: React.FC<SelectProps> = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
+        onBlur={handleBlur}
         className="form-input flex items-center gap-1"
       >
         <span className="flex-grow">{selected || title}</span>
@@ -50,7 +58,7 @@ const Select: React.FC<SelectProps> = ({
             key={label}
             onClick={() => handleSelectChange(value)}
             style={{ background: value === selected ? "#C5E5FF" : "white" }}
-            className="px-2 py-1 rounded-[10px] hover:bg-secondary"
+            className="px-2 py-1 rounded-[10px] cursor-pointer hover:bg-secondary"
           >
             {label}
           </li>

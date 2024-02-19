@@ -24,6 +24,8 @@ const apiNext = {
   GET_COMMENT: `${baseUrl}/api/comment/get`, // 動態路由 /:postId
   DELETE_COMMENT: (postId: number, commentId: number) =>
     `${baseUrl}/api/comment/delete?postId=${postId}&commentId=${commentId}`,
+  // 新增日常卡片
+  ADD_DAILY_CARD: (petId: number) => `${baseUrl}/api/record/daily/add/${petId}`,
 };
 
 export default apiNext;

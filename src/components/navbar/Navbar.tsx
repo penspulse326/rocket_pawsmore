@@ -6,16 +6,18 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, resetState } from "@/common/redux/store";
 import { setUserInfo } from "@/common/redux/userInfoSlice";
+import { setPetList } from "@/common/redux/petListSlice";
 
 import BurgerMenu from "./BurgerMenu";
 import useToken from "@/common/hooks/useToken";
 import { fetchCheckAuth } from "@/common/fetch/auth";
+import { fetchGetPetList } from "@/common/fetch/petProfile";
 
 const Navbar: React.FC = () => {
   const { token: localToken, clearToken } = useToken();
   const router = useRouter();
   const dispatch = useDispatch();
-  const { token, headShot, username } = useSelector(
+  const { headShot, username, userId } = useSelector(
     (state: RootState) => state.userInfo
   );
 
@@ -26,10 +28,6 @@ const Navbar: React.FC = () => {
     page ? "slide-r" : "slide-l"
   } absolute left-0 bottom-0 w-[50%] h-1 bg-gradient-to-r from-[#7CCBFF] via-[#7CCBFF] to-[#0057FF]
 `;
-
-  useEffect(() => {
-    checkLogin();
-  }, [localToken]);
 
   const checkLogin = async () => {
     if (!localToken) {
@@ -47,12 +45,35 @@ const Navbar: React.FC = () => {
     setIsLoggedIn(true);
   };
 
+  const handleGetPetList = async () => {
+    if (userId) {
+      const result = await fetchGetPetList(userId);
+      dispatch(setPetList(result.data));
+    }
+  };
+
   const handleLogout = () => {
     dispatch(resetState());
     clearToken();
     setIsLoggedIn(false);
     router.push("/login");
   };
+
+  useEffect(() => {
+    checkLogin();
+  }, [localToken]);
+
+  useEffect(() => {
+    if (userId) {
+      setIsLoggedIn(true);
+      handleGetPetList();
+
+      const path = router.pathname;
+      if (path === "/record_dashboard") {
+        setPage(1);
+      }
+    }
+  }, [userId]);
 
   if (router.pathname === "/login" || router.pathname === "/signup") {
     return <></>;
@@ -111,7 +132,7 @@ const Navbar: React.FC = () => {
             />
           </>
         ) : (
-          <div className="col-start-3 flex justify-end items-center gap-3 text-primary font-semibold">
+          <div className="col-start-3 flex justify-end items-center gap-3 text-link font-semibold">
             <Link href="/login" className="hover:scale-110 duration-100">
               登入
             </Link>

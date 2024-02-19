@@ -12,9 +12,9 @@ import LikeBtn from "./LikeBtn";
 import { fetchGetSinglePost } from "@/common/fetch/post";
 import { fetchGetComment } from "@/common/fetch/comment";
 
-import { MediaType } from "@/common/lib/enums";
 import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
+import { MediaType } from "@/types/enums";
 
 interface PropsType {
   data: PostDataType;

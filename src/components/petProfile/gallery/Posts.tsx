@@ -10,7 +10,8 @@ import NoContent from "@/components/NoContent";
 import { PostListContext } from "@/pages/pet/[petAccount]";
 import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 import { PostDataType } from "@/types";
-import { MediaType } from "@/common/lib/enums";
+
+import { MediaType } from "@/types/enums";
 
 const Posts: React.FC = () => {
   const postList = useContext(PostListContext);

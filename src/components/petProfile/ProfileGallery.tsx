@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Image from "next/image";
 import { IconLayoutGrid, IconMedal, IconPinned } from "@tabler/icons-react";
 import Posts from "./gallery/Posts";
 import Milestones from "./gallery/Milestones";

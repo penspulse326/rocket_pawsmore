@@ -70,7 +70,7 @@ const CategoryProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 const CalendarLayout = () => {
   return (
     <AppProvider>
-      <section className="flex flex-col gap-y-8 max-w-[832px] w-full border border-stroke rounded-[30px] p-[31px]">
+      <section className="flex flex-col gap-y-8 max-w-[832px] w-full border border-stroke rounded-[30px] p-8">
         <HeaderLayout />
         <BodyLayout />
       </section>

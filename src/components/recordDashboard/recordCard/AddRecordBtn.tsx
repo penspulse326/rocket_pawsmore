@@ -1,63 +1,63 @@
-import React, { useState } from "react";
 import { IconCirclePlus } from "@tabler/icons-react";
+import React, { useState } from "react";
 
-const AddRecordBtn: React.FC = () => {
-  const [isShown, setIsShown] = useState(false);
-  const category = ["日常紀錄", "醫療紀錄", "重要時刻"];
-  const RecordCategoryCard = () => {
+import Dot from "@/components/icon/Dot";
+import { RecordCardType } from "@/types/enums";
+
+interface PropsType {
+  setFormType: (value: number) => void;
+}
+
+const AddRecordBtn: React.FC<PropsType> = ({ setFormType }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // 使用斷言保證轉換出來的字串是 enum CardType 可以索引的值
+  const category = Object.values(RecordCardType).filter(
+    (key) => typeof key === "string"
+  ) as (keyof typeof RecordCardType)[];
+
+  const handleBlur = (event: React.FocusEvent) => {
+    event.stopPropagation();
+    setTimeout(() => {
+      setIsMenuOpen(false);
+    }, 300);
+  };
+
+  const CategoryList = () => {
     return (
-      <div className="absolute top-[101px] bg-white max-w-[164px] p-3 rounded-3xl shadow-[0_0_10px_0_rgba(0,0,0,0.15)]">
+      <ul className="absolute top-[101px] max-w-[164px] p-3 rounded-3xl bg-white shadow-custom">
         {category.map((name, index) => {
           return (
-            <ul
-              className="flex gap-x-[10px] px-3 py-1 rounded-[30px] hover:bg-secondary hover:cursor-pointer"
-              key={index}
-            >
-              <li>新增</li>
-              <ol className="flex gap-x-1 items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="6"
-                  height="6"
-                  viewBox="0 0 6 6"
-                  fill="none"
-                >
-                  <circle
-                    cx="3"
-                    cy="3"
-                    r="3"
-                    fill={(() => {
-                      switch (name) {
-                        case "日常紀錄":
-                          return "#969AFF";
-                        case "醫療紀錄":
-                          return "#FF6D80";
-                        case "重要時刻":
-                          return "#FFA959";
-                        default:
-                          return "";
-                      }
-                    })()}
-                  />
-                </svg>
-                <li>{name}</li>
-              </ol>
-            </ul>
+            <li key={index}>
+              <button
+                type="button"
+                onClick={() => setFormType(RecordCardType[name])}
+                className="flex items-center gap-x-[10px] px-3 py-1 rounded-[30px] hover:bg-secondary"
+              >
+                <span>新增</span>
+                <span className="flex items-center">
+                  <Dot name={RecordCardType[name]} size="sm" />
+                  {name}
+                </span>
+              </button>
+            </li>
           );
         })}
-      </div>
+      </ul>
     );
   };
+
   return (
     <div
-      className="relative flex gap-x-2 justify-center items-center border border-stroke rounded-[30px] w-full min-h-[161px] hover:bg-secondary hover:cursor-pointer"
-      onClick={() => setIsShown(!isShown)}
-      onBlur={() => setIsShown(false)}
+      className="relative flex justify-center items-center border border-stroke rounded-[30px] w-full min-h-[161px] hover:bg-secondary hover:cursor-pointer duration-300"
+      onClick={() => setIsMenuOpen(!isMenuOpen)}
+      onBlur={handleBlur}
       tabIndex={-1}
     >
-      <div className="text-primary">點擊以新增紀錄</div>
-      <IconCirclePlus size={24} color={"#203170"} />
-      {isShown && <RecordCategoryCard />}
+      <div className="flex gap-x-2">
+        <div className="text-primary">點擊以新增紀錄</div>
+        <IconCirclePlus size={24} color={"#203170"} />
+      </div>
+      {isMenuOpen && <CategoryList />}
     </div>
   );
 };

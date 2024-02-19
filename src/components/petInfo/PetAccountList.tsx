@@ -17,6 +17,10 @@ const AccountList: React.FC = () => {
   const [selectedPet, setSelectedPet] = useState<PetDataType>(petList[0]);
 
   useEffect(() => {
+    setSelectedPet(petList[0]);
+  }, [petList]);
+
+  useEffect(() => {
     if (selectedPet) {
       setPetId(selectedPet.petId);
     }
@@ -30,6 +34,7 @@ const AccountList: React.FC = () => {
             src={selectedPet.petPhoto || "/images/default-photo.png"}
             alt={selectedPet.petAccount}
             fill={true}
+            sizes="100%"
             style={{ objectFit: "cover" }}
           />
         </div>
@@ -65,6 +70,7 @@ const AccountList: React.FC = () => {
                   src={petPhoto || "/images/default-photo.png"}
                   alt={petAccount}
                   fill={true}
+                  sizes="100%"
                   style={{ objectFit: "cover" }}
                 />
               </div>
