@@ -8,6 +8,7 @@ import Select from "@/components/form/card/Select";
 import { unitCategory } from "@/common/lib/formText";
 import { DateContext, PetIdContext } from "@/pages/record_dashboard";
 import { formatDailyData } from "@/common/helpers/formatDailyData";
+import { PooType, UrineType, VomitType } from "@/types/enums";
 
 interface FoodType {
   type: string;
@@ -19,9 +20,9 @@ export interface DailyFormStateType {
   weight_unit: "kg" | "g";
   water: number;
   food: FoodType[];
-  urine: string;
-  poo: string;
-  vomit: string;
+  urine: UrineType;
+  poo: PooType;
+  vomit: VomitType;
   symptom: string[];
   deworming: string;
   medicine: string;
@@ -42,9 +43,9 @@ const initailState: DailyFormStateType = {
       amount: 0,
     },
   ],
-  urine: "",
-  poo: "",
-  vomit: "",
+  urine: 0,
+  poo: 0,
+  vomit: 0,
   symptom: [],
   deworming: "",
   medicine: "",
@@ -66,8 +67,6 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
     ...initailState,
     targetDate: selectedDate,
   });
-
-  console.log(formState);
 
   const handleFoodChange = (value: FoodType[]) => {
     setFormState((prev) => ({ ...prev, food: value }));
@@ -109,8 +108,8 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    formatDailyData(formState);
-    handleClose();
+    const data = formatDailyData(formState);
+    // handleClose();
   };
 
   return (
