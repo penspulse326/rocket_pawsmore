@@ -6,7 +6,7 @@ import CareInputs from "./CareInputs";
 import SickInputs from "./SickInputs";
 import Select from "@/components/form/card/Select";
 import { unitCategory } from "@/common/lib/formText";
-import { PetIdContext } from "@/pages/record_dashboard";
+import { DateContext, PetIdContext } from "@/pages/record_dashboard";
 import { formatDailyData } from "@/common/helpers/formatDailyData";
 
 interface FoodType {
@@ -29,6 +29,7 @@ export interface DailyFormStateType {
   rehab: string;
   selected: string[];
   remark: string;
+  targetDate: string;
 }
 
 const initailState: DailyFormStateType = {
@@ -51,6 +52,7 @@ const initailState: DailyFormStateType = {
   rehab: "",
   selected: [],
   remark: "",
+  targetDate: "",
 };
 
 interface PropsType {
@@ -58,8 +60,14 @@ interface PropsType {
 }
 
 const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
+  const { selectedDate } = useContext(DateContext);
   const { petId } = useContext(PetIdContext);
-  const [formState, setFormState] = useState(initailState);
+  const [formState, setFormState] = useState({
+    ...initailState,
+    targetDate: selectedDate,
+  });
+
+  console.log(formState);
 
   const handleFoodChange = (value: FoodType[]) => {
     setFormState((prev) => ({ ...prev, food: value }));

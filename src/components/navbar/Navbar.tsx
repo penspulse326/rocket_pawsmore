@@ -29,14 +29,6 @@ const Navbar: React.FC = () => {
   } absolute left-0 bottom-0 w-[50%] h-1 bg-gradient-to-r from-[#7CCBFF] via-[#7CCBFF] to-[#0057FF]
 `;
 
-  useEffect(() => {
-    checkLogin();
-  }, [localToken]);
-
-  useEffect(() => {
-    handleGetPetList();
-  }, [userId]);
-
   const checkLogin = async () => {
     if (!localToken) {
       return;
@@ -66,6 +58,22 @@ const Navbar: React.FC = () => {
     setIsLoggedIn(false);
     router.push("/login");
   };
+
+  useEffect(() => {
+    checkLogin();
+  }, [localToken]);
+
+  useEffect(() => {
+    if (userId) {
+      setIsLoggedIn(true);
+      handleGetPetList();
+
+      const path = router.pathname;
+      if (path === "/record_dashboard") {
+        setPage(1);
+      }
+    }
+  }, [userId]);
 
   if (router.pathname === "/login" || router.pathname === "/signup") {
     return <></>;
