@@ -40,6 +40,7 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
   onToggle,
 }) => {
   const getData = useMemo(() => data, [data]);
+  const isAnniversary = data.card === "紀念日";
 
   const Content: React.FC = () => {
     const Reminder: React.FC = () => {
@@ -83,7 +84,7 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
           <Title />
           {/* icons */}
           <div className="flex gap-x-2">
-            {isOpened && (
+            {isOpened && !isAnniversary && (
               <IconEdit
                 size={24}
                 color={"#203170"}
