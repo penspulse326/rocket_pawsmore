@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 
 import Image from "next/image";
 import { IconHeartFilled, IconMessageCircle2Filled } from "@tabler/icons-react";
@@ -10,43 +10,37 @@ import NoContent from "@/components/NoContent";
 import { PostListContext } from "@/pages/pet/[petAccount]";
 import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 import { PostDataType } from "@/types";
-import { useSelector } from "react-redux";
-import { RootState } from "@/common/redux/store";
 import { MediaType } from "@/common/lib/enums";
 
 const Posts: React.FC = () => {
-  const { userId } = useSelector((state: RootState) => state.userInfo);
-
   const postList = useContext(PostListContext);
 
   const [selectedPost, setSelectedPost] = useState<PostDataType>();
   const [isMaskOpen, setIsMaskOpen] = useState(false);
 
+  const handleOpenPost = (post: PostDataType) => {
+    setSelectedPost(post);
+    setIsMaskOpen(true);
+    handleFreezeScroll(true);
+  };
+
   return (
     <>
       {postList ? (
-        <section
-          className="flex gap-4 flex-wrap mr-auto overflow-hidden"
-          // tabIndex={0}
-          // onBlur={() => handleFreezeScroll(false)}
-        >
+        <section className="flex gap-4 flex-wrap mr-auto overflow-hidden">
           {postList.map((post, index) => {
-            const { postId, petAccount, media, likes, mediaType } = post;
+            const { media, likes, mediaType, comments, postContent } = post;
 
             return (
               <div key={index}>
                 <div
                   className="gallery-card relative z-0 w-[352px] h-[352px] rounded-[30px] overflow-hidden hover:cursor-pointer"
-                  onClick={() => {
-                    setSelectedPost(post);
-                    setIsMaskOpen(true);
-                    // handleFreezeScroll(true);
-                  }}
+                  onClick={() => handleOpenPost(post)}
                 >
                   {/* 圖片 */}
                   {mediaType === MediaType.image && (
                     <Image
-                      alt={`${petAccount}-${postId}`}
+                      alt={postContent}
                       className="w-full h-full  object-cover"
                       src={media}
                       width={352}
@@ -76,11 +70,11 @@ const Posts: React.FC = () => {
                   <ul className="overlay absolute top-0 -z-10 flex gap-x-4 justify-center items-center bg-black/50 w-full h-full text-white rounded-[30px]">
                     <li className="flex gap-x-1 items-center">
                       <IconHeartFilled size={26} />
-                      <div>{likes.length}</div>
+                      <div>{likes?.length || 0}</div>
                     </li>
                     <li className="flex gap-x-1 items-center">
                       <IconMessageCircle2Filled size={26} />
-                      <div>1</div>
+                      <div>{comments?.length || 0}</div>
                     </li>
                   </ul>
                 </div>

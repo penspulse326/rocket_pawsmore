@@ -90,6 +90,13 @@ export interface LikesType {
   userAccount: string;
 }
 
+interface LessCommentDataType {
+  postContent: string;
+  postId: number;
+  userAccount: string;
+  userId: number;
+}
+
 export interface PostDataType {
   petId: number;
   postId: number;
@@ -99,6 +106,7 @@ export interface PostDataType {
   media: string;
   mediaType: 0 | 1;
   likes: LikesType[];
+  comments: LessCommentDataType[];
   createDate: string;
   userId: number;
 }
