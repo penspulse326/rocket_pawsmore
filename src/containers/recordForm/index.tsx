@@ -4,7 +4,7 @@ import { recordCard } from "@/common/lib/formText";
 import DailyForm from "./daily/DailyForm";
 import Dot from "@/components/icon/Dot";
 import { RecordCardType } from "@/types/enums";
-import MedicalForm from "./midical/MedicalForm";
+import MedicalForm from "./medical/MedicalForm";
 import MomemtForm from "./moment/MomentForm";
 
 interface PropsType {

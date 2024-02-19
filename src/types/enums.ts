@@ -44,3 +44,8 @@ export enum VomitType {
   混合異物 = 11,
   其他 = 12,
 }
+
+export enum MedicalCardType {
+  醫療提醒 = 0,
+  就診紀錄 = 1,
+}
