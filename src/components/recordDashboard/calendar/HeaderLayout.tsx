@@ -1,5 +1,6 @@
 import moment from "moment";
 import React, { useState, useContext } from "react";
+import { debounce } from "lodash";
 import {
   IconChevronLeft,
   IconChevronRight,
@@ -39,13 +40,13 @@ const HeaderLayout = () => {
           size={24}
           color={"#808080"}
           className="hover:cursor-pointer"
-          onClick={() => dispatch({ type: "PREVIOUS_MONTH" })}
+          onClick={debounce(() => dispatch({ type: "PREVIOUS_MONTH" }), 200)}
         />
         <IconChevronRight
           size={24}
           color={"#808080"}
           className="hover:cursor-pointer"
-          onClick={() => dispatch({ type: "NEXT_MONTH" })}
+          onClick={debounce(() => dispatch({ type: "NEXT_MONTH" }), 200)}
         />
       </div>
     );
