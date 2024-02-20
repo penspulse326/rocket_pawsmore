@@ -43,7 +43,8 @@ const MedicalForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
       data[key] = value;
     });
 
-    const response = await fetchAddMedicalCard(token, petId!, data);
+    console.log(data);
+    //const response = await fetchAddMedicalCard(token, petId!, data);
   };
 
   return (

@@ -1,8 +1,9 @@
 export enum VisitType {
-  看診 = 0,
-  疫苗 = 1,
-  健檢 = 2,
-  結紮 = 3,
+  無 = 0,
+  看診 = 1,
+  疫苗 = 2,
+  健檢 = 3,
+  結紮 = 4,
 }
 
 export const visitOptions = [

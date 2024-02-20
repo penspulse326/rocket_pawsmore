@@ -15,6 +15,8 @@ interface PropsType {
 
 const DateInput: React.FC<PropsType> = ({ title, name, placeholder, type }) => {
   const [date, setDate] = useState("");
+
+  console.log(date);
   return (
     <div className="flex justify-between items-center">
       <span className="font-semibold">{title}</span>
@@ -27,12 +29,12 @@ const DateInput: React.FC<PropsType> = ({ title, name, placeholder, type }) => {
           timeFormat="HH:mm"
           timeIntervals={15}
           onChange={(date: Date) => {
-            setDate(moment(date).format("YYYY-MM-DD"));
+            setDate(moment(date).format("YYYY-MM-DD HH:mm"));
           }}
           customInput={
             <label className="flex items-center gap-2 cursor-pointer">
               <IconCalendarPlus />
-              <span className="text-note">{placeholder}</span>
+              <span className="text-note">{date || placeholder}</span>
               <input
                 type="text"
                 readOnly={true}
