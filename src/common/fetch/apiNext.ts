@@ -29,6 +29,8 @@ const apiNext = {
   // 新增醫療卡片
   ADD_MEDICAL_CARD: (petId: number) =>
     `${baseUrl}/api/record/medical/add/${petId}`,
+  ADD_MOMENT_CARD: (petId: number) =>
+    `${baseUrl}/api/record/moment/add/${petId}`,
 };
 
 export default apiNext;

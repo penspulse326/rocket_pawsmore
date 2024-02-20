@@ -1,4 +1,4 @@
-import { RecordCardType } from "@/types/enums";
+import { RecordCardType, MomentCategoryType } from "@/types/enums";
 
 export const species = [
   { label: "狗", value: 0 },
@@ -118,6 +118,50 @@ export const sickCategory: SickCategoryType = {
     ],
   },
 };
+
+export const momentCategory = [
+  { label: "行為表現", value: "行為表現" },
+  { label: "生活習慣", value: "生活習慣" },
+  { label: "技能", value: "技能" },
+  { label: "社交", value: "社交" },
+  { label: "驚喜", value: "驚喜" },
+];
+
+export const behaviorOptions = [
+  { label: "吐在床上", value: "吐在床上" },
+  { label: "咬爛物品", value: "咬爛物品" },
+  { label: "踏踏", value: "踏踏" },
+  { label: "一起睡覺", value: "一起睡覺" },
+  { label: "一起吃飯", value: "一起吃飯" },
+  { label: "睡到翻肚", value: "睡到翻肚" },
+  { label: "睡到打呼", value: "睡到打呼" },
+  { label: "偷吃食物", value: "偷吃食物" },
+];
+
+export const habitOptions = [
+  { label: "學會用貓砂", value: "學會用貓砂" },
+  { label: "定點排泄", value: "定點排泄" },
+  { label: "看電視", value: "看電視" },
+  { label: "咬飼主", value: "咬飼主" },
+];
+
+export const socialOptions = [
+  { label: "寵物美容", value: "寵物美容" },
+  { label: "交到新朋友", value: "交到新朋友" },
+  { label: "出遊", value: "出遊" },
+  { label: "搬家", value: "搬家" },
+  { label: "拿到新玩具", value: "拿到新玩具" },
+  { label: "穿新衣", value: "穿新衣" },
+  { label: "參加比賽", value: "參加比賽" },
+];
+
+export const surpriseOptions = [
+  { label: "踩到尾巴", value: "踩到尾巴" },
+  { label: "收到寵物送的「禮物」", value: "收到寵物送的「禮物」" },
+  { label: "撿到乳牙", value: "撿到乳牙" },
+  { label: "撿到鬍鬚", value: "撿到鬍鬚" },
+  { label: "收紅包", value: "收紅包" },
+];
 
 interface ChangePasswordType {
   ENTER_PASSWORD: string;
