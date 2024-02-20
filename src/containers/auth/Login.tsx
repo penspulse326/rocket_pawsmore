@@ -25,7 +25,7 @@ const Login: React.FC = () => {
     formState: { errors, isValid },
   } = useForm<LoginFormType>();
 
-  const { setToken } = useToken();
+  const { updateUser } = useToken();
   const router = useRouter();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -55,8 +55,9 @@ const Login: React.FC = () => {
 
     const response = await fetchLogin(data);
     if (response.ok) {
+      const { token, userId } = response.data;
       dispatch(setUserInfo(response.data));
-      setToken(response.data.token);
+      updateUser(token, userId);
       router.push("/");
     }
     setStatusCode(response.status);
