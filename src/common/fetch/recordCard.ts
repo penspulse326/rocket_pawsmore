@@ -39,6 +39,9 @@ export const fetchAddMedicalCard = async (
 
     const result = await response.json();
 
+    console.log(result);
+    ``;
+
     return { ok: response.ok, status: response.status, data: result.data };
   } catch (error) {
     return { ok: false, status: 500 };
