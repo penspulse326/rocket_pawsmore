@@ -1,5 +1,8 @@
+import Select from "@/components/form/card/Select";
+import DateInput from "./DateInput";
 import ImageInput from "./ImageInput";
 import TextInput from "./TextInput";
+import { visitOptions } from "./data";
 
 const MedicalRecordInputs = () => {
   const handleInputChange = () => {
@@ -14,6 +17,19 @@ const MedicalRecordInputs = () => {
         star={true}
         onChange={handleInputChange}
       />
+      <div className="flex justify-between items-center">
+        <span className="font-semibold">
+          事件分類
+          <span className="text-error">*</span>
+        </span>
+        <div className="flex-grow flex items-center max-w-[248px]">
+          <Select
+            title="事件分類"
+            options={visitOptions}
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
       <TextInput
         title="醫院"
         name="hospital"
@@ -54,6 +70,7 @@ const MedicalRecordInputs = () => {
         onChange={handleInputChange}
       />
       <ImageInput />
+      <DateInput name="date" title="回診提醒" placeholder="新增提醒日期" />
     </div>
   );
 };

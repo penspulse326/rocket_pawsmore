@@ -3,7 +3,7 @@ import { useState } from "react";
 
 interface OptionType {
   label: string;
-  value: string;
+  value: any;
 }
 
 interface SelectProps {

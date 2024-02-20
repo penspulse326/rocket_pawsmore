@@ -15,6 +15,15 @@ const MedicalForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
   const [cardType, setCardType] = useState<MedicalCardType>();
   const [isComfirmed, setIsComfirmed] = useState(false);
 
+  const [formState, setFormState] = useState({
+    title: "",
+    hospital: "",
+    doctor: "",
+    medicine: "",
+    check: "",
+    notice: "",
+  });
+
   const handleCardTypeChange = (cardType: MedicalCardType) => {
     setCardType(cardType);
   };
@@ -26,6 +35,8 @@ const MedicalForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
       setIsComfirmed(true);
       return;
     }
+
+    console.log(formState);
   };
 
   return (
