@@ -26,7 +26,12 @@ const DateInput: React.FC<PropsType> = ({ title, name, placeholder }) => {
             <label className="flex items-center gap-2 cursor-pointer">
               <IconCalendarPlus />
               <span className="text-note">{placeholder}</span>
-              <input type="text" readOnly={true} className="hidden" />
+              <input
+                type="text"
+                readOnly={true}
+                name={name}
+                className="hidden"
+              />
             </label>
           }
         />

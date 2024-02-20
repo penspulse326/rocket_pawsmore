@@ -15,7 +15,6 @@ const TextInput: React.FC<PropsType> = ({
   star,
   isMoney,
   isArea,
-  onChange: handleChange,
 }) => {
   return (
     <div className="flex justify-between items-center">
@@ -28,7 +27,6 @@ const TextInput: React.FC<PropsType> = ({
           <textarea
             name={name}
             placeholder={placeholder}
-            onChange={handleChange}
             className="px-2 py-1 w-full h-8 border border-stroke outline-note rounded-[10px]"
           />
         ) : (
@@ -38,7 +36,6 @@ const TextInput: React.FC<PropsType> = ({
               type="text"
               name={name}
               placeholder={placeholder}
-              onChange={handleChange}
               className="px-2 py-1 w-full border border-stroke outline-note rounded-[10px]"
             />
           </>

@@ -8,12 +8,14 @@ interface OptionType {
 
 interface SelectProps {
   title: string;
+  name?: string;
   options: OptionType[];
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
 }
 
 const Select: React.FC<SelectProps> = ({
   title,
+  name,
   options,
   onChange: handleChange,
 }) => {
@@ -22,7 +24,7 @@ const Select: React.FC<SelectProps> = ({
 
   const handleSelectChange = (selectedValue: string) => {
     setSelected(() => selectedValue);
-    handleChange(selectedValue);
+    handleChange && handleChange(selectedValue);
     setIsOpen(false);
   };
 
@@ -64,6 +66,7 @@ const Select: React.FC<SelectProps> = ({
           </li>
         ))}
       </ul>
+      <input type="hidden" name={name} value={selected} />
     </div>
   );
 };

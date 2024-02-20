@@ -38,7 +38,6 @@ const DateProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     moment().format("YYYY-MM-DD")
   );
 
-  console.log(selectedDate);
   return (
     <DateContext.Provider value={{ selectedDate, setSelectedDate }}>
       {children}
