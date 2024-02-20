@@ -6,7 +6,7 @@ import moment from "moment";
 import { zhTW } from "date-fns/locale";
 import { useState, forwardRef } from "react";
 
-import ErrorMessage from "../../ErrorMessage";
+import ErrorMessage from "../ErrorMessage";
 
 interface DateInputPropsType {
   name: string;

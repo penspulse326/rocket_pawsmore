@@ -20,11 +20,11 @@ const Select: React.FC<SelectProps> = ({
   onChange: handleChange,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState({ label: title, value: "" });
 
-  const handleSelectChange = (selectedValue: string) => {
-    setSelected(() => selectedValue);
-    handleChange && handleChange(selectedValue);
+  const handleSelectChange = ({ label, value }: OptionType) => {
+    setSelected({ label, value });
+    handleChange && handleChange(value);
     setIsOpen(false);
   };
 
@@ -44,7 +44,7 @@ const Select: React.FC<SelectProps> = ({
         onBlur={handleBlur}
         className="form-input flex items-center gap-1"
       >
-        <span className="flex-grow">{selected || title}</span>
+        <span className="flex-grow">{selected.label || title}</span>
         <IconChevronDown
           size={20}
           className={`${isOpen && "-rotate-180"} duration-100`}
@@ -58,7 +58,7 @@ const Select: React.FC<SelectProps> = ({
         {options.map(({ label, value }: OptionType) => (
           <li
             key={label}
-            onClick={() => handleSelectChange(value)}
+            onClick={() => handleSelectChange({ label, value })}
             style={{ background: value === selected ? "#C5E5FF" : "white" }}
             className="px-2 py-1 rounded-[10px] cursor-pointer hover:bg-secondary"
           >
@@ -66,7 +66,7 @@ const Select: React.FC<SelectProps> = ({
           </li>
         ))}
       </ul>
-      <input type="hidden" name={name} value={selected} />
+      <input type="hidden" name={name} value={selected.value} />
     </div>
   );
 };

@@ -6,8 +6,8 @@ import { useDispatch } from "react-redux";
 import { setUserInfo } from "@/common/redux/userInfoSlice";
 
 import Loading from "@/components/hint/Loading";
-import TextInput from "@/components/form/profile/TextInput";
-import PasswordInput from "@/components/form/profile/PasswordInput";
+import TextInput from "@/components/profileForm/TextInput";
+import PasswordInput from "@/components/profileForm/PasswordInput";
 import { errorText } from "@/common/lib/messageText";
 import { fetchSignup } from "@/common/fetch/auth";
 

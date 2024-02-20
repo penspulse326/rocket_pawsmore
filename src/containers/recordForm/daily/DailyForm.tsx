@@ -4,7 +4,7 @@ import ToggleGroup from "@/components/ToggleGroup";
 import FoodInputs from "./FoodInputs";
 import CareInputs from "./CareInputs";
 import SickInputs from "./SickInputs";
-import Select from "@/components/form/card/Select";
+import Select from "@/components/recordForm/Select";
 import { unitCategory } from "@/common/lib/formText";
 import { DateContext, PetIdContext } from "@/pages/record_dashboard";
 import { formatDailyData } from "@/common/helpers/formatDailyData";

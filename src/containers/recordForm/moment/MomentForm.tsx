@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 
 import ToggleGroup from "@/components/ToggleGroup";
-import Select from "@/components/form/card/Select";
+import Select from "@/components/recordForm/Select";
 import { unitCategory } from "@/common/lib/formText";
 import { PetIdContext } from "@/pages/record_dashboard";
 

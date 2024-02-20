@@ -1,19 +1,15 @@
 import { useContext, useState } from "react";
 import { DateContext, PetIdContext } from "@/pages/record_dashboard";
-import RadioCheck from "@/components/form/card/RadioCheck";
+import RadioCheck from "@/components/recordForm/RadioCheck";
 import { MedicalCardType } from "@/types/enums";
 import MedicalRecord from "./MedicalRecord";
 import { useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
+import { fetchAddMedicalCard } from "@/common/fetch/recordCard";
 
 interface PropsType {
   onClose: () => void;
 }
-
-const initialFormState: Record<string, any> = {
-  card: 1,
-  cardType: null,
-};
 
 const MedicalForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
   const { token } = useSelector((state: RootState) => state.userInfo);
@@ -22,20 +18,11 @@ const MedicalForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
   const [cardType, setCardType] = useState<MedicalCardType>();
   const [isComfirmed, setIsComfirmed] = useState(false);
 
-  const [formState, setFormState] = useState({
-    ...initialFormState,
-    targetDate: selectedDate,
-  });
-
   const handleCardTypeChange = (cardType: MedicalCardType) => {
     setCardType(cardType);
-    setFormState((prev) => ({
-      ...prev,
-      cardType,
-    }));
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!isComfirmed) {
@@ -45,13 +32,18 @@ const MedicalForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
     const form = event.currentTarget as HTMLFormElement;
     const fd = new FormData(form);
+    const data: Record<string, any> = {
+      card: 1,
+      targetDate: selectedDate,
+      cardType,
+    };
 
     fd.forEach((value, key) => {
-      setFormState((prev) => ({ ...prev, [key]: value }));
+      data[key] = value;
     });
-  };
 
-  console.log(formState);
+    const response = await fetchAddMedicalCard(token, petId!, data);
+  };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">

@@ -1,4 +1,4 @@
-import Select from "@/components/form/card/Select";
+import Select from "@/components/recordForm/Select";
 import DateInput from "./DateInput";
 import ImageInput from "./ImageInput";
 import TextInput from "./TextInput";

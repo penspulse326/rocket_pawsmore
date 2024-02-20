@@ -3,12 +3,12 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 
-import UploadPhoto from "@/components/form/profile/UploadPhoto";
+import UploadPhoto from "@/components/profileForm/UploadPhoto";
 
 import { errorText } from "@/common/lib/messageText";
-import TextInput from "@/components/form/profile/TextInput";
-import DateInput from "@/components/form/profile/DateInput";
-import RadioSelect from "@/components/form/profile/RadioSelect";
+import TextInput from "@/components/profileForm/TextInput";
+import DateInput from "@/components/profileForm/DateInput";
+import RadioSelect from "@/components/profileForm/RadioSelect";
 import { gender, species } from "@/common/lib/formText";
 import BtnLoading from "@/components/hint/BtnLoading";
 
