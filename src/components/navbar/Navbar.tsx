@@ -80,7 +80,7 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <nav className="fixed top-0 z-10 w-[100%] border-b border-stroke bg-white">
+    <nav className="fixed top-0 z-50 w-[100%] border-b border-stroke bg-white">
       <div className="outer grid grid-cols-3 pl-8 pr-6 h-16">
         {/* Logo 連結 */}
         <Link href="/test" className="col-span-1 flex items-center">
