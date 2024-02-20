@@ -5,7 +5,7 @@ import DailyForm from "./daily/DailyForm";
 import Dot from "@/components/icon/Dot";
 import { RecordCardType } from "@/types/enums";
 import MedicalForm from "./midical/MedicalForm";
-import MomemtForm from "./moment/MomentForm";
+import MomentForm from "./moment/MomentForm";
 
 interface PropsType {
   category: RecordCardType;
@@ -17,7 +17,7 @@ const RecordForm: React.FC<PropsType> = ({ category, onClose }) => {
   const forms = {
     [RecordCardType.日常紀錄]: <DailyForm onClose={onClose} />,
     [RecordCardType.醫療紀錄]: <MedicalForm onClose={onClose} />,
-    [RecordCardType.重要時刻]: <MomemtForm onClose={onClose} />,
+    [RecordCardType.重要時刻]: <MomentForm onClose={onClose} />,
   };
 
   return (
