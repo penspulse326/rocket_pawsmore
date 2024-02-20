@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
 import { fetchAddMedicalCard } from "@/common/fetch/recordCard";
 import ReserveRemind from "./ReserveRemind";
+import { VisitType } from "./data";
 
 interface PropsType {
   onClose: () => void;
@@ -37,14 +38,21 @@ const MedicalForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
       card: 1,
       targetDate: selectedDate,
       cardType,
+      visitType: 0,
+      reserveType: 0,
     };
 
     fd.forEach((value, key) => {
       data[key] = value;
     });
 
-    console.log(data);
-    //const response = await fetchAddMedicalCard(token, petId!, data);
+    const response = await fetchAddMedicalCard(token, petId!, data);
+    if (!response.ok) {
+      alert("新增失敗，請稍後再試");
+      return;
+    }
+    alert("新增成功");
+    handleClose();
   };
 
   return (

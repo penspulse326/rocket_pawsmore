@@ -22,14 +22,13 @@ export const fetchAddDailyCard = async (
     return { ok: false, status: 500 };
   }
 };
+
 export const fetchAddMedicalCard = async (
   token: string,
   petId: number,
-  data: any
+  data: Record<string, any>
 ) => {
   try {
-    console.log(data);
-
     const response = await fetch(apiNext.ADD_MEDICAL_CARD(petId), {
       method: "POST",
       body: JSON.stringify(data),

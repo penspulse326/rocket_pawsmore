@@ -1,4 +1,4 @@
-import Select from "@/components/form/record/Select";
+import Select from "./Select";
 import DateInput from "./DateInput";
 
 import { visitOptions } from "./data";

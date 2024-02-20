@@ -4,7 +4,7 @@ import { IconPhoto } from "@tabler/icons-react";
 import Image from "next/image";
 
 import Loading from "@/components/hint/Loading";
-import Select from "@/components/form/card/Select";
+import Select from "@/components/form/record/Select";
 
 import { mediaUpload } from "@/common/fetch/mediaManager";
 import { fetchAddMomentCard } from "@/common/fetch/recordCard";

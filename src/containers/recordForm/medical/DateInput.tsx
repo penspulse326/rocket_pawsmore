@@ -16,7 +16,6 @@ interface PropsType {
 const DateInput: React.FC<PropsType> = ({ title, name, placeholder, type }) => {
   const [date, setDate] = useState("");
 
-  console.log(date);
   return (
     <div className="flex justify-between items-center">
       <span className="font-semibold">{title}</span>

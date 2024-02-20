@@ -13,11 +13,7 @@ interface ResponseType {
   secure_url: string;
 }
 
-interface TagsType {
-  [key: string]: string;
-}
-
-const folders: TagsType = {
+const folders: Record<string, string> = {
   member: "member",
   pet: "pet",
   post: "post",
