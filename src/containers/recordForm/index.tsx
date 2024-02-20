@@ -1,10 +1,10 @@
 import { IconX } from "@tabler/icons-react";
 
 import { recordCard } from "@/common/lib/formText";
-import DailyForm from "./daily/DailyForm";
+import DailyForm from "./daily";
 import Dot from "@/components/icon/Dot";
 import { RecordCardType } from "@/types/enums";
-import MedicalForm from "./midical/MedicalForm";
+import MedicalForm from "./medical";
 import MomentForm from "./moment/MomentForm";
 
 interface PropsType {

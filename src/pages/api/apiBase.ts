@@ -28,6 +28,9 @@ const apiBase = {
   // 新增日常卡片
   ADD_DAILY_CARD: (petId: string) =>
     `${apiUrl}/dashboard/cards/daily/add/${petId}`,
+  // 新增醫療卡片
+  ADD_MEDICAL_CARD: (petId: string) =>
+    `${apiUrl}/dashboard/cards/medical/add/${petId}`,
   ADD_MOMENT_CARD: (petId: string) =>
     `${apiUrl}/dashboard/cards/moment/add/${petId}`,
 };
