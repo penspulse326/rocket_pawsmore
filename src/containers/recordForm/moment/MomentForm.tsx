@@ -116,7 +116,7 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
     if (file) {
       setIsLoading(true);
       try {
-        const uploadResult = await mediaUpload(file, "add moment");
+        const uploadResult = await mediaUpload(file, "moment");
         handlePhotoChange("photo", uploadResult.secure_url);
         setIsLoading(false);
 
@@ -173,6 +173,12 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
     };
     eventContent(formState.momentType);
   }, [formState.momentType]);
+
+  useEffect(() => {
+    return () => {
+      preview && URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
 
   return (
     <>

@@ -1,7 +1,7 @@
 import { IconX } from "@tabler/icons-react";
 
 import { recordCard } from "@/common/lib/formText";
-import DailyForm from "./daily/DailyForm";
+import DailyForm from "./daily";
 import Dot from "@/components/icon/Dot";
 import { RecordCardType } from "@/types/enums";
 import MedicalForm from "./medical";

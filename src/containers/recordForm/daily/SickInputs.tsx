@@ -1,5 +1,5 @@
 import { sickCategory } from "@/common/lib/formText";
-import { DailyFormStateType } from "./DailyForm";
+import { DailyFormStateType } from ".";
 import Select from "@/components/form/record/Select";
 import RadioCheck from "@/components/form/record/RadioCheck";
 import CheckBox from "@/components/form/record/CheckBox";
