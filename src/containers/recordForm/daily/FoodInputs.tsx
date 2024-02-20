@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { foodCategory } from "@/common/lib/formText";
 import ErrorMessage from "@/components/ErrorMessage";
-import Select from "@/components/recordForm/Select";
+import Select from "@/components/form/record/Select";
 
 interface FoodType {
   type: string;

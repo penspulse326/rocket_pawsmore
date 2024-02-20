@@ -2,8 +2,8 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 
-import TextInput from "@/components/profileForm/TextInput";
-import UploadPhoto from "@/components/profileForm/UploadPhoto";
+import TextInput from "@/components/form/profile/TextInput";
+import UploadPhoto from "@/components/form/profile/UploadPhoto";
 import { errorText } from "@/common/lib/messageText";
 import BtnLoading from "@/components/hint/BtnLoading";
 

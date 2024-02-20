@@ -1,5 +1,5 @@
 import { forwardRef, useState } from "react";
-import ErrorMessage from "../ErrorMessage";
+import ErrorMessage from "../../ErrorMessage";
 
 interface RadioSelectPropsType {
   name: string;

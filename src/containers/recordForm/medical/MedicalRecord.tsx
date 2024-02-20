@@ -1,4 +1,4 @@
-import Select from "@/components/recordForm/Select";
+import Select from "@/components/form/record/Select";
 import DateInput from "./DateInput";
 import ImageInput from "./ImageInput";
 import TextInput from "./TextInput";
@@ -19,7 +19,7 @@ const MedicalRecordInputs = () => {
           <span className="text-error">*</span>
         </span>
         <div className="flex-grow flex items-center max-w-[248px]">
-          <Select title="事件分類" name="visitType" options={visitOptions} />
+          <Select title="選擇類型" name="visitType" options={visitOptions} />
         </div>
       </div>
       <TextInput title="醫院" name="hospital" placeholder="請輸入醫院名稱" />
@@ -52,6 +52,7 @@ const MedicalRecordInputs = () => {
         name="remindDate"
         title="回診提醒"
         placeholder="新增提醒日期"
+        type="time"
       />
     </div>
   );

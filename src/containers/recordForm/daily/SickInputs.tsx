@@ -1,8 +1,8 @@
 import { sickCategory } from "@/common/lib/formText";
 import { DailyFormStateType } from "./DailyForm";
-import Select from "@/components/recordForm/Select";
-import RadioCheck from "@/components/recordForm/RadioCheck";
-import CheckBox from "@/components/recordForm/CheckBox";
+import Select from "@/components/form/record/Select";
+import RadioCheck from "@/components/form/record/RadioCheck";
+import CheckBox from "@/components/form/record/CheckBox";
 
 interface SickInputsPropsType {
   formState: DailyFormStateType;
