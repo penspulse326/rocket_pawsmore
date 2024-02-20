@@ -26,6 +26,8 @@ const apiNext = {
     `${baseUrl}/api/comment/delete?postId=${postId}&commentId=${commentId}`,
   // 新增日常卡片
   ADD_DAILY_CARD: (petId: number) => `${baseUrl}/api/record/daily/add/${petId}`,
+  ADD_MOMENT_CARD: (petId: number) =>
+    `${baseUrl}/api/record/moment/add/${petId}`,
 };
 
 export default apiNext;

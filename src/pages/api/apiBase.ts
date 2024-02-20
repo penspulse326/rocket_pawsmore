@@ -28,6 +28,8 @@ const apiBase = {
   // 新增日常卡片
   ADD_DAILY_CARD: (petId: string) =>
     `${apiUrl}/dashboard/cards/daily/add/${petId}`,
+  ADD_MOMENT_CARD: (petId: string) =>
+    `${apiUrl}/dashboard/cards/moment/add/${petId}`,
 };
 
 export default apiBase;
