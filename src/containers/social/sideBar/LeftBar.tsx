@@ -13,8 +13,7 @@ import type { RootState } from "@/common/redux/store";
 
 const LeftBar: React.FC = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const { userId, username, account, headShot, token } = useSelector(
+  const { username, account, headShot } = useSelector(
     (state: RootState) => state.userInfo
   );
   const petList = useSelector((state: RootState) => state.petList);
@@ -24,7 +23,10 @@ const LeftBar: React.FC = () => {
   };
 
   return (
-    <aside className="col-span-3 flex flex-col py-8 h-full">
+    <aside
+      style={{ height: "calc(100vh - 64px)" }}
+      className="sticky top-16 flex flex-col p-8 max-w-[312px] w-full"
+    >
       {/* 寵物檔案卡片 */}
       <SwiperList list={petList} />
       {/* 個人連結 */}

@@ -1,4 +1,4 @@
-import { DailyFormStateType } from "@/containers/recordForm/daily/DailyForm";
+import { DailyFormStateType } from "@/containers/recordForm/daily";
 import { DailyDataType } from "@/types";
 import { PooType, UrineType, VomitType } from "@/types/enums";
 

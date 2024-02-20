@@ -81,3 +81,8 @@ export enum MomentIdType {
   參加比賽 = 24,
   自填 = 25,
 }
+
+export enum MedicalCardType {
+  醫療提醒 = 0,
+  就診紀錄 = 1,
+}
