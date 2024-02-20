@@ -17,6 +17,8 @@ const folders: Record<string, string> = {
   member: "member",
   pet: "pet",
   post: "post",
+  medical: "medical",
+  moment: "moment",
 };
 
 export default async function handler(
