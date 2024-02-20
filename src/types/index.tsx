@@ -144,3 +144,13 @@ export interface DailyDataType {
   selected: string;
   targetDate: string;
 }
+
+export interface MomentDataType {
+  petId: number;
+  momentType: number;
+  momentId: number;
+  momentDetails: string;
+  desc: string;
+  photo: string;
+  targetDate: string;
+}
