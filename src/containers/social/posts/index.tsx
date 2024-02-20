@@ -22,7 +22,7 @@ const Posts: React.FC<{ initialList: PostDataType[] }> = ({ initialList }) => {
 
   return (
     <>
-      <div className="mx-auto p-8 max-w-[658px] w-full border-x border-stroke bg-white">
+      <div className="mx-auto px-8 pt-24 max-w-[658px] w-full border-x border-stroke bg-white">
         <PawkBtn />
         <h2 className="mt-8 text-note">動態消息</h2>
         {/* 貼文列表 */}
