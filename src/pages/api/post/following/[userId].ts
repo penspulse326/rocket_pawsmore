@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import apiBase from "../apiBase";
+import apiBase from "../../apiBase";
 
 interface ResponseType {
   statusCode?: number;
@@ -11,12 +11,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
+  const userId = req.query.userId as string;
+
   try {
-    const response = await fetch(apiBase.GET_ALL_POSTS, {
+    const response = await fetch(apiBase.GET_FOLLOWING_POSTS(userId), {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
 
     const result = await response.json();

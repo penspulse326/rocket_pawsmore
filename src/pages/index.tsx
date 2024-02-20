@@ -1,4 +1,3 @@
-// 引入依赖
 import Layout from "@/containers/social/Layout";
 import Posts from "@/containers/social/posts";
 import { fetchGetAllPosts } from "@/common/fetch/post";
