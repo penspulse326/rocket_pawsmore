@@ -16,7 +16,7 @@ const ReserveRemind = () => {
         </div>
       </div>
       <DateInput
-        name="remindDate"
+        name="reserveDate"
         title="預約日期"
         placeholder="選擇日期與時間"
         type="time"

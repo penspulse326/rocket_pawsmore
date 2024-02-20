@@ -55,7 +55,7 @@ const MedicalForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
       data.photo = uploadResult.secure_url;
     }
 
-    const response = await fetchAddMedicalCard("", petId!, data);
+    const response = await fetchAddMedicalCard(token, petId!, data);
     if (!response.ok) {
       alert("新增失敗，請稍後再試");
       setIsLoading(false);

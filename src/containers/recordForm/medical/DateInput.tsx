@@ -14,31 +14,36 @@ interface PropsType {
 }
 
 const DateInput: React.FC<PropsType> = ({ title, name, placeholder, type }) => {
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState<Date>();
+
+  const handleChange = (date: Date) => {
+    setDate(date);
+  };
 
   return (
     <div className="flex justify-between items-center">
       <span className="font-semibold">{title}</span>
       <div className="flex-grow flex items-center max-w-[248px]">
         <DatePicker
-          dateFormat="YYYY-MM-DD"
+          dateFormat="yyyy-MM-dd"
           calendarStartDay={1}
           locale={zhTW}
           showTimeSelect={type === "time"}
           timeFormat="HH:mm"
-          timeIntervals={15}
-          onChange={(date: Date) => {
-            setDate(moment(date).format("YYYY-MM-DD HH:mm"));
-          }}
+          timeIntervals={30}
+          selected={date}
+          onChange={handleChange}
           customInput={
             <label className="flex items-center gap-2 cursor-pointer">
               <IconCalendarPlus />
-              <span className="text-note">{date || placeholder}</span>
+              <span className="text-note">
+                {date ? moment(date).format("YYYY-MM-DD HH:mm") : placeholder}
+              </span>
               <input
                 type="text"
                 readOnly={true}
                 name={name}
-                value={date}
+                value={moment(date).format("YYYY-MM-DD HH:mm")}
                 className="hidden"
               />
             </label>
