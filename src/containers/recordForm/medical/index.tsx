@@ -50,8 +50,10 @@ const MedicalForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
       data[key] = value;
     });
 
-    const uploadResult = await mediaUpload(data.photo, "medical");
-    data.photo = uploadResult.secure_url;
+    if (data.photo) {
+      const uploadResult = await mediaUpload(data.photo, "medical");
+      data.photo = uploadResult.secure_url;
+    }
 
     const response = await fetchAddMedicalCard(token, petId!, data);
     if (!response.ok) {
