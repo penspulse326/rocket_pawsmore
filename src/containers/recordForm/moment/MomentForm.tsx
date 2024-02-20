@@ -112,26 +112,23 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
     }
   };
 
-  const handleAddCard = async () => {
+  const handleUploadImg = async () => {
     if (file) {
       setIsLoading(true);
       try {
         const uploadResult = await mediaUpload(file, "moment");
-        handlePhotoChange("photo", uploadResult.secure_url);
+        formState.photo = uploadResult.secure_url;
         setIsLoading(false);
-
-        const response = await fetchAddMomentCard(token, petId!, formState);
-        if (!response.ok) {
-          alert("新增失敗，請稍後再試");
-          return;
-        }
-        alert("新增成功");
-        handleClose();
       } catch (error) {
-        alert("新增失敗，請稍後再試");
+        alert("上傳圖片失敗，請稍後再試");
         console.error("Error uploading the file:", error);
+        return;
       }
-    } else {
+    }
+  };
+
+  const handleAddCard = async () => {
+    try {
       const response = await fetchAddMomentCard(token, petId!, formState);
       if (!response.ok) {
         alert("新增失敗，請稍後再試");
@@ -139,12 +136,16 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
       }
       alert("新增成功");
       handleClose();
+    } catch (error) {
+      alert("新增失敗，請稍後再試");
+      console.error("Error adding moment card:", error);
     }
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    handleAddCard();
+    if (file) await handleUploadImg();
+    await handleAddCard();
   };
 
   useEffect(() => {
@@ -246,7 +247,11 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
                 </div>
                 <div
                   className="text-note hover:cursor-pointer text-right"
-                  onClick={() => setPreview(null)}
+                  onClick={() => {
+                    setPreview(null);
+                    handlePhotoChange("photo", "");
+                    setFile(undefined);
+                  }}
                 >
                   刪除照片
                 </div>
