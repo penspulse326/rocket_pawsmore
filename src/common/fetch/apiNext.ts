@@ -14,7 +14,7 @@ const apiNext = {
   GET_PETS: `${baseUrl}/api/pet/list`, // 動態路由 /:userId
   // 貼文
   GET_ALL_POSTS: `${baseUrl}/api/post/all`,
-  GET_PET_POSTS: (petId: number) => `${baseUrl}/api/post/list?petId=${petId}`,
+  GET_PET_POSTS: (petAccount: string) => `${baseUrl}/api/post/${petAccount}`,
   GET_FOLLOWING_POSTS: (userId: number) =>
     `${baseUrl}/api/post/following/${userId}`,
   GET_SINGLE_POST: `${baseUrl}/api/post/single`, // 動態路由 /:postId

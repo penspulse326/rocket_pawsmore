@@ -12,12 +12,24 @@ import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 import { PostDataType } from "@/types";
 
 import { MediaType } from "@/types/enums";
+import { useRouter } from "next/router";
+import { fetchGetPetPosts } from "@/common/fetch/post";
 
 const Posts: React.FC = () => {
   const postList = useContext(PostListContext);
+  const router = useRouter();
+  const petAccount = router.query.petAccount as string;
 
+  const [posts, setPosts] = useState<PostDataType[]>(postList || []);
   const [selectedPost, setSelectedPost] = useState<PostDataType>();
   const [isMaskOpen, setIsMaskOpen] = useState(false);
+
+  const getPosts = async () => {
+    const response = await fetchGetPetPosts(petAccount);
+    const data = response.data;
+    setPosts(data);
+    return data;
+  };
 
   const handleOpenPost = (post: PostDataType) => {
     setSelectedPost(post);
@@ -83,7 +95,7 @@ const Posts: React.FC = () => {
                   <Mask setIsOpen={setIsMaskOpen} maskType="post">
                     <PostView
                       data={selectedPost}
-                      getList={() => {}}
+                      getList={getPosts}
                       onClose={() => setIsMaskOpen(false)}
                     />
                   </Mask>
