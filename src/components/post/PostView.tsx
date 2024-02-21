@@ -18,9 +18,11 @@ import { MediaType } from "@/types/enums";
 
 interface PropsType {
   data: PostDataType;
+  getList: () => void;
+  onClose: () => void;
 }
 
-const PostView: React.FC<PropsType> = ({ data }) => {
+const PostView: React.FC<PropsType> = ({ data, getList, onClose }) => {
   const { userId } = useSelector((state: RootState) => state.userInfo);
   const [postData, setPostData] = useState<PostDataType>(data);
   const [comments, setComments] = useState<CommentDataType[]>([]);
@@ -121,6 +123,8 @@ const PostView: React.FC<PropsType> = ({ data }) => {
             isAuthor={userId === authorId}
             media={media}
             mediaType={MediaType.image}
+            getList={getList}
+            onClose={onClose}
           />
         </div>
         <section className="scrollbar-none overflow-y-scroll max-w-[411px] max-h-[353px] w-[411px] h-full">
@@ -142,7 +146,7 @@ const PostView: React.FC<PropsType> = ({ data }) => {
           </span>
           <span className="flex items-center">
             <IconMessageCircle className="mr-2 stroke-note" />
-            {comments.length}
+            {comments?.length}
           </span>
         </div>
         <InputComment postId={postId} getComments={getComments} />
