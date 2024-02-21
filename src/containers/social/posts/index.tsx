@@ -51,8 +51,11 @@ const Posts: React.FC<{ initialList: PostDataType[] }> = ({ initialList }) => {
 
   useEffect(() => {
     getFollowingPosts();
-    getList();
   }, [userId]);
+
+  useEffect(() => {
+    getList();
+  }, [followingPosts]);
 
   return (
     <>
