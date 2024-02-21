@@ -12,3 +12,10 @@ export const visitOptions = [
   { label: "健檢", value: VisitType.健檢 },
   { label: "結紮", value: VisitType.結紮 },
 ];
+
+export const reserveOptions = [
+  { label: "預約看診", value: VisitType.看診 },
+  { label: "疫苗", value: VisitType.疫苗 },
+  { label: "健檢", value: VisitType.健檢 },
+  { label: "結紮", value: VisitType.結紮 },
+];

@@ -4,7 +4,11 @@ import ImageInput from "./ImageInput";
 import TextInput from "./TextInput";
 import { visitOptions } from "./data";
 
-const MedicalRecordInputs = () => {
+interface PropsType {
+  onClose: () => void;
+}
+
+const MedicalRecordInputs: React.FC<PropsType> = ({ onClose: handleClose }) => {
   return (
     <div className="flex flex-col gap-4">
       <TextInput
