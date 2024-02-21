@@ -51,9 +51,9 @@ export const fetchAddPost = async (
   }
 };
 
-export const fetchGetPetPost = async (id: number) => {
+export const fetchGetPetPosts = async (petAccount: string) => {
   try {
-    const response = await fetch(`${apiNext.GET_PET_POSTS}/${id}`, {
+    const response = await fetch(apiNext.GET_PET_POSTS(petAccount), {
       method: "GET",
     });
 

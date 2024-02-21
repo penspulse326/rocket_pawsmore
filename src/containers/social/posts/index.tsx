@@ -14,20 +14,15 @@ const Posts: React.FC<{ initialList: PostDataType[] }> = ({ initialList }) => {
   const { userId } = useSelector((state: RootState) => state.userInfo);
   const [followingPosts, setFollowingPosts] = useState<PostDataType[]>([]);
   const [allList, setAllList] = useState(initialList || []);
-  const [isLoading, setIsLoading] = useState(true);
 
   const getFollowingPosts = async () => {
     if (!userId) {
-      setIsLoading(false);
       return;
     }
-
-    setIsLoading(true);
 
     const response = await fetchGetFollowingPosts(userId);
     const data: PostDataType[] = response.data;
     setFollowingPosts(data);
-    setIsLoading(false);
   };
 
   const getList = async () => {
@@ -62,28 +57,23 @@ const Posts: React.FC<{ initialList: PostDataType[] }> = ({ initialList }) => {
       <div className="mx-auto px-8 pt-24 max-w-[658px] w-full border-x border-stroke bg-white">
         <PawkBtn />
         <h2 className="mt-8 text-note">動態消息</h2>
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <>
-            {/* 貼文列表 */}
-            <div className="flex flex-col gap-8 my-4">
-              {followingPosts?.map((data) => (
-                <PostCard
-                  key={data.postId}
-                  data={data}
-                  getList={getFollowingPosts}
-                />
-              ))}
-            </div>
-            {userId && <MorePostHint />}
-            <div className="flex flex-col gap-8 my-4">
-              {allList?.map((data) => (
-                <PostCard key={data.postId} data={data} getList={getList} />
-              ))}
-            </div>
-          </>
-        )}
+        {/* 貼文列表 */}
+        <div className="flex flex-col gap-8 my-4">
+          {followingPosts.map((data) => (
+            <PostCard
+              key={data.postId}
+              data={data}
+              getList={getFollowingPosts}
+            />
+          ))}
+        </div>
+        {userId && <MorePostHint />}
+        <h2 className="mt-8 text-note">熱門貼文</h2>
+        <div className="flex flex-col gap-8 my-4">
+          {allList?.map((data) => (
+            <PostCard key={data.postId} data={data} getList={getList} />
+          ))}
+        </div>
       </div>
     </>
   );
