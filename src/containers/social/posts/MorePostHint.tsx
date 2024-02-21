@@ -12,7 +12,7 @@ const MorePostHint: React.FC = () => {
       />
       <div>
         <p className="text-2xl">沒有其他新動態了</p>
-        <p className="text-note">你已看完過去3天所有追蹤中的貼文</p>
+        <p className="text-note">你已看完所有追蹤中的貼文</p>
       </div>
       <p>
         瞧瞧我們的{" "}

@@ -14,7 +14,7 @@ import { fetchCheckAuth } from "@/common/fetch/auth";
 import { fetchGetPetList } from "@/common/fetch/petProfile";
 
 const Navbar: React.FC = () => {
-  const { token: localToken, clearToken } = useToken();
+  const { token: localToken, clearUser } = useToken();
   const router = useRouter();
   const dispatch = useDispatch();
   const { headShot, username, userId } = useSelector(
@@ -37,7 +37,7 @@ const Navbar: React.FC = () => {
     const response = await fetchCheckAuth(localToken);
     if (!response.ok) {
       alert("登入狀態過期，請重新登入");
-      clearToken();
+      clearUser();
       setIsLoggedIn(false);
     }
 
@@ -54,7 +54,7 @@ const Navbar: React.FC = () => {
 
   const handleLogout = () => {
     dispatch(resetState());
-    clearToken();
+    clearUser();
     setIsLoggedIn(false);
     router.push("/login");
   };

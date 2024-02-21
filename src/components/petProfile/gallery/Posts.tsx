@@ -81,7 +81,11 @@ const Posts: React.FC = () => {
                 </div>
                 {selectedPost && isMaskOpen && (
                   <Mask setIsOpen={setIsMaskOpen} maskType="post">
-                    <PostView data={selectedPost} />
+                    <PostView
+                      data={selectedPost}
+                      getList={() => {}}
+                      onClose={() => setIsMaskOpen(false)}
+                    />
                   </Mask>
                 )}
               </div>
