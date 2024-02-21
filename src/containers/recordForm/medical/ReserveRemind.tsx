@@ -115,7 +115,7 @@ const ReserveRemind: React.FC<PropsType> = ({ onClose: handleClose }) => {
         </div>
         <button
           type="submit"
-          className="py-2 rounded-full bg-primary text-white"
+          className="pt-2 py-2 rounded-full bg-primary text-white"
         >
           儲存
         </button>

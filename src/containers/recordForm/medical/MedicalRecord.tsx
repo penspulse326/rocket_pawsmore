@@ -2,20 +2,76 @@ import Select from "./Select";
 import DateInput from "./DateInput";
 import ImageInput from "./ImageInput";
 import TextInput from "./TextInput";
-import { visitOptions } from "./data";
+import { VisitType, visitOptions } from "./data";
+import { Controller, useForm } from "react-hook-form";
+
+interface FormType {
+  card: 1;
+  cardType: 1;
+  reserveType: 0;
+  visitType: null | VisitType;
+  title: string;
+  hospital: string;
+  doctor: string;
+  medicine: string;
+  check: string;
+  notice: string;
+  cost: null | number;
+  photo: File | undefined;
+  targetDate: string;
+  remindDate: string;
+}
 
 interface PropsType {
   onClose: () => void;
 }
 
 const MedicalRecordInputs: React.FC<PropsType> = ({ onClose: handleClose }) => {
+  const defaultValues: FormType = {
+    card: 1,
+    cardType: 1,
+    reserveType: 0,
+    visitType: null,
+    title: "",
+    hospital: "",
+    doctor: "",
+    medicine: "",
+    check: "",
+    notice: "",
+    cost: null,
+    photo: undefined,
+    targetDate: "",
+    remindDate: "",
+  };
+
+  const {
+    handleSubmit,
+    control,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm<FormType>({
+    defaultValues,
+  });
+
+  const handleAddMedicalRecord = () => {};
+
   return (
-    <div className="flex flex-col gap-4">
-      <TextInput
-        title="標題"
+    <form
+      onSubmit={handleSubmit(handleAddMedicalRecord)}
+      className="flex flex-col gap-4"
+    >
+      <Controller
+        control={control}
         name="title"
-        placeholder="請輸入標題"
-        star={true}
+        render={({ field }) => (
+          <TextInput
+            {...field}
+            title="標題"
+            placeholder="請輸入標題"
+            star={true}
+          />
+        )}
       />
       <div className="flex justify-between items-center">
         <span className="font-semibold">
@@ -23,7 +79,13 @@ const MedicalRecordInputs: React.FC<PropsType> = ({ onClose: handleClose }) => {
           <span className="text-error">*</span>
         </span>
         <div className="flex-grow flex items-center max-w-[248px]">
-          <Select title="選擇類型" name="visitType" options={visitOptions} />
+          <Controller
+            control={control}
+            name="visitType"
+            render={({ field }) => (
+              <Select {...field} title="選擇類型" options={visitOptions} />
+            )}
+          />
         </div>
       </div>
       <TextInput title="醫院" name="hospital" placeholder="請輸入醫院名稱" />
@@ -45,12 +107,7 @@ const MedicalRecordInputs: React.FC<PropsType> = ({ onClose: handleClose }) => {
         placeholder="請輸入居家注意事項"
         isArea
       />
-      <TextInput
-        title="開銷"
-        name="cost"
-        placeholder="請輸入居家注意事項"
-        isMoney
-      />
+      <TextInput title="開銷" name="cost" placeholder="請輸入數字" isMoney />
       <ImageInput />
       <DateInput
         name="remindDate"
@@ -58,7 +115,13 @@ const MedicalRecordInputs: React.FC<PropsType> = ({ onClose: handleClose }) => {
         placeholder="新增提醒日期"
         type="time"
       />
-    </div>
+      <button
+        type="submit"
+        className="mt-2 py-2 rounded-full bg-primary text-white"
+      >
+        儲存
+      </button>
+    </form>
   );
 };
 
