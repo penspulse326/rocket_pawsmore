@@ -17,7 +17,11 @@ const Posts: React.FC<{ initialList: PostDataType[] }> = ({ initialList }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const getFollowingPosts = async () => {
-    if (!userId) return;
+    if (!userId) {
+      setIsLoading(false);
+      return;
+    }
+
     setIsLoading(true);
 
     const response = await fetchGetFollowingPosts(userId);
