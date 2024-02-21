@@ -83,6 +83,7 @@ const Posts: React.FC = () => {
                   <Mask setIsOpen={setIsMaskOpen} maskType="post">
                     <PostView
                       data={selectedPost}
+                      getList={() => {}}
                       onClose={() => setIsMaskOpen(false)}
                     />
                   </Mask>
