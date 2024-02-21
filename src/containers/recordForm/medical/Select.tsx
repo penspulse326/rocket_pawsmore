@@ -1,3 +1,4 @@
+import ErrorMessage from "@/components/ErrorMessage";
 import { IconChevronDown } from "@tabler/icons-react";
 import { forwardRef, useState } from "react";
 
@@ -10,11 +11,12 @@ interface SelectProps {
   title: string;
   name: string;
   options: OptionType[];
+  message?: string;
   onChange?: (value: any) => void;
 }
 
 const Select = forwardRef<HTMLInputElement, SelectProps>(
-  ({ title, name, options, onChange }, ref) => {
+  ({ title, name, options, message, onChange }, ref) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState<OptionType>();
 
@@ -32,7 +34,7 @@ const Select = forwardRef<HTMLInputElement, SelectProps>(
     };
 
     return (
-      <div className="relative">
+      <div className="relative flex gap-4">
         {/* 選單容器 標題與 Icon */}
         <button
           type="button"
@@ -62,6 +64,7 @@ const Select = forwardRef<HTMLInputElement, SelectProps>(
             </li>
           ))}
         </ul>
+        {message && <ErrorMessage>{message}</ErrorMessage>}
         <input ref={ref} type="hidden" name={name} readOnly={true} />
       </div>
     );

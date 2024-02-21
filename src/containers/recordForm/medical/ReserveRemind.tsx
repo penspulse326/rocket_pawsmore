@@ -10,6 +10,7 @@ import { Controller, useForm } from "react-hook-form";
 import { fetchAddMedicalCard } from "@/common/fetch/recordCard";
 import Loading from "@/components/hint/Loading";
 import ErrorMessage from "@/components/ErrorMessage";
+import { errorText } from "@/common/lib/messageText";
 
 interface FormType {
   card: number;
@@ -93,7 +94,12 @@ const ReserveRemind: React.FC<PropsType> = ({ onClose: handleClose }) => {
               name="reserveType"
               control={control}
               render={({ field }) => (
-                <Select {...field} title="選擇類型" options={reserveOptions} />
+                <Select
+                  {...field}
+                  title="選擇類型"
+                  options={reserveOptions}
+                  message={errors.reserveType?.message}
+                />
               )}
             />
           </div>
@@ -107,6 +113,7 @@ const ReserveRemind: React.FC<PropsType> = ({ onClose: handleClose }) => {
               title="預約日期"
               placeholder="選擇日期與時間"
               type="time"
+              message={errors.reserveDate?.message}
             />
           )}
         />

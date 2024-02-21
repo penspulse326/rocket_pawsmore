@@ -1,3 +1,5 @@
+import { forwardRef } from "react";
+
 interface PropsType {
   title: string;
   name: string;
@@ -8,15 +10,10 @@ interface PropsType {
   onChange?: () => void;
 }
 
-const TextInput: React.FC<PropsType> = ({
-  title,
-  name,
-  placeholder,
-  star,
-  isMoney,
-  isArea,
-  onChange,
-}) => {
+const TextInput: React.FC<PropsType> = forwardRef<
+  HTMLInputElement | HTMLTextAreaElement,
+  PropsType
+>(({ title, name, placeholder, star, isMoney, isArea, onChange }, ref) => {
   return (
     <div className="flex justify-between items-center">
       <span className={`${isArea && "self-start mt-1"} font-semibold`}>
@@ -35,7 +32,7 @@ const TextInput: React.FC<PropsType> = ({
           <>
             {isMoney && <span className="mr-2">NTD</span>}
             <input
-              type="number"
+              type={isMoney ? "number" : "text"}
               name={name}
               placeholder={placeholder}
               onChange={onChange}
@@ -46,6 +43,7 @@ const TextInput: React.FC<PropsType> = ({
       </div>
     </div>
   );
-};
+});
 
+TextInput.displayName = "TextInput";
 export default TextInput;

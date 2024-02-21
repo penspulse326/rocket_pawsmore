@@ -4,6 +4,7 @@ import { zhTW } from "date-fns/locale";
 import { IconCalendarPlus } from "@tabler/icons-react";
 import { forwardRef, useState } from "react";
 import moment from "moment";
+import ErrorMessage from "@/components/ErrorMessage";
 
 interface PropsType {
   title: string;
@@ -11,10 +12,11 @@ interface PropsType {
   placeholder: string;
   type: "date" | "time";
   onChange?: (value: string) => void;
+  message?: string;
 }
 
 const DateInput = forwardRef<HTMLInputElement, PropsType>(
-  ({ title, name, placeholder, type, onChange }, ref) => {
+  ({ title, name, placeholder, type, onChange, message }, ref) => {
     const [date, setDate] = useState<Date>();
 
     const handleChange = (date: Date) => {
@@ -25,7 +27,7 @@ const DateInput = forwardRef<HTMLInputElement, PropsType>(
     return (
       <div className="flex justify-between items-center">
         <span className="font-semibold">{title}</span>
-        <div className="flex-grow flex items-center max-w-[248px]">
+        <div className="flex-grow flex items-center gap-4 max-w-[248px]">
           <DatePicker
             dateFormat="yyyy-MM-dd"
             calendarStartDay={1}
@@ -36,7 +38,7 @@ const DateInput = forwardRef<HTMLInputElement, PropsType>(
             selected={date}
             onChange={handleChange}
             customInput={
-              <label className="flex items-center gap-2 cursor-pointer">
+              <label className="flex items-center gap-2 h-full cursor-pointer">
                 <IconCalendarPlus />
                 <span className="text-note">
                   {date ? moment(date).format("YYYY-MM-DD HH:mm") : placeholder}
@@ -51,6 +53,7 @@ const DateInput = forwardRef<HTMLInputElement, PropsType>(
               </label>
             }
           />
+          {message && <ErrorMessage>{message}</ErrorMessage>}
         </div>
       </div>
     );
