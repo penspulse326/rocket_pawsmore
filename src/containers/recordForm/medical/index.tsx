@@ -1,14 +1,10 @@
-import { useContext, useState } from "react";
-import { DateContext, PetIdContext } from "@/pages/record_dashboard";
+import { useState } from "react";
+
 import RadioCheck from "@/components/form/record/RadioCheck";
-import { MedicalCardType } from "@/types/enums";
 import MedicalRecord from "./MedicalRecord";
-import { useSelector } from "react-redux";
-import { RootState } from "@/common/redux/store";
-import { fetchAddMedicalCard } from "@/common/fetch/recordCard";
 import ReserveRemind from "./ReserveRemind";
-import { mediaUpload } from "@/common/fetch/mediaManager";
-import Loading from "@/components/hint/Loading";
+
+import { MedicalCardType } from "@/types/enums";
 
 interface PropsType {
   onClose: () => void;

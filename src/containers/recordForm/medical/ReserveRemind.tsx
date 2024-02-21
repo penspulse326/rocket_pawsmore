@@ -1,6 +1,6 @@
 import Select from "./Select";
 import DateInput from "./DateInput";
-import { VisitType, reserveOptions } from "./data";
+
 import RadioCheck from "@/components/form/record/RadioCheck";
 import { useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
@@ -10,7 +10,8 @@ import { Controller, useForm } from "react-hook-form";
 import { fetchAddMedicalCard } from "@/common/fetch/recordCard";
 import Loading from "@/components/hint/Loading";
 import ErrorMessage from "@/components/ErrorMessage";
-import { errorText } from "@/common/lib/messageText";
+import { VisitType } from "@/types/enums";
+import { reserveOptions } from "@/common/lib/formText";
 
 interface FormType {
   card: number;

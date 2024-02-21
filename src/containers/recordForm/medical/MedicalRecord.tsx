@@ -1,18 +1,21 @@
+import { Controller, useForm } from "react-hook-form";
+import { useContext, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/common/redux/store";
+
+import { PetIdContext } from "@/pages/record_dashboard";
+import { fetchAddMedicalCard } from "@/common/fetch/recordCard";
+import { mediaUpload } from "@/common/fetch/mediaManager";
+import ErrorMessage from "@/components/ErrorMessage";
+import Loading from "@/components/hint/Loading";
+import { errorText } from "@/common/lib/messageText";
+import { visitOptions } from "@/common/lib/formText";
 import Select from "./Select";
 import DateInput from "./DateInput";
 import ImageInput from "./ImageInput";
 import TextInput from "./TextInput";
-import { VisitType, visitOptions } from "./data";
-import { Controller, useForm } from "react-hook-form";
-import { errorText } from "@/common/lib/messageText";
-import { useContext, useState } from "react";
-import { PetIdContext } from "@/pages/record_dashboard";
-import { useSelector } from "react-redux";
-import { RootState } from "@/common/redux/store";
-import { fetchAddMedicalCard } from "@/common/fetch/recordCard";
-import ErrorMessage from "@/components/ErrorMessage";
-import Loading from "@/components/hint/Loading";
-import { mediaUpload } from "@/common/fetch/mediaManager";
+
+import { VisitType } from "@/types/enums";
 
 interface FormType {
   card: 1;
