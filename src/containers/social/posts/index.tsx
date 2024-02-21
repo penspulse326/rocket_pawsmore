@@ -73,7 +73,7 @@ const Posts: React.FC<{ initialList: PostDataType[] }> = ({ initialList }) => {
                 />
               ))}
             </div>
-            <MorePostHint />
+            {userId && <MorePostHint />}
             <div className="flex flex-col gap-8 my-4">
               {allList?.map((data) => (
                 <PostCard key={data.postId} data={data} getList={getList} />
