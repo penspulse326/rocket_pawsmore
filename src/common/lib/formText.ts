@@ -1,4 +1,4 @@
-import { RecordCardType, MomentCategoryType } from "@/types/enums";
+import { RecordCardType, MomentCategoryType, VisitType } from "@/types/enums";
 
 export const species = [
   { label: "狗", value: 0 },
@@ -10,6 +10,20 @@ export const species = [
 export const gender = [
   { label: "男", value: 0 },
   { label: "女", value: 1 },
+];
+
+export const visitOptions = [
+  { label: "看診", value: VisitType.看診 },
+  { label: "疫苗", value: VisitType.疫苗 },
+  { label: "健檢", value: VisitType.健檢 },
+  { label: "結紮", value: VisitType.結紮 },
+];
+
+export const reserveOptions = [
+  { label: "預約看診", value: VisitType.看診 },
+  { label: "疫苗", value: VisitType.疫苗 },
+  { label: "健檢", value: VisitType.健檢 },
+  { label: "結紮", value: VisitType.結紮 },
 ];
 
 type RecordCardTitleType = {

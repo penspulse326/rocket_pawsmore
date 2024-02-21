@@ -86,3 +86,11 @@ export enum MedicalCardType {
   醫療提醒 = 0,
   就診紀錄 = 1,
 }
+
+export enum VisitType {
+  無 = 0,
+  看診 = 1,
+  疫苗 = 2,
+  健檢 = 3,
+  結紮 = 4,
+}
