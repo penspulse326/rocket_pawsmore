@@ -2,8 +2,6 @@ import React, { createContext, useMemo } from "react";
 import moment from "moment";
 import { IconChevronUp, IconEdit } from "@tabler/icons-react";
 
-import { DataType } from "@/common/lib/test/eventData";
-
 import Title from "./card/Title";
 import ShareBtn from "./card/ShareBtn";
 
@@ -12,11 +10,16 @@ import Medical from "./content/Medical";
 import Daily from "./content/Daily";
 import Anniversary from "./content/Anniversary";
 
-export const DataContext = createContext<DataType | undefined>(undefined);
+import { CardUnionDataType, MedicalCardDataType } from "@/types";
+import { RecordCardType, MedicalCardType, ReserveType } from "@/types/enums";
+
+export const DataContext = createContext<CardUnionDataType | undefined>(
+  undefined
+);
 
 interface DataContextProviderProps {
   children: React.ReactNode;
-  data: DataType;
+  data: CardUnionDataType;
 }
 
 const DataContextProvider: React.FC<DataContextProviderProps> = ({
@@ -27,7 +30,7 @@ const DataContextProvider: React.FC<DataContextProviderProps> = ({
 };
 
 interface SingleCardPropsType {
-  data: DataType;
+  data: CardUnionDataType;
   id: number;
   isOpened: boolean;
   onToggle: (id: number) => void;
@@ -40,36 +43,42 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
   onToggle,
 }) => {
   const getData = useMemo(() => data, [data]);
-  const isAnniversary = data.card === "紀念日";
+  const isAnniversary: boolean = false;
+  //  data.card === "紀念日";
 
   const Content: React.FC = () => {
     const Reminder: React.FC = () => {
+      const reserveType = (data as MedicalCardDataType).reserveType;
+      const reserveDate = (data as MedicalCardDataType).reserveDate;
+
       return (
         <ul className="flex flex-col gap-y-2">
           <ol className="flex gap-x-8">
             <li className="font-semibold">預約類型</li>
-            <li>{data.reserve_type}</li>
+            <li>{ReserveType[reserveType]}</li>
           </ol>
           <ol className="flex gap-x-8">
             <li className="font-semibold">預約時間</li>
-            <li>{moment(data.reserve_at).format("YYYY/M/D HH:MM")}</li>
+            <li>{moment(reserveDate).format("YYYY/M/D HH:MM")}</li>
           </ol>
         </ul>
       );
     };
 
-    if (data.type === "醫療提醒") {
+    const visitType = (data as MedicalCardDataType).visitType;
+
+    if (MedicalCardType[visitType] === "醫療提醒") {
       return <Reminder />;
     } else {
-      switch (data.card) {
+      switch (RecordCardType[data.card]) {
         case "醫療紀錄":
           return <Medical />;
         case "重要時刻":
           return <Moment />;
         case "日常紀錄":
           return <Daily />;
-        case "紀念日":
-          return <Anniversary />;
+        // case "紀念日":
+        //   return <Anniversary />;
         default:
           return null;
       }
