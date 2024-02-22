@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import moment from "moment";
 import { IconChevronDown } from "@tabler/icons-react";
-import { DataContext } from "../SingleCardLayout";
 
-import { MedicalCardDataType } from "@/types";
+import { CardUnionDataType, MedicalCardDataType } from "@/types";
 import { VisitType } from "@/types/enums";
 
 interface MedicalDataType {
@@ -12,8 +11,11 @@ interface MedicalDataType {
   content: JSX.Element | null;
 }
 
-const Medical: React.FC = () => {
-  const data = useContext(DataContext);
+interface MedicalProps {
+  data: CardUnionDataType;
+}
+
+const Medical: React.FC<MedicalProps> = ({ data }) => {
   if (!data) {
     return null;
   }

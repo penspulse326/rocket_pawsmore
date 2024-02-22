@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-
+import { useRouter } from "next/router";
 import Image from "next/image";
 import { IconHeartFilled, IconMessageCircle2Filled } from "@tabler/icons-react";
 
@@ -7,18 +7,18 @@ import PostView from "@/components/post/PostView";
 import Mask from "@/components/hint/Mask";
 import NoContent from "@/components/NoContent";
 
-import { PostListContext } from "@/pages/pet/[petAccount]";
-import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
-import { PostDataType } from "@/types";
-
-import { MediaType } from "@/types/enums";
-import { useRouter } from "next/router";
+import { PetDataContext } from "@/pages/pet/[petAccount]";
 import { fetchGetPetPosts } from "@/common/fetch/post";
+import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
+
+import { PostDataType } from "@/types";
+import { MediaType } from "@/types/enums";
 
 const Posts: React.FC = () => {
-  const postList = useContext(PostListContext);
   const router = useRouter();
   const petAccount = router.query.petAccount as string;
+
+  const { postList } = useContext(PetDataContext)!;
 
   const [posts, setPosts] = useState<PostDataType[]>(postList || []);
   const [selectedPost, setSelectedPost] = useState<PostDataType>();

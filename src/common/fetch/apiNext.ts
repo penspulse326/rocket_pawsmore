@@ -11,7 +11,12 @@ const apiNext = {
   CREATE_MEMBER: `${baseUrl}/api/user/add`,
   CREATE_PET: `${baseUrl}/api/pet/add`,
   UPDATE_PET: `${baseUrl}/api/pet/update`, // 動態路由 /:petId
+  // 寵物資料
+  GET_PET: `${baseUrl}/api/pet/profile`, // 動態路由 /:petAccount
   GET_PETS: `${baseUrl}/api/pet/list`, // 動態路由 /:userId
+
+  GET_PET_POST: `${baseUrl}/api/post`, // 動態路由 /:petAccount
+  GET_PET_RECORD: `${baseUrl}/api/pet/record`, // 動態路由 /:petAccount
   // 貼文
   GET_ALL_POSTS: `${baseUrl}/api/post/all`,
   GET_PET_POSTS: (petAccount: string) => `${baseUrl}/api/post/${petAccount}`,

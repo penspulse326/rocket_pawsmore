@@ -55,3 +55,42 @@ export const fetchGetPetList = async (userId: number) => {
     return { ok: false, status: 500 };
   }
 };
+
+export const fetchGetPet = async (petAccount: string) => {
+  try {
+    const response = await fetch(`${apiNext.GET_PET}/${petAccount}`, {
+      method: "GET",
+    });
+
+    const result = await response.json();
+    return { ok: response.ok, status: response.status, data: result.data };
+  } catch (error) {
+    return { ok: false, status: 500 };
+  }
+};
+
+export const fetchGetPost = async (petAccount: string) => {
+  try {
+    const response = await fetch(`${apiNext.GET_PET_POST}/${petAccount}`, {
+      method: "GET",
+    });
+
+    const result = await response.json();
+    return { ok: response.ok, status: response.status, data: result.data };
+  } catch (error) {
+    return { ok: false, status: 500 };
+  }
+};
+
+export const fetchGetRecord = async (petAccount: string) => {
+  try {
+    const response = await fetch(`${apiNext.GET_PET_RECORD}/${petAccount}`, {
+      method: "GET",
+    });
+
+    const result = await response.json();
+    return { ok: response.ok, status: response.status, data: result.data };
+  } catch (error) {
+    return { ok: false, status: 500 };
+  }
+};

@@ -6,48 +6,118 @@ import ProfileGallery from "@/components/petProfile/ProfileGallery";
 import Footer from "@/components/Footer";
 import Loading from "@/components/hint/Loading";
 
-import { PostDataType } from "@/types";
+import sortData from "@/common/helpers/sortData";
+import {
+  fetchGetPet,
+  fetchGetPost,
+  fetchGetRecord,
+} from "@/common/fetch/petProfile";
 
-export const PostListContext = createContext<PostDataType[] | undefined>(
-  undefined
-);
+import {
+  PetDataType,
+  PostDataType,
+  CardUnionDataType,
+  DailyCardDataType,
+  MedicalCardDataType,
+  MomentCardDataType,
+} from "@/types";
+
+export const PetDataContext = createContext<
+  | {
+      postList: PostDataType[] | undefined;
+      profile: PetDataType | undefined;
+      record: CardUnionDataType[] | undefined;
+    }
+  | undefined
+>(undefined);
+
+interface FetchDataType {
+  petId: number;
+  dailyCards: DailyCardDataType[];
+  medicalCards: MedicalCardDataType[];
+  momentCards: MomentCardDataType[];
+}
 
 const PetProfile: React.FC = () => {
-  const [postList, setPostList] = useState<PostDataType[]>();
-  const [isLoading, setIsLoading] = useState(false);
-
   const router = useRouter();
   const { petAccount } = router.query;
 
+  const [profile, setProfile] = useState<PetDataType>();
+  const [postList, setPostList] = useState<PostDataType[]>();
+  const [record, setRecord] = useState<CardUnionDataType[]>();
+
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
-    const fetchPost = async () => {
-      setIsLoading(true);
-
+    const fetchData = async () => {
       try {
-        const response = await fetch(`/api/post/${petAccount}`, {
-          method: "GET",
-        });
-        if (!response.ok) {
-          throw new Error("failed");
-        }
-        const data = await response.json();
+        if (petAccount) {
+          setIsLoading(true);
 
-        setPostList(data.data);
+          await fetchProfile();
+          await fetchPost();
+          await fetchRecord();
+
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
         setIsLoading(false);
-      } catch (error) {}
+      }
     };
-    petAccount && fetchPost();
+
+    fetchData();
   }, [petAccount]);
 
+  const fetchProfile = async () => {
+    try {
+      const response = await fetchGetPet(petAccount as string);
+      if (!response.ok) {
+        throw new Error("failed");
+      }
+      setProfile(response.data);
+    } catch (error) {}
+  };
+
+  const fetchPost = async () => {
+    try {
+      const response = await fetchGetPost(petAccount as string);
+      if (!response.ok) {
+        throw new Error("failed");
+      }
+      setPostList(response.data);
+    } catch (error) {}
+  };
+
+  const fetchRecord = async () => {
+    try {
+      const response = await fetchGetRecord(petAccount as string);
+      if (!response.ok) {
+        throw new Error("failed");
+      }
+
+      const { dailyCards, medicalCards, momentCards }: FetchDataType =
+        response.data;
+      const data: CardUnionDataType[] = [
+        ...dailyCards,
+        ...medicalCards,
+        ...momentCards,
+      ];
+
+      const sortedData = sortData(data);
+      setRecord(sortedData);
+    } catch (error) {}
+  };
+
   return (
-    <PostListContext.Provider value={postList}>
+    <PetDataContext.Provider value={{ profile, postList, record }}>
       {isLoading && <Loading />}
       <main className="flex flex-col gap-y-12 items-center mt-[64px]">
         <ProfileCard />
         <ProfileGallery />
         <Footer />
       </main>
-    </PostListContext.Provider>
+    </PetDataContext.Provider>
   );
 };
 
