@@ -1,4 +1,10 @@
-import { PooType, UrineType, VomitType } from "./enums";
+import {
+  MomentCategoryType,
+  MomentIdType,
+  PooType,
+  UrineType,
+  VomitType,
+} from "./enums";
 
 export interface LoginFormType {
   email: string;
@@ -146,9 +152,8 @@ export interface DailyDataType {
 }
 
 export interface MomentDataType {
-  petId: number;
-  momentType: number;
-  momentId: number;
+  momentType: MomentCategoryType;
+  momentId: MomentIdType;
   momentDetails: string;
   desc: string;
   photo: string;

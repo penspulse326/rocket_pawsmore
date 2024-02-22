@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
 
-import { PetIdContext } from "@/pages/record_dashboard";
+import { DateContext, PetIdContext } from "@/pages/record_dashboard";
 import { fetchAddMedicalCard } from "@/common/fetch/recordCard";
 import { mediaUpload } from "@/common/fetch/mediaManager";
 import ErrorMessage from "@/components/ErrorMessage";
@@ -21,18 +21,35 @@ interface FormType {
   card: 1;
   cardType: 1;
   reserveType: 0;
-  visitType: null | VisitType;
+  visitType: VisitType | null;
   title: string;
   hospital: string;
   doctor: string;
   medicine: string;
   check: string;
   notice: string;
-  cost: null | number;
+  cost: number | null;
   photo: File | string | null;
   targetDate: string;
   remindDate: string;
 }
+
+const defaultValues: FormType = {
+  card: 1,
+  cardType: 1,
+  reserveType: 0,
+  visitType: null,
+  title: "",
+  hospital: "",
+  doctor: "",
+  medicine: "",
+  check: "",
+  notice: "",
+  cost: null,
+  photo: null,
+  targetDate: "",
+  remindDate: "",
+};
 
 interface PropsType {
   onClose: () => void;
@@ -41,33 +58,19 @@ interface PropsType {
 const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
   const { token } = useSelector((state: RootState) => state.userInfo);
   const { petId } = useContext(PetIdContext);
+  const { selectedDate } = useContext(DateContext);
   const [isLoading, setIsLoading] = useState(false);
-
-  const defaultValues: FormType = {
-    card: 1,
-    cardType: 1,
-    reserveType: 0,
-    visitType: null,
-    title: "",
-    hospital: "",
-    doctor: "",
-    medicine: "",
-    check: "",
-    notice: "",
-    cost: null,
-    photo: null,
-    targetDate: "",
-    remindDate: "",
-  };
 
   const {
     handleSubmit,
     control,
     setError,
-    clearErrors,
     formState: { errors },
   } = useForm<FormType>({
-    defaultValues,
+    defaultValues: {
+      ...defaultValues,
+      targetDate: selectedDate,
+    },
   });
 
   const handleAddCard = async (data: FormType) => {

@@ -20,24 +20,25 @@ import {
 } from "@/common/lib/formText";
 
 import { MomentCategoryType, MomentIdType } from "@/types/enums";
+import { MomentDataType } from "@/types";
+
+const MAX_FILE_SIZE = 1024 * 1024 * 2;
 
 interface MomentFormStateType {
-  petId: number;
-  momentType: MomentCategoryType | number;
-  momentId: MomentIdType;
+  momentType: MomentCategoryType | null;
+  momentId: MomentIdType | null;
   momentDetails: string;
   desc: string;
-  photo: string;
+  photo: File | string | null;
   targetDate: string;
 }
 
 const initialState: MomentFormStateType = {
-  petId: 0,
-  momentType: -1,
-  momentId: 0,
+  momentType: null,
+  momentId: null,
   momentDetails: "",
   desc: "",
-  photo: "",
+  photo: null,
   targetDate: "",
 };
 
@@ -52,7 +53,6 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
   const [formState, setFormState] = useState<MomentFormStateType>({
     ...initialState,
-    petId: petId!,
     targetDate: selectedDate,
   });
 
@@ -62,8 +62,6 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
   const [file, setFile] = useState<File>();
   const [preview, setPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  const MAX_FILE_SIZE = 1024 * 1024 * 2;
 
   // 事件分類 momentType
   const handleCategoryChange = (category: string, value: string) => {
@@ -128,18 +126,18 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
   };
 
   const handleAddCard = async () => {
-    try {
-      const response = await fetchAddMomentCard(token, petId!, formState);
-      if (!response.ok) {
-        alert("新增失敗，請稍後再試");
-        return;
-      }
-      alert("新增成功");
-      handleClose();
-    } catch (error) {
-      alert("新增失敗，請稍後再試");
-      console.error("Error adding moment card:", error);
-    }
+    // try {
+    //   const response = await fetchAddMomentCard(token, petId!, formState);
+    //   if (!response.ok) {
+    //     alert("新增失敗，請稍後再試");
+    //     return;
+    //   }
+    //   alert("新增成功");
+    //   handleClose();
+    // } catch (error) {
+    //   alert("新增失敗，請稍後再試");
+    //   console.error("Error adding moment card:", error);
+    // }
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -147,13 +145,6 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
     if (file) await handleUploadImg();
     await handleAddCard();
   };
-
-  useEffect(() => {
-    setFormState((prevState) => ({
-      ...prevState,
-      targetDate: selectedDate,
-    }));
-  }, [selectedDate]);
 
   useEffect(() => {
     const eventContent = (category: number) => {
@@ -172,7 +163,7 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
         }
       });
     };
-    eventContent(formState.momentType);
+    // eventContent(formState.momentType);
   }, [formState.momentType]);
 
   useEffect(() => {

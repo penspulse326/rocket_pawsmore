@@ -11,7 +11,7 @@ interface PropsType {
 }
 
 const MedicalForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
-  const [cardType, setCardType] = useState<MedicalCardType>();
+  const [cardType, setCardType] = useState<MedicalCardType | null>(null);
   const [isComfirmed, setIsComfirmed] = useState(false);
 
   const handleCardTypeChange = (cardType: MedicalCardType) => {
@@ -51,10 +51,10 @@ const MedicalForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
       {!isComfirmed && (
         <button
           type="button"
-          disabled={cardType === undefined}
+          disabled={cardType === null}
           onClick={() => setIsComfirmed(true)}
           className={`${
-            cardType !== undefined ? "bg-primary" : "bg-note"
+            cardType !== null ? "bg-primary" : "bg-note"
           } py-2 rounded-full bg-primary text-white`}
         >
           確認
