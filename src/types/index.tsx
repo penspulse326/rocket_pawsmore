@@ -1,6 +1,15 @@
-import { RecordCardType, PooType, UrineType, VomitType } from "./enums";
-import { MedicalCardType, ReserveType, VisitType } from "./enums";
-import { MomentCategoryType, MomentIdType, AnniversaryType } from "./enums";
+import {
+  AnniversaryType,
+  MedicalCardType,
+  MomentCategoryType,
+  MomentIdType,
+  PooType,
+  RecordCardType,
+  ReserveType,
+  UrineType,
+  VisitType,
+  VomitType,
+} from "./enums";
 
 export interface LoginFormType {
   email: string;
@@ -147,10 +156,19 @@ export interface DailyDataType {
   targetDate: string;
 }
 
+export interface MomentFormType {
+  card: 2;
+  momentType: MomentCategoryType | null;
+  momentId: MomentIdType | null;
+  momentDetails: string;
+  desc: string;
+  photo: File | string | null;
+  targetDate: string;
+}
+
 export interface MomentDataType {
-  petId: number;
-  momentType: number;
-  momentId: number;
+  momentType: MomentCategoryType;
+  momentId: MomentIdType;
   momentDetails: string;
   desc: string;
   photo: string;
@@ -218,4 +236,9 @@ export interface MomentCardDataType {
   targetDate: string;
   createDate: string;
   anniversaryType?: AnniversaryType;
+}
+
+export interface OptionType {
+  label: string;
+  value: any;
 }

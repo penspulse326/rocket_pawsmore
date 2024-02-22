@@ -6,9 +6,11 @@ interface ResponseType {
   secure_url: string;
 }
 
+type TagType = "member" | "post" | "pet" | "moment" | "medical";
+
 export const mediaUpload = async (
   file: File,
-  tag: string
+  tag: TagType
 ): Promise<ResponseType> => {
   return new Promise(async (resolve, reject) => {
     const reader = new FileReader();

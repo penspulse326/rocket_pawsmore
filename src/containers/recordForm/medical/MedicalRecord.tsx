@@ -3,16 +3,16 @@ import { useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
 
-import { PetIdContext } from "@/pages/record_dashboard";
+import { DateContext, PetIdContext } from "@/pages/record_dashboard";
 import { fetchAddMedicalCard } from "@/common/fetch/recordCard";
 import { mediaUpload } from "@/common/fetch/mediaManager";
 import ErrorMessage from "@/components/ErrorMessage";
 import Loading from "@/components/hint/Loading";
 import { errorText } from "@/common/lib/messageText";
 import { visitOptions } from "@/common/lib/formText";
-import Select from "./Select";
+import Select from "../Select";
 import DateInput from "./DateInput";
-import ImageInput from "./ImageInput";
+import ImageInput from "../ImageInput";
 import TextInput from "./TextInput";
 
 import { VisitType } from "@/types/enums";
@@ -21,18 +21,35 @@ interface FormType {
   card: 1;
   cardType: 1;
   reserveType: 0;
-  visitType: null | VisitType;
+  visitType: VisitType | null;
   title: string;
   hospital: string;
   doctor: string;
   medicine: string;
   check: string;
   notice: string;
-  cost: null | number;
+  cost: number | null;
   photo: File | string | null;
   targetDate: string;
   remindDate: string;
 }
+
+const defaultValues: FormType = {
+  card: 1,
+  cardType: 1,
+  reserveType: 0,
+  visitType: null,
+  title: "",
+  hospital: "",
+  doctor: "",
+  medicine: "",
+  check: "",
+  notice: "",
+  cost: null,
+  photo: null,
+  targetDate: "",
+  remindDate: "",
+};
 
 interface PropsType {
   onClose: () => void;
@@ -41,47 +58,35 @@ interface PropsType {
 const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
   const { token } = useSelector((state: RootState) => state.userInfo);
   const { petId } = useContext(PetIdContext);
+  const { selectedDate } = useContext(DateContext);
   const [isLoading, setIsLoading] = useState(false);
-
-  const defaultValues: FormType = {
-    card: 1,
-    cardType: 1,
-    reserveType: 0,
-    visitType: null,
-    title: "",
-    hospital: "",
-    doctor: "",
-    medicine: "",
-    check: "",
-    notice: "",
-    cost: null,
-    photo: null,
-    targetDate: "",
-    remindDate: "",
-  };
 
   const {
     handleSubmit,
     control,
     setError,
-    clearErrors,
     formState: { errors },
   } = useForm<FormType>({
-    defaultValues,
+    defaultValues: {
+      ...defaultValues,
+      targetDate: selectedDate,
+    },
   });
 
-  const handleAddCard = async (data: FormType) => {
+  const handleAddMedicalRecord = async (data: FormType) => {
     if (!token || !petId) return;
+    const { title, visitType, photo } = data;
 
-    if (!data.title || !data.visitType) {
+    if (!title || !visitType) {
       setError("root", { type: "manual", message: "請輸入必填項目" });
+      setIsLoading(false);
       return;
     }
 
     setIsLoading(true);
 
-    if (data.photo instanceof File) {
-      const uploadResult = await mediaUpload(data.photo, "medical");
+    if (photo instanceof File) {
+      const uploadResult = await mediaUpload(photo, "medical");
       if (uploadResult) {
         data.photo = uploadResult.secure_url;
       }
@@ -100,7 +105,7 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
   return (
     <>
       <form
-        onSubmit={handleSubmit(handleAddCard)}
+        onSubmit={handleSubmit(handleAddMedicalRecord)}
         className="flex flex-col gap-4"
       >
         <Controller
@@ -117,7 +122,7 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
         />
         <div className="flex justify-between items-center">
           <span className="font-semibold">
-            事件分類
+            看診類型
             <span className="text-error">*</span>
           </span>
           <div className="flex-grow flex items-center max-w-[248px]">

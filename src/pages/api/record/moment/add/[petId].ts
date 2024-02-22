@@ -33,6 +33,8 @@ export default async function handler(
     const result = await response.json();
     const { statusCode, message, data } = result;
 
+    console.log(result);
+
     switch (statusCode) {
       case 200:
         return res.status(200).json({ message, data });
