@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
 import RecentCondition from "./RecentCondition";
 import Explanation from "./Explanation";
+import TableView from "./TableView";
 
 const Overview: React.FC = () => {
   const petList = useSelector((state: RootState) => state.petList);
@@ -14,7 +15,7 @@ const Overview: React.FC = () => {
     <section>
       {/* 頁面標題與連結 */}
       <div className="flex justify-between mt-8">
-        <h2 className="flex items-center gap-2 text-xl font-semibold">
+        <h2 className="flex items-center gap-2 text-2xl">
           <IconHeartRateMonitor size={36} />
           近期總覽
         </h2>
@@ -33,6 +34,10 @@ const Overview: React.FC = () => {
         <RecentCondition />
         <Explanation />
       </div>
+      <div className="mt-16">
+        <h2 className="flex items-center gap-2 text-2xl">紀錄總覽</h2>
+      </div>
+      <TableView />
     </section>
   );
 };
