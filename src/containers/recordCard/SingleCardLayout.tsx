@@ -72,11 +72,11 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
     } else {
       switch (RecordCardType[data.card]) {
         case "醫療紀錄":
-          return <Medical />;
+          return <Medical data={data} />;
         case "重要時刻":
-          return <Moment />;
+          return <Moment data={data} />;
         case "日常紀錄":
-          return <Daily />;
+          return <Daily data={data} />;
         // case "紀念日":
         //   return <Anniversary />;
         default:
