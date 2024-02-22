@@ -80,9 +80,11 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
     if (momentType === MomentCategoryType.技能 && !momentDetails) {
       setError("root", { type: "required", message: "請填入必填項目" });
+      setIsLoading(false);
       return;
     } else if (momentType === null && momentId === null) {
       setError("root", { type: "required", message: "請填入必填項目" });
+      setIsLoading(false);
       return;
     }
 

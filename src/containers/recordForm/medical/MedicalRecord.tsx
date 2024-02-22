@@ -79,6 +79,7 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
     if (!title || !visitType) {
       setError("root", { type: "manual", message: "請輸入必填項目" });
+      setIsLoading(false);
       return;
     }
 
