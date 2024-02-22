@@ -64,7 +64,7 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
         {userId && <h2 className="mt-8 text-note">動態消息</h2>}
         {/* 貼文列表 */}
         <div className="flex flex-col gap-8 my-4">
-          {followingPosts.map((data) => (
+          {followingPosts?.map((data) => (
             <PostCard
               key={data.postId}
               data={data}

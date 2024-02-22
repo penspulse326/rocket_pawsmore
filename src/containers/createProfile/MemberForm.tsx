@@ -22,6 +22,7 @@ const defaultValues = {
   link: "",
 };
 
+// 新增個人資料表單
 const MemberForm: React.FC = () => {
   const { token } = useSelector((state: RootState) => state.userInfo);
   const dispatch = useDispatch();
@@ -46,7 +47,6 @@ const MemberForm: React.FC = () => {
     const response = await fetchCreateMember(data, token);
 
     // 確定新增成功才做上傳雲端圖片
-    // 流量有限!要先確定帳號無重複或其他錯誤才執行
     if (!response.ok) {
       setIsLoading(false);
       setStatusCode(response.status);
@@ -83,6 +83,7 @@ const MemberForm: React.FC = () => {
     router.push("/member/new/create_pet");
   };
 
+  // 顯示錯誤訊息
   useEffect(() => {
     switch (statusCode) {
       case 400:

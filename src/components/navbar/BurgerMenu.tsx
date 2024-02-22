@@ -24,7 +24,7 @@ const Menu: React.FC<MenuPropsType> = ({
   };
 
   return (
-    <div className="col-span-1 flex justify-end items-center">
+    <div className="col-start-3 col-span-1 flex justify-end items-center">
       <div
         className={`${
           isMenuOpen && "shadow-custom"

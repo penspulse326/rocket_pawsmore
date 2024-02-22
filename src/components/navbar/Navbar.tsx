@@ -29,6 +29,7 @@ const Navbar: React.FC = () => {
   } absolute left-0 bottom-0 w-[50%] h-1 bg-gradient-to-r from-[#7CCBFF] via-[#7CCBFF] to-[#0057FF]
 `;
 
+  // 檢查登入狀態
   const checkLogin = async () => {
     if (!localToken) {
       return;
@@ -45,6 +46,7 @@ const Navbar: React.FC = () => {
     setIsLoggedIn(true);
   };
 
+  // 取得寵物列表
   const handleGetPetList = async () => {
     if (userId) {
       const result = await fetchGetPetList(userId);
@@ -72,9 +74,13 @@ const Navbar: React.FC = () => {
       if (path === "/record_dashboard") {
         setPage(1);
       }
+      if (userId && !username) {
+        router.push("/member/new/profile");
+      }
     }
-  }, [userId]);
+  }, [userId, username]);
 
+  // 登入與註冊頁不顯示 Navbar
   if (router.pathname === "/login" || router.pathname === "/signup") {
     return <></>;
   }
@@ -100,37 +106,37 @@ const Navbar: React.FC = () => {
             className="ml-2 w-auto h-6"
           />
         </Link>
-        {isLoggedIn ? (
-          <>
-            {/* 頁面連結 */}
-            <div className="col-span-1 flex justify-center h-16">
-              <div className="relative flex justify-center">
-                <Link
-                  href="/"
-                  className="flex gap-2 px-8 pt-6 pb-5"
-                  onClick={() => setPage(0)}
-                >
-                  <IconHome />
-                  社群首頁
-                </Link>
-                <Link
-                  href="/record_dashboard"
-                  className="flex gap-2 px-8 pt-6 pb-5"
-                  onClick={() => setPage(1)}
-                >
-                  <IconBrandGoogleAnalytics />
-                  數據紀錄
-                </Link>
-                <div className={sliderStyle}></div>
-              </div>
+        {/* 頁面連結 */}
+        {username && (
+          <div className="col-span-1 flex justify-center h-16">
+            <div className="relative flex justify-center">
+              <Link
+                href="/"
+                className="flex gap-2 px-8 pt-6 pb-5"
+                onClick={() => setPage(0)}
+              >
+                <IconHome />
+                社群首頁
+              </Link>
+              <Link
+                href="/record_dashboard"
+                className="flex gap-2 px-8 pt-6 pb-5"
+                onClick={() => setPage(1)}
+              >
+                <IconBrandGoogleAnalytics />
+                數據紀錄
+              </Link>
+              <div className={sliderStyle}></div>
             </div>
-            {/* 個人資訊按鈕 */}
-            <BurgerMenu
-              headShot={headShot}
-              username={username}
-              handleLogout={() => handleLogout()}
-            />
-          </>
+          </div>
+        )}
+        {/* 個人資訊按鈕 */}
+        {isLoggedIn ? (
+          <BurgerMenu
+            headShot={headShot}
+            username={username}
+            handleLogout={() => handleLogout()}
+          />
         ) : (
           <div className="col-start-3 flex justify-end items-center gap-3 text-link font-semibold">
             <Link href="/login" className="hover:scale-110 duration-100">

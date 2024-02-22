@@ -1,24 +1,21 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 
 import UploadPhoto from "@/components/form/profile/UploadPhoto";
-
 import { errorText } from "@/common/lib/messageText";
 import TextInput from "@/components/form/profile/TextInput";
 import DateInput from "@/components/form/profile/DateInput";
 import RadioSelect from "@/components/form/profile/RadioSelect";
 import { gender, species } from "@/common/lib/formText";
 import BtnLoading from "@/components/hint/BtnLoading";
+import { fetchCreatePet, fetchUpdatePet } from "@/common/fetch/petProfile";
+import { mediaUpload } from "@/common/fetch/mediaManager";
 
 import type { PetFormType } from "@/types";
-
-interface PetFormPropsType {
-  isLoading: boolean;
-  statusCode: number;
-  onSubmit: (data: PetFormType) => void;
-}
+import type { RootState } from "@/common/redux/store";
 
 const defaultValues = {
   petAccount: "",
@@ -33,11 +30,13 @@ const defaultValues = {
   link: "",
 };
 
-const PetForm: React.FC<PetFormPropsType> = ({
-  isLoading,
-  statusCode,
-  onSubmit: handleCreatePet,
-}) => {
+// 請求新增寵物資料表單
+const PetForm: React.FC = () => {
+  const router = useRouter();
+  const { token } = useSelector((state: RootState) => state.userInfo);
+  const [isLoading, setIsLoading] = useState(false);
+  const [statusCode, setStatusCode] = useState(0);
+
   const {
     handleSubmit,
     control,
@@ -46,8 +45,47 @@ const PetForm: React.FC<PetFormPropsType> = ({
     formState: { errors },
   } = useForm<PetFormType>({ defaultValues });
 
-  const router = useRouter();
+  const handleCreatePet = async (data: PetFormType) => {
+    setIsLoading(true);
+    setStatusCode(0);
 
+    const response = await fetchCreatePet(data, token);
+    if (!response.ok) {
+      setStatusCode(response.status);
+      setIsLoading(false);
+      return;
+    }
+
+    // // 確定新增成功才做上傳雲端圖片
+    if (data.petPhoto) {
+      const petId = response.data.petId;
+
+      try {
+        const uploadResult = await mediaUpload(data.petPhoto, "pet");
+        const imgUrl = uploadResult.secure_url;
+
+        const response = await fetchUpdatePet(data, token, imgUrl, petId);
+
+        if (!response.ok) {
+          setIsLoading(false);
+          setStatusCode(response.status);
+          alert("新增失敗，請稍候再試");
+          return;
+        }
+      } catch (error) {
+        setIsLoading(false);
+        setStatusCode(500);
+        alert("新增失敗，請稍候再試");
+        return;
+      }
+    }
+
+    setIsLoading(false);
+    alert("新增成功");
+    router.push("/member/new/topic");
+  };
+
+  // 顯示錯誤訊息
   useEffect(() => {
     switch (statusCode) {
       case 401:
@@ -65,8 +103,6 @@ const PetForm: React.FC<PetFormPropsType> = ({
     }
   }, [statusCode]);
 
-  const handleAdd = (data: any) => handleCreatePet(data);
-
   return (
     <section className="flex flex-col gap-4 my-16 max-w-[728px] w-full">
       <div>
@@ -77,7 +113,7 @@ const PetForm: React.FC<PetFormPropsType> = ({
       </div>
       <section className="p-8 border border-stroke rounded-[30px]">
         <h2 className="text-2xl">寵物基本資料</h2>
-        <form onSubmit={handleSubmit(handleAdd)} className="mt-4">
+        <form onSubmit={handleSubmit(handleCreatePet)} className="mt-4">
           <section className="flex gap-12 w-full">
             {/* 上傳照片 */}
             <Controller
