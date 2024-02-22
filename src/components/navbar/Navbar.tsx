@@ -69,7 +69,7 @@ const Navbar: React.FC = () => {
       handleGetPetList();
 
       const path = router.pathname;
-      if (path === "/record_dashboard") {
+      if (path.startsWith("/record_dashboard")) {
         setPage(1);
       }
     }
