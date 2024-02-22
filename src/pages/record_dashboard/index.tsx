@@ -6,6 +6,7 @@ import Upcoming from "@/components/recordDashboard/Upcoming";
 import AccountList from "@/components/petInfo/PetAccountList";
 import RecordCardLayout from "@/components/recordDashboard/RecordCardLayout";
 import Footer from "@/components/Footer";
+import Link from "next/link";
 
 export interface DateContextProp {
   selectedDate: string;
@@ -46,17 +47,6 @@ const DateProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 const RecordDashboard = () => {
-  const DataSummaryBtn = () => {
-    return (
-      <button
-        className="text-primary font-bold border border-stroke rounded-[30px] px-8 py-4 hover:cursor-pointer"
-        type="button"
-      >
-        查看數據總覽
-      </button>
-    );
-  };
-
   return (
     <DateProvider>
       <PetIdProvider>
@@ -69,7 +59,12 @@ const RecordDashboard = () => {
             <div className="flex flex-col gap-y-8 max-w-[480px] w-full">
               <div className="flex justify-between">
                 <AccountList />
-                <DataSummaryBtn />
+                <Link
+                  href="/record_dashboard/overview"
+                  className="flex items-center text-primary font-bold border border-stroke rounded-[30px] px-8 py-4 duration-300 hover:bg-primary hover:text-white"
+                >
+                  查看數據總覽
+                </Link>
               </div>
               <RecordCardLayout />
             </div>
