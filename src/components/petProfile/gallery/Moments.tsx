@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Image from "next/image";
 import moment from "moment";
 import { IconChevronDown, IconPaw } from "@tabler/icons-react";
@@ -7,11 +7,12 @@ import Daily from "@/containers/recordCard/content/Daily";
 import Medical from "@/containers/recordCard/content/Medical";
 import Moment from "@/containers/recordCard/content/Moment";
 import Reminder from "@/containers/recordCard/content/Reminder";
+import NoContent from "@/components/NoContent";
 
 import sortByAge from "@/common/helpers/sortByAge";
 import getIconColor from "@/common/helpers/getIconColor";
 
-import fakeData from "@/common/lib/test/fakeData";
+import { PetDataContext } from "@/pages/pet/[petAccount]";
 import { MedicalCardDataType, MomentCardDataType } from "@/types";
 import {
   RecordCardType,
@@ -21,8 +22,24 @@ import {
 } from "@/types/enums";
 
 const Moments: React.FC = () => {
+  const { record, profile } = useContext(PetDataContext)!;
+
   const [isExpanded, setIsExpanded] = useState(false);
   const [filterEvent, setFilterEvent] = useState("全部紀錄");
+
+  if (!record || !profile) {
+    return null;
+  }
+  const data = record;
+  const birthday: string = moment(profile.birthday).format("YYYY-MM-DD");
+
+  const sortedData =
+    filterEvent === "全部紀錄"
+      ? sortByAge(data, birthday)
+      : sortByAge(
+          data.filter((event) => RecordCardType[event.card] === filterEvent),
+          birthday
+        );
 
   const EventFilter = () => {
     const category: string[] = ["全部紀錄", "日常紀錄", "醫療紀錄", "重要時刻"];
@@ -71,11 +88,6 @@ const Moments: React.FC = () => {
 
   const AgeCard = () => {
     const [expandedCard, setExpandedCard] = useState("");
-
-    // fetch data and birthday here
-    const data = fakeData();
-    const birthday: string = "2023-08-01T00:00:00";
-
     const handleToggleCard = (id: string) => {
       if (expandedCard === id) {
         setExpandedCard("");
@@ -83,14 +95,6 @@ const Moments: React.FC = () => {
         setExpandedCard(id);
       }
     };
-
-    const sortedData =
-      filterEvent === "全部紀錄"
-        ? sortByAge(data, birthday)
-        : sortByAge(
-            data.filter((event) => RecordCardType[event.card] === filterEvent),
-            birthday
-          );
 
     return (
       <div className="flex flex-col gap-y-16">
@@ -260,6 +264,7 @@ const Moments: React.FC = () => {
       </div>
     );
   };
+
   return (
     <section className="flex flex-col max-w-[1088px] w-full">
       <div
@@ -270,7 +275,11 @@ const Moments: React.FC = () => {
         <EventFilter />
       </div>
       <div className="max-w-[660px] w-full mx-auto">
-        <AgeCard />
+        {Array.isArray(record) && record.length > 0 ? (
+          <AgeCard />
+        ) : (
+          <NoContent />
+        )}
       </div>
     </section>
   );
