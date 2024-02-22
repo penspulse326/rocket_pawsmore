@@ -3,11 +3,15 @@ export enum MediaType {
   video = 1,
 }
 
+// General
+
 export enum RecordCardType {
   日常紀錄 = 0,
   醫療紀錄 = 1,
   重要時刻 = 2,
 }
+
+// Daily Card
 
 export enum UrineType {
   "" = 0,
@@ -44,6 +48,8 @@ export enum VomitType {
   混合異物 = 11,
   其他 = 12,
 }
+
+// Moment Card
 
 export enum MomentCategoryType {
   行為表現 = 0,
@@ -82,7 +88,30 @@ export enum MomentIdType {
   自填 = 25,
 }
 
+export enum AnniversaryType {
+  生日 = 0,
+  領養日 = 1,
+}
+
+// Medical Card
+
 export enum MedicalCardType {
   醫療提醒 = 0,
   就診紀錄 = 1,
+}
+
+export enum ReserveType {
+  無 = 0,
+  看診 = 1,
+  疫苗 = 2,
+  健檢 = 3,
+  結紮 = 4,
+}
+
+export enum VisitType {
+  無 = 0,
+  看診 = 1,
+  疫苗 = 2,
+  健檢 = 3,
+  結紮 = 4,
 }
