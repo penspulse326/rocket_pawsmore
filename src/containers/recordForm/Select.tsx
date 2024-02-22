@@ -11,7 +11,7 @@ interface OptionType {
 interface SelectProps {
   title: string;
   name: string;
-  options: OptionType[];
+  options?: OptionType[];
   message?: string;
   onChange?: (value: any) => void;
 }
@@ -31,7 +31,7 @@ const Select = forwardRef<HTMLInputElement, SelectProps>(
       e.stopPropagation();
       setTimeout(() => {
         setIsOpen(false);
-      }, 300);
+      }, 150);
     };
 
     return (
@@ -50,21 +50,24 @@ const Select = forwardRef<HTMLInputElement, SelectProps>(
           />
         </button>
         {/* 選項列表 */}
-        <ul
-          style={{ visibility: isOpen ? "visible" : "hidden" }}
-          className="shadow-custom absolute z-50 m-1 p-2 rounded-[10px] bg-white"
-        >
-          {options.map(({ label, value }: OptionType) => (
-            <li
-              key={label}
-              onClick={() => handleSelectChange({ label, value })}
-              style={{ background: value === selected ? "#C5E5FF" : "white" }}
-              className="px-2 py-1 rounded-[10px] cursor-pointer hover:bg-secondary"
-            >
-              {label}
-            </li>
-          ))}
-        </ul>
+        {options && (
+          <ul
+            style={{ visibility: isOpen ? "visible" : "hidden" }}
+            className="shadow-custom absolute z-50 mt-10 p-2 rounded-[10px] bg-white"
+          >
+            {options?.map(({ label, value }: OptionType) => (
+              <li
+                key={label}
+                onClick={() => handleSelectChange({ label, value })}
+                className={`${
+                  value === selected?.value ? "bg-secondary" : "bg-white"
+                } px-2 py-1 text-nowrap rounded-[10px] cursor-pointer hover:bg-secondary`}
+              >
+                {label}
+              </li>
+            ))}
+          </ul>
+        )}
         {message && <ErrorMessage>{message}</ErrorMessage>}
         <input ref={ref} type="hidden" name={name} readOnly={true} />
       </div>

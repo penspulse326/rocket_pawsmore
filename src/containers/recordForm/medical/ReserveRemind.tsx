@@ -1,4 +1,4 @@
-import Select from "./Select";
+import Select from "../Select";
 import DateInput from "./DateInput";
 
 import RadioCheck from "@/components/form/record/RadioCheck";

@@ -1,4 +1,4 @@
-import { DailyDataType, MomentDataType } from "@/types";
+import { DailyDataType, MomentDataType, MomentFormType } from "@/types";
 import apiNext from "./apiNext";
 
 export const fetchAddDailyCard = async (
@@ -51,7 +51,7 @@ export const fetchAddMedicalCard = async (
 export const fetchAddMomentCard = async (
   token: string,
   petId: number,
-  data: MomentDataType
+  data: MomentDataType | MomentFormType
 ) => {
   try {
     const response = await fetch(apiNext.ADD_MOMENT_CARD(petId), {

@@ -10,9 +10,9 @@ import ErrorMessage from "@/components/ErrorMessage";
 import Loading from "@/components/hint/Loading";
 import { errorText } from "@/common/lib/messageText";
 import { visitOptions } from "@/common/lib/formText";
-import Select from "./Select";
+import Select from "../Select";
 import DateInput from "./DateInput";
-import ImageInput from "./ImageInput";
+import ImageInput from "../ImageInput";
 import TextInput from "./TextInput";
 
 import { VisitType } from "@/types/enums";
@@ -73,18 +73,19 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
     },
   });
 
-  const handleAddCard = async (data: FormType) => {
+  const handleAddMedicalRecord = async (data: FormType) => {
     if (!token || !petId) return;
+    const { title, visitType, photo } = data;
 
-    if (!data.title || !data.visitType) {
+    if (!title || !visitType) {
       setError("root", { type: "manual", message: "請輸入必填項目" });
       return;
     }
 
     setIsLoading(true);
 
-    if (data.photo instanceof File) {
-      const uploadResult = await mediaUpload(data.photo, "medical");
+    if (photo instanceof File) {
+      const uploadResult = await mediaUpload(photo, "medical");
       if (uploadResult) {
         data.photo = uploadResult.secure_url;
       }
@@ -103,7 +104,7 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
   return (
     <>
       <form
-        onSubmit={handleSubmit(handleAddCard)}
+        onSubmit={handleSubmit(handleAddMedicalRecord)}
         className="flex flex-col gap-4"
       >
         <Controller
@@ -120,7 +121,7 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
         />
         <div className="flex justify-between items-center">
           <span className="font-semibold">
-            事件分類
+            看診類型
             <span className="text-error">*</span>
           </span>
           <div className="flex-grow flex items-center max-w-[248px]">

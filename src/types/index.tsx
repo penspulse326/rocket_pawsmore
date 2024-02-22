@@ -151,6 +151,16 @@ export interface DailyDataType {
   targetDate: string;
 }
 
+export interface MomentFormType {
+  card: 2;
+  momentType: MomentCategoryType | null;
+  momentId: MomentIdType | null;
+  momentDetails: string;
+  desc: string;
+  photo: File | string | null;
+  targetDate: string;
+}
+
 export interface MomentDataType {
   momentType: MomentCategoryType;
   momentId: MomentIdType;
@@ -158,4 +168,9 @@ export interface MomentDataType {
   desc: string;
   photo: string;
   targetDate: string;
+}
+
+export interface OptionType {
+  label: string;
+  value: any;
 }
