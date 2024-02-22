@@ -82,7 +82,7 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
       setError("root", { type: "required", message: "請填入必填項目" });
       setIsLoading(false);
       return;
-    } else if (momentType === null && momentId === null) {
+    } else if (momentType === null || momentId === null) {
       setError("root", { type: "required", message: "請填入必填項目" });
       setIsLoading(false);
       return;
