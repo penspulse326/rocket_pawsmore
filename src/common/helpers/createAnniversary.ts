@@ -1,25 +1,42 @@
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import moment from "moment";
 
-import { originalData } from "../lib/test/eventData";
+import type { RootState } from "@/common/redux/store";
 
-const createBirthdayEvent = ({
-  birthday,
-  adoptedDate,
-  petId,
-}: {
-  birthday: string;
-  adoptedDate: string;
-  petId: number;
-}) => {
+import { PetDataType, MomentCardDataType } from "@/types";
+import { RecordCardType, AnniversaryType } from "@/types/enums";
+
+const useCreateAnniversaryEvent = (petId: number) => {
+  const petList = useSelector((state: RootState) => state.petList);
+  const [selectedPet, setSelectedPet] = useState<PetDataType>();
+
+  const anniversaryCards = [];
   const futureYears = 10;
-  const isBirthdayExisting = originalData.some(
-    (event) => event.category === "生日"
-  );
-  const isAdoptedDateExisting = originalData.some(
-    (event) => event.category === "領養日"
-  );
+  // const isBirthdayExisting = originalData.some(
+  //   (event) => event.category === "生日"
+  // );
+  // const isAdoptedDateExisting = originalData.some(
+  //   (event) => event.category === "領養日"
+  // );
 
-  if (!isBirthdayExisting) {
+  if (petList.length > 0 && petId !== null) {
+    const foundIndex = petList.findIndex((pet) => pet.petId === petId);
+    if (foundIndex !== -1) {
+      setSelectedPet(petList[foundIndex]);
+    }
+  } else {
+    setSelectedPet(petList[0]);
+  }
+
+  let birthday: string;
+  let adoptedDate: string;
+
+  if (selectedPet) {
+    birthday = selectedPet.birthday;
+    adoptedDate = selectedPet.adoptedDate;
+
+    // if (!isBirthdayExisting) {
     for (let i = 0; i < futureYears; i++) {
       const birthdayDate = moment(birthday)
         .add(i, "years")
@@ -27,31 +44,36 @@ const createBirthdayEvent = ({
       const id = Number(`${petId}${moment(birthdayDate).format("YYYYMMDD")}`);
 
       const birthdayEvent = {
-        id: id,
-        card: "紀念日",
-        created_at: moment().format("YYYY-MM-DD"),
-        target_date: birthdayDate,
-        category: "生日",
-        content: `第 ${i} 週年`,
+        petId: petId,
+        cardId: id,
+        // card: 999,
+        desc: `第 ${i} 週年`,
+        createDate: moment().format("YYYY-MM-DD"),
+        targetDate: birthdayDate,
+        anniversaryType: AnniversaryType.生日,
       };
-      originalData.push(birthdayEvent);
+      anniversaryCards.push(birthdayEvent);
     }
-  } else if (!isAdoptedDateExisting) {
+
+    // else if (!isAdoptedDateExisting) {
     for (let i = 0; i < futureYears; i++) {
       const date = moment(adoptedDate).add(i, "years").format("YYYY-MM-DD");
       const id = Number(`${petId}${moment(date).format("YYYYMMDD")}`);
 
       const adoptedDateEvent = {
-        id: id,
-        card: "紀念日",
-        created_at: moment().format("YYYY-MM-DD"),
-        target_date: date,
-        category: "領養日",
-        content: `第 ${i} 週年`,
+        petId: petId,
+        cardId: id,
+        // card: RecordCardType,
+        desc: `第 ${i} 週年`,
+        createDate: moment().format("YYYY-MM-DD"),
+        targetDate: date,
+        anniversaryType: AnniversaryType.領養日,
       };
-      originalData.push(adoptedDateEvent);
+      anniversaryCards.push(adoptedDateEvent);
     }
   }
+
+  return anniversaryCards;
 };
 
-export default createBirthdayEvent;
+export default useCreateAnniversaryEvent;

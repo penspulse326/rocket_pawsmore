@@ -1,16 +1,54 @@
 import React, { useContext } from "react";
 import Image from "next/image";
-import getIconColor from "@/common/helpers/getIconColor";
 import { DataContext } from "../SingleCardLayout";
+
+import getIconColor from "@/common/helpers/getIconColor";
+
+import { MedicalCardDataType, MomentCardDataType } from "@/types";
+import {
+  RecordCardType,
+  MedicalCardType,
+  ReserveType,
+  MomentIdType,
+} from "@/types/enums";
 
 const Title: React.FC = () => {
   const data = useContext(DataContext);
   if (!data) {
     return null;
   }
-  const { card, type, reserve_type, category } = data;
-  const isReminder: boolean = card === "醫療紀錄" && type === "醫療提醒";
-  const isAnniversary: boolean = card === "紀念日";
+  const { card } = data;
+
+  const title = (data as MedicalCardDataType).title;
+  const cardType = (data as MedicalCardDataType).cardType;
+  const reserveType = (data as MedicalCardDataType).reserveType;
+
+  const momentType = (data as MomentCardDataType).momentType;
+  const momentId = (data as MomentCardDataType).momentId;
+
+  const isReminder: boolean =
+    RecordCardType[card] === "醫療紀錄" &&
+    MedicalCardType[cardType] === "醫療提醒";
+  const isAnniversary: boolean = false;
+  //  card === "紀念日";
+
+  const titleText = () => {
+    if (isReminder) {
+      return ReserveType[reserveType];
+    } else if (card === RecordCardType.重要時刻) {
+      if (momentType !== 2) {
+        return MomentIdType[momentId];
+      } else {
+        return "新技能";
+      }
+    } else if (isAnniversary) {
+      return "紀念日";
+    } else if (RecordCardType[card] === "醫療紀錄") {
+      return title;
+    } else {
+      return RecordCardType[card];
+    }
+  };
 
   return (
     <div className="flex gap-x-4 items-center h-9">
@@ -38,12 +76,15 @@ const Title: React.FC = () => {
           viewBox="0 0 6 6"
           fill="none"
         >
-          <circle cx="3" cy="3" r="3" fill={getIconColor(card)} />
+          <circle
+            cx="3"
+            cy="3"
+            r="3"
+            fill={getIconColor(RecordCardType[card])}
+          />
         </svg>
       )}
-      <span className="text-2xl font-bold">
-        {isReminder ? reserve_type : isAnniversary ? category : card}
-      </span>
+      <span className="text-2xl font-bold">{titleText()}</span>
     </div>
   );
 };

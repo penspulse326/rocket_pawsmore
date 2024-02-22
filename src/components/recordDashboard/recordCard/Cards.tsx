@@ -1,11 +1,17 @@
 import React, { useState, useContext } from "react";
+import moment from "moment";
+
 import { DateContext } from "@/pages/record_dashboard";
 import SingleCardLayout from "@/containers/recordCard/SingleCardLayout";
-import sortData from "@/common/helpers/sortData";
+
+import fakeData from "@/common/lib/test/fakeData";
+
+import { MedicalCardDataType } from "@/types";
+import { MedicalCardType } from "@/types/enums";
 
 const Cards: React.FC = () => {
   const { selectedDate } = useContext(DateContext);
-  const sortedData = sortData();
+  const data = fakeData();
 
   const [openedCardId, setOpenedCardId] = useState(-1);
   const handleToggle = (id: number) => {
@@ -14,18 +20,25 @@ const Cards: React.FC = () => {
 
   return (
     <>
-      {sortedData
-        .filter(
-          (data) =>
-            (data.target_date === selectedDate && data.type !== "醫療提醒") ||
-            data.reserve_at === selectedDate
-        )
+      {data
+        .filter((data) => {
+          const { targetDate } = data;
+          const visitType = (data as MedicalCardDataType).visitType;
+          const reserveDate = (data as MedicalCardDataType).reserveDate;
+
+          return (
+            (MedicalCardType[visitType] === "醫療提醒" &&
+              moment(reserveDate).format("YYYY-MM-DD") === selectedDate) ||
+            (MedicalCardType[visitType] !== "醫療提醒" &&
+              moment(targetDate).format("YYYY-MM-DD") === selectedDate)
+          );
+        })
         .map((data, index) => (
           <SingleCardLayout
             key={index}
             data={data}
-            id={data.id}
-            isOpened={openedCardId === data.id}
+            id={data.cardId}
+            isOpened={openedCardId === data.cardId}
             onToggle={handleToggle}
           />
         ))}
