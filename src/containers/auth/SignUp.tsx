@@ -30,8 +30,6 @@ const SignUp: React.FC = () => {
   const [statusCode, setStatusCode] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  const isBtnDisabled = !isValid || isLoading;
-
   const onSubmit = async (data: LoginFormType) => {
     setIsLoading(true);
     setStatusCode(0); // 重置狀態 否則 hook-form 的 error 會被清空
@@ -42,7 +40,7 @@ const SignUp: React.FC = () => {
     const response = await fetchSignup(formData);
     if (response.ok) {
       dispatch(setUserInfo(response.data));
-      router.push("/");
+      router.push("/member/new/profile");
     }
 
     setStatusCode(response.status);
@@ -126,7 +124,7 @@ const SignUp: React.FC = () => {
         />
         <button
           type="submit"
-          disabled={isBtnDisabled}
+          disabled={!isValid}
           className={`${
             isValid ? "bg-primary" : "bg-note"
           } mt-4 py-3 rounded-full  text-white`}
