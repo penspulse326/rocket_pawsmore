@@ -3,11 +3,22 @@ import Image from "next/image";
 import moment from "moment";
 import { IconChevronDown, IconPaw } from "@tabler/icons-react";
 
-import ToggleList from "@/containers/recordCard/card/ToggleList";
+import Daily from "@/containers/recordCard/content/Daily";
+import Medical from "@/containers/recordCard/content/Medical";
+import Moment from "@/containers/recordCard/content/Moment";
+import Reminder from "@/containers/recordCard/content/Reminder";
+
 import sortByAge from "@/common/helpers/sortByAge";
 import getIconColor from "@/common/helpers/getIconColor";
-import getCategoryBgcolor from "@/common/helpers/getCategoryBgcolor";
-import { originalData, DataType } from "@/common/lib/test/eventData";
+
+import fakeData from "@/common/lib/test/fakeData";
+import { MedicalCardDataType, MomentCardDataType } from "@/types";
+import {
+  RecordCardType,
+  MedicalCardType,
+  ReserveType,
+  MomentIdType,
+} from "@/types/enums";
 
 const Moments: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -57,8 +68,13 @@ const Moments: React.FC = () => {
       </div>
     );
   };
+
   const AgeCard = () => {
     const [expandedCard, setExpandedCard] = useState("");
+
+    // fetch data and birthday here
+    const data = fakeData();
+    const birthday: string = "2023-08-01T00:00:00";
 
     const handleToggleCard = (id: string) => {
       if (expandedCard === id) {
@@ -70,356 +86,11 @@ const Moments: React.FC = () => {
 
     const sortedData =
       filterEvent === "全部紀錄"
-        ? sortByAge(originalData)
-        : sortByAge(originalData.filter((event) => event.card === filterEvent));
-
-    const MomentCard: React.FC<{ data: DataType }> = (props) => {
-      if (!props) {
-        return null;
-      }
-      const { data } = props;
-      const { category, content, photo, desc } = data;
-
-      interface MomentDataType {
-        TITLE: string;
-        content: JSX.Element | null;
-      }
-
-      const momentData: MomentDataType[] = [
-        {
-          TITLE: "事件分類",
-          content: (
-            <li
-              className={`px-2 rounded-[30px] ${getCategoryBgcolor(category!)}`}
-            >
-              {category}
-            </li>
-          ),
-        },
-        { TITLE: "內容", content: <li>{content}</li> },
-        {
-          TITLE: "紀錄照片",
-          content: photo ? (
-            <Image
-              className="rounded-[10px] object-cover"
-              src={photo}
-              width={248}
-              height={168}
-              alt="moment photo"
-            />
-          ) : null,
-        },
-        { TITLE: "事件描述", content: desc ? <li>{desc}</li> : null },
-      ];
-
-      return (
-        <ul className="flex flex-col gap-y-3">
-          {momentData.map((moment, index) => {
-            return (
-              <ol key={index} className="flex gap-x-12">
-                <li className="font-semibold min-w-[64px]">{moment.TITLE}</li>
-                {moment.content}
-              </ol>
-            );
-          })}
-        </ul>
-      );
-    };
-
-    const MedicalCard: React.FC<{ data: DataType }> = (props) => {
-      if (!props) {
-        return null;
-      }
-      const { data } = props;
-      const {
-        title,
-        visit_type,
-        hospital,
-        doctor,
-        medicine,
-        check,
-        notice,
-        cost,
-        photo,
-        reserve_at,
-        related_id,
-      } = data;
-
-      interface MedicalDataType {
-        TITLE: string;
-        content: JSX.Element | null;
-      }
-
-      const costFormat = (number: number) => {
-        if (!number) {
-          return null;
-        }
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      };
-
-      const medicalData: MedicalDataType[] = [
-        { TITLE: "標題", content: <li className="py-1">{title}</li> },
-        { TITLE: "事件分類", content: <li className="py-1">{visit_type}</li> },
-        {
-          TITLE: "醫院",
-          content: hospital ? <li className="py-1">{hospital}</li> : null,
-        },
-        {
-          TITLE: "獸醫師",
-          content: doctor ? <li className="py-1">{doctor}</li> : null,
-        },
-        {
-          TITLE: "服用藥物",
-          content: medicine ? <li className="py-1">{medicine}</li> : null,
-        },
-        {
-          TITLE: "臨床檢查",
-          content: check ? <li className="py-1">{check}</li> : null,
-        },
-        {
-          TITLE: "居家注意事項",
-          content: notice ? <li className="py-1">{notice}</li> : null,
-        },
-        {
-          TITLE: "開銷",
-          content: cost ? (
-            <ul className="flex gap-x-1 py-1">
-              <li>NTD</li>
-              <li>{costFormat(cost)}</li>
-            </ul>
-          ) : null,
-        },
-        {
-          TITLE: "紀錄照片",
-          content: photo ? (
-            <div className="py-1">
-              <Image
-                className="rounded-[10px]"
-                src={photo}
-                width={248}
-                height={186}
-                alt="photo"
-              />
-            </div>
-          ) : null,
-        },
-        {
-          TITLE: "回診提醒",
-          content: reserve_at ? (
-            <li className="py-1">{moment(reserve_at).format("YYYY/M/D")}</li>
-          ) : null,
-        },
-      ];
-
-      const RelatedCard: React.FC = () => {
-        const [isOpened, setIsOpened] = useState(false);
-        return (
-          <div className="flex flex-col gap-y-2 w-full">
-            {/* TITLE */}
-            <div className="font-semibold min-w-[96px]">相關日常紀錄</div>
-            {/* content container */}
-            <button
-              className="flex flex-col border border-stroke rounded-[30px] px-6 py-4"
-              type="button"
-              onClick={() => setIsOpened(!isOpened)}
-            >
-              {/* card title */}
-              <ul className="flex justify-between w-full">
-                <ol className="flex gap-x-1 items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="6"
-                    height="6"
-                    viewBox="0 0 6 6"
-                    fill="none"
-                  >
-                    <circle cx="3" cy="3" r="3" fill="#969AFF" />
-                  </svg>
-                  <li className="font-semibold">日常紀錄</li>
-                </ol>
-                <IconChevronDown
-                  className={`${!isOpened && "rotate-180"} duration-300`}
-                />
-              </ul>
-              {/* card content */}
-              {isOpened && <></>}
-            </button>
-          </div>
-        );
-      };
-      return (
-        <ul className="flex flex-col gap-y-2">
-          {medicalData
-            .filter((data) => data.content)
-            .map((item, index) => {
-              return (
-                <ol key={index} className="flex gap-x-6 items-center">
-                  <li className="font-semibold min-w-[96px] self-start">
-                    {item.TITLE}
-                  </li>
-                  {item.content}
-                </ol>
-              );
-            })}
-          {related_id && <RelatedCard />}
-        </ul>
-      );
-    };
-
-    const DailyCard: React.FC<{ data: DataType }> = (props) => {
-      if (!props) {
-        return null;
-      }
-      const { data } = props;
-      const { weight, food, water, remark } = data;
-
-      interface DailyDataType {
-        TITLE: string;
-        content: JSX.Element | null;
-      }
-
-      const Routine = () => {
-        const routineData: DailyDataType[] = [
-          {
-            TITLE: "體重",
-            content: weight ? (
-              <>
-                <li>{weight}</li>
-                <li>(unit)</li>
-              </>
-            ) : null,
-          },
-          {
-            TITLE: "飲水量",
-            content: water ? (
-              <>
-                <li>{water}</li>
-                <li>ml</li>
-              </>
-            ) : null,
-          },
-          {
-            TITLE: "進食量",
-            content: food ? (
-              <div className="flex flex-col">
-                {food.map((item, index) => {
-                  return (
-                    <ul key={index} className="flex gap-x-1">
-                      <li>{item.food_type}</li>
-                      <li>{item.food_weight}</li>
-                      <li>g</li>
-                    </ul>
-                  );
-                })}
-              </div>
-            ) : null,
-          },
-        ];
-        return (
-          <ToggleList title={"一般"}>
-            <div className="flex flex-col gap-y-2">
-              {routineData
-                .filter((data) => data.content)
-                .map((item, index) => {
-                  return (
-                    <ul key={index} className="flex gap-x-4">
-                      <li className="font-semibold min-w-12">{item.TITLE}</li>
-                      <ol className="flex gap-x-1">{item.content}</ol>
-                    </ul>
-                  );
-                })}
-            </div>
-          </ToggleList>
-        );
-      };
-
-      const hasRoutineRecord: boolean =
-        data.weight !== undefined ||
-        data.food !== undefined ||
-        data.water !== undefined;
-
-      const isAbnormal: boolean =
-        data.urine !== undefined ||
-        data.stool !== undefined ||
-        data.vomit !== undefined ||
-        data.symptom !== undefined;
-
-      const abnormal: DataArrayType[] = [
-        { title: "尿液", content: data.urine },
-        { title: "糞便", content: data.stool },
-        { title: "嘔吐", content: data.vomit },
-        { title: "症狀", content: data.symptom },
-      ];
-
-      const hasDailyCares: boolean =
-        data.deworming !== undefined ||
-        data.medicine !== undefined ||
-        data.injection !== undefined ||
-        data.rehab !== undefined;
-
-      interface DataArrayType {
-        title: string;
-        content: string | number | undefined | null | string[];
-      }
-
-      const dailyCares: DataArrayType[] = [
-        { title: "驅蟲", content: data.deworming },
-        { title: "用藥", content: data.medicine },
-        { title: "注射", content: data.injection },
-        { title: "復健", content: data.rehab },
-      ];
-
-      return (
-        <div className="flex flex-col gap-y-4">
-          {hasRoutineRecord && <Routine />}
-          {/* the abnormals */}
-          {isAbnormal && (
-            <ToggleList title={"異常"}>
-              <div className="flex flex-col gap-y-2">
-                {abnormal
-                  .filter((item) => item.content)
-                  .map((item, index) => {
-                    return (
-                      <ul key={index} className="flex gap-x-4">
-                        <li className="font-semibold min-w-12">{item.title}</li>
-                        <li>
-                          {item.title === "症狀" && Array.isArray(item.content)
-                            ? item.content.join("、")
-                            : item.content}
-                        </li>
-                      </ul>
-                    );
-                  })}
-              </div>
-            </ToggleList>
-          )}
-          {/* daily cares */}
-          {hasDailyCares && (
-            <ToggleList title={"日常照護"}>
-              <div className="flex flex-col gap-y-2">
-                {dailyCares
-                  .filter((item) => item.content)
-                  .map((item, index) => {
-                    return (
-                      <ul key={index} className="flex gap-x-4">
-                        <li className="font-semibold min-w-12">{item.title}</li>
-                        <li>{item.content}</li>
-                      </ul>
-                    );
-                  })}
-              </div>
-            </ToggleList>
-          )}
-          {/* note */}
-          {remark && (
-            <ul className="flex flex-col gap-y-2">
-              <li className="text-note">備註</li>
-              <li>{remark}</li>
-            </ul>
-          )}
-        </div>
-      );
-    };
+        ? sortByAge(data, birthday)
+        : sortByAge(
+            data.filter((event) => RecordCardType[event.card] === filterEvent),
+            birthday
+          );
 
     return (
       <div className="flex flex-col gap-y-16">
@@ -463,9 +134,63 @@ const Moments: React.FC = () => {
                           {/* card container */}
                           <div className="flex flex-col gap-y-4 max-w-[472px] w-full">
                             {dateGroup.events.map((event, index) => {
-                              // 接 api 時換成 uuid
-                              const cardId = event.id.toString();
-                              const isExpanded = expandedCard === cardId;
+                              const { cardId, card } = event;
+                              const cardType = (event as MedicalCardDataType)
+                                .cardType;
+                              const reserveType = (event as MedicalCardDataType)
+                                .reserveType;
+
+                              const id = cardId.toString();
+                              const isExpanded = expandedCard === id;
+
+                              const titleText = () => {
+                                const isReminder: boolean =
+                                  RecordCardType[card] === "醫療紀錄" &&
+                                  MedicalCardType[cardType] === "醫療提醒";
+
+                                const title = (event as MedicalCardDataType)
+                                  .title;
+                                const momentType = (event as MomentCardDataType)
+                                  .momentType;
+                                const momentId = (event as MomentCardDataType)
+                                  .momentId;
+
+                                if (isReminder) {
+                                  return ReserveType[reserveType];
+                                } else if (card === RecordCardType.重要時刻) {
+                                  if (momentType !== 2) {
+                                    return MomentIdType[momentId];
+                                  } else {
+                                    return "新技能";
+                                  }
+                                } else if (
+                                  RecordCardType[card] === "醫療紀錄"
+                                ) {
+                                  return title;
+                                } else {
+                                  return RecordCardType[card];
+                                }
+                              };
+
+                              const cardContent = () => {
+                                const visitType = (event as MedicalCardDataType)
+                                  .visitType;
+
+                                if (MedicalCardType[visitType] === "醫療提醒") {
+                                  return <Reminder data={event} />;
+                                } else {
+                                  switch (card) {
+                                    case RecordCardType.重要時刻:
+                                      return <Moment data={event} />;
+                                    case RecordCardType.醫療紀錄:
+                                      return <Medical data={event} />;
+                                    case RecordCardType.日常紀錄:
+                                      return <Daily data={event} />;
+                                    default:
+                                      return null;
+                                  }
+                                }
+                              };
 
                               return (
                                 // single card
@@ -474,13 +199,14 @@ const Moments: React.FC = () => {
                                     isExpanded ? "pb-6" : "pb-4"
                                   }`}
                                   key={index}
-                                  id={cardId}
+                                  id={id}
                                 >
                                   {/* title */}
                                   <div className="flex justify-between">
-                                    <div className="flex gap-x-1 items-center">
-                                      {event.card === "醫療紀錄" &&
-                                      event.type === "醫療提醒" ? (
+                                    <div className="flex gap-x-1 items-center font-bold">
+                                      {card === RecordCardType.醫療紀錄 &&
+                                      MedicalCardType[cardType] ===
+                                        "醫療提醒" ? (
                                         <Image
                                           src="/test/icon-exclamation.svg"
                                           width={6}
@@ -499,13 +225,13 @@ const Moments: React.FC = () => {
                                             cx="3"
                                             cy="3"
                                             r="3"
-                                            fill={getIconColor(event.card)}
+                                            fill={getIconColor(
+                                              RecordCardType[card]
+                                            )}
                                           />
                                         </svg>
                                       )}
-                                      {event.type === "醫療提醒"
-                                        ? event.reserve_type
-                                        : event.card}
+                                      {titleText()}
                                     </div>
                                     <IconChevronDown
                                       size={24}
@@ -513,23 +239,11 @@ const Moments: React.FC = () => {
                                       className={`${
                                         isExpanded && "rotate-180"
                                       } duration-300 hover:cursor-pointer`}
-                                      onClick={() => handleToggleCard(cardId)}
+                                      onClick={() => handleToggleCard(id)}
                                     />
                                   </div>
                                   {/* content */}
-                                  {isExpanded &&
-                                    (() => {
-                                      switch (event.card) {
-                                        case "重要時刻":
-                                          return <MomentCard data={event} />;
-                                        case "醫療紀錄":
-                                          return <MedicalCard data={event} />;
-                                        case "日常紀錄":
-                                          return <DailyCard data={event} />;
-                                        default:
-                                          return null;
-                                      }
-                                    })()}
+                                  {isExpanded && cardContent()}
                                 </div>
                               );
                             })}
