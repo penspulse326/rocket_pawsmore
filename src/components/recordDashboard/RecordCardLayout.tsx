@@ -35,7 +35,7 @@ const RecordCardLayout: React.FC = () => {
   return (
     <section className="flex flex-col gap-y-8 border border-stroke rounded-[30px] p-8 w-full">
       <Date />
-      <div className="scrollbar-none flex flex-col gap-y-4 max-h-[876px]">
+      <div className="scrollbar-none flex flex-col gap-y-4">
         {formType === null ? (
           <>
             <Cards />

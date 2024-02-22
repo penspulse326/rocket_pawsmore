@@ -1,8 +1,13 @@
 import {
+  AnniversaryType,
+  MedicalCardType,
   MomentCategoryType,
   MomentIdType,
   PooType,
+  RecordCardType,
+  ReserveType,
   UrineType,
+  VisitType,
   VomitType,
 } from "./enums";
 
@@ -168,6 +173,69 @@ export interface MomentDataType {
   desc: string;
   photo: string;
   targetDate: string;
+}
+
+// 請求所有卡片的回傳資料
+
+export type CardUnionDataType =
+  | DailyCardDataType
+  | MedicalCardDataType
+  | MomentCardDataType;
+
+export interface DailyCardDataType {
+  cardId: number;
+  card: RecordCardType;
+  weight: string;
+  food: string;
+  water: number;
+  urine: UrineType;
+  poo: PooType;
+  vomit: VomitType;
+  symptom: string;
+  deworming: string;
+  medicine: string;
+  injection: string;
+  rehab: string;
+  remark: string;
+  selected: string;
+  targetDate: string;
+  createDate: string;
+}
+
+export interface MedicalCardDataType {
+  cardId: number;
+  card: RecordCardType;
+  cardType: MedicalCardType;
+  reserveType: ReserveType;
+  visitType: VisitType;
+  title: string | null;
+  hospital: string | null;
+  doctor: string | null;
+  medicine: string | null;
+  check: string | null;
+  notice: string | null;
+  cost: number | null;
+  photo: string | null;
+  remind: boolean | null;
+  // selected?: ;
+  targetDate: string;
+  reserveDate: string;
+  remindDate: string | null;
+  createDate: string;
+}
+
+export interface MomentCardDataType {
+  cardId: number;
+  petId: number;
+  card: RecordCardType;
+  momentType: MomentCategoryType;
+  momentId: MomentIdType;
+  momentDetails: string;
+  desc: string;
+  momentPhoto: string;
+  targetDate: string;
+  createDate: string;
+  anniversaryType?: AnniversaryType;
 }
 
 export interface OptionType {

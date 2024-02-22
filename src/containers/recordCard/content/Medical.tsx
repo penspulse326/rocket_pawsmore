@@ -4,6 +4,9 @@ import moment from "moment";
 import { IconChevronDown } from "@tabler/icons-react";
 import { DataContext } from "../SingleCardLayout";
 
+import { MedicalCardDataType } from "@/types";
+import { VisitType } from "@/types/enums";
+
 interface MedicalDataType {
   TITLE: string;
   content: JSX.Element | null;
@@ -16,7 +19,7 @@ const Medical: React.FC = () => {
   }
   const {
     title,
-    visit_type,
+    visitType,
     hospital,
     doctor,
     medicine,
@@ -24,9 +27,8 @@ const Medical: React.FC = () => {
     notice,
     cost,
     photo,
-    reserve_at,
-    related_id,
-  } = data;
+    reserveDate,
+  } = data as MedicalCardDataType;
 
   const costFormat = (number: number) => {
     if (!number) {
@@ -37,7 +39,10 @@ const Medical: React.FC = () => {
 
   const medicalData: MedicalDataType[] = [
     { TITLE: "標題", content: <li className="py-1">{title}</li> },
-    { TITLE: "事件分類", content: <li className="py-1">{visit_type}</li> },
+    {
+      TITLE: "事件分類",
+      content: <li className="py-1">{VisitType[visitType]}</li>,
+    },
     {
       TITLE: "醫院",
       content: hospital ? <li className="py-1">{hospital}</li> : null,
@@ -70,9 +75,9 @@ const Medical: React.FC = () => {
     {
       TITLE: "紀錄照片",
       content: photo ? (
-        <div className="py-1">
+        <div className="py-1 w-[248px] h-[186px]">
           <Image
-            className="rounded-[10px]"
+            className="rounded-[10px] w-full h-full object-cover"
             src={photo}
             width={248}
             height={186}
@@ -83,8 +88,8 @@ const Medical: React.FC = () => {
     },
     {
       TITLE: "回診提醒",
-      content: reserve_at ? (
-        <li className="py-1">{moment(reserve_at).format("YYYY/M/D")}</li>
+      content: reserveDate ? (
+        <li className="py-1">{moment(reserveDate).format("YYYY/M/D")}</li>
       ) : null,
     },
   ];
@@ -130,16 +135,19 @@ const Medical: React.FC = () => {
       {medicalData
         .filter((data) => data.content)
         .map((item, index) => {
+          const { TITLE, content } = item;
           return (
-            <ol key={index} className="flex gap-x-6 items-center">
-              <li className="font-semibold min-w-[96px] self-start">
-                {item.TITLE}
-              </li>
-              {item.content}
-            </ol>
+            content && (
+              <ol key={index} className="flex gap-x-6 items-center">
+                <li className="flex self-start items-center font-semibold min-w-[96px] h-8">
+                  {TITLE}
+                </li>
+                {content}
+              </ol>
+            )
           );
         })}
-      {related_id && <RelatedCard />}
+      {/* {related_id && <RelatedCard />} */}
     </ul>
   );
 };

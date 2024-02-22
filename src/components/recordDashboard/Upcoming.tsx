@@ -4,10 +4,11 @@ import Image from "next/image";
 import moment from "moment";
 
 import { PetIdContext } from "@/pages/record_dashboard";
-import type { RootState } from "@/common/redux/store";
-import type { PetDataType } from "@/types";
+import { RootState } from "@/common/redux/store";
 
-import { originalData } from "@/common/lib/test/eventData";
+import fakeData from "@/common/lib/test/fakeData";
+import { PetDataType, MedicalCardDataType } from "@/types";
+import { MedicalCardType, ReserveType } from "@/types/enums";
 
 const Upcoming: React.FC = () => {
   const { petId } = useContext(PetIdContext);
@@ -31,17 +32,23 @@ const Upcoming: React.FC = () => {
   }
 
   const Reminders: React.FC = () => {
-    const eventData = originalData
-      // 篩選即將到來事件
-      .filter(
-        (event) =>
-          event.type === "醫療提醒" &&
-          event.reserve_at &&
-          moment(event.reserve_at).isAfter(moment())
-      )
-      // 由日期近到遠進行排列
-      .sort((a, b) => moment(a.reserve_at).diff(b.reserve_at))
-      // 只顯示前三筆
+    const eventData = fakeData()
+      .filter((event) => {
+        const cardType = (event as MedicalCardDataType).cardType;
+        const reserveDate = (event as MedicalCardDataType).reserveDate;
+
+        return (
+          cardType === MedicalCardType.醫療提醒 &&
+          reserveDate &&
+          moment(reserveDate).isAfter(moment())
+        );
+      })
+      .sort((a, b) => {
+        const reserveDateA = (a as MedicalCardDataType).reserveDate;
+        const reserveDateB = (b as MedicalCardDataType).reserveDate;
+
+        return moment(reserveDateA).diff(moment(reserveDateB));
+      })
       .slice(0, 3);
 
     return (
@@ -55,14 +62,17 @@ const Upcoming: React.FC = () => {
           />
           <div>醫療提醒</div>
         </div>
-        {eventData.map((event, index) => (
-          <ul className="flex gap-x-4" key={index}>
-            <li className="w-[42px]">
-              {moment(event.reserve_at).format("M/D")}
-            </li>
-            <li>{event.reserve_type}</li>
-          </ul>
-        ))}
+        {eventData.map((event, index) => {
+          const reserveDate = (event as MedicalCardDataType).reserveDate;
+          const reserveType = (event as MedicalCardDataType).reserveType;
+
+          return (
+            <ul className="flex gap-x-4" key={index}>
+              <li className="w-[42px]">{moment(reserveDate).format("M/D")}</li>
+              <li>{ReserveType[reserveType]}</li>
+            </ul>
+          );
+        })}
       </div>
     );
   };
