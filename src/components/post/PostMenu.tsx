@@ -10,14 +10,25 @@ interface PropsType {
   isAuthor: boolean;
   media: string;
   mediaType: MediaType;
+  getList: () => void;
+  onClose: () => void;
 }
 
-const Menu: React.FC<PropsType> = ({ postId, isAuthor, media, mediaType }) => {
+const Menu: React.FC<PropsType> = ({
+  postId,
+  isAuthor,
+  media,
+  mediaType,
+  getList,
+  onClose: handleClose,
+}) => {
   const { token } = useSelector((state: RootState) => state.userInfo);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleDeletePost = async () => {
     await fetchDeletePost(token, postId, media, MediaType[mediaType]);
+    getList();
+    handleClose();
   };
 
   return (

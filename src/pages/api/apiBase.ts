@@ -14,7 +14,9 @@ const apiBase = {
   FOLLOW_PET: `${apiUrl}/social/follow`, // 動態路由 /:petAccount
   GET_PET_LIST: `${apiUrl}/member/pets/userpets`, // 動態路由 /:userId
   // 貼文
-  GET_ALL_POST: `${apiUrl}/social/posts/all`,
+  GET_ALL_POSTS: `${apiUrl}/social/posts/all`,
+  GET_FOLLOWING_POSTS: (useId: string) =>
+    `${apiUrl}/social/posts/following/${useId}`, // 動態路由 /:userId
   GET_PET_POST: `${apiUrl}/social/posts/pet`, // 動態路由 /:petAccount
   GET_SINGLE_POST: `${apiUrl}/social/posts`, // 動態路由 /:postId
   ADD_POST: `${apiUrl}/social/posts`, // 動態路由 /:petId

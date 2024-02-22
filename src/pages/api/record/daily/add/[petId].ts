@@ -31,11 +31,15 @@ export default async function handler(
     });
 
     const result = await response.json();
-    const { message, data } = result;
+    const { statusCode, message, data } = result;
 
-    console.log(result);
+    switch (response.status) {
+      case 200:
+        return res.status(200).json({ message, data });
 
-    res.status(200).json({ message, data });
+      default:
+        return res.status(response.status).json({ message });
+    }
   } catch (error) {
     res.status(500).json({ message: "未知的錯誤" });
   }

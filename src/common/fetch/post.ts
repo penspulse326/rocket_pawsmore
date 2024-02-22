@@ -17,6 +17,20 @@ export const fetchGetAllPosts = async () => {
   }
 };
 
+export const fetchGetFollowingPosts = async (userId: number) => {
+  try {
+    const response = await fetch(apiNext.GET_FOLLOWING_POSTS(userId), {
+      method: "GET",
+    });
+
+    const result = await response.json();
+
+    return { ok: response.ok, status: response.status, data: result.data };
+  } catch (error) {
+    return { ok: false, status: 500 };
+  }
+};
+
 export const fetchAddPost = async (
   token: string,
   data: AddPostType,
@@ -37,9 +51,9 @@ export const fetchAddPost = async (
   }
 };
 
-export const fetchGetPetPost = async (id: number) => {
+export const fetchGetPetPosts = async (petAccount: string) => {
   try {
-    const response = await fetch(`${apiNext.GET_PET_POSTS}/${id}`, {
+    const response = await fetch(apiNext.GET_PET_POSTS(petAccount), {
       method: "GET",
     });
 

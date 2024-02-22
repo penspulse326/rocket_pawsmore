@@ -1,24 +1,16 @@
-import { useContext, useState } from "react";
-import { DateContext, PetIdContext } from "@/pages/record_dashboard";
+import { useState } from "react";
+
 import RadioCheck from "@/components/form/record/RadioCheck";
-import { MedicalCardType } from "@/types/enums";
 import MedicalRecord from "./MedicalRecord";
-import { useSelector } from "react-redux";
-import { RootState } from "@/common/redux/store";
-import { fetchAddMedicalCard } from "@/common/fetch/recordCard";
 import ReserveRemind from "./ReserveRemind";
-import { mediaUpload } from "@/common/fetch/mediaManager";
-import Loading from "@/components/hint/Loading";
+
+import { MedicalCardType } from "@/types/enums";
 
 interface PropsType {
   onClose: () => void;
 }
 
 const MedicalForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
-  const { token } = useSelector((state: RootState) => state.userInfo);
-  const { selectedDate } = useContext(DateContext);
-  const { petId } = useContext(PetIdContext);
-  const [isLoading, setIsLoading] = useState(false);
   const [cardType, setCardType] = useState<MedicalCardType>();
   const [isComfirmed, setIsComfirmed] = useState(false);
 
@@ -26,110 +18,49 @@ const MedicalForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
     setCardType(cardType);
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    if (!isComfirmed) {
-      setIsComfirmed(true);
-      return;
-    }
-
-    setIsLoading(true);
-
-    const form = event.currentTarget as HTMLFormElement;
-    const fd = new FormData(form);
-    const data: Record<string, any> = {
-      card: 1,
-      targetDate: selectedDate,
-      cardType,
-      visitType: 0,
-      reserveType: 0,
-    };
-
-    fd.forEach((value, key) => {
-      data[key] = value;
-    });
-
-    const uploadResult = await mediaUpload(data.photo, "medical");
-    data.photo = uploadResult.secure_url;
-
-    const response = await fetchAddMedicalCard(token, petId!, data);
-    if (!response.ok) {
-      alert("新增失敗，請稍後再試");
-      setIsLoading(false);
-      return;
-    }
-    alert("新增成功");
-    setIsLoading(false);
-    handleClose();
-  };
-
   return (
-    <>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-        <div>
-          {/* 醫療卡片類型 */}
+    <section className="flex flex-col gap-6">
+      <div>
+        {/* 醫療卡片類型 */}
+        <span className="text-note">選擇醫療紀錄類型</span>
+        <div className="flex items-center gap-4 mt-2">
           {!isComfirmed && (
-            <span className="text-note">請選擇醫療紀錄類型</span>
-          )}
-          <div className="flex items-center gap-4 mt-2">
-            {!isComfirmed && (
-              <>
-                <RadioCheck
-                  name="醫療提醒"
-                  text="新增提醒日期"
-                  checked={cardType === MedicalCardType.醫療提醒}
-                  onChange={() =>
-                    handleCardTypeChange(MedicalCardType.醫療提醒)
-                  }
-                />
-                <RadioCheck
-                  name="就診紀錄"
-                  text="新增就診紀錄"
-                  checked={cardType === MedicalCardType.就診紀錄}
-                  onChange={() =>
-                    handleCardTypeChange(MedicalCardType.就診紀錄)
-                  }
-                />
-              </>
-            )}
-            {isComfirmed && cardType === MedicalCardType.就診紀錄 && (
+            <>
               <RadioCheck
-                name="就診紀錄"
-                text="新增就診紀錄"
-                checked={cardType === MedicalCardType.就診紀錄}
-                onChange={() => handleCardTypeChange(MedicalCardType.就診紀錄)}
-              />
-            )}
-            {isComfirmed && cardType === MedicalCardType.醫療提醒 && (
-              <RadioCheck
-                name="醫療提醒"
+                name="cardType"
                 text="新增提醒日期"
                 checked={cardType === MedicalCardType.醫療提醒}
                 onChange={() => handleCardTypeChange(MedicalCardType.醫療提醒)}
               />
-            )}
-          </div>
+              <RadioCheck
+                name="cardType"
+                text="新增就診紀錄"
+                checked={cardType === MedicalCardType.就診紀錄}
+                onChange={() => handleCardTypeChange(MedicalCardType.就診紀錄)}
+              />
+            </>
+          )}
         </div>
-        {isComfirmed && cardType === MedicalCardType.就診紀錄 && (
-          <MedicalRecord />
-        )}
         {isComfirmed && cardType === MedicalCardType.醫療提醒 && (
-          <ReserveRemind />
+          <ReserveRemind onClose={handleClose} />
         )}
+        {isComfirmed && cardType === MedicalCardType.就診紀錄 && (
+          <MedicalRecord onClose={handleClose} />
+        )}
+      </div>
+      {!isComfirmed && (
         <button
-          type="submit"
+          type="button"
           disabled={cardType === undefined}
-          style={{
-            background: cardType !== undefined ? "#203170" : "#808080",
-          }}
-          className="py-2 rounded-full bg-primary text-white"
+          onClick={() => setIsComfirmed(true)}
+          className={`${
+            cardType !== undefined ? "bg-primary" : "bg-note"
+          } py-2 rounded-full bg-primary text-white`}
         >
-          {isComfirmed ? "儲存" : "確認"}
+          確認
         </button>
-      </form>
-      {isLoading && <Loading />}
-    </>
+      )}
+    </section>
   );
 };
 

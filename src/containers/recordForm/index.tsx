@@ -21,7 +21,7 @@ const RecordForm: React.FC<PropsType> = ({ category, onClose }) => {
   };
 
   return (
-    <section className="scrollbar-none flex flex-col gap-6 p-6 w-[416px] max-h-[896px] border border-stroke rounded-[30px] bg-white overflow-y-scroll">
+    <section className="scrollbar-none flex flex-col gap-6 p-6 w-[416px] max-h-[896px] border border-stroke rounded-[30px] bg-white">
       <div>
         <div className="flex justify-between items-center">
           <h2 className="flex items-center text-2xl font-bold">

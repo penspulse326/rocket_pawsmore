@@ -75,3 +75,7 @@
 .tooltip:hover::after {
   opacity: 1;
 }
+
+.react-datepicker-wrapper {
+  display: flex !important;
+}

@@ -1,4 +1,3 @@
-// 引入依赖
 import Layout from "@/containers/social/Layout";
 import Posts from "@/containers/social/posts";
 import { fetchGetAllPosts } from "@/common/fetch/post";
@@ -6,12 +5,13 @@ import { fetchGetAllPosts } from "@/common/fetch/post";
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "./_app";
 import type { PostDataType } from "@/types";
+import { GetServerSideProps } from "next";
 
 const SocialPage: NextPageWithLayout<{ data: PostDataType[] }> = ({ data }) => {
   return <Posts initialList={data} />;
 };
 
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const response = await fetchGetAllPosts();
     const data: PostDataType[] = response.data;
@@ -20,7 +20,7 @@ export async function getServerSideProps() {
     console.error(error);
     return { props: { data: [] } };
   }
-}
+};
 
 SocialPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;

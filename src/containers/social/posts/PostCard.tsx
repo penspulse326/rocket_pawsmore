@@ -101,7 +101,11 @@ const PostCard: React.FC<PropsType> = ({ data, getList }) => {
         {/* 遮罩 */}
         {isMaskOpen && (
           <Mask setIsOpen={setIsMaskOpen} maskType="post">
-            <PostView data={data} />
+            <PostView
+              data={data}
+              getList={getList}
+              onClose={() => setIsMaskOpen(false)}
+            />
           </Mask>
         )}
         {/* 多媒體內容 */}
@@ -174,6 +178,8 @@ const PostCard: React.FC<PropsType> = ({ data, getList }) => {
             isAuthor={userId === authorId}
             media={media}
             mediaType={mediaType}
+            getList={getList}
+            onClose={() => setIsMaskOpen(false)}
           />
         </div>
       </section>

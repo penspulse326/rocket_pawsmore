@@ -1,39 +1,49 @@
 import { useState, useEffect } from "react";
 
-const useToken = () => {
+const useUser = () => {
   const [token, setToken] = useState<string>();
+  const [userId, setUserId] = useState<string>();
 
-  // 得到 token
+  // 從 cookies 中得到 token 和 user ID
   useEffect(() => {
-    const getTokenFromCookies = () => {
-      const tokenString = document.cookie
+    const getCookieValue = (name: string) => {
+      const value = document.cookie
         .split("; ")
-        .find((row) => row.startsWith("token="));
-      return tokenString ? tokenString.split("=")[1] : null;
+        .find((row) => row.startsWith(`${name}=`));
+      return value ? value.split("=")[1] : null;
     };
 
-    const token = getTokenFromCookies();
-    if (token) setToken(() => token);
+    const token = getCookieValue("token");
+    const userId = getCookieValue("userId");
+
+    if (token) setToken(token);
+    if (userId) setUserId(userId);
   }, []);
 
-  // 更新 token
-  const updateToken = (newToken: string) => {
-    setToken(() => newToken);
+  // 更新 token 和 user ID
+  const updateUser = (newToken: string, newUserId: string) => {
+    setToken(newToken);
+    setUserId(newUserId);
     document.cookie = `token=${newToken}; path=/; Secure; SameSite=Strict`;
+    document.cookie = `userId=${newUserId}; path=/; Secure; SameSite=Strict`;
   };
 
-  // 清除 token
-  const clearToken = () => {
-    setToken(() => undefined);
+  // 清除 token 和 user ID
+  const clearUser = () => {
+    setToken(undefined);
+    setUserId(undefined);
     document.cookie =
       "token=; path=/; expires=Thu, 01 Jan 1900 00:00:00 GMT; Secure; SameSite=Strict";
+    document.cookie =
+      "userId=; path=/; expires=Thu, 01 Jan 1900 00:00:00 GMT; Secure; SameSite=Strict";
   };
 
   return {
     token,
-    setToken: updateToken,
-    clearToken,
+    userId,
+    updateUser,
+    clearUser,
   };
 };
 
-export default useToken;
+export default useUser;
