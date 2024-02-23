@@ -1,4 +1,4 @@
-import React, { createContext, useState, ReactNode } from "react";
+import React, { createContext, useState, ReactNode, useEffect } from "react";
 import moment from "moment";
 
 import CalendarLayout from "@/components/recordDashboard/CalendarLayout";
@@ -7,6 +7,9 @@ import AccountList from "@/components/petInfo/PetAccountList";
 import RecordCardLayout from "@/components/recordDashboard/RecordCardLayout";
 import Footer from "@/components/Footer";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { RootState } from "@/common/redux/store";
+import { useRouter } from "next/router";
 
 export interface DateContextProp {
   selectedDate: string;
@@ -47,6 +50,16 @@ const DateProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 const RecordDashboard = () => {
+  const router = useRouter();
+  const petList = useSelector((state: RootState) => state.petList);
+
+  useEffect(() => {
+    if (!petList.length) {
+      alert("請先新增寵物資料");
+      router.push("/member/new/pet");
+    }
+  }, [petList]);
+
   return (
     <DateProvider>
       <PetIdProvider>
