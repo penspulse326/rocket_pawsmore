@@ -36,9 +36,11 @@ const Navbar: React.FC = () => {
 
     const response = await fetchCheckAuth(localToken);
     if (!response.ok) {
-      alert("登入狀態過期，請重新登入");
+      alert("請重新登入");
       clearUser();
       setIsLoggedIn(false);
+      router.push("/login");
+      return;
     }
 
     dispatch(setUserInfo({ ...response.data, token: localToken }));
@@ -72,75 +74,68 @@ const Navbar: React.FC = () => {
       if (path === "/record_dashboard") {
         setPage(1);
       }
+
+      if (!username) {
+        router.push("/member/new/profile");
+      }
     }
-  }, [userId]);
+  }, [userId, username]);
 
   if (router.pathname === "/login" || router.pathname === "/signup") {
     return <></>;
   }
 
   return (
-    <nav className="fixed top-0 z-50 w-[100%] border-b border-stroke bg-white">
+    <nav className="fixed top-0 z-50 w-[100%] border-b border-stroke bg-white text-black">
       <div className="outer grid grid-cols-3 pl-8 pr-6 h-16">
         {/* Logo 連結 */}
-        <Link href="/test" className="col-span-1 flex items-center">
+        <Link href="/" className="col-span-1 flex items-center">
           <Image
             src="/images/logo.svg"
             alt="logo"
-            priority={false}
+            priority={true}
             width={32}
             height={32}
           />
           <Image
             src="/images/logo-text.svg"
             alt="logo-text"
-            priority={false}
+            priority={true}
             width={0}
             height={0}
             className="ml-2 w-auto h-6"
           />
         </Link>
-        {isLoggedIn ? (
-          <>
-            {/* 頁面連結 */}
-            <div className="col-span-1 flex justify-center h-16">
-              <div className="relative flex justify-center">
-                <Link
-                  href="/"
-                  className="flex gap-2 px-8 pt-6 pb-5"
-                  onClick={() => setPage(0)}
-                >
-                  <IconHome />
-                  社群首頁
-                </Link>
-                <Link
-                  href="/record_dashboard"
-                  className="flex gap-2 px-8 pt-6 pb-5"
-                  onClick={() => setPage(1)}
-                >
-                  <IconBrandGoogleAnalytics />
-                  數據紀錄
-                </Link>
-                <div className={sliderStyle}></div>
-              </div>
+        {/* 頁面連結 */}
+        <div className="col-span-1 flex justify-center h-16">
+          {username && (
+            <div className="relative flex justify-center">
+              <Link
+                href="/"
+                className="flex gap-2 px-8 pt-6 pb-5"
+                onClick={() => setPage(0)}
+              >
+                <IconHome />
+                社群首頁
+              </Link>
+              <Link
+                href="/record_dashboard"
+                className="flex gap-2 px-8 pt-6 pb-5"
+                onClick={() => setPage(1)}
+              >
+                <IconBrandGoogleAnalytics />
+                數據紀錄
+              </Link>
+              <div className={sliderStyle}></div>
             </div>
-            {/* 個人資訊按鈕 */}
-            <BurgerMenu
-              headShot={headShot}
-              username={username}
-              handleLogout={() => handleLogout()}
-            />
-          </>
-        ) : (
-          <div className="col-start-3 flex justify-end items-center gap-3 text-link font-semibold">
-            <Link href="/login" className="hover:scale-110 duration-100">
-              登入
-            </Link>
-            <Link href="/signup" className="hover:scale-110 duration-100">
-              註冊
-            </Link>
-          </div>
-        )}
+          )}
+        </div>
+        {/* 個人資訊按鈕 */}
+        <BurgerMenu
+          headShot={headShot}
+          username={username}
+          handleLogout={() => handleLogout()}
+        />
       </div>
     </nav>
   );

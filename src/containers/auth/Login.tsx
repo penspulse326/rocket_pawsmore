@@ -55,13 +55,17 @@ const Login: React.FC = () => {
 
     const response = await fetchLogin(data);
     if (response.ok) {
-      const { token, userId } = response.data;
+      const { token, userId, username } = response.data;
       dispatch(setUserInfo(response.data));
       updateUser(token, userId);
+      if (!username) {
+        router.push("/member/new/profile");
+        return;
+      }
       router.push("/");
     }
-    setStatusCode(response.status);
 
+    setStatusCode(response.status);
     setIsLoading(false);
   };
 
