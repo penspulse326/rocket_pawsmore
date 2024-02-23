@@ -2,6 +2,7 @@ import { configureStore, combineReducers, Action } from "@reduxjs/toolkit";
 
 import userInfoReducer from "./userInfoSlice";
 import petDataReducer from "./petListSlice";
+import recordReducer from "./recordSlice";
 
 // 重置全域狀態
 const RESET_STATE_ACTION_TYPE = "resetState";
@@ -10,6 +11,7 @@ const RESET_STATE_ACTION_TYPE = "resetState";
 const combinedReducer = combineReducers({
   userInfo: userInfoReducer,
   petList: petDataReducer,
+  petRecord: recordReducer,
 });
 
 // 收到重置狀態的 action， undefined 以重置所有 reducer 的狀態
