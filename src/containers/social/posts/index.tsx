@@ -53,12 +53,7 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
   };
 
   useEffect(() => {
-    if (!userId) {
-      router.push("/login");
-      return;
-    }
-
-    if (!username) {
+    if (userId && !username) {
       router.push("/member/new/profile");
       return;
     }
