@@ -11,7 +11,7 @@ import Mask from "../hint/Mask";
 import NetworkList from "./NetworkList";
 import AlertCard from "../hint/AlertCard";
 
-import { PostListContext } from "@/pages/pet/[petAccount]";
+import { PetDataContext } from "@/pages/pet/[petAccount]";
 import getPetAge from "@/common/helpers/getPetAge";
 import getPetSpecies from "@/common/helpers/getPetSpecies";
 import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
@@ -23,16 +23,16 @@ const ProfileCard: React.FC = () => {
   const router = useRouter();
   const { petAccount } = router.query;
 
-  const postList = useContext(PostListContext);
+  const { postList, profile } = useContext(PetDataContext)!;
+  const userInfo = useSelector((state: RootState) => state.userInfo);
+  const petList = useSelector((state: RootState) => state.petList);
+
   const [data, setData] = useState<PetDataType | undefined>();
 
   const [isMyPet, setIsMyPet] = useState(false);
   const [isAlertShown, setIsAlertShown] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
   const [isDisplayed, setIsDisplayed] = useState(false);
-
-  const userInfo = useSelector((state: RootState) => state.userInfo);
-  const petList = useSelector((state: RootState) => state.petList);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,9 +55,10 @@ const ProfileCard: React.FC = () => {
     petList.find((pet) => pet.petAccount === petAccount) && setIsMyPet(true);
   }, [petAccount, petList, isFollowing, userInfo]);
 
-  if (!data) {
+  if (!profile || !data) {
     return null;
   }
+  const { petsfollowers } = data;
   const {
     adoptedDate,
     birthday,
@@ -68,10 +69,9 @@ const ProfileCard: React.FC = () => {
     link,
     petPhoto,
     petSpecies,
-    petsfollowers,
     petId,
     owner,
-  } = data;
+  } = profile as PetDataType;
 
   const handleFollow = debounce(async () => {
     try {

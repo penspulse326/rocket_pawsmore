@@ -115,3 +115,10 @@ export enum VisitType {
   健檢 = 3,
   結紮 = 4,
 }
+
+export enum SpeciesType {
+  狗 = 0,
+  貓 = 1,
+  倉鼠 = 2,
+  其他 = 3,
+}

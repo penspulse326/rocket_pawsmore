@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import ToggleList from "../card/ToggleList";
-import { DataContext } from "../SingleCardLayout";
 
-import { DailyCardDataType } from "@/types";
+import { CardUnionDataType, DailyCardDataType } from "@/types";
 import { UrineType, PooType, VomitType } from "@/types/enums";
 
 interface DailyDataType {
@@ -15,8 +14,11 @@ interface DataArrayType {
   content: string | number;
 }
 
-const Daily: React.FC = () => {
-  const data = useContext(DataContext);
+interface DailyProps {
+  data: CardUnionDataType;
+}
+
+const Daily: React.FC<DailyProps> = ({ data }) => {
   if (!data) {
     return null;
   }
@@ -37,7 +39,7 @@ const Daily: React.FC = () => {
   } = data as DailyCardDataType;
 
   const hasRoutineRecord: boolean =
-    weight.slice(0, 1) !== "0" || food !== "[]" || water !== 0;
+    (weight && weight.slice(0, 1) !== "0") || food !== "[]" || water !== 0;
 
   const isAbnormal: boolean =
     urine !== 0 || poo !== 0 || vomit !== 0 || symptom !== "[]";

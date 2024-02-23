@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import Image from "next/image";
-import { DataContext } from "../SingleCardLayout";
 import getCategoryBgcolor from "@/common/helpers/getCategoryBgcolor";
 
-import { MomentCardDataType } from "@/types";
+import { CardUnionDataType, MomentCardDataType } from "@/types";
 import { MomentCategoryType, MomentIdType } from "@/types/enums";
 
 interface MomentDataType {
@@ -11,8 +10,11 @@ interface MomentDataType {
   content: JSX.Element | null;
 }
 
-const Moment: React.FC = () => {
-  const data = useContext(DataContext);
+interface MomentProps {
+  data: CardUnionDataType;
+}
+
+const Moment: React.FC<MomentProps> = ({ data }) => {
   if (!data) {
     return null;
   }
