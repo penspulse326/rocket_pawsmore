@@ -81,7 +81,6 @@ const PetForm: React.FC = () => {
     }
 
     setIsLoading(false);
-    alert("新增成功");
     router.push("/member/new/topic");
   };
 
@@ -103,11 +102,6 @@ const PetForm: React.FC = () => {
     }
   }, [statusCode]);
 
-<<<<<<< HEAD
-=======
-  const handleAdd = (data: PetFormType) => handleCreatePet(data);
-
->>>>>>> dev
   return (
     <section className="flex flex-col gap-4 my-16 max-w-[728px] w-full">
       <div>
@@ -292,7 +286,7 @@ const PetForm: React.FC = () => {
           </button>
         </form>
         <div className="flex justify-end">
-          <Link href="/social" className="mt-4 text-note underline">
+          <Link href="/" className="mt-4 text-note underline">
             略過此步驟
           </Link>
         </div>
