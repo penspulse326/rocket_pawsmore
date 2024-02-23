@@ -1,5 +1,3 @@
-import { useRouter } from "next/router";
-
 import Layout from "@/containers/social/Layout";
 import Explore from "@/containers/social/explore";
 
@@ -20,8 +18,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     console.error(error);
     return { props: {} };
   }
-
-  return { props: {} };
 };
 
 export interface PropsType {

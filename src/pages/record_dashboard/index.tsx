@@ -10,14 +10,9 @@ import RecordCardLayout from "@/components/recordDashboard/RecordCardLayout";
 import Footer from "@/components/Footer";
 import Loading from "@/components/hint/Loading";
 
-import { fetchGetRecord } from "@/common/fetch/petProfile";
-import sortData from "@/common/helpers/sortData";
-
+import { fetchFormattedRecord } from "@/common/helpers/fetchFormattedRecord";
 import { setRecordInfo } from "@/common/redux/recordSlice";
-
 import type { RootState } from "@/common/redux/store";
-import { CardUnionDataType } from "@/types";
-import { FetchDataType } from "../pet/[petAccount]";
 
 export interface DateContextProp {
   selectedDate: string;
@@ -54,38 +49,23 @@ const PetIdProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   }, [petId, petList, petAccount]);
 
   useEffect(() => {
-    petAccount && fetchPetRecord();
-  }, [petAccount]);
+    const fetchRecord = async () => {
+      setIsLoading(true);
 
-  const fetchPetRecord = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetchGetRecord(petAccount as string);
-      if (!response.ok) {
-        throw new Error("failed");
+      try {
+        if (petAccount && petId) {
+          const recordData = await fetchFormattedRecord(petAccount, petId);
+          dispatch(setRecordInfo(recordData));
+        }
+      } catch (error) {
+        console.error("Error fetching pet record:", error);
+      } finally {
+        setIsLoading(false);
       }
+    };
 
-      const { dailyCards, medicalCards, momentCards }: FetchDataType =
-        response.data;
-      const data: CardUnionDataType[] = [
-        ...dailyCards,
-        ...medicalCards,
-        ...momentCards,
-      ];
-
-      const sortedData = sortData(data);
-
-      const recordData = {
-        petId: petId,
-        data: sortedData,
-      };
-
-      dispatch(setRecordInfo(recordData));
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-    }
-  };
+    fetchRecord();
+  }, [petAccount, petId, dispatch]);
 
   return (
     <PetIdContext.Provider value={{ petId, setPetId }}>

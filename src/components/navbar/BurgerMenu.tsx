@@ -39,7 +39,7 @@ const Menu: React.FC<MenuPropsType> = ({
           <div className="relative w-8 h-8 rounded-full overflow-hidden">
             <Image
               src={headShot || "/images/default-photo.png"}
-              alt={username}
+              alt={username || "avatar"}
               fill={true}
               sizes="100%"
               style={{ objectFit: "cover" }}

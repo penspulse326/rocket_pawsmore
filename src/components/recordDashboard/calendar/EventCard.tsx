@@ -9,7 +9,11 @@ import { MonthContext } from "../CalendarLayout";
 import getIconColor from "@/common/helpers/getIconColor";
 import type { RootState } from "@/common/redux/store";
 
-import { MedicalCardDataType } from "@/types";
+import {
+  CardUnionDataType,
+  MedicalCardDataType,
+  MomentCardDataType,
+} from "@/types";
 import {
   RecordCardType,
   MomentIdType,
@@ -40,14 +44,15 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
     }
   });
 
-  const eventTitle = (prop: any) => {
-    const { momentType, momentId, title, visitType, reserveType } = prop;
-    const card = RecordCardType[prop.card];
+  const eventTitle = (event: CardUnionDataType) => {
+    const { card } = event;
+    const { title, cardType, reserveType } = event as MedicalCardDataType;
+    const { momentType, momentId } = event as MomentCardDataType;
 
     switch (card) {
-      case "日常紀錄":
-        return card;
-      case "重要時刻":
+      case RecordCardType.日常紀錄:
+        return RecordCardType[card];
+      case RecordCardType.重要時刻:
         if (momentType !== 2) {
           return MomentIdType[momentId];
         } else {
@@ -55,10 +60,10 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
         }
       // case "紀念日":
       //   return category
-      case "醫療紀錄":
-        if (MedicalCardType[visitType] === "醫療提醒") {
+      case RecordCardType.醫療紀錄:
+        if (cardType === MedicalCardType.醫療提醒) {
           return ReserveType[reserveType] || null;
-        } else if (MedicalCardType[visitType] === "就診紀錄") {
+        } else if (cardType === MedicalCardType.就診紀錄) {
           return title || null;
         }
       default:
@@ -68,8 +73,7 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
 
   const filteredEvents = eventData.filter((event) => {
     const { targetDate } = event;
-    const visitType = (event as MedicalCardDataType).visitType;
-    const reserveDate = (event as MedicalCardDataType).reserveDate;
+    const { visitType, reserveDate } = event as MedicalCardDataType;
 
     return (
       (MedicalCardType[visitType] !== "醫療提醒" &&
@@ -87,8 +91,7 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
     <ul>
       {filteredEvents.slice(0, 2).map((event, index) => {
         const { targetDate } = event;
-        const cardType = (event as MedicalCardDataType).cardType;
-        const reserveDate = (event as MedicalCardDataType).reserveDate;
+        const { cardType, reserveDate } = event as MedicalCardDataType;
 
         return (
           <ol key={index}>

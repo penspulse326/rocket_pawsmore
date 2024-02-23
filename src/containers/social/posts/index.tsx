@@ -1,15 +1,15 @@
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 import PawkBtn from "./PawkBtn";
 import PostCard from "./PostCard";
+import MorePostHint from "./MorePostHint";
+import { filterPost } from "@/common/helpers/configurePosts";
 import { fetchGetAllPosts, fetchGetFollowingPosts } from "@/common/fetch/post";
 
+import type { RootState } from "@/common/redux/store";
 import type { PostDataType } from "@/types";
-import { useSelector } from "react-redux";
-import { RootState } from "@/common/redux/store";
-import MorePostHint from "./MorePostHint";
-import Loading from "@/components/hint/Loading";
-import { filterPost } from "@/common/helpers/configurePosts";
 
 interface PropsType {
   all: PostDataType[];
@@ -17,11 +17,14 @@ interface PropsType {
 }
 
 const Posts: React.FC<PropsType> = ({ all, following }) => {
-  const { userId } = useSelector((state: RootState) => state.userInfo);
+  const router = useRouter();
+  const { userId, username } = useSelector(
+    (state: RootState) => state.userInfo
+  );
+  const [allPosts, setAllPosts] = useState(all || []);
   const [followingPosts, setFollowingPosts] = useState<PostDataType[]>(
     following || []
   );
-  const [allPosts, setAllPosts] = useState(all || []);
 
   const getFollowingPosts = async () => {
     if (!userId) {
@@ -49,9 +52,15 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
     }
   };
 
+  // 有 userId 沒 username 表示未完成註冊流程
   useEffect(() => {
+    if (userId && !username) {
+      router.push("/member/new/profile");
+      return;
+    }
+
     getFollowingPosts();
-  }, [userId]);
+  }, [userId, username]);
 
   useEffect(() => {
     getList();
@@ -64,7 +73,7 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
         {userId && <h2 className="mt-8 text-note">動態消息</h2>}
         {/* 貼文列表 */}
         <div className="flex flex-col gap-8 my-4">
-          {followingPosts.map((data) => (
+          {followingPosts?.map((data) => (
             <PostCard
               key={data.postId}
               data={data}
