@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import UploadPhoto from "@/components/form/profile/UploadPhoto";
 import { errorText } from "@/common/lib/messageText";
@@ -11,11 +11,16 @@ import DateInput from "@/components/form/profile/DateInput";
 import RadioSelect from "@/components/form/profile/RadioSelect";
 import { gender, species } from "@/common/lib/formText";
 import BtnLoading from "@/components/hint/BtnLoading";
-import { fetchCreatePet, fetchUpdatePet } from "@/common/fetch/petProfile";
+import {
+  fetchCreatePet,
+  fetchGetPetList,
+  fetchUpdatePet,
+} from "@/common/fetch/petProfile";
 import { mediaUpload } from "@/common/fetch/mediaManager";
 
 import type { PetFormType } from "@/types";
 import type { RootState } from "@/common/redux/store";
+import { setPetList } from "@/common/redux/petListSlice";
 
 const defaultValues = {
   petAccount: "",
@@ -33,7 +38,8 @@ const defaultValues = {
 // 請求新增寵物資料表單
 const PetForm: React.FC = () => {
   const router = useRouter();
-  const { token } = useSelector((state: RootState) => state.userInfo);
+  const dispatch = useDispatch();
+  const { token, userId } = useSelector((state: RootState) => state.userInfo);
   const [isLoading, setIsLoading] = useState(false);
   const [statusCode, setStatusCode] = useState(0);
 
@@ -56,7 +62,7 @@ const PetForm: React.FC = () => {
       return;
     }
 
-    // // 確定新增成功才做上傳雲端圖片
+    // 確定新增成功才做上傳雲端圖片
     if (data.petPhoto) {
       const petId = response.data.petId;
 
@@ -79,6 +85,10 @@ const PetForm: React.FC = () => {
         return;
       }
     }
+
+    // 取得寵物資料
+    const getPetListResult = await fetchGetPetList(userId!);
+    dispatch(setPetList(getPetListResult.data));
 
     setIsLoading(false);
     router.push("/member/new/topic");
