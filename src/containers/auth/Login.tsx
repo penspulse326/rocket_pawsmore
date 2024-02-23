@@ -33,22 +33,6 @@ const Login: React.FC = () => {
 
   const isBtnDisabled = !isValid || isLoading;
 
-  useEffect(() => {
-    switch (statusCode) {
-      case 400:
-        setError("email", { message: errorText.EMAIL_NOT_EXIST });
-        break;
-      case 401:
-        setError("email", { message: errorText.ALL_NOT_MATCH });
-        break;
-      case 500:
-        setError("email", { message: errorText.UNKNOWN_ERROR });
-        break;
-      default:
-        break;
-    }
-  }, [statusCode]);
-
   const onSubmit = async (data: LoginFormType) => {
     setIsLoading(true);
     setStatusCode(0); // 重置狀態 否則 hook-form 的 error 會被清空
@@ -68,6 +52,22 @@ const Login: React.FC = () => {
     setStatusCode(response.status);
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    switch (statusCode) {
+      case 400:
+        setError("email", { message: errorText.EMAIL_NOT_EXIST });
+        break;
+      case 401:
+        setError("email", { message: errorText.ALL_NOT_MATCH });
+        break;
+      case 500:
+        setError("email", { message: errorText.UNKNOWN_ERROR });
+        break;
+      default:
+        break;
+    }
+  }, [statusCode]);
 
   return (
     <>

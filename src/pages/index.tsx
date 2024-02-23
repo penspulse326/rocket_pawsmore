@@ -14,6 +14,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const cookieStr = context.req.headers.cookie || "";
   const parsedCookies = cookie.parse(cookieStr);
   const userId = Number(parsedCookies.userId);
+  const token = parsedCookies.token;
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
 
   try {
     const allPostsResult = await fetchGetAllPosts();
