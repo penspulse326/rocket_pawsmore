@@ -21,10 +21,10 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
   const { userId, username } = useSelector(
     (state: RootState) => state.userInfo
   );
+  const [allPosts, setAllPosts] = useState(all || []);
   const [followingPosts, setFollowingPosts] = useState<PostDataType[]>(
     following || []
   );
-  const [allPosts, setAllPosts] = useState(all || []);
 
   const getFollowingPosts = async () => {
     if (!userId) {
@@ -52,6 +52,7 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
     }
   };
 
+  // 有 userId 沒 username 表示未完成註冊流程
   useEffect(() => {
     if (userId && !username) {
       router.push("/member/new/profile");

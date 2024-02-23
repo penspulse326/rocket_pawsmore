@@ -15,6 +15,7 @@ import { fetchGetComment } from "@/common/fetch/comment";
 import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
 import { MediaType } from "@/types/enums";
+import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 
 interface PropsType {
   data: PostDataType;

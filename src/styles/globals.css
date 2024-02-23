@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  html{
+    @apply overflow-y-scroll
+  }
+
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -42,9 +46,12 @@
   .shadow-custom {
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
   }
-  body.mask-open {
-    overflow: hidden;
-  }
+
+}
+
+body.mask-open {
+  max-height: 100vh; 
+  overflow-y: hidden;
 }
 
 .tooltip {
