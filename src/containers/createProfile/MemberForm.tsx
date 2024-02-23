@@ -34,7 +34,7 @@ const MemberForm: React.FC = () => {
 
   const router = useRouter();
   const dispatch = useDispatch();
-  const { token, username } = useSelector((state: RootState) => state.userInfo);
+  const { token } = useSelector((state: RootState) => state.userInfo);
   const [isLoading, setIsLoading] = useState(false);
   const [statusCode, setStatusCode] = useState(0);
 
@@ -69,6 +69,7 @@ const MemberForm: React.FC = () => {
 
         dispatch(setUserInfo(response.data));
         router.push("/member/new/pet");
+        return;
       } catch (error) {
         console.error(error);
         setIsLoading(false);
@@ -77,6 +78,7 @@ const MemberForm: React.FC = () => {
       }
     }
 
+    dispatch(setUserInfo(response.data));
     setIsLoading(false);
     router.push("/member/new/pet");
   };
@@ -97,12 +99,6 @@ const MemberForm: React.FC = () => {
         break;
     }
   }, [statusCode]);
-
-  useEffect(() => {
-    if (username) {
-      router.push("/");
-    }
-  }, [username]);
 
   return (
     <section className="flex flex-col gap-4 my-16 max-w-[728px] w-full">
