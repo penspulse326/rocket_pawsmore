@@ -6,13 +6,14 @@ import moment from "moment";
 import { PetIdContext } from "@/pages/record_dashboard";
 import { RootState } from "@/common/redux/store";
 
-import fakeData from "@/common/lib/test/fakeData";
 import { PetDataType, MedicalCardDataType } from "@/types";
 import { MedicalCardType, ReserveType } from "@/types/enums";
 
 const Upcoming: React.FC = () => {
   const { petId } = useContext(PetIdContext);
   const petList = useSelector((state: RootState) => state.petList);
+  const petRecord = useSelector((state: RootState) => state.petRecord);
+  const data = petRecord.data;
 
   const [selectedPet, setSelectedPet] = useState<PetDataType>();
 
@@ -32,7 +33,7 @@ const Upcoming: React.FC = () => {
   }
 
   const Reminders: React.FC = () => {
-    const eventData = fakeData()
+    const eventData = data
       .filter((event) => {
         const cardType = (event as MedicalCardDataType).cardType;
         const reserveDate = (event as MedicalCardDataType).reserveDate;
