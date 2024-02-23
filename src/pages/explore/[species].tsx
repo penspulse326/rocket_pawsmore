@@ -20,8 +20,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     console.error(error);
     return { props: {} };
   }
-
-  return { props: {} };
 };
 
 export interface PropsType {

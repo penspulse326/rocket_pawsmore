@@ -14,7 +14,7 @@ interface PropsType {
 const speciesData = {
   [SpeciesType.狗]: {
     name: "狗",
-    src: "/images/exp-dog.jpg",
+    src: "/images/exp-dog.png",
   },
   [SpeciesType.貓]: {
     name: "貓",
@@ -52,8 +52,6 @@ const Explore: React.FC<PropsType> = ({ posts }) => {
     setIsMaskOpen(!isMaskOpen);
     setSelectedPost(data);
   };
-
-  console.log(SpeciesType[0]);
 
   return (
     <>
@@ -106,6 +104,7 @@ const Explore: React.FC<PropsType> = ({ posts }) => {
                         src={post.media}
                         autoPlay={true}
                         muted={true}
+                        loop={true}
                         className="w-full h-full bg-black object-cover"
                       />
                     )}
