@@ -18,7 +18,7 @@ const Moment: React.FC<MomentProps> = ({ data }) => {
   if (!data) {
     return null;
   }
-  const { momentType, momentPhoto, momentId, momentDetails, desc } =
+  const { momentType, photo, momentId, momentDetails, desc } =
     data as MomentCardDataType;
 
   const momentData: MomentDataType[] = [
@@ -46,11 +46,11 @@ const Moment: React.FC<MomentProps> = ({ data }) => {
     },
     {
       TITLE: "紀錄照片",
-      content: momentPhoto ? (
+      content: photo ? (
         <div className="w-[248px] h-[186px] py-1">
           <Image
             className="rounded-[10px] w-full h-full object-cover"
-            src={momentPhoto}
+            src={photo}
             width={248}
             height={186}
             alt="moment photo"

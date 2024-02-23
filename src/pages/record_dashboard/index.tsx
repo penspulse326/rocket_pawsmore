@@ -1,15 +1,23 @@
-import React, { createContext, useState, ReactNode, useEffect } from "react";
+import React, { createContext, useState, useEffect, ReactNode } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
+import Link from "next/link";
 
 import CalendarLayout from "@/components/recordDashboard/CalendarLayout";
 import Upcoming from "@/components/recordDashboard/Upcoming";
 import AccountList from "@/components/petInfo/PetAccountList";
 import RecordCardLayout from "@/components/recordDashboard/RecordCardLayout";
 import Footer from "@/components/Footer";
-import Link from "next/link";
-import { useSelector } from "react-redux";
-import { RootState } from "@/common/redux/store";
-import { useRouter } from "next/router";
+import Loading from "@/components/hint/Loading";
+
+import { fetchGetRecord } from "@/common/fetch/petProfile";
+import sortData from "@/common/helpers/sortData";
+
+import { setRecordInfo } from "@/common/redux/recordSlice";
+
+import type { RootState } from "@/common/redux/store";
+import { CardUnionDataType } from "@/types";
+import { FetchDataType } from "../pet/[petAccount]";
 
 export interface DateContextProp {
   selectedDate: string;
@@ -29,9 +37,59 @@ export const PetIdContext = createContext<PetIdContextProp>({
   setPetId: () => {},
 });
 const PetIdProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const dispatch = useDispatch();
+  const petList = useSelector((state: RootState) => state.petList);
+
   const [petId, setPetId] = useState<number | null>(null);
+  const [petAccount, setPetAccount] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (petId && petList) {
+      const foundPet = petList.find((pet) => pet.petId === petId);
+      if (foundPet) {
+        setPetAccount(foundPet.petAccount);
+      }
+    }
+  }, [petId, petList, petAccount]);
+
+  useEffect(() => {
+    petAccount && fetchPetRecord();
+  }, [petAccount]);
+
+  const fetchPetRecord = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetchGetRecord(petAccount as string);
+      if (!response.ok) {
+        throw new Error("failed");
+      }
+
+      const { dailyCards, medicalCards, momentCards }: FetchDataType =
+        response.data;
+      const data: CardUnionDataType[] = [
+        ...dailyCards,
+        ...medicalCards,
+        ...momentCards,
+      ];
+
+      const sortedData = sortData(data);
+
+      const recordData = {
+        petId: petId,
+        data: sortedData,
+      };
+
+      dispatch(setRecordInfo(recordData));
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <PetIdContext.Provider value={{ petId, setPetId }}>
+      {isLoading && <Loading />}
       {children}
     </PetIdContext.Provider>
   );
@@ -49,17 +107,7 @@ const DateProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
-const RecordDashboard = () => {
-  const router = useRouter();
-  const petList = useSelector((state: RootState) => state.petList);
-
-  useEffect(() => {
-    if (!petList.length) {
-      alert("請先新增寵物資料");
-      router.push("/member/new/pet");
-    }
-  }, [petList]);
-
+const RecordDashboard: React.FC = () => {
   return (
     <DateProvider>
       <PetIdProvider>

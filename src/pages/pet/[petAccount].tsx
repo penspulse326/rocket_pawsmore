@@ -31,7 +31,7 @@ export const PetDataContext = createContext<
   | undefined
 >(undefined);
 
-interface FetchDataType {
+export interface FetchDataType {
   petId: number;
   dailyCards: DailyCardDataType[];
   medicalCards: MedicalCardDataType[];

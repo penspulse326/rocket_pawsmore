@@ -1,17 +1,19 @@
 import React, { useState, useContext } from "react";
+import { useSelector } from "react-redux";
 import moment from "moment";
 
 import { DateContext } from "@/pages/record_dashboard";
 import SingleCardLayout from "@/containers/recordCard/SingleCardLayout";
 
-import fakeData from "@/common/lib/test/fakeData";
-
+import type { RootState } from "@/common/redux/store";
 import { MedicalCardDataType } from "@/types";
 import { MedicalCardType } from "@/types/enums";
 
 const Cards: React.FC = () => {
   const { selectedDate } = useContext(DateContext);
-  const data = fakeData();
+
+  const petRecord = useSelector((state: RootState) => state.petRecord);
+  const data = petRecord.data;
 
   const [openedCardId, setOpenedCardId] = useState(-1);
   const handleToggle = (id: number) => {

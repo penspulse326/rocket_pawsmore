@@ -232,7 +232,7 @@ export interface MomentCardDataType {
   momentId: MomentIdType;
   momentDetails: string;
   desc: string;
-  momentPhoto: string;
+  photo: string;
   targetDate: string;
   createDate: string;
   anniversaryType?: AnniversaryType;

@@ -1,20 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import moment from "moment";
 
 import { CategoryContext } from "../CalendarLayout";
 import { MonthContext } from "../CalendarLayout";
-import { PetIdContext } from "@/pages/record_dashboard";
 
-import sortData from "@/common/helpers/sortData";
 import getIconColor from "@/common/helpers/getIconColor";
-import createAnniversary from "@/common/helpers/createAnniversary";
-
 import type { RootState } from "@/common/redux/store";
-import { PetDataType } from "@/types";
-
-import fakeData from "@/common/lib/test/fakeData";
 
 import { MedicalCardDataType } from "@/types";
 import {
@@ -27,43 +20,14 @@ import {
 const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
   const { monthState } = useContext(MonthContext);
   const { filterEvent } = useContext(CategoryContext);
-  const { petId } = useContext(PetIdContext);
+  const petRecord = useSelector((state: RootState) => state.petRecord);
 
-  const petList = useSelector((state: RootState) => state.petList);
-  const [selectedPet, setSelectedPet] = useState<PetDataType>();
-
-  useEffect(() => {
-    // console.log(petId);
-    // if (petList.length > 0 && petId !== null) {
-    //   const foundIndex = petList.findIndex((pet) => pet.petId === petId);
-    //   if (foundIndex !== -1) {
-    //     setSelectedPet(petList[foundIndex]);
-    //   }
-    // } else {
-    //   setSelectedPet(petList[0]);
-    // }
-  }, [petId, petList]);
-
-  // useEffect(() => {
-  //   selectedPet &&
-  //     createAnniversary({
-  //       birthday: selectedPet.birthday,
-  //       adoptedDate: selectedPet.adoptedDate,
-  //       petId: selectedPet.petId,
-  //     });
-  // }, [selectedPet]);
-
+  const data = petRecord.data;
   const selectedMonth = moment(monthState);
 
   const isCurrentMonth = (prop: string) => {
     return selectedMonth.format("YYYYMM") === moment(prop).format("YYYYMM");
   };
-
-  // const sortedData = sortData();
-
-  const data = fakeData();
-
-  console.log(data);
 
   const eventData = data.filter((event) => {
     if (filterEvent === "全部類型") {
