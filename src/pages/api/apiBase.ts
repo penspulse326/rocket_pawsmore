@@ -18,6 +18,8 @@ const apiBase = {
   GET_PET_RECORD: `${apiUrl}/cards`, // 動態路由 /:petAccount
   // 貼文
   GET_ALL_POSTS: `${apiUrl}/social/posts/all`,
+  GET_SPECIES_POSTS: (species: string) =>
+    `${apiUrl}/social/petspecies/posts/${species}`,
   GET_FOLLOWING_POSTS: (useId: string) =>
     `${apiUrl}/social/posts/following/${useId}`, // 動態路由 /:userId
   GET_SINGLE_POST: `${apiUrl}/social/posts`, // 動態路由 /:postId

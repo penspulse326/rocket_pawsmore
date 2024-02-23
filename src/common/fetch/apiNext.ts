@@ -23,6 +23,8 @@ const apiNext = {
   GET_FOLLOWING_POSTS: (userId: number) =>
     `${baseUrl}/api/post/following/${userId}`,
   GET_SINGLE_POST: `${baseUrl}/api/post/single`, // 動態路由 /:postId
+  GET_SPECIES_POSTS: (species: number) =>
+    `${baseUrl}/api/post/species/${species}`,
   ADD_POST: `${baseUrl}/api/post/add`, // 動態路由 /:petId
   LIKE_POST: `${baseUrl}/api/post/like`, // 動態路由 /:postId
   DELETE_POST: `${baseUrl}/api/post/delete`, // 動態路由 /:postId

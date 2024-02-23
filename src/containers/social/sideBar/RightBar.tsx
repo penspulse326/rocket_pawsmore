@@ -24,7 +24,7 @@ const RightBar: React.FC = () => {
         <h2 className=" text-note">探索</h2>
         <div className="mt-4 px-5 text-center">
           <div className="flex gap-4">
-            <Link href="/test/social/explore?type=dog">
+            <Link href="/explore/0">
               <Image
                 src="/test/photo-dog-test-1.png"
                 width={80}
@@ -34,7 +34,7 @@ const RightBar: React.FC = () => {
               />
               <span>狗</span>
             </Link>
-            <Link href="#">
+            <Link href="/explore/1">
               <Image
                 src="/test/photo-cat-test.png"
                 width={80}
@@ -44,7 +44,7 @@ const RightBar: React.FC = () => {
               />
               <span>貓</span>
             </Link>
-            <Link href="#">
+            <Link href="/explore/2">
               <Image
                 src="/test/photo-rice-test.png"
                 width={80}
@@ -55,7 +55,7 @@ const RightBar: React.FC = () => {
               <span>倉鼠</span>
             </Link>
           </div>
-          <Link href="#" className="flex flex-col items-center mt-4">
+          <Link href="/explore/3" className="flex flex-col items-center mt-4">
             <Image
               src="/test/photo-more.png"
               width={188}

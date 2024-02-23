@@ -18,7 +18,7 @@ import { MediaType } from "@/types/enums";
 
 interface PropsType {
   data: PostDataType;
-  getList: () => void;
+  getList?: () => void;
   onClose: () => void;
 }
 
@@ -123,7 +123,7 @@ const PostView: React.FC<PropsType> = ({ data, getList, onClose }) => {
             isAuthor={userId === authorId}
             media={media}
             mediaType={MediaType.image}
-            getList={getList}
+            getList={getList || (() => {})}
             onClose={onClose}
           />
         </div>
