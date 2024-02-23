@@ -1,17 +1,22 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import ToggleGroup from "@/components/ToggleGroup";
 import FoodInputs from "./FoodInputs";
 import CareInputs from "./CareInputs";
 import SickInputs from "./SickInputs";
 import Select from "@/components/form/record/Select";
+import Loading from "@/components/hint/Loading";
+
 import { unitCategory } from "@/common/lib/formText";
 import { DateContext, PetIdContext } from "@/pages/record_dashboard";
 import { formatDailyData } from "@/common/helpers/formatDailyData";
 import { PooType, UrineType, VomitType } from "@/types/enums";
 import { fetchAddDailyCard } from "@/common/fetch/recordCard";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/common/redux/store";
+
+import { setRecordInfo } from "@/common/redux/recordSlice";
+import { fetchFormattedRecord } from "@/common/helpers/fetchFormattedRecord";
 
 interface FoodType {
   type: string;
@@ -36,7 +41,7 @@ export interface DailyFormStateType {
   targetDate: string;
 }
 
-const initailState: DailyFormStateType = {
+const initialState: DailyFormStateType = {
   weight: 0,
   weight_unit: "kg",
   water: 0,
@@ -64,11 +69,18 @@ interface PropsType {
 }
 
 const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
+  const dispatch = useDispatch();
+
   const { token } = useSelector((state: RootState) => state.userInfo);
+  const petList = useSelector((state: RootState) => state.petList);
+
+  const [petAccount, setPetAccount] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const { selectedDate } = useContext(DateContext);
   const { petId } = useContext(PetIdContext);
   const [formState, setFormState] = useState({
-    ...initailState,
+    ...initialState,
     targetDate: selectedDate,
   });
 
@@ -114,6 +126,8 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
     event.preventDefault();
     const data = formatDailyData(formState);
 
+    setIsLoading(true);
+
     try {
       const response = await fetchAddDailyCard(token, petId!, data);
       if (!response.ok) {
@@ -126,10 +140,33 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
       alert("新增失敗，請稍後再試");
       console.log(error);
     }
+
+    await fetchPetRecord();
+
+    setIsLoading(false);
   };
+
+  const fetchPetRecord = async () => {
+    try {
+      if (petAccount && petId) {
+        const recordData = await fetchFormattedRecord(petAccount, petId);
+        dispatch(setRecordInfo(recordData));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (petId) {
+      const foundPet = petList.find((pet) => pet.petId === petId);
+      foundPet && setPetAccount(foundPet.petAccount);
+    }
+  }, [petId]);
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      {isLoading && <Loading />}
       <ToggleGroup title="一般">
         <ul className="flex flex-col gap-4 mt-2">
           <li className="flex items-center">

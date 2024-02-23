@@ -9,7 +9,8 @@ import Loading from "@/components/hint/Loading";
 import TextInput from "@/components/form/profile/TextInput";
 import PasswordInput from "@/components/form/profile/PasswordInput";
 import { errorText } from "@/common/lib/messageText";
-import { fetchSignup } from "@/common/fetch/auth";
+import { fetchLogin, fetchSignup } from "@/common/fetch/auth";
+import useToken from "@/common/hooks/useToken";
 
 import type { LoginFormType, SignUpFormType } from "@/types";
 
@@ -25,6 +26,7 @@ const SignUp: React.FC = () => {
   // 用 watch 來監聽密碼的值
   const watchedPassword = watch("password");
 
+  const { updateUser } = useToken();
   const router = useRouter();
   const dispatch = useDispatch();
   const [statusCode, setStatusCode] = useState(0);
@@ -39,7 +41,10 @@ const SignUp: React.FC = () => {
 
     const response = await fetchSignup(formData);
     if (response.ok) {
+      const loginResult = await fetchLogin(formData);
+      const { token, userId } = loginResult.data;
       dispatch(setUserInfo(response.data));
+      updateUser(token, userId);
       router.push("/member/new/profile");
     }
 

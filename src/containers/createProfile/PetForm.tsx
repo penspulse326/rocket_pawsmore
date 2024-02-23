@@ -103,6 +103,11 @@ const PetForm: React.FC = () => {
     }
   }, [statusCode]);
 
+<<<<<<< HEAD
+=======
+  const handleAdd = (data: PetFormType) => handleCreatePet(data);
+
+>>>>>>> dev
   return (
     <section className="flex flex-col gap-4 my-16 max-w-[728px] w-full">
       <div>

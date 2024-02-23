@@ -61,7 +61,7 @@ const Explore: React.FC<PropsType> = ({ posts }) => {
           <PostView data={selectedPost!} onClose={() => setIsMaskOpen(false)} />
         </Mask>
       )}
-      <div className="scrollbar-none pt-24 px-8 pb-8 max-w-[658px] w-full border-x border-stroke bg-white overflow-y-scroll">
+      <div className="mx-auto px-8 pt-24 max-w-[658px] w-full border-x border-stroke bg-white">
         <h1 className="text-[32px]">探索貼文</h1>
         <div className="relative mx-auto max-w-[144px] max-h-[144px] w-full h-full rounded-full overflow-hidden">
           <Image

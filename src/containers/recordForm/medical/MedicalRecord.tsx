@@ -1,6 +1,6 @@
 import { Controller, useForm } from "react-hook-form";
-import { useContext, useState } from "react";
-import { useSelector } from "react-redux";
+import { useContext, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/common/redux/store";
 
 import { DateContext, PetIdContext } from "@/pages/record_dashboard";
@@ -14,6 +14,9 @@ import Select from "../Select";
 import DateInput from "./DateInput";
 import ImageInput from "../ImageInput";
 import TextInput from "./TextInput";
+
+import { setRecordInfo } from "@/common/redux/recordSlice";
+import { fetchFormattedRecord } from "@/common/helpers/fetchFormattedRecord";
 
 import { VisitType } from "@/types/enums";
 
@@ -56,9 +59,15 @@ interface PropsType {
 }
 
 const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
+  const dispatch = useDispatch();
+
   const { token } = useSelector((state: RootState) => state.userInfo);
+  const petList = useSelector((state: RootState) => state.petList);
+
   const { petId } = useContext(PetIdContext);
   const { selectedDate } = useContext(DateContext);
+
+  const [petAccount, setPetAccount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -98,9 +107,29 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
     }
     alert("新增成功");
 
+    await fetchPetRecord();
+
     setIsLoading(false);
     handleClose();
   };
+
+  const fetchPetRecord = async () => {
+    try {
+      if (petAccount && petId) {
+        const recordData = await fetchFormattedRecord(petAccount, petId);
+        dispatch(setRecordInfo(recordData));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (petId) {
+      const foundPet = petList.find((pet) => pet.petId === petId);
+      foundPet && setPetAccount(foundPet.petAccount);
+    }
+  }, [petId]);
 
   return (
     <>

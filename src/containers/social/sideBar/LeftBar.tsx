@@ -37,7 +37,7 @@ const LeftBar: React.FC = () => {
         <div className="relative w-[48px] h-[48px] rounded-full overflow-hidden">
           <Image
             src={headShot || "/images/default-photo.png"}
-            alt={username}
+            alt={username || "avatar"}
             priority={true}
             fill={true}
             sizes="100%"

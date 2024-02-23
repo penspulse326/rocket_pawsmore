@@ -1,5 +1,3 @@
-import { useRouter } from "next/router";
-
 import Layout from "@/containers/social/Layout";
 import Explore from "@/containers/social/explore";
 

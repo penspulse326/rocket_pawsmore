@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserInfo } from "@/common/redux/userInfoSlice";
 
 import TextInput from "@/components/form/profile/TextInput";
 import UploadPhoto from "@/components/form/profile/UploadPhoto";
@@ -9,7 +10,6 @@ import { errorText } from "@/common/lib/messageText";
 import BtnLoading from "@/components/hint/BtnLoading";
 import { fetchCreateMember } from "@/common/fetch/memberProfile";
 import { mediaUpload } from "@/common/fetch/mediaManager";
-import { setUserInfo } from "@/common/redux/userInfoSlice";
 
 import type { MemberFormType } from "@/types";
 import type { RootState } from "@/common/redux/store";
@@ -80,7 +80,7 @@ const MemberForm: React.FC = () => {
 
     setIsLoading(false);
     alert("新增成功");
-    router.push("/member/new/create_pet");
+    router.push("/member/new/pet");
   };
 
   // 顯示錯誤訊息

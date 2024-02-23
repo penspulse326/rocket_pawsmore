@@ -1,11 +1,13 @@
 import { useContext, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Loading from "@/components/hint/Loading";
 
 import { mediaUpload } from "@/common/fetch/mediaManager";
 import { fetchAddMomentCard } from "@/common/fetch/recordCard";
+import { fetchFormattedRecord } from "@/common/helpers/fetchFormattedRecord";
 
+import { setRecordInfo } from "@/common/redux/recordSlice";
 import type { RootState } from "@/common/redux/store";
 import { momentCategory } from "@/common/lib/formText";
 import { PetIdContext, DateContext } from "@/pages/record_dashboard";
@@ -17,7 +19,8 @@ import {
 } from "@/common/lib/formText";
 
 import { MomentCategoryType, MomentIdType } from "@/types/enums";
-import { MomentDataType, MomentFormType, OptionType } from "@/types";
+import { MomentFormType, OptionType } from "@/types";
+
 import { Controller, useForm } from "react-hook-form";
 import ImageInput from "../ImageInput";
 import { errorText } from "@/common/lib/messageText";
@@ -42,9 +45,14 @@ interface PropsType {
 }
 
 const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
+  const dispatch = useDispatch();
+
   const { petId } = useContext(PetIdContext);
   const { selectedDate } = useContext(DateContext);
   const { token } = useSelector((state: RootState) => state.userInfo);
+  const petList = useSelector((state: RootState) => state.petList);
+
+  const [petAccount, setPetAccount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const options: Record<MomentCategoryType, OptionType[]> = {
@@ -101,8 +109,21 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
     }
     alert("新增成功");
 
+    await fetchPetRecord();
+
     setIsLoading(false);
     handleClose();
+  };
+
+  const fetchPetRecord = async () => {
+    try {
+      if (petAccount && petId) {
+        const recordData = await fetchFormattedRecord(petAccount, petId);
+        dispatch(setRecordInfo(recordData));
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -112,6 +133,13 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
       setValue("momentId", null);
     }
   }, [selectedMomentType]);
+
+  useEffect(() => {
+    if (petId) {
+      const foundPet = petList.find((pet) => pet.petId === petId);
+      foundPet && setPetAccount(foundPet.petAccount);
+    }
+  }, [petId]);
 
   return (
     <>
