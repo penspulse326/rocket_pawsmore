@@ -79,7 +79,6 @@ const MemberForm: React.FC = () => {
     }
 
     setIsLoading(false);
-    alert("新增成功");
     router.push("/member/new/pet");
   };
 

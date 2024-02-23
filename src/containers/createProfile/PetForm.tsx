@@ -142,6 +142,7 @@ const PetForm: React.FC = () => {
                   <RadioSelect
                     {...field}
                     title="物種"
+                    star={true}
                     dataSet={species}
                     message={errors.petSpecies?.message}
                     onChange={(value) => field.onChange(value)}
@@ -157,6 +158,7 @@ const PetForm: React.FC = () => {
                   <RadioSelect
                     {...field}
                     title="性別"
+                    star={true}
                     dataSet={gender}
                     message={errors.petGender?.message}
                     onChange={(value) => field.onChange(value)}
