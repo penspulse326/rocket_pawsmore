@@ -4,7 +4,11 @@ import { GetServerSideProps } from "next";
 import Layout from "@/containers/social/Layout";
 import Posts from "@/containers/social/posts";
 import { fetchGetAllPosts, fetchGetFollowingPosts } from "@/common/fetch/post";
-import { filterPost, sortPosts } from "@/common/helpers/configurePosts";
+import {
+  filterPost,
+  filterPostsByDate,
+  sortPostsByLikes,
+} from "@/common/helpers/configurePosts";
 
 import type { ReactElement } from "react";
 import type { NextPageWithLayout } from "./_app";
@@ -28,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const allPostsResult = await fetchGetAllPosts();
     const allPosts: PostDataType[] = allPostsResult.data;
-    const sortedAllPosts = sortPosts(allPosts);
+    const sortedAllPosts = sortPostsByLikes(allPosts);
 
     if (!userId) {
       return { props: { all: sortedAllPosts } };
@@ -36,9 +40,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const followingPostsResult = await fetchGetFollowingPosts(userId);
     const followingPosts: PostDataType[] = followingPostsResult.data;
-    const filteredPosts = filterPost(sortedAllPosts, followingPosts, userId);
+    const { recentPosts, olderPosts } = filterPostsByDate(followingPosts);
+    const filteredPosts = sortPostsByLikes(filterPost(allPosts, recentPosts));
 
-    return { props: { all: filteredPosts, following: followingPosts || [] } };
+    return {
+      props: { all: filteredPosts, following: { recentPosts, olderPosts } },
+    };
   } catch (error) {
     console.error(error);
     return { props: {} };
@@ -47,7 +54,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 export interface PropsType {
   all: PostDataType[];
-  following: PostDataType[];
+  following: {
+    recentPosts: PostDataType[];
+    olderPosts: PostDataType[];
+  };
 }
 
 const SocialPage: NextPageWithLayout<PropsType> = ({ all, following }) => {
