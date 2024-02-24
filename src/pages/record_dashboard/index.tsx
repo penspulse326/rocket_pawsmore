@@ -10,6 +10,7 @@ import RecordCardLayout from "@/components/recordDashboard/RecordCardLayout";
 import Footer from "@/components/Footer";
 import Loading from "@/components/hint/Loading";
 
+import createAnniversaryEvent from "@/common/helpers/createAnniversary";
 import { fetchFormattedRecord } from "@/common/helpers/fetchFormattedRecord";
 import { setRecordInfo } from "@/common/redux/recordSlice";
 import type { RootState } from "@/common/redux/store";
@@ -37,6 +38,8 @@ const PetIdProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const [petId, setPetId] = useState<number | null>(null);
   const [petAccount, setPetAccount] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [adoptedDate, setAdoptedDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -44,6 +47,8 @@ const PetIdProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       const foundPet = petList.find((pet) => pet.petId === petId);
       if (foundPet) {
         setPetAccount(foundPet.petAccount);
+        setBirthday(foundPet.birthday);
+        setAdoptedDate(foundPet.adoptedDate);
       }
     }
   }, [petId, petList, petAccount]);
@@ -55,7 +60,18 @@ const PetIdProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       try {
         if (petAccount && petId) {
           const recordData = await fetchFormattedRecord(petAccount, petId);
-          dispatch(setRecordInfo(recordData));
+
+          const anniversaryEvent = createAnniversaryEvent(
+            birthday,
+            adoptedDate,
+            petId
+          );
+          if (recordData) {
+            const data = recordData.data.concat(anniversaryEvent);
+            const combinedData = { petId: petId, data };
+
+            dispatch(setRecordInfo(combinedData));
+          }
         }
       } catch (error) {
         console.error("Error fetching pet record:", error);
@@ -65,7 +81,7 @@ const PetIdProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     };
 
     fetchRecord();
-  }, [petAccount, petId, dispatch]);
+  }, [petAccount]);
 
   return (
     <PetIdContext.Provider value={{ petId, setPetId }}>

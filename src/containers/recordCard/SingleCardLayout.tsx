@@ -11,7 +11,7 @@ import Reminder from "./content/Reminder";
 import Anniversary from "./content/Anniversary";
 
 import { CardUnionDataType, MedicalCardDataType } from "@/types";
-import { RecordCardType, MedicalCardType } from "@/types/enums";
+import { RecordEventType, MedicalCardType } from "@/types/enums";
 
 export const DataContext = createContext<CardUnionDataType | undefined>(
   undefined
@@ -43,8 +43,8 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
   onToggle,
 }) => {
   const getData = useMemo(() => data, [data]);
-  const isAnniversary: boolean = false;
-  //  data.card === "紀念日";
+  const { card } = data;
+  const isAnniversary: boolean = card === RecordEventType.紀念日;
 
   const Content: React.FC = () => {
     const visitType = (data as MedicalCardDataType).visitType;
@@ -52,15 +52,15 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
     if (MedicalCardType[visitType] === "醫療提醒") {
       return <Reminder data={data} />;
     } else {
-      switch (RecordCardType[data.card]) {
+      switch (RecordEventType[card]) {
         case "醫療紀錄":
           return <Medical data={data} />;
         case "重要時刻":
           return <Moment data={data} />;
         case "日常紀錄":
           return <Daily data={data} />;
-        // case "紀念日":
-        //   return <Anniversary />;
+        case "紀念日":
+          return <Anniversary />;
         default:
           return null;
       }
