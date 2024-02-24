@@ -40,6 +40,7 @@ const Menu: React.FC<MenuPropsType> = ({
             <Image
               src={headShot || "/images/default-photo.png"}
               alt={username || "avatar"}
+              priority={false}
               fill={true}
               sizes="100%"
               style={{ objectFit: "cover" }}

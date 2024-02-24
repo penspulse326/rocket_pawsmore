@@ -10,20 +10,32 @@ interface UploadPhotoPropsType {
   name: "headShot" | "petPhoto";
   title: string;
   message?: string;
+  initialPhoto?: string;
   setError: () => void;
   clearErrors: () => void;
   onChange: (file: File) => void;
 }
 
 const UploadPhoto = forwardRef<HTMLInputElement, UploadPhotoPropsType>(
-  ({ name, title, message, setError, clearErrors, onChange }, ref) => {
-    const [preview, setPreview] = useState<string>("/images/default-photo.png");
+  (
+    { name, title, message, initialPhoto, setError, clearErrors, onChange },
+    ref
+  ) => {
+    const [preview, setPreview] = useState<string>(
+      initialPhoto || "/images/default-photo.png"
+    );
 
     useEffect(() => {
       return () => {
         preview && URL.revokeObjectURL(preview);
       };
     }, [preview]);
+
+    useEffect(() => {
+      if (initialPhoto) {
+        setPreview(initialPhoto);
+      }
+    }, [initialPhoto]);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
@@ -50,6 +62,7 @@ const UploadPhoto = forwardRef<HTMLInputElement, UploadPhotoPropsType>(
             <Image
               src={preview}
               alt="member-photo"
+              priority={false}
               width={200}
               height={200}
               className="w-full h-full object-cover"

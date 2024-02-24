@@ -65,7 +65,7 @@ const Navbar: React.FC = () => {
 
   // 本地有 token 但 redux 沒有時表示使用者是重新整理或離開網站再進入該頁面
   useEffect(() => {
-    if (localToken || token) {
+    if (localToken && !token) {
       checkIsLogin();
       return;
     }

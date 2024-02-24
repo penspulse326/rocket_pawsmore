@@ -30,7 +30,7 @@ const SideBar: React.FC<SideBarPropsType> = ({ target, setTargetPage }) => {
   ];
   const petItems: { TITLE: string; ENG: string }[] = [
     { TITLE: "寵物檔案清單", ENG: "pet_list" },
-    { TITLE: "新增寵物檔案", ENG: "add_pet" },
+    { TITLE: "新增寵物檔案", ENG: "create_pet" },
   ];
 
   const handleTargetPage = (newTarget: string) => {

@@ -2,6 +2,7 @@ import React from "react";
 import Account from "@/components/userDashboard/Account";
 import Profile from "@/components/userDashboard/Profile";
 import PetList from "@/components/userDashboard/PetList";
+import CreatePet from "@/components/userDashboard/CreatePet";
 
 const MainContent: React.FC<{ targetPage: string }> = ({ targetPage }) => {
   return (
@@ -14,8 +15,8 @@ const MainContent: React.FC<{ targetPage: string }> = ({ targetPage }) => {
             return <Profile />;
           case "pet_list":
             return <PetList />;
-          case "add_pet":
-          // return <AddPet />;
+          case "create_pet":
+            return <CreatePet />;
           default:
             return null;
         }

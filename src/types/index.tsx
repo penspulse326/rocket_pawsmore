@@ -25,7 +25,7 @@ export interface SignUpFormType {
 export interface MemberFormType {
   account: string;
   username: string;
-  headShot: File | null;
+  headShot: File | string | null;
   introduction?: string;
   link?: string;
 }
@@ -38,7 +38,7 @@ export interface PetFormType {
   breed: string;
   birthday: string;
   adoptedDate?: string;
-  petPhoto: File | null;
+  petPhoto: File | string | null;
   petIntro?: string;
   link?: string;
 }

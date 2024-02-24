@@ -54,7 +54,7 @@ const MemberForm: React.FC = () => {
     }
 
     // 請求上傳圖片，有傳入照片才執行
-    if (data.headShot) {
+    if (data.headShot instanceof File) {
       try {
         const uploadResult = await mediaUpload(data.headShot, "member");
         const imgUrl = uploadResult.secure_url;
