@@ -53,10 +53,10 @@ const Milestones: React.FC = () => {
             onClick={() => setIsExpanded(!isExpanded)}
           />
         </div>
-        {isExpanded && species && (
+        {isExpanded && (
           <div className="flex flex-wrap gap-4 w-full">
             {milestoneList
-              .filter((item) => item.species.includes(species))
+              .filter((item) => item.species.includes(species!))
               .map((item, index) => (
                 <div
                   className="flex border border-stroke rounded-[30px] max-w-[352px] max-h-[150px] w-full h-full"

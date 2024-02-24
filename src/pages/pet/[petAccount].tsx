@@ -11,6 +11,7 @@ import {
   fetchGetPet,
   fetchGetPost,
   fetchGetRecord,
+  fetchGetMilestone,
 } from "@/common/fetch/petProfile";
 
 import {
@@ -27,6 +28,12 @@ export const PetDataContext = createContext<
       postList: PostDataType[] | undefined;
       profile: PetDataType | undefined;
       record: CardUnionDataType[] | undefined;
+      milestone:
+        | {
+            petId: number;
+            milestoneTypes: string;
+          }
+        | undefined;
     }
   | undefined
 >(undefined);
@@ -45,6 +52,7 @@ const PetProfile: React.FC = () => {
   const [profile, setProfile] = useState<PetDataType>();
   const [postList, setPostList] = useState<PostDataType[]>();
   const [record, setRecord] = useState<CardUnionDataType[]>();
+  const [milestone, setMilestone] = useState();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -57,6 +65,7 @@ const PetProfile: React.FC = () => {
           await fetchProfile();
           await fetchPost();
           await fetchRecord();
+          await fetchMilestone();
 
           setIsLoading(false);
         }
@@ -109,8 +118,20 @@ const PetProfile: React.FC = () => {
     } catch (error) {}
   };
 
+  const fetchMilestone = async () => {
+    try {
+      const response = await fetchGetMilestone(petAccount as string);
+      setMilestone(response.data);
+
+      if (!response.ok) {
+        throw new Error("failed");
+      }
+      setPostList(response.data);
+    } catch (error) {}
+  };
+
   return (
-    <PetDataContext.Provider value={{ profile, postList, record }}>
+    <PetDataContext.Provider value={{ profile, postList, record, milestone }}>
       {isLoading && <Loading />}
       <main className="flex flex-col gap-y-12 items-center mt-[64px]">
         <ProfileCard />

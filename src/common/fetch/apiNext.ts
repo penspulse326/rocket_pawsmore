@@ -17,6 +17,7 @@ const apiNext = {
 
   GET_PET_POST: `${baseUrl}/api/post`, // 動態路由 /:petAccount
   GET_PET_RECORD: `${baseUrl}/api/pet/record`, // 動態路由 /:petAccount
+  GET_MILESTONE_LIST: `${baseUrl}/api/pet/milestone`, // 動態路由 /:petAccount
   // 貼文
   GET_ALL_POSTS: `${baseUrl}/api/post/all`,
   GET_PET_POSTS: (petAccount: string) => `${baseUrl}/api/post/${petAccount}`,

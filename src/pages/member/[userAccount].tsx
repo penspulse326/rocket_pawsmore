@@ -256,7 +256,7 @@ const UserProfile: React.FC = () => {
               );
             })}
           <div className="max-h-[366px]">
-            <AddPet type="already" />
+            {isMe && <AddPet type="already" />}
           </div>
         </div>
       );
