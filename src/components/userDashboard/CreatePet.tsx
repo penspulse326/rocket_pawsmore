@@ -67,7 +67,7 @@ const CreatePet: React.FC = () => {
 
     // // 確定新增成功才做上傳雲端圖片
     // // 流量有限!要先確定帳號無重複或其他錯誤才執行
-    if (data.petPhoto) {
+    if (data.petPhoto instanceof File) {
       const petId = response.data.petId;
 
       try {

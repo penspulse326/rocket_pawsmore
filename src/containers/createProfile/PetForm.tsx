@@ -63,7 +63,7 @@ const PetForm: React.FC = () => {
     }
 
     // 確定新增成功才做上傳雲端圖片
-    if (data.petPhoto) {
+    if (data.petPhoto instanceof File) {
       const petId = response.data.petId;
 
       try {
