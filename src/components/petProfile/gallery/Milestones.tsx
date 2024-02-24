@@ -12,7 +12,7 @@ const Milestones: React.FC = () => {
   const Gotten: React.FC = () => {
     return (
       <div className="flex flex-wrap gap-4 w-full">
-        {milestoneDataset.map((item, index) => {
+        {/* {milestoneList.map((item, index) => {
           return (
             <div
               className="flex border border-stroke rounded-[30px] max-w-[352px] max-h-[150px] w-full h-full"
@@ -33,7 +33,7 @@ const Milestones: React.FC = () => {
               </ul>
             </div>
           );
-        })}
+        })} */}
       </div>
     );
   };
