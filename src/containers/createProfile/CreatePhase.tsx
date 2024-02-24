@@ -8,13 +8,13 @@ const CreatePhase: React.FC = () => {
 
   useEffect(() => {
     switch (router.pathname) {
-      case "/member/new/create_profile":
+      case "/member/new/profile":
         setPhase(1);
         break;
-      case "/member/new/create_pet":
+      case "/member/new/pet":
         setPhase(2);
         break;
-      case "/member/new/select_topic":
+      case "/member/new/topic":
         setPhase(3);
         break;
       default:

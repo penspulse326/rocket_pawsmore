@@ -22,7 +22,14 @@ const defaultValues = {
   link: "",
 };
 
+// 新增個人資料表單
 const MemberForm: React.FC = () => {
+  const { token } = useSelector((state: RootState) => state.userInfo);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [statusCode, setStatusCode] = useState(0);
+
   const {
     handleSubmit,
     register,
@@ -31,12 +38,6 @@ const MemberForm: React.FC = () => {
     clearErrors,
     formState: { errors },
   } = useForm<MemberFormType>({ defaultValues });
-
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const { token } = useSelector((state: RootState) => state.userInfo);
-  const [isLoading, setIsLoading] = useState(false);
-  const [statusCode, setStatusCode] = useState(0);
 
   // 請求新增個人資料
   const handleCreateProfile = async (data: MemberFormType) => {
@@ -53,7 +54,7 @@ const MemberForm: React.FC = () => {
     }
 
     // 請求上傳圖片，有傳入照片才執行
-    if (data.headShot) {
+    if (data.headShot instanceof File) {
       try {
         const uploadResult = await mediaUpload(data.headShot, "member");
         const imgUrl = uploadResult.secure_url;
@@ -69,7 +70,6 @@ const MemberForm: React.FC = () => {
 
         dispatch(setUserInfo(response.data));
         router.push("/member/new/pet");
-        return;
       } catch (error) {
         console.error(error);
         setIsLoading(false);
@@ -78,11 +78,11 @@ const MemberForm: React.FC = () => {
       }
     }
 
-    dispatch(setUserInfo(response.data));
     setIsLoading(false);
     router.push("/member/new/pet");
   };
 
+  // 顯示錯誤訊息
   useEffect(() => {
     switch (statusCode) {
       case 400:

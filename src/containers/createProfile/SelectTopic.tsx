@@ -21,6 +21,7 @@ const SelectTopic = () => {
               <Image
                 src="/images/topic-dog.png"
                 alt="topic-dog"
+                priority={true}
                 width={158}
                 height={158}
               />
@@ -35,6 +36,7 @@ const SelectTopic = () => {
               <Image
                 src="/images/topic-cat.png"
                 alt="topic-cat"
+                priority={true}
                 width={158}
                 height={158}
               />
@@ -49,6 +51,7 @@ const SelectTopic = () => {
               <Image
                 src="/images/topic-rice.png"
                 alt="topic-rice"
+                priority={true}
                 width={158}
                 height={158}
               />
@@ -78,7 +81,7 @@ const SelectTopic = () => {
           確認
         </button>
         <div className="flex justify-end">
-          <Link href="/social" className="mt-4 text-note underline">
+          <Link href="/" className="mt-4 text-note underline">
             略過此步驟
           </Link>
         </div>

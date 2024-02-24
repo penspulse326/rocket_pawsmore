@@ -24,7 +24,7 @@ const Menu: React.FC<MenuPropsType> = ({
   };
 
   return (
-    <div className="col-span-1 flex justify-end items-center">
+    <div className="col-start-3 col-span-1 flex justify-end items-center">
       <div
         className={`${
           isMenuOpen && "shadow-custom"
@@ -40,6 +40,7 @@ const Menu: React.FC<MenuPropsType> = ({
             <Image
               src={headShot || "/images/default-photo.png"}
               alt={username || "avatar"}
+              priority={false}
               fill={true}
               sizes="100%"
               style={{ objectFit: "cover" }}
@@ -71,8 +72,7 @@ const Menu: React.FC<MenuPropsType> = ({
           </li>
           <li className="rounded-[30px] hover:bg-secondary duration-300">
             <Link
-              href="#"
-              // href="/user_dashboard?to=user"
+              href="/user_dashboard?to=profile"
               className="block px-3 py-1 w-full"
             >
               個人帳號資料
@@ -80,8 +80,7 @@ const Menu: React.FC<MenuPropsType> = ({
           </li>
           <li className="mb-2 rounded-[30px] hover:bg-secondary duration-300">
             <Link
-              href="#"
-              // href="/user_dashboard?to=pets"
+              href="/user_dashboard?to=pet_list"
               className="block px-3 py-1 w-full"
             >
               寵物基本資料

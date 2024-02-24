@@ -1,112 +1,207 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import Image from "next/image";
 import { IconPhoto } from "@tabler/icons-react";
+import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "@/common/redux/store";
 import ErrorMessage from "../ErrorMessage";
 import { errorText } from "@/common/lib/messageText";
+import { Controller, useForm } from "react-hook-form";
+import { MemberFormType } from "@/types";
+import UploadPhoto from "../form/profile/UploadPhoto";
+import TextInput from "../form/profile/TextInput";
+import { useEffect, useState } from "react";
+import { fetchCreateMember } from "@/common/fetch/memberProfile";
+import { mediaDelete, mediaUpload } from "@/common/fetch/mediaManager";
+import { setUserInfo } from "@/common/redux/userInfoSlice";
+import BtnLoading from "../hint/BtnLoading";
+import getMediaId from "@/common/helpers/getMediaId";
 
 const Profile: React.FC = () => {
-  const userInfoData = useSelector((state: RootState) => state.userInfo);
-  console.log(userInfoData);
+  const { token, account, username, headShot, introduction, link } =
+    useSelector((state: RootState) => state.userInfo);
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const [statusCode, setStatusCode] = useState(0);
+  const [initailPhoto, setInitailPhoto] = useState<string | null>(null);
 
-  const [account, setAccount] = useState("chichi1992126");
-  const [username, setUsername] = useState("琪琪");
-  const [userInfo, setUserInfo] = useState(
-    "喜歡旅遊\n下一站美國\n-\nlove can change the world in a moment"
-  );
-  const [link, setLink] = useState("https://www.instagram.com/chichi126");
+  const {
+    handleSubmit,
+    register,
+    control,
+    setError,
+    reset,
+    clearErrors,
+    formState: { errors },
+  } = useForm<MemberFormType>();
 
-  const rowsOfTextarea: number = userInfo.split("\n").length;
+  const rowsOfTextarea: number = introduction.split("\n").length;
+
+  const handleUpdate = async (data: MemberFormType) => {
+    console.log(data);
+    console.log(initailPhoto);
+
+    setIsLoading(true);
+    setStatusCode(0);
+
+    const response = await fetchCreateMember(data, token);
+
+    // 確定新增成功才做上傳雲端圖片
+    if (!response.ok) {
+      setIsLoading(false);
+      setStatusCode(response.status);
+      return;
+    }
+
+    // 請求上傳圖片，有傳入照片才執行
+    if (data.headShot instanceof File) {
+      try {
+        const uploadResult = await mediaUpload(data.headShot, "member");
+        const imgUrl = uploadResult.secure_url;
+
+        const response = await fetchCreateMember(data, token, imgUrl);
+
+        if (!response.ok) {
+          setIsLoading(false);
+          setStatusCode(response.status);
+          alert("更新失敗，請稍候再試");
+          return;
+        }
+
+        dispatch(setUserInfo(response.data));
+
+        // 如果原本有頭貼，就要刪除
+        if (initailPhoto) {
+          const mediaId = getMediaId(initailPhoto);
+          const deleteResult = await mediaDelete(mediaId, "image");
+          console.log(deleteResult);
+        }
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+        setStatusCode(500);
+        return;
+      }
+    }
+
+    alert("更新成功");
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    reset({
+      account,
+      username,
+      headShot,
+      introduction,
+      link,
+    });
+    setInitailPhoto(headShot);
+  }, [account, username, headShot, introduction, link, reset]);
 
   return (
     <div className="flex flex-col gap-y-8 max-w-[728px]">
       <div className="text-xl">個人檔案</div>
       {/* card container */}
-      <div className="flex flex-col gap-y-12 border border-stroke rounded-[30px] p-8 max-w-[728px]">
-        <form className="flex gap-x-12">
-          {/* photo */}
+      <form
+        onSubmit={handleSubmit(handleUpdate)}
+        className="flex flex-col gap-y-12 border border-stroke rounded-[30px] p-8 max-w-[728px]"
+      >
+        <div className="flex gap-x-12">
+          {/* 上傳照片 */}
           <div className="flex flex-col gap-y-4 max-w-[264px] w-full">
-            <div>個人照片</div>
-            <Image
-              src="/test/user-chichi.png"
-              width={168}
-              height={168}
-              alt="user avatar"
-              className="border border-stroke rounded-full mx-auto"
+            <Controller
+              control={control}
+              name="headShot"
+              render={({ field }) => (
+                <UploadPhoto
+                  {...field}
+                  title="個人照片"
+                  initialPhoto={initailPhoto || ""}
+                  message={errors.headShot?.message}
+                  onChange={(file) => field.onChange(file)}
+                  setError={() =>
+                    setError("headShot", { message: errorText.IMAGE_OVERSIZE })
+                  }
+                  clearErrors={() => clearErrors("headShot")}
+                />
+              )}
             />
-            <button className="flex gap-x-2 mx-auto" type="button">
-              <IconPhoto size={24} color={"#203170"} />
-              <span className="text-primary">上傳照片</span>
-            </button>
           </div>
-          {/* user info */}
+          {/* 用戶資訊 */}
           <div className="flex flex-col gap-y-4 max-w-[352px] w-full">
-            {/* account */}
-            <div className="flex flex-col gap-y-1">
-              <div className="flex justify-between">
-                <label htmlFor="account">
-                  用戶帳號<span className="text-error font-semibold">*</span>
-                </label>
-                <ErrorMessage>{errorText.ACCOUNT_EXIST}</ErrorMessage>
-              </div>
-              <input
-                type="text"
-                id="account"
-                value={account}
-                className="border border-stroke rounded-[10px] px-4 py-3"
-                onChange={(e) => setAccount(e.target.value)}
-              />
-            </div>
-            {/* username */}
-            <div className="flex flex-col gap-y-1">
-              <div className="flex justify-between">
-                <label htmlFor="username">
-                  用戶名稱<span className="text-error font-semibold">*</span>
-                </label>
-                <ErrorMessage>{errorText.USERNAME_REQUIRED}</ErrorMessage>
-              </div>
-              <input
-                type="text"
-                id="username"
-                value={username}
-                className="border border-stroke rounded-[10px] px-4 py-3"
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            {/* info */}
-            <div className="flex flex-col gap-y-1">
-              <label htmlFor="userInfo">個人簡介</label>
+            {/* 用戶帳號 */}
+            <Controller
+              name="account"
+              control={control}
+              defaultValue={account}
+              rules={{
+                required: errorText.REQUIRED,
+                pattern: {
+                  value: /^[a-zA-Z0-9]{1,}$/,
+                  message: errorText.ACCOUNT_INVALID,
+                },
+              }}
+              render={({ field }) => (
+                <TextInput
+                  {...field}
+                  title="用戶帳號"
+                  placeholder="設定您的用戶帳號，30字內以英數字組成"
+                  maxLength={30}
+                  message={errors.account?.message}
+                  star={true}
+                />
+              )}
+            />
+            {/* 用戶名稱 */}
+            <Controller
+              name="username"
+              control={control}
+              defaultValue={username}
+              rules={{ required: errorText.REQUIRED }}
+              render={({ field }) => (
+                <TextInput
+                  {...field}
+                  title="用戶名稱"
+                  placeholder="在個人檔案上顯示您的名稱"
+                  maxLength={15}
+                  message={errors.username?.message}
+                  star={true}
+                />
+              )}
+            />
+            {/* 個人簡介 */}
+            <div className="flex flex-col gap-1">
+              <h4 className="flex justify-between items-center">
+                <span>個人簡介</span>
+              </h4>
               <textarea
-                id="userInfo"
-                value={userInfo}
-                maxLength={150}
+                {...register("introduction")}
+                name="introduction"
+                placeholder="輸入個人簡介"
+                defaultValue={introduction}
                 rows={rowsOfTextarea}
-                className="border border-stroke rounded-[10px] px-4 py-3 h-auto resize-none"
-                onChange={(e) => setUserInfo(e.target.value)}
+                className="px-4 py-3 w-full border border-stroke outline-note rounded-[10px] overflow-hidden"
               />
             </div>
-            {/* link */}
-            <div className="flex flex-col gap-y-1">
-              <label htmlFor="link">連結</label>
-              <input
-                type="text"
-                id="link"
-                value={link}
-                className="border border-stroke rounded-[10px] px-4 py-3"
-                onChange={(e) => setLink(e.target.value)}
-              />
-            </div>
+            {/* 外部連結 */}
+            <Controller
+              name="link"
+              control={control}
+              defaultValue={link}
+              render={({ field }) => (
+                <TextInput {...field} title="連結" placeholder="新增外部連結" />
+              )}
+            />
           </div>
-        </form>
+        </div>
         <button
-          className="text-white bg-primary rounded-[300px] px-[104px] py-2 self-center"
           type="submit"
+          disabled={isLoading}
+          className="self-center flex justify-center items-center py-2 max-w-[240px] min-h-[46px] w-full rounded-full bg-primary text-xl text-white font-semibold"
         >
-          送出
+          {isLoading ? <BtnLoading /> : "確定"}
         </button>
-      </div>
+      </form>
     </div>
   );
 };

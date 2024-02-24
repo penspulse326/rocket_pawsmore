@@ -70,18 +70,22 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
     <>
       <div className="mx-auto px-8 pt-24 max-w-[658px] w-full border-x border-stroke bg-white">
         <PawkBtn />
-        {userId && <h2 className="mt-8 text-note">動態消息</h2>}
         {/* 貼文列表 */}
-        <div className="flex flex-col gap-8 my-4">
-          {followingPosts?.map((data) => (
-            <PostCard
-              key={data.postId}
-              data={data}
-              getList={getFollowingPosts}
-            />
-          ))}
-        </div>
-        {userId && <MorePostHint />}
+        {followingPosts && (
+          <>
+            <h2 className="mt-8 text-note">動態消息</h2>{" "}
+            <div className="flex flex-col gap-8 my-4">
+              {followingPosts.map((data) => (
+                <PostCard
+                  key={data.postId}
+                  data={data}
+                  getList={getFollowingPosts}
+                />
+              ))}
+            </div>
+          </>
+        )}
+        {followingPosts && <MorePostHint />}
         <h2 className="mt-8 text-note">熱門貼文</h2>
         <div className="flex flex-col gap-8 my-4">
           {allPosts?.map((post: PostDataType) => (

@@ -21,6 +21,7 @@ const RadioSelect = forwardRef<HTMLInputElement, RadioSelectPropsType>(
             backgroundColor: "rgba(32, 49, 112, 1)",
             color: "white",
             border: "1px solid transparent",
+            background: "#c5e5ff7f",
           }
         : {};
     };
