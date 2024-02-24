@@ -127,6 +127,7 @@ const PostCard: React.FC<PropsType> = ({ data, getList }) => {
               ref={videoRef}
               src={media}
               autoPlay={true}
+              muted={true}
               onClick={handleVideoToggle}
               onDoubleClick={handleVideoDoubleClick}
               className="w-full h-full bg-black object-contain cursor-pointer"
