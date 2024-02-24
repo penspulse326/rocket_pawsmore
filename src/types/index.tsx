@@ -58,6 +58,8 @@ export interface UserInfoType {
   username: string;
   account: string;
   headShot: string;
+  introduction: string;
+  link: string;
   token: string;
 }
 

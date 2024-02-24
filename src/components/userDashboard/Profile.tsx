@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import Image from "next/image";
 import { IconPhoto } from "@tabler/icons-react";
+import Image from "next/image";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 import { RootState } from "@/common/redux/store";
 import ErrorMessage from "../ErrorMessage";

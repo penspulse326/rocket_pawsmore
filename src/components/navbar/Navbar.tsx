@@ -21,22 +21,16 @@ const Navbar: React.FC = () => {
     (state: RootState) => state.userInfo
   );
 
-  // 是否正在處理登入
-  const [isLoggingIn, setIsLoggingIn] = useState(true);
-
   const checkIsLogin = async () => {
     if (!localToken) {
       router.push("/login");
       return;
     }
 
-    setIsLoggingIn(true);
-
     // token 過期重新導向
     const response = await fetchCheckAuth(localToken);
     if (!response.ok) {
       clearUser();
-      setIsLoggingIn(false);
       alert("登入狀態過期，請重新登入");
       router.push("/login");
       return;
@@ -44,8 +38,6 @@ const Navbar: React.FC = () => {
 
     dispatch(setUserInfo({ ...response.data, token: localToken }));
     const { username } = response.data;
-
-    setIsLoggingIn(false);
 
     // username 不存在表示未完成個人資料的填寫，要重新導向
     if (!username) {
@@ -73,7 +65,7 @@ const Navbar: React.FC = () => {
 
   // 本地有 token 但 redux 沒有時表示使用者是重新整理或離開網站再進入該頁面
   useEffect(() => {
-    if (localToken && !token) {
+    if (localToken || token) {
       checkIsLogin();
       return;
     }
