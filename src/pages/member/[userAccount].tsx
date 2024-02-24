@@ -214,7 +214,6 @@ const UserProfile: React.FC = () => {
           {petList &&
             petList.map((pet, index) => {
               const {
-                petId,
                 petName,
                 petAccount,
                 petSpecies,
@@ -256,6 +255,9 @@ const UserProfile: React.FC = () => {
                 </div>
               );
             })}
+          <div className="max-h-[366px]">
+            <AddPet type="already" />
+          </div>
         </div>
       );
     };
@@ -266,7 +268,7 @@ const UserProfile: React.FC = () => {
           petList ? (
             <OwnList />
           ) : (
-            <AddPet />
+            <AddPet type="yet" />
           )
         ) : petList ? (
           <OwnList />
