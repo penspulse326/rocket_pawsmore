@@ -94,3 +94,19 @@ export const fetchGetRecord = async (petAccount: string) => {
     return { ok: false, status: 500 };
   }
 };
+
+export const fetchGetMilestone = async (petAccount: string) => {
+  try {
+    const response = await fetch(
+      `${apiNext.GET_MILESTONE_LIST}/${petAccount}`,
+      {
+        method: "GET",
+      }
+    );
+
+    const result = await response.json();
+    return { ok: response.ok, status: response.status, data: result.data };
+  } catch (error) {
+    return { ok: false, status: 500 };
+  }
+};

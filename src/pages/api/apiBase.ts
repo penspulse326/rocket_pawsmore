@@ -40,6 +40,8 @@ const apiBase = {
   // 新增重要時刻卡片
   ADD_MOMENT_CARD: (petId: string) =>
     `${apiUrl}/dashboard/cards/moment/add/${petId}`,
+  // 取得里程碑列表
+  GET_MILESTONE_LIST: `${apiUrl}/milestone`, // 動態路由 /:petAccount
 };
 
 export default apiBase;
