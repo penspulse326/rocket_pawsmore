@@ -11,6 +11,13 @@ export enum RecordCardType {
   重要時刻 = 2,
 }
 
+export enum RecordEventType {
+  日常紀錄 = 0,
+  醫療紀錄 = 1,
+  重要時刻 = 2,
+  紀念日 = 3,
+}
+
 // Daily Card
 
 export enum UrineType {

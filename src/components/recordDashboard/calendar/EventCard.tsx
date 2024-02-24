@@ -13,18 +13,22 @@ import {
   CardUnionDataType,
   MedicalCardDataType,
   MomentCardDataType,
+  AnniversaryCardDataType,
 } from "@/types";
 import {
-  RecordCardType,
+  RecordEventType,
   MomentIdType,
   MedicalCardType,
   ReserveType,
+  AnniversaryType,
 } from "@/types/enums";
 
 const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
   const { monthState } = useContext(MonthContext);
   const { filterEvent } = useContext(CategoryContext);
   const petRecord = useSelector((state: RootState) => state.petRecord);
+
+  // console.log(petRecord);
 
   const data = petRecord.data;
   const selectedMonth = moment(monthState);
@@ -39,7 +43,7 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
     } else {
       return (
         event.card ===
-        RecordCardType[filterEvent as keyof typeof RecordCardType]
+        RecordEventType[filterEvent as keyof typeof RecordEventType]
       );
     }
   });
@@ -48,19 +52,20 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
     const { card } = event;
     const { title, cardType, reserveType } = event as MedicalCardDataType;
     const { momentType, momentId } = event as MomentCardDataType;
+    const { anniversaryType } = event as AnniversaryCardDataType;
 
     switch (card) {
-      case RecordCardType.日常紀錄:
-        return RecordCardType[card];
-      case RecordCardType.重要時刻:
+      case RecordEventType.日常紀錄:
+        return RecordEventType[card];
+      case RecordEventType.重要時刻:
         if (momentType !== 2) {
           return MomentIdType[momentId];
         } else {
           return "學會新技能";
         }
-      // case "紀念日":
-      //   return category
-      case RecordCardType.醫療紀錄:
+      case RecordEventType.紀念日:
+        return AnniversaryType[anniversaryType];
+      case RecordEventType.醫療紀錄:
         if (cardType === MedicalCardType.醫療提醒) {
           return ReserveType[reserveType] || null;
         } else if (cardType === MedicalCardType.就診紀錄) {
@@ -90,7 +95,7 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
   return (
     <ul>
       {filteredEvents.slice(0, 2).map((event, index) => {
-        const { targetDate } = event;
+        const { card, targetDate } = event;
         const { cardType, reserveDate } = event as MedicalCardDataType;
 
         return (
@@ -107,7 +112,7 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
                   : "opacity-20"
               }`}
             >
-              {RecordCardType[event.card] === "醫療紀錄" &&
+              {RecordEventType[card] === "醫療紀錄" &&
               MedicalCardType[cardType] === "醫療提醒" ? (
                 <Image
                   src="/test/icon-exclamation.svg"
@@ -127,18 +132,18 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
                     cx="3"
                     cy="3"
                     r="3"
-                    fill={getIconColor(RecordCardType[event.card])}
+                    fill={getIconColor(RecordEventType[card])}
                   />
                 </svg>
               )}
-              {/* {event.card === "紀念日" && (
-              <Image
-                src="/test/icon-flag.svg"
-                width={24}
-                height={24}
-                alt="flag icon"
-              />
-            )} */}
+              {card === RecordEventType.紀念日 && (
+                <Image
+                  src="/test/icon-flag.svg"
+                  width={24}
+                  height={24}
+                  alt="flag icon"
+                />
+              )}
               {eventTitle(event) && eventTitle(event)!.length > 5 ? (
                 <>
                   {`${eventTitle(event)!.slice(0, 4)}`}

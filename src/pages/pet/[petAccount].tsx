@@ -126,7 +126,6 @@ const PetProfile: React.FC = () => {
       if (!response.ok) {
         throw new Error("failed");
       }
-      setPostList(response.data);
     } catch (error) {}
   };
 

@@ -5,6 +5,7 @@ import {
   MomentIdType,
   PooType,
   RecordCardType,
+  RecordEventType,
   ReserveType,
   UrineType,
   VisitType,
@@ -182,7 +183,8 @@ export interface MomentDataType {
 export type CardUnionDataType =
   | DailyCardDataType
   | MedicalCardDataType
-  | MomentCardDataType;
+  | MomentCardDataType
+  | AnniversaryCardDataType;
 
 export interface DailyCardDataType {
   cardId: number;
@@ -237,7 +239,15 @@ export interface MomentCardDataType {
   photo: string;
   targetDate: string;
   createDate: string;
-  anniversaryType?: AnniversaryType;
+}
+
+export interface AnniversaryCardDataType {
+  card: RecordEventType;
+  cardId: number;
+  desc: string;
+  targetDate: string;
+  createDate: string;
+  anniversaryType: AnniversaryType;
 }
 
 export interface OptionType {
