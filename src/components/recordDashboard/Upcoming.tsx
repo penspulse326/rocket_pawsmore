@@ -29,14 +29,41 @@ const Upcoming: React.FC = () => {
   }, [petId, petList]);
 
   if (!selectedPet) {
-    return null;
+    return (
+      <section className="flex flex-col gap-y-2 max-w-[832px] w-full">
+        <div className="text-note">即將到來</div>
+        <ul className="flex  border border-stroke rounded-[30px] p-8 min-h-[184px] h-full">
+          <li className="flex flex-col gap-y-2 w-1/2">
+            <div className="flex gap-x-1 items-center">
+              <Image
+                src="/test/icon-exclamation.svg"
+                width={6}
+                height={24}
+                alt="exclamation mark"
+              />
+              <div>醫療提醒</div>
+            </div>
+          </li>
+          <li className="flex flex-col gap-y-2 w-1/2">
+            <div className="flex gap-x-1 items-center">
+              <Image
+                src="/test/icon-flag.svg"
+                width={24}
+                height={24}
+                alt="flag icon"
+              />
+              <div>紀念日</div>
+            </div>
+          </li>
+        </ul>
+      </section>
+    );
   }
 
   const Reminders: React.FC = () => {
     const eventData = data
       .filter((event) => {
-        const cardType = (event as MedicalCardDataType).cardType;
-        const reserveDate = (event as MedicalCardDataType).reserveDate;
+        const { cardType, reserveDate } = event as MedicalCardDataType;
 
         return (
           cardType === MedicalCardType.醫療提醒 &&
@@ -64,8 +91,7 @@ const Upcoming: React.FC = () => {
           <div>醫療提醒</div>
         </div>
         {eventData.map((event, index) => {
-          const reserveDate = (event as MedicalCardDataType).reserveDate;
-          const reserveType = (event as MedicalCardDataType).reserveType;
+          const { reserveDate, reserveType } = event as MedicalCardDataType;
 
           return (
             <ul className="flex gap-x-4" key={index}>
