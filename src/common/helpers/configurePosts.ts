@@ -6,7 +6,11 @@ export const filterPost = (
   userId: number
 ) => {
   const filteredPosts = allPosts.filter((all) => {
-    return !followingPosts.some((following) => {
+    if (!followingPosts) {
+      return allPosts;
+    }
+
+    return !followingPosts?.some((following) => {
       return all.postId === following.postId || all.userId === userId;
     });
   });

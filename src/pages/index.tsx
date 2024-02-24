@@ -38,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const followingPosts: PostDataType[] = followingPostsResult.data;
     const filteredPosts = filterPost(sortedAllPosts, followingPosts, userId);
 
-    return { props: { all: filteredPosts, following: followingPosts } };
+    return { props: { all: filteredPosts, following: followingPosts || [] } };
   } catch (error) {
     console.error(error);
     return { props: {} };
