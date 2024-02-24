@@ -54,7 +54,7 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
       const data = response.data;
 
       // 過濾掉自己的貼文與已追蹤的人的貼文
-      const { recentPosts, olderPosts } = filterPostsByDate(data);
+      const { recentPosts } = filterPostsByDate(data);
       const filteredPosts = sortPostsByLikes(filterPost(data, recentPosts));
       setAllPosts(filteredPosts);
     } catch (error) {
@@ -73,14 +73,14 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
   }, [userId, username]);
 
   useEffect(() => {
-    console.log(following);
+    console.log("觸發");
     getList();
   }, [followingPosts]);
 
   return (
     <>
       <div className="mx-auto px-8 pt-24 max-w-[658px] w-full border-x border-stroke bg-white">
-        <PawkBtn />
+        <PawkBtn getList={getFollowingPosts} />
         {/* 貼文列表 */}
         {followingPosts.recentPosts && (
           <>

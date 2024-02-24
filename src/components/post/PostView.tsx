@@ -19,11 +19,11 @@ import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 
 interface PropsType {
   data: PostDataType;
-  getList?: () => void;
+  getPost: () => void;
   onClose: () => void;
 }
 
-const PostView: React.FC<PropsType> = ({ data, getList, onClose }) => {
+const PostView: React.FC<PropsType> = ({ data, getPost, onClose }) => {
   const { userId } = useSelector((state: RootState) => state.userInfo);
   const [postData, setPostData] = useState<PostDataType>(data);
   const [comments, setComments] = useState<CommentDataType[]>([]);
@@ -42,11 +42,6 @@ const PostView: React.FC<PropsType> = ({ data, getList, onClose }) => {
 
   const isLiked = likes.some((like) => like.userId === userId);
 
-  const getPost = async () => {
-    const response = await fetchGetSinglePost(postId);
-    if (response.ok) setPostData(response.data);
-  };
-
   const getComments = async () => {
     const response = await fetchGetComment(postId);
     if (response.ok) setComments(response.data);
@@ -54,6 +49,7 @@ const PostView: React.FC<PropsType> = ({ data, getList, onClose }) => {
 
   // 讀取留言
   useEffect(() => {
+    setPostData(data);
     getComments();
   }, [data]);
 
@@ -124,7 +120,7 @@ const PostView: React.FC<PropsType> = ({ data, getList, onClose }) => {
             isAuthor={userId === authorId}
             media={media}
             mediaType={MediaType.image}
-            getList={getList || (() => {})}
+            getList={getPost || (() => {})}
             onClose={onClose}
           />
         </div>
