@@ -180,7 +180,7 @@ const Profile: React.FC = () => {
                 placeholder="輸入個人簡介"
                 defaultValue={introduction}
                 rows={rowsOfTextarea}
-                className="px-4 py-3 w-full h-12 border border-stroke outline-note rounded-[10px] overflow-hidden"
+                className="px-4 py-3 w-full border border-stroke outline-note rounded-[10px] overflow-hidden"
               />
             </div>
             {/* 外部連結 */}
