@@ -1,23 +1,70 @@
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import { IconSearch } from "@tabler/icons-react";
-
 import Recommend from "./Recommend";
 
 const RightBar: React.FC = () => {
+  const router = useRouter();
+  const [keyword, setKeyword] = useState("");
+  const [isFocus, setIsFocus] = useState(false);
+
+  const focusStyle = {
+    border: "4px solid #C5E5FF",
+    backgroundColor: "white",
+  };
+
+  // Debounce
+  const debounce = (func: Function, delay: number): (() => void) => {
+    let debounceTimer: NodeJS.Timeout;
+    return function (...args: any[]) {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => func.apply(null, args), delay);
+    };
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(event.target.value);
+    setIsFocus(true);
+  };
+
+  const executeSearch = () => {
+    router.push(`/search/account?keyword=${keyword}`);
+  };
+
+  const debouncedSearch = debounce(executeSearch, 500); // 500ms delay
+
+  useEffect(() => {
+    if (!keyword) {
+      return;
+    }
+    debouncedSearch();
+  }, [keyword]);
+
   return (
     <aside
       style={{ height: "calc(100vh - 64px)" }}
       className="sticky top-16 flex flex-col gap-8 mt-16 ml-8 max-w-[312px] w-full bg-white"
     >
-      <section className="flex items-center gap-2 mt-8 px-8 py-4 rounded-full bg-stroke">
+      <section
+        style={isFocus ? focusStyle : {}}
+        className="flex items-center gap-2 mt-8 px-8 py-4 border-[4px] rounded-full bg-stroke"
+      >
         <input
           type="text"
           name="search"
-          placeholder="搜尋名稱、分類⋯⋯"
+          value={keyword}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          onChange={handleInputChange}
+          onKeyDown={(e) => e.key === "Enter" && debouncedSearch()}
+          placeholder="搜尋帳號名稱⋯⋯"
           className="w-full outline-none bg-transparent"
         />
-        <IconSearch size={24} />
+        <button type="button" onClick={debouncedSearch}>
+          <IconSearch size={24} />
+        </button>
       </section>
       <Recommend />
       <section>

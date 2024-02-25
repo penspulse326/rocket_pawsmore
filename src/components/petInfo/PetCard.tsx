@@ -23,9 +23,8 @@ const PetCard: React.FC<PetCardProps> = ({ data }) => {
           />
         </div>
         <span className="text-center">尚未有寵物資料</span>
-        {/* 連結待更新 */}
         <Link
-          href="#"
+          href="/user_dashboard?to=create_pet"
           className="mb-4 py-2 rounded-[30px] bg-primary text-white text-center"
         >
           新增寵物檔案

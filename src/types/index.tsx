@@ -1,5 +1,6 @@
 import {
   AnniversaryType,
+  GenderType,
   MedicalCardType,
   MomentCategoryType,
   MomentIdType,
@@ -7,6 +8,7 @@ import {
   RecordCardType,
   RecordEventType,
   ReserveType,
+  SpeciesType,
   UrineType,
   VisitType,
   VomitType,
@@ -253,4 +255,16 @@ export interface AnniversaryCardDataType {
 export interface OptionType {
   label: string;
   value: any;
+}
+
+export interface SearchPetData {
+  Id: number;
+  PetAccount: string;
+  PetName: string;
+  PetPhoto: string;
+  PetSpecies: SpeciesType;
+  PetGender: GenderType;
+  Breed: string;
+  Birthday: string;
+  AdoptedDate: string;
 }

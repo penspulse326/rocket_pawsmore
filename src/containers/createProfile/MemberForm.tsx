@@ -45,6 +45,7 @@ const MemberForm: React.FC = () => {
     setStatusCode(0);
 
     const response = await fetchCreateMember(data, token);
+    dispatch(setUserInfo(response.data));
 
     // 確定新增成功才做上傳雲端圖片
     if (!response.ok) {
