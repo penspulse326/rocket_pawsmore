@@ -1,18 +1,18 @@
 import { RecordCardType } from "@/types/enums";
 
-const dotColor: Record<RecordCardType, string> = {
-  [RecordCardType["日常紀錄"]]: "#969AFF",
-  [RecordCardType["醫療紀錄"]]: "#FF6D80",
-  [RecordCardType["重要時刻"]]: "#FFA959",
+const dotColor: Record<number, string> = {
+  0: "#969AFF",
+  1: "#FF6D80",
+  2: "#FFA959",
 };
 
 const dotSize: Record<string, string> = {
-  sm: "mr-1 w-[6px] h-[6px] rounded-full",
-  lg: "mr-4 w-[11px] h-[11px] rounded-full",
+  sm: "block mr-1 w-[6px] h-[6px] rounded-full",
+  lg: "block mr-4 w-[11px] h-[11px] rounded-full",
 };
 
 interface PropsType {
-  name: RecordCardType;
+  name: number;
   size: string;
 }
 

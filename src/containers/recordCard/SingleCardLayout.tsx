@@ -1,4 +1,4 @@
-import React, { createContext, useMemo } from "react";
+import React, { createContext, useContext, useMemo, useState } from "react";
 import { IconChevronUp, IconEdit } from "@tabler/icons-react";
 
 import Title from "./card/Title";
@@ -12,6 +12,9 @@ import Anniversary from "./content/Anniversary";
 
 import { CardUnionDataType, MedicalCardDataType } from "@/types";
 import { RecordEventType, MedicalCardType } from "@/types/enums";
+import UploadView from "@/components/post/UploadView";
+import Mask from "@/components/hint/Mask";
+import { PetIdContext } from "@/pages/record_dashboard";
 
 export const DataContext = createContext<CardUnionDataType | undefined>(
   undefined
@@ -42,9 +45,12 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
   isOpened,
   onToggle,
 }) => {
+  const { petId } = useContext(PetIdContext);
   const getData = useMemo(() => data, [data]);
   const { card } = data;
   const isAnniversary: boolean = card === RecordEventType.紀念日;
+
+  const [isUploadViewOpen, setIsUploadViewOpen] = useState(false);
 
   const Content: React.FC = () => {
     const visitType = (data as MedicalCardDataType).visitType;
@@ -67,8 +73,21 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
     }
   };
 
+  const handleUploadViewOpen = () => {
+    setIsUploadViewOpen(true);
+  };
+
   return (
     <DataContext.Provider value={getData}>
+      {isUploadViewOpen && (
+        <Mask setIsOpen={setIsUploadViewOpen}>
+          <UploadView
+            setIsOpen={setIsUploadViewOpen}
+            card={data}
+            petId={petId!}
+          />
+        </Mask>
+      )}
       <div className="flex flex-col gap-y-6 border border-stroke rounded-[30px] px-6 py-4">
         {/* title */}
         <div className="flex justify-between items-center">
@@ -96,7 +115,12 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
         {isOpened && (
           <>
             <Content />
-            <ShareBtn />
+            <div
+              className="flex justify-center"
+              onClick={() => handleUploadViewOpen()}
+            >
+              <ShareBtn />
+            </div>
           </>
         )}
       </div>

@@ -9,14 +9,18 @@ import type { PetDataType } from "@/types";
 import Link from "next/link";
 
 interface PropsType {
+  petId?: number;
   setId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-const AccountList: React.FC<PropsType> = ({ setId }) => {
+const AccountList: React.FC<PropsType> = ({ setId, petId }) => {
   const petList = useSelector((state: RootState) => state.petList);
+  const initailPet = petList.filter((pet) => pet.petId === petId)?.[0];
 
   const [isExpanded, setIsExpanded] = useState(false);
-  const [selectedPet, setSelectedPet] = useState<PetDataType>(petList[0]);
+  const [selectedPet, setSelectedPet] = useState<PetDataType>(
+    initailPet || petList[0]
+  );
 
   useEffect(() => {
     if (selectedPet) {

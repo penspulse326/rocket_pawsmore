@@ -82,7 +82,15 @@ const Navbar: React.FC = () => {
   const sliderStyle = `${
     page ? "slide-r" : "slide-l"
   } absolute left-0 bottom-0 w-[50%] h-1 bg-gradient-to-r from-[#7CCBFF] via-[#7CCBFF] to-[#0057FF]
-`;
+  `;
+
+  useEffect(() => {
+    if (router.pathname.startsWith("/record_dashboard")) {
+      setPage(1);
+    } else {
+      setPage(0);
+    }
+  }, [router.pathname]);
 
   // 登入註冊頁面不顯示
   if (router.pathname === "/login" || router.pathname === "/signup") {
