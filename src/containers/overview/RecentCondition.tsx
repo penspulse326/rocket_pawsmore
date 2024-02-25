@@ -35,9 +35,9 @@ const RecentCondition: React.FC = () => {
   ];
 
   return (
-    <section className="scrollbar-none max-w-[497px] max-h-[386px] w-full">
-      <h2 className="text-xl">近期異常狀況</h2>
-      <div className="mt-4 px-6 py-4 h-[335px] border border-stroke rounded-[30px] overflow-y-scroll">
+    <section className="flex flex-col gap-y-4 scrollbar-none max-w-[497px] max-h-[386px] w-full">
+      <h2 className="text-2xl leading-9">近期異常狀況</h2>
+      <div className="mt4 px-6 py-4 h-[335px] border border-stroke rounded-[30px] overflow-y-scroll">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <span className="inline-block w-[6px] h-[6px] bg-daily rounded-full"></span>
