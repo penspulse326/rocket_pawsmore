@@ -23,10 +23,10 @@ const Recommend: React.FC = () => {
       <ul className="flex flex-col gap-6 mt-4">
         {accountList.map(({ pet_id, pet_name, pet_account, photoUrl }) => (
           <li key={pet_id} className="flex justify-between items-center">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 max-w-[216px] w-full truncate">
               <Link
                 href="#"
-                className="relative w-12 h-12 rounded-full overflow-hidden"
+                className="shrink-0 relative w-12 h-12 rounded-full overflow-hidden"
               >
                 <Image
                   src={photoUrl}
@@ -34,7 +34,7 @@ const Recommend: React.FC = () => {
                   priority={false}
                   fill={true}
                   sizes="100%"
-                  className="w-auto h-auto"
+                  className="w-auto h-auto object-cover"
                 />
               </Link>
               <Link href="#">
@@ -44,7 +44,7 @@ const Recommend: React.FC = () => {
             </div>
             <button
               type="button"
-              className="px-8 py-2 rounded-[30px] bg-primary text-white"
+              className="shrink-0 px-8 py-2 rounded-[30px] bg-primary text-white"
             >
               追蹤
             </button>
