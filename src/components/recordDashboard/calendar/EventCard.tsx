@@ -28,8 +28,6 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
   const { filterEvent } = useContext(CategoryContext);
   const petRecord = useSelector((state: RootState) => state.petRecord);
 
-  // console.log(petRecord);
-
   const data = petRecord.data;
   const selectedMonth = moment(monthState);
 
@@ -102,23 +100,30 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
           <ol key={index}>
             <li
               className={`flex gap-x-1 items-center ${
-                (MedicalCardType[cardType] !== "醫療提醒" &&
+                (cardType !== MedicalCardType.醫療提醒 &&
                   targetDate &&
                   isCurrentMonth(targetDate)) ||
-                (MedicalCardType[cardType] === "醫療提醒" &&
+                (cardType === MedicalCardType.醫療提醒 &&
                   reserveDate &&
                   isCurrentMonth(reserveDate))
                   ? ""
                   : "opacity-20"
               }`}
             >
-              {RecordEventType[card] === "醫療紀錄" &&
-              MedicalCardType[cardType] === "醫療提醒" ? (
+              {card === RecordEventType.醫療紀錄 &&
+              cardType === MedicalCardType.醫療提醒 ? (
                 <Image
                   src="/test/icon-exclamation.svg"
                   width={6}
                   height={24}
                   alt="exclamation mark"
+                />
+              ) : card === RecordEventType.紀念日 ? (
+                <Image
+                  src="/test/icon-flag.svg"
+                  width={24}
+                  height={24}
+                  alt="flag icon"
                 />
               ) : (
                 <svg
@@ -135,14 +140,6 @@ const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
                     fill={getIconColor(RecordEventType[card])}
                   />
                 </svg>
-              )}
-              {card === RecordEventType.紀念日 && (
-                <Image
-                  src="/test/icon-flag.svg"
-                  width={24}
-                  height={24}
-                  alt="flag icon"
-                />
               )}
               {eventTitle(event) && eventTitle(event)!.length > 5 ? (
                 <>
