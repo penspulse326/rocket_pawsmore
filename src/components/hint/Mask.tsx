@@ -1,5 +1,5 @@
 import { IconX } from "@tabler/icons-react";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 
 import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 
@@ -10,6 +10,7 @@ interface MaskPropsType {
 }
 
 const Mask: React.FC<MaskPropsType> = ({ setIsOpen, children, maskType }) => {
+  const scrollbarPosition = useRef(window.scrollY);
   const handleCloseClick = (e: React.MouseEvent) => {
     e.stopPropagation();
 
@@ -24,19 +25,27 @@ const Mask: React.FC<MaskPropsType> = ({ setIsOpen, children, maskType }) => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") setIsOpen(false);
     };
-
     document.addEventListener("keydown", handleEsc);
 
-    // 清理函数
+    const handleFreeze = () => {
+      window.scrollTo(0, scrollbarPosition.current);
+    };
+
+    window.addEventListener("scroll", handleFreeze);
+
     return () => {
       document.removeEventListener("keydown", handleEsc);
-      handleFreezeScroll(false); // 在组件卸载时解除冻结
+      window.removeEventListener("scroll", handleFreeze);
+      handleFreezeScroll(false);
     };
   });
 
   return (
     <div
-      onLoad={() => handleFreezeScroll(true)}
+      onScroll={(e) => {
+        console.log(e);
+        window.scrollTo(0, scrollbarPosition.current);
+      }}
       onClick={handleCloseClick}
       className="mask fixed top-0 left-0 z-50 flex justify-center items-center w-full h-full bg-black/50"
       tabIndex={0}
