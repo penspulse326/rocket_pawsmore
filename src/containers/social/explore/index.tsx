@@ -27,7 +27,7 @@ const speciesData = {
   },
   [SpeciesType.其他]: {
     name: "其他",
-    src: "/images/exp-more.png",
+    src: "/images/exp-more-lg.jpg",
   },
 };
 
@@ -85,7 +85,7 @@ const Explore: React.FC<PropsType> = ({ posts }) => {
       )}
       <div className="flex flex-col px-8 py-24 max-w-[658px] w-full border-x border-stroke bg-white">
         <h1 className="text-[32px]">探索貼文</h1>
-        <div className="relative mx-auto max-w-[144px] max-h-[144px] w-full h-full rounded-full overflow-hidden">
+        <div className="relative mx-auto max-w-[144px] max-h-[144px] w-full h-[144px] rounded-full overflow-hidden">
           <Image
             src={speciesData[species]?.src}
             alt="探索貼文"
@@ -98,9 +98,9 @@ const Explore: React.FC<PropsType> = ({ posts }) => {
           {speciesData[species]?.name}
         </h2>
         <section className="flex flex-col gap-2">
-          {postBatches.map((batch, batchIndex) => (
+          {postBatches?.map((batch, batchIndex) => (
             <div key={batchIndex} className="grid grid-cols-3 gap-2">
-              {batch.map((post, index) => (
+              {batch?.map((post, index) => (
                 <button
                   type="button"
                   key={`${batchIndex}-${index}-${post.postId}`}

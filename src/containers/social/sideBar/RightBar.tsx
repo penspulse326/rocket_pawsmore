@@ -1,10 +1,9 @@
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import { IconSearch } from "@tabler/icons-react";
-
 import Recommend from "./Recommend";
-import { useState } from "react";
-import { useRouter } from "next/router";
 
 const RightBar: React.FC = () => {
   const router = useRouter();
@@ -16,18 +15,33 @@ const RightBar: React.FC = () => {
     backgroundColor: "white",
   };
 
+  // Debounce
+  const debounce = (func: Function, delay: number): (() => void) => {
+    let debounceTimer: NodeJS.Timeout;
+    return function (...args: any[]) {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => func.apply(null, args), delay);
+    };
+  };
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
     setIsFocus(true);
   };
 
-  const handleSearch = () => {
+  const executeSearch = () => {
+    router.push(`/search/account?keyword=${keyword}`);
+  };
+
+  const debouncedSearch = debounce(executeSearch, 500); // 500ms delay
+
+  useEffect(() => {
     if (!keyword) {
       return;
     }
-    setKeyword("");
-    router.push(`/search/account?keyword=${keyword}`);
-  };
+    debouncedSearch();
+  }, [keyword]);
+
   return (
     <aside
       style={{ height: "calc(100vh - 64px)" }}
@@ -44,10 +58,11 @@ const RightBar: React.FC = () => {
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={handleInputChange}
+          onKeyDown={(e) => e.key === "Enter" && debouncedSearch()}
           placeholder="搜尋帳號名稱⋯⋯"
           className="w-full outline-none bg-transparent"
         />
-        <button type="button" onClick={handleSearch}>
+        <button type="button" onClick={debouncedSearch}>
           <IconSearch size={24} />
         </button>
       </section>
