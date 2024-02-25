@@ -18,13 +18,17 @@ export const filterPost = (
 };
 
 export const filterPostsByDate = (posts: PostDataType[]) => {
+  if (!posts) {
+    return { recentPosts: [], olderPosts: [] };
+  }
+
   const threeDaysAgo = new Date();
   threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
 
   const recentPosts: PostDataType[] = [];
   const olderPosts: PostDataType[] = [];
 
-  posts.forEach((post) => {
+  posts?.forEach((post) => {
     const postDate = new Date(post.createDate);
     if (postDate > threeDaysAgo) {
       recentPosts.push(post);

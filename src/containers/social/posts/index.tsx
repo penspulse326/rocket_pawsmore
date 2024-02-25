@@ -54,8 +54,9 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
       const data = response.data;
 
       // 過濾掉自己的貼文與已追蹤的人的貼文
-      const { recentPosts } = filterPostsByDate(data);
+      const { recentPosts } = followingPosts;
       const filteredPosts = sortPostsByLikes(filterPost(data, recentPosts));
+
       setAllPosts(filteredPosts);
     } catch (error) {
       console.error(error);
@@ -73,7 +74,6 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
   }, [userId, username]);
 
   useEffect(() => {
-    console.log("觸發");
     getList();
   }, [followingPosts]);
 
@@ -82,7 +82,7 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
       <div className="mx-auto px-8 pt-24 max-w-[658px] w-full border-x border-stroke bg-white">
         <PawkBtn getList={getFollowingPosts} />
         {/* 貼文列表 */}
-        {followingPosts.recentPosts && (
+        {followingPosts?.recentPosts?.length !== 0 && (
           <>
             <h2 className="mt-8 text-note">動態消息</h2>{" "}
             <div className="flex flex-col gap-8 my-4">
@@ -94,9 +94,9 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
                 />
               ))}
             </div>
+            <MorePostHint />
           </>
         )}
-        {followingPosts && <MorePostHint />}
         <h2 className="mt-8 text-note">熱門貼文</h2>
         <div className="flex flex-col gap-8 my-4">
           {allPosts?.map((post: PostDataType) => (
