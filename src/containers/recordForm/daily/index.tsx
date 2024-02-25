@@ -75,6 +75,8 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
   const petList = useSelector((state: RootState) => state.petList);
 
   const [petAccount, setPetAccount] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [adoptedDate, setAdoptedDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const { selectedDate } = useContext(DateContext);
@@ -149,7 +151,12 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
   const fetchPetRecord = async () => {
     try {
       if (petAccount && petId) {
-        const recordData = await fetchFormattedRecord(petAccount, petId);
+        const recordData = await fetchFormattedRecord(
+          petAccount,
+          petId,
+          birthday,
+          adoptedDate
+        );
         dispatch(setRecordInfo(recordData));
       }
     } catch (error) {
@@ -160,7 +167,11 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
   useEffect(() => {
     if (petId) {
       const foundPet = petList.find((pet) => pet.petId === petId);
-      foundPet && setPetAccount(foundPet.petAccount);
+      if (foundPet) {
+        setPetAccount(foundPet.petAccount);
+        setBirthday(foundPet.birthday);
+        setAdoptedDate(foundPet.adoptedDate);
+      }
     }
   }, [petId]);
 

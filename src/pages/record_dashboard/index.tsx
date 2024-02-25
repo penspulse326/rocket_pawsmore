@@ -10,7 +10,6 @@ import RecordCardLayout from "@/components/recordDashboard/RecordCardLayout";
 import Footer from "@/components/Footer";
 import Loading from "@/components/hint/Loading";
 
-import createAnniversaryEvent from "@/common/helpers/createAnniversary";
 import { fetchFormattedRecord } from "@/common/helpers/fetchFormattedRecord";
 import { setRecordInfo } from "@/common/redux/recordSlice";
 import type { RootState } from "@/common/redux/store";
@@ -59,19 +58,14 @@ const PetIdProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
       try {
         if (petAccount && petId) {
-          const recordData = await fetchFormattedRecord(petAccount, petId);
-
-          const anniversaryEvent = createAnniversaryEvent(
+          const recordData = await fetchFormattedRecord(
+            petAccount,
+            petId,
             birthday,
-            adoptedDate,
-            petId
+            adoptedDate
           );
-          if (recordData) {
-            const data = recordData.data.concat(anniversaryEvent);
-            const combinedData = { petId: petId, data };
 
-            dispatch(setRecordInfo(combinedData));
-          }
+          dispatch(setRecordInfo(recordData));
         }
       } catch (error) {
         console.error("Error fetching pet record:", error);
