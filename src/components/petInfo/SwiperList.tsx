@@ -21,7 +21,7 @@ const SwiperList: React.FC<{ list: PetDataType[] }> = ({ list }) => {
         cardsEffect={{
           slideShadows: false,
           perSlideRotate: 3,
-          perSlideOffset: 15,
+          perSlideOffset: 10,
         }}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         onTransitionEnd={(swiper) => setActiveIndex(swiper.activeIndex)}
