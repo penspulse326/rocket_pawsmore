@@ -1,18 +1,20 @@
-import { IconHeartRateMonitor } from "@tabler/icons-react";
+import { useSelector } from "react-redux";
 import Link from "next/link";
+import { IconHeartRateMonitor } from "@tabler/icons-react";
 
 import SwiperList from "@/components/petInfo/SwiperList";
-import { useSelector } from "react-redux";
-import { RootState } from "@/common/redux/store";
 import RecentCondition from "./RecentCondition";
 import Explanation from "./Explanation";
 import TableView from "./TableView";
+import Footer from "@/components/Footer";
+
+import { RootState } from "@/common/redux/store";
 
 const Overview: React.FC = () => {
   const petList = useSelector((state: RootState) => state.petList);
 
   return (
-    <section>
+    <section className="max-w-[1344px]">
       {/* 頁面標題與連結 */}
       <div className="flex justify-between mt-8">
         <h2 className="flex items-center gap-2 text-2xl">
@@ -38,6 +40,9 @@ const Overview: React.FC = () => {
         <h2 className="flex items-center gap-2 text-2xl">紀錄總覽</h2>
       </div>
       <TableView />
+      <div className="mt-[72px]">
+        <Footer />
+      </div>
     </section>
   );
 };
