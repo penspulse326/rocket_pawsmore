@@ -8,7 +8,7 @@ const RightBar: React.FC = () => {
   return (
     <aside
       style={{ height: "calc(100vh - 64px)" }}
-      className="sticky top-16 flex flex-col gap-8 mt-16 mx-4 max-w-[312px] bg-white"
+      className="sticky top-16 flex flex-col gap-8 mt-16 ml-8 max-w-[312px] w-full bg-white"
     >
       <section className="flex items-center gap-2 mt-8 px-8 py-4 rounded-full bg-stroke">
         <input
@@ -24,40 +24,40 @@ const RightBar: React.FC = () => {
         <h2 className=" text-note">探索</h2>
         <div className="mt-4 px-5 text-center">
           <div className="flex gap-4">
-            <Link href="/test/social/explore?type=dog">
+            <Link href="/explore/0" className="">
               <Image
-                src="/test/photo-dog-test-1.png"
+                src="/images/exp-dog.png"
                 width={80}
                 height={80}
                 alt="explore dog"
-                className="mb-2 rounded-full"
+                className="mb-2 rounded-full object-cover aspect-square"
               />
               <span>狗</span>
             </Link>
-            <Link href="#">
+            <Link href="/explore/1">
               <Image
-                src="/test/photo-cat-test.png"
+                src="/images/exp-cat.png"
                 width={80}
                 height={80}
                 alt="explore cat"
-                className="mb-2 rounded-full"
+                className="mb-2 rounded-full object-cover aspect-square"
               />
               <span>貓</span>
             </Link>
-            <Link href="#">
+            <Link href="/explore/2">
               <Image
-                src="/test/photo-rice-test.png"
+                src="/images/exp-rice.png"
                 width={80}
                 height={80}
                 alt="explore cat"
-                className="mb-2 rounded-full"
+                className="mb-2 rounded-full object-cover aspect-square"
               />
               <span>倉鼠</span>
             </Link>
           </div>
-          <Link href="#" className="flex flex-col items-center mt-4">
+          <Link href="/explore/3" className="flex flex-col items-center mt-4">
             <Image
-              src="/test/photo-more.png"
+              src="/images/exp-more.png"
               width={188}
               height={80}
               alt="explore cat"

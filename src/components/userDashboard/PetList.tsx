@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 
 import PetProfile from "./PetProfile";
+import AddPet from "../AddPet";
 
 import { RootState } from "@/common/redux/store";
 import getPetSpecies from "@/common/helpers/getPetSpecies";
@@ -76,30 +77,17 @@ const PetList: React.FC = () => {
             </div>
           );
         })}
+        <div className="min-h-[422px]">
+          <AddPet type="already" />
+        </div>
       </div>
     );
   };
-  const AddPet: React.FC = () => {
-    return (
-      <div className="flex flex-col gap-y-4 items-center border border-stroke rounded-[30px] p-4 max-w-[224px] w-full">
-        <Image
-          src="/images/default-photo.png"
-          width={192}
-          height={192}
-          className="rounded-[30px]"
-          alt="add pet profile"
-        />
-        <div>尚未有寵物資料</div>
-        <button className="bg-primary text-white px-[38px] py-2 rounded-full mb-4">
-          新增寵物檔案
-        </button>
-      </div>
-    );
-  };
+
   return (
     <div className="flex flex-col gap-y-8">
       <div className="text-xl">寵物檔案清單</div>
-      {hasPets ? <PetCard /> : <AddPet />}
+      {hasPets ? <PetCard /> : <AddPet type="yet" />}
       <PetProfile />
     </div>
   );

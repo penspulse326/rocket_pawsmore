@@ -16,18 +16,19 @@ import { MediaType } from "@/types/enums";
 import LikeBtn from "@/components/post/LikeBtn";
 import Menu from "../../../components/post/PostMenu";
 import CommentList from "@/components/comment/CommentList";
+import { fetchGetSinglePost } from "@/common/fetch/post";
 
 interface PropsType {
   data: PostDataType;
   getList: () => void;
 }
 
-const PostCard: React.FC<PropsType> = ({ data, getList }) => {
+const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
   const { token, userId } = useSelector((state: RootState) => state.userInfo);
-
-  useEffect(() => {
-    getComments();
-  }, [data]);
+  const [data, setData] = useState<PostDataType>(initalData);
+  const [comments, setComments] = useState<CommentDataType[]>([]);
+  const [isMaskOpen, setIsMaskOpen] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const {
     userId: authorId,
@@ -42,11 +43,38 @@ const PostCard: React.FC<PropsType> = ({ data, getList }) => {
     createDate,
   } = data;
 
-  const [comments, setComments] = useState<CommentDataType[]>([]);
-  const [isMaskOpen, setIsMaskOpen] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
   const isLiked = likes.some((like) => like.userId === userId);
+
+  const getPost = async () => {
+    const response = await fetchGetSinglePost(postId);
+    if (response.ok) {
+      setData(response.data);
+    }
+  };
+
+  const getComments = async () => {
+    const response = await fetchGetComment(postId);
+    if (response.ok) setComments(response.data);
+  };
+
+  const handleVideoToggle = () => {
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  };
+
+  const handleVideoDoubleClick = () => {
+    videoRef.current?.pause();
+    setIsMaskOpen(true);
+  };
+
+  useEffect(() => {
+    getComments();
+  }, [data]);
 
   // 自動播放影片
   useEffect(() => {
@@ -75,26 +103,6 @@ const PostCard: React.FC<PropsType> = ({ data, getList }) => {
     };
   }, []);
 
-  const getComments = async () => {
-    const response = await fetchGetComment(postId);
-    if (response.ok) setComments(response.data);
-  };
-
-  const handleVideoToggle = () => {
-    if (videoRef.current) {
-      if (videoRef.current.paused) {
-        videoRef.current.play();
-      } else {
-        videoRef.current.pause();
-      }
-    }
-  };
-
-  const handleVideoDoubleClick = () => {
-    videoRef.current?.pause();
-    setIsMaskOpen(true);
-  };
-
   return (
     <div className="flex flex-col gap-4 p-8 border border-stroke rounded-[32px]">
       <section className="relative">
@@ -103,7 +111,7 @@ const PostCard: React.FC<PropsType> = ({ data, getList }) => {
           <Mask setIsOpen={setIsMaskOpen} maskType="post">
             <PostView
               data={data}
-              getList={getList}
+              getPost={getPost}
               onClose={() => setIsMaskOpen(false)}
             />
           </Mask>
@@ -127,6 +135,7 @@ const PostCard: React.FC<PropsType> = ({ data, getList }) => {
               ref={videoRef}
               src={media}
               autoPlay={true}
+              muted={true}
               onClick={handleVideoToggle}
               onDoubleClick={handleVideoDoubleClick}
               className="w-full h-full bg-black object-contain cursor-pointer"
@@ -138,7 +147,7 @@ const PostCard: React.FC<PropsType> = ({ data, getList }) => {
           userId={userId}
           postId={postId}
           isLiked={isLiked}
-          getList={getList}
+          getPost={getPost}
         />
       </section>
       {/* 寵物資訊 */}

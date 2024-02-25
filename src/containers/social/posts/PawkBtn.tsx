@@ -6,7 +6,11 @@ import UploadView from "../../../components/post/UploadView";
 import { useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
 
-const Pawk = () => {
+interface PropsType {
+  getList: () => void;
+}
+
+const PawkBtn: React.FC<PropsType> = ({ getList }) => {
   const { token } = useSelector((state: RootState) => state.userInfo);
   const [isUploadOpen, setIsUploadOpen] = useState(false);
 
@@ -27,7 +31,7 @@ const Pawk = () => {
       >
         {isUploadOpen && (
           <Mask maskType="upload" setIsOpen={setIsUploadOpen}>
-            <UploadView setIsOpen={setIsUploadOpen} />
+            <UploadView setIsOpen={setIsUploadOpen} getList={getList} />
           </Mask>
         )}
         <div className="px-8 py-4 w-full border border-stroke rounded-[30px] outline-none text-note">
@@ -60,4 +64,4 @@ const Pawk = () => {
   );
 };
 
-export default Pawk;
+export default PawkBtn;

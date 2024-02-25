@@ -1,19 +1,18 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserInfo } from "@/common/redux/userInfoSlice";
 
 import TextInput from "@/components/form/profile/TextInput";
 import UploadPhoto from "@/components/form/profile/UploadPhoto";
 import { errorText } from "@/common/lib/messageText";
 import BtnLoading from "@/components/hint/BtnLoading";
+import { fetchCreateMember } from "@/common/fetch/memberProfile";
+import { mediaUpload } from "@/common/fetch/mediaManager";
 
 import type { MemberFormType } from "@/types";
-
-interface MemberFormPropsType {
-  isLoading: boolean;
-  statusCode: number;
-  onSubmit: (data: MemberFormType) => void;
-}
+import type { RootState } from "@/common/redux/store";
 
 const defaultValues = {
   account: "",
@@ -23,11 +22,14 @@ const defaultValues = {
   link: "",
 };
 
-const MemberForm: React.FC<MemberFormPropsType> = ({
-  isLoading,
-  statusCode,
-  onSubmit: handleCreateProfile,
-}) => {
+// 新增個人資料表單
+const MemberForm: React.FC = () => {
+  const { token } = useSelector((state: RootState) => state.userInfo);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [statusCode, setStatusCode] = useState(0);
+
   const {
     handleSubmit,
     register,
@@ -37,8 +39,50 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
     formState: { errors },
   } = useForm<MemberFormType>({ defaultValues });
 
-  const router = useRouter();
+  // 請求新增個人資料
+  const handleCreateProfile = async (data: MemberFormType) => {
+    setIsLoading(true);
+    setStatusCode(0);
 
+    const response = await fetchCreateMember(data, token);
+
+    // 確定新增成功才做上傳雲端圖片
+    if (!response.ok) {
+      setIsLoading(false);
+      setStatusCode(response.status);
+      return;
+    }
+
+    // 請求上傳圖片，有傳入照片才執行
+    if (data.headShot instanceof File) {
+      try {
+        const uploadResult = await mediaUpload(data.headShot, "member");
+        const imgUrl = uploadResult.secure_url;
+
+        const response = await fetchCreateMember(data, token, imgUrl);
+
+        if (!response.ok) {
+          setIsLoading(false);
+          setStatusCode(response.status);
+          alert("新增失敗，請稍候再試");
+          return;
+        }
+
+        dispatch(setUserInfo(response.data));
+        router.push("/member/new/pet");
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+        setStatusCode(500);
+        return;
+      }
+    }
+
+    setIsLoading(false);
+    router.push("/member/new/pet");
+  };
+
+  // 顯示錯誤訊息
   useEffect(() => {
     switch (statusCode) {
       case 400:
@@ -56,8 +100,6 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
     }
   }, [statusCode]);
 
-  const onSubmit = (data: MemberFormType) => handleCreateProfile(data);
-
   return (
     <section className="flex flex-col gap-4 my-16 max-w-[728px] w-full">
       <div>
@@ -67,7 +109,7 @@ const MemberForm: React.FC<MemberFormPropsType> = ({
         </h3>
       </div>
       <section className="p-8 border border-stroke rounded-[30px]">
-        <form action="#" onSubmit={handleSubmit(onSubmit)}>
+        <form action="#" onSubmit={handleSubmit(handleCreateProfile)}>
           <div className="flex gap-12 w-full">
             {/* 上傳照片 */}
             <Controller

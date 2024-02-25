@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-
+import React, { useState, useContext, useEffect } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import { IconHeartFilled, IconMessageCircle2Filled } from "@tabler/icons-react";
 
@@ -7,21 +7,20 @@ import PostView from "@/components/post/PostView";
 import Mask from "@/components/hint/Mask";
 import NoContent from "@/components/NoContent";
 
-import { PostListContext } from "@/pages/pet/[petAccount]";
-import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
-import { PostDataType } from "@/types";
-
-import { MediaType } from "@/types/enums";
-import { useRouter } from "next/router";
+import { PetDataContext } from "@/pages/pet/[petAccount]";
 import { fetchGetPetPosts } from "@/common/fetch/post";
+import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
+
+import { PostDataType } from "@/types";
+import { MediaType } from "@/types/enums";
 
 const Posts: React.FC = () => {
-  const postList = useContext(PostListContext);
   const router = useRouter();
   const petAccount = router.query.petAccount as string;
 
+  const { postList } = useContext(PetDataContext)!;
+
   const [posts, setPosts] = useState<PostDataType[]>(postList || []);
-  const [selectedPost, setSelectedPost] = useState<PostDataType>();
   const [isMaskOpen, setIsMaskOpen] = useState(false);
 
   const getPosts = async () => {
@@ -31,24 +30,27 @@ const Posts: React.FC = () => {
     return data;
   };
 
-  const handleOpenPost = (post: PostDataType) => {
-    setSelectedPost(post);
+  const handleOpenPost = () => {
     setIsMaskOpen(true);
     handleFreezeScroll(true);
   };
 
+  useEffect(() => {
+    getPosts();
+  }, [postList]);
+
   return (
     <>
-      {postList ? (
+      {posts ? (
         <section className="flex gap-4 flex-wrap mr-auto overflow-hidden">
-          {postList.map((post, index) => {
+          {posts?.map((post, index) => {
             const { media, likes, mediaType, comments, postContent } = post;
 
             return (
               <div key={index}>
                 <div
                   className="gallery-card relative z-0 w-[352px] h-[352px] rounded-[30px] overflow-hidden hover:cursor-pointer"
-                  onClick={() => handleOpenPost(post)}
+                  onClick={() => handleOpenPost()}
                 >
                   {/* 圖片 */}
                   {mediaType === MediaType.image && (
@@ -91,11 +93,11 @@ const Posts: React.FC = () => {
                     </li>
                   </ul>
                 </div>
-                {selectedPost && isMaskOpen && (
+                {isMaskOpen && (
                   <Mask setIsOpen={setIsMaskOpen} maskType="post">
                     <PostView
-                      data={selectedPost}
-                      getList={getPosts}
+                      data={post}
+                      getPost={getPosts}
                       onClose={() => setIsMaskOpen(false)}
                     />
                   </Mask>

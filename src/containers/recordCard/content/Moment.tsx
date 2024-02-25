@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import Image from "next/image";
-import { DataContext } from "../SingleCardLayout";
 import getCategoryBgcolor from "@/common/helpers/getCategoryBgcolor";
 
-import { MomentCardDataType } from "@/types";
+import { CardUnionDataType, MomentCardDataType } from "@/types";
 import { MomentCategoryType, MomentIdType } from "@/types/enums";
 
 interface MomentDataType {
@@ -11,12 +10,15 @@ interface MomentDataType {
   content: JSX.Element | null;
 }
 
-const Moment: React.FC = () => {
-  const data = useContext(DataContext);
+interface MomentProps {
+  data: CardUnionDataType;
+}
+
+const Moment: React.FC<MomentProps> = ({ data }) => {
   if (!data) {
     return null;
   }
-  const { momentType, momentPhoto, momentId, momentDetails, desc } =
+  const { momentType, photo, momentId, momentDetails, desc } =
     data as MomentCardDataType;
 
   const momentData: MomentDataType[] = [
@@ -44,11 +46,11 @@ const Moment: React.FC = () => {
     },
     {
       TITLE: "紀錄照片",
-      content: momentPhoto ? (
+      content: photo ? (
         <div className="w-[248px] h-[186px] py-1">
           <Image
             className="rounded-[10px] w-full h-full object-cover"
-            src={momentPhoto}
+            src={photo}
             width={248}
             height={186}
             alt="moment photo"

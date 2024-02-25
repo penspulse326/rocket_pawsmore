@@ -18,8 +18,10 @@ const RadioSelect = forwardRef<HTMLInputElement, RadioSelectPropsType>(
     const selectedStyle = (value: number) => {
       return value === target
         ? {
-            backgroundColor: "rgba(242, 48, 48, 0.1)",
+            backgroundColor: "rgba(32, 49, 112, 1)",
+            color: "white",
             border: "1px solid transparent",
+            background: "#c5e5ff7f",
           }
         : {};
     };

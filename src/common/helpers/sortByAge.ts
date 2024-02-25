@@ -1,32 +1,51 @@
 import moment from "moment";
-import { DataType } from "../lib/test/eventData";
+
+import { CardUnionDataType, MedicalCardDataType } from "@/types";
+import { MedicalCardType } from "@/types/enums";
 
 interface SortedDataType {
   ageInMonth: number;
   events: {
     date: string;
-    events: DataType[];
+    events: CardUnionDataType[];
   }[];
 }
 
-function sortByAge(originalData: DataType[]): SortedDataType[] {
-  const birthday: string = "2023-08-01T00:00:00";
-
+function sortByAge(
+  originalData: CardUnionDataType[],
+  birthday: string
+): SortedDataType[] {
   const sortedData: SortedDataType[] = [];
 
   originalData
     .sort((a, b) => {
+      const typeA = (a as MedicalCardDataType).cardType;
+      const typeB = (b as MedicalCardDataType).cardType;
+
+      const reserveDateA = (a as MedicalCardDataType).reserveDate;
+      const reserveDateB = (b as MedicalCardDataType).reserveDate;
+
       const dateA =
-        a.type === "醫療提醒" ? moment(a.reserve_at) : moment(a.target_date);
+        MedicalCardType[typeA] === "醫療提醒"
+          ? moment(reserveDateA)
+          : moment(a.targetDate);
       const dateB =
-        b.type === "醫療提醒" ? moment(b.reserve_at) : moment(b.target_date);
+        MedicalCardType[typeB] === "醫療提醒"
+          ? moment(reserveDateB)
+          : moment(b.targetDate);
+
       if (dateA.isAfter(dateB)) return -1;
       if (dateA.isBefore(dateB)) return 1;
+
       return 0;
     })
     .forEach((event) => {
+      const { targetDate } = event;
+      const cardType = (event as MedicalCardDataType).cardType;
+      const reserveDate = (event as MedicalCardDataType).reserveDate;
+
       const date =
-        (event.type === "醫療提醒" && event.reserve_at) || event.target_date;
+        (MedicalCardType[cardType] === "醫療提醒" && reserveDate) || targetDate;
       const ageInMonth = moment(date).diff(
         moment(birthday).format("YYYY-MM-DD"),
         "month"

@@ -5,6 +5,7 @@ import {
   MomentIdType,
   PooType,
   RecordCardType,
+  RecordEventType,
   ReserveType,
   UrineType,
   VisitType,
@@ -25,7 +26,7 @@ export interface SignUpFormType {
 export interface MemberFormType {
   account: string;
   username: string;
-  headShot: File | null;
+  headShot: File | string | null;
   introduction?: string;
   link?: string;
 }
@@ -38,7 +39,7 @@ export interface PetFormType {
   breed: string;
   birthday: string;
   adoptedDate?: string;
-  petPhoto: File | null;
+  petPhoto: File | string | null;
   petIntro?: string;
   link?: string;
 }
@@ -58,6 +59,8 @@ export interface UserInfoType {
   username: string;
   account: string;
   headShot: string;
+  introduction: string;
+  link: string;
   token: string;
 }
 
@@ -119,7 +122,7 @@ export interface PostDataType {
   media: string;
   mediaType: 0 | 1;
   likes: LikesType[];
-  comments: LessCommentDataType[];
+  comments: CommentDataType[];
   createDate: string;
   userId: number;
 }
@@ -180,7 +183,8 @@ export interface MomentDataType {
 export type CardUnionDataType =
   | DailyCardDataType
   | MedicalCardDataType
-  | MomentCardDataType;
+  | MomentCardDataType
+  | AnniversaryCardDataType;
 
 export interface DailyCardDataType {
   cardId: number;
@@ -232,10 +236,18 @@ export interface MomentCardDataType {
   momentId: MomentIdType;
   momentDetails: string;
   desc: string;
-  momentPhoto: string;
+  photo: string;
   targetDate: string;
   createDate: string;
-  anniversaryType?: AnniversaryType;
+}
+
+export interface AnniversaryCardDataType {
+  card: RecordEventType;
+  cardId: number;
+  desc: string;
+  targetDate: string;
+  createDate: string;
+  anniversaryType: AnniversaryType;
 }
 
 export interface OptionType {

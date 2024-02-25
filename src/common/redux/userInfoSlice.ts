@@ -7,6 +7,8 @@ const initialState: UserInfoType = {
   account: "",
   headShot: "",
   token: "",
+  introduction: "",
+  link: "",
 };
 
 export const userInfoSlice = createSlice({

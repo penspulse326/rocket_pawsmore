@@ -72,7 +72,6 @@ export const fetchGetSinglePost = async (id: number) => {
     });
 
     const result = await response.json();
-    console.log(result);
 
     return { ok: response.ok, status: response.status, data: result.data };
   } catch (error) {
@@ -112,6 +111,20 @@ export const fetchDeletePost = async (
     }
 
     return { ok: response.ok, status: response.status };
+  } catch (error) {
+    return { ok: false, status: 500 };
+  }
+};
+
+export const fetchGetSpeciesPosts = async (species: number) => {
+  try {
+    const response = await fetch(apiNext.GET_SPECIES_POSTS(species), {
+      method: "GET",
+    });
+
+    const result = await response.json();
+
+    return { ok: response.ok, status: response.status, data: result.data };
   } catch (error) {
     return { ok: false, status: 500 };
   }

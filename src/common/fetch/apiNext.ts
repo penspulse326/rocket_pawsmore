@@ -11,13 +11,21 @@ const apiNext = {
   CREATE_MEMBER: `${baseUrl}/api/user/add`,
   CREATE_PET: `${baseUrl}/api/pet/add`,
   UPDATE_PET: `${baseUrl}/api/pet/update`, // 動態路由 /:petId
+  // 寵物資料
+  GET_PET: `${baseUrl}/api/pet/profile`, // 動態路由 /:petAccount
   GET_PETS: `${baseUrl}/api/pet/list`, // 動態路由 /:userId
+
+  GET_PET_POST: `${baseUrl}/api/post`, // 動態路由 /:petAccount
+  GET_PET_RECORD: `${baseUrl}/api/pet/record`, // 動態路由 /:petAccount
+  GET_MILESTONE_LIST: `${baseUrl}/api/pet/milestone`, // 動態路由 /:petAccount
   // 貼文
   GET_ALL_POSTS: `${baseUrl}/api/post/all`,
   GET_PET_POSTS: (petAccount: string) => `${baseUrl}/api/post/${petAccount}`,
   GET_FOLLOWING_POSTS: (userId: number) =>
     `${baseUrl}/api/post/following/${userId}`,
   GET_SINGLE_POST: `${baseUrl}/api/post/single`, // 動態路由 /:postId
+  GET_SPECIES_POSTS: (species: number) =>
+    `${baseUrl}/api/post/species/${species}`,
   ADD_POST: `${baseUrl}/api/post/add`, // 動態路由 /:petId
   LIKE_POST: `${baseUrl}/api/post/like`, // 動態路由 /:postId
   DELETE_POST: `${baseUrl}/api/post/delete`, // 動態路由 /:postId

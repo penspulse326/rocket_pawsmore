@@ -19,9 +19,10 @@ interface DateInputPropsType {
 
 const DateInput = forwardRef<HTMLInputElement, DateInputPropsType>(
   ({ name, title, message, onChange, onBlur, star }, ref) => {
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const [selectedDate, setSelectedDate] = useState<Date>();
 
     const handleChange = (date: Date) => {
+      console.log(date);
       setSelectedDate(date);
       onChange(moment(date).format("YYYY-MM-DD"));
     };
@@ -43,7 +44,10 @@ const DateInput = forwardRef<HTMLInputElement, DateInputPropsType>(
           <DatePicker
             onChange={handleChange}
             onBlur={onBlur}
+            selected={selectedDate}
             dateFormat="YYYY-MM-DD"
+            showYearDropdown={true}
+            scrollableYearDropdown={true}
             calendarStartDay={1}
             locale={zhTW}
             customInput={

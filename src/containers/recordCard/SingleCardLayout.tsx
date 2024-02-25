@@ -1,5 +1,4 @@
 import React, { createContext, useMemo } from "react";
-import moment from "moment";
 import { IconChevronUp, IconEdit } from "@tabler/icons-react";
 
 import Title from "./card/Title";
@@ -8,10 +7,11 @@ import ShareBtn from "./card/ShareBtn";
 import Moment from "./content/Moment";
 import Medical from "./content/Medical";
 import Daily from "./content/Daily";
+import Reminder from "./content/Reminder";
 import Anniversary from "./content/Anniversary";
 
 import { CardUnionDataType, MedicalCardDataType } from "@/types";
-import { RecordCardType, MedicalCardType, ReserveType } from "@/types/enums";
+import { RecordEventType, MedicalCardType } from "@/types/enums";
 
 export const DataContext = createContext<CardUnionDataType | undefined>(
   undefined
@@ -43,42 +43,24 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
   onToggle,
 }) => {
   const getData = useMemo(() => data, [data]);
-  const isAnniversary: boolean = false;
-  //  data.card === "紀念日";
+  const { card } = data;
+  const isAnniversary: boolean = card === RecordEventType.紀念日;
 
   const Content: React.FC = () => {
-    const Reminder: React.FC = () => {
-      const reserveType = (data as MedicalCardDataType).reserveType;
-      const reserveDate = (data as MedicalCardDataType).reserveDate;
-
-      return (
-        <ul className="flex flex-col gap-y-2">
-          <ol className="flex gap-x-8">
-            <li className="font-semibold">預約類型</li>
-            <li>{ReserveType[reserveType]}</li>
-          </ol>
-          <ol className="flex gap-x-8">
-            <li className="font-semibold">預約時間</li>
-            <li>{moment(reserveDate).format("YYYY/M/D HH:MM")}</li>
-          </ol>
-        </ul>
-      );
-    };
-
     const visitType = (data as MedicalCardDataType).visitType;
 
     if (MedicalCardType[visitType] === "醫療提醒") {
-      return <Reminder />;
+      return <Reminder data={data} />;
     } else {
-      switch (RecordCardType[data.card]) {
+      switch (RecordEventType[card]) {
         case "醫療紀錄":
-          return <Medical />;
+          return <Medical data={data} />;
         case "重要時刻":
-          return <Moment />;
+          return <Moment data={data} />;
         case "日常紀錄":
-          return <Daily />;
-        // case "紀念日":
-        //   return <Anniversary />;
+          return <Daily data={data} />;
+        case "紀念日":
+          return <Anniversary />;
         default:
           return null;
       }

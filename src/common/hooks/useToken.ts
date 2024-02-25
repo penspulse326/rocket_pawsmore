@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useUser = () => {
+const useToken = () => {
   const [token, setToken] = useState<string>();
   const [userId, setUserId] = useState<string>();
 
@@ -46,4 +46,4 @@ const useUser = () => {
   };
 };
 
-export default useUser;
+export default useToken;

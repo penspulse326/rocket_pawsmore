@@ -8,6 +8,7 @@ interface InputPropsType {
   placeholder: string;
   maxLength?: number;
   message?: string;
+  value?: string;
   onChange: () => void;
   onBlur: () => void;
   star?: boolean;
@@ -15,7 +16,17 @@ interface InputPropsType {
 
 const TextInput = forwardRef<HTMLInputElement, InputPropsType>(
   (
-    { name, title, placeholder, maxLength, message, onChange, onBlur, star },
+    {
+      name,
+      title,
+      placeholder,
+      value,
+      maxLength,
+      message,
+      onChange,
+      onBlur,
+      star,
+    },
     ref
   ) => {
     const borderStyle = message ? { border: "1px solid #F23030" } : {};
@@ -33,6 +44,7 @@ const TextInput = forwardRef<HTMLInputElement, InputPropsType>(
           type="text"
           ref={ref}
           name={name}
+          value={value || ""}
           placeholder={placeholder}
           maxLength={maxLength}
           onChange={onChange}
