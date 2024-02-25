@@ -30,12 +30,12 @@ const Mask: React.FC<MaskPropsType> = ({ setIsOpen, children, maskType }) => {
     const handleFreeze = () => {
       window.scrollTo(0, scrollbarPosition.current);
     };
-
     window.addEventListener("scroll", handleFreeze);
 
     return () => {
       document.removeEventListener("keydown", handleEsc);
       window.removeEventListener("scroll", handleFreeze);
+      window.scrollTo(0, scrollbarPosition.current);
       handleFreezeScroll(false);
     };
   });

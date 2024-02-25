@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import type { PostDataType } from "@/types";
 import { MediaType, SpeciesType } from "@/types/enums";
@@ -31,23 +31,26 @@ const speciesData = {
   },
 };
 
+// 將貼文分成多個批次，每個批次 12 個
+const batchPosts = (posts: PostDataType[], batchSize: number) => {
+  if (!posts) {
+    return [];
+  }
+  const batches = [];
+  for (let i = 0; i < posts.length; i += batchSize) {
+    batches.push(posts.slice(i, i + batchSize));
+  }
+  return batches;
+};
+
 const Explore: React.FC<PropsType> = ({ posts }) => {
   const router = useRouter();
   const species: SpeciesType = Number(router.query.species);
-
+  const [postBatches, setPostBatches] = useState<PostDataType[][]>(
+    batchPosts(posts, 12)
+  );
   const [isMaskOpen, setIsMaskOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<PostDataType>();
-
-  // 將貼文分成多個批次，每個批次 12 個
-  const batchPosts = (posts: PostDataType[], batchSize: number) => {
-    const batches = [];
-    for (let i = 0; i < posts.length; i += batchSize) {
-      batches.push(posts.slice(i, i + batchSize));
-    }
-    return batches;
-  };
-  // 每批 12 個貼文
-  const postBatches = batchPosts(posts, 12);
 
   const handleClickPost = (data: PostDataType) => {
     setIsMaskOpen(!isMaskOpen);
@@ -56,9 +59,17 @@ const Explore: React.FC<PropsType> = ({ posts }) => {
 
   const getPosts = async () => {
     const response = await fetchGetSpeciesPosts(species);
-    const data = response.data;
-    return data;
+    const data: PostDataType[] = response.data;
+    setPostBatches(batchPosts(data, 12));
+    const newSelectedPost = data.filter(
+      (post) => post.postId === selectedPost?.postId
+    )[0];
+    setSelectedPost(newSelectedPost);
   };
+
+  useEffect(() => {
+    getPosts();
+  }, [species]);
 
   return (
     <>
@@ -72,7 +83,7 @@ const Explore: React.FC<PropsType> = ({ posts }) => {
           />
         </Mask>
       )}
-      <div className="mx-auto px-8 pt-24 max-w-[658px] w-full border-x border-stroke bg-white">
+      <div className="flex flex-col px-8 pt-24 max-w-[658px] w-[658px] border-x border-stroke bg-white">
         <h1 className="text-[32px]">探索貼文</h1>
         <div className="relative mx-auto max-w-[144px] max-h-[144px] w-full h-full rounded-full overflow-hidden">
           <Image
@@ -86,7 +97,7 @@ const Explore: React.FC<PropsType> = ({ posts }) => {
         <h2 className="mt-4 mb-8 text-2xl text-center">
           {speciesData[species]?.name}
         </h2>
-        <section className="flex flex-col gap-2">
+        <section className="flex flex-col gap-2 pb-4">
           {postBatches.map((batch, batchIndex) => (
             <div key={batchIndex} className="grid grid-cols-3 gap-2">
               {batch.map((post, index) => (

@@ -25,14 +25,14 @@ const LeftBar: React.FC = () => {
   return (
     <aside
       style={{ height: "calc(100vh - 64px)" }}
-      className="sticky top-16 flex flex-col mt-16 p-8 max-w-[312px] w-full"
+      className="sticky top-16 flex flex-col mt-16 mr-8 py-8 max-w-[312px] w-full"
     >
       {/* 寵物檔案卡片 */}
       <SwiperList list={petList} />
       {/* 個人連結 */}
       <div
         onClick={() => handleCheckProfile(account)}
-        className="flex gap-4 p-4 border border-stroke bg-white  rounded-[30px] duration-300 hover:bg-stroke hover:cursor-pointer"
+        className="flex gap-4 p-4 border border-stroke bg-white rounded-[30px] duration-300 hover:bg-stroke hover:cursor-pointer"
       >
         <div className="relative w-[48px] h-[48px] rounded-full overflow-hidden">
           <Image

@@ -79,7 +79,7 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
 
   return (
     <>
-      <div className="mx-auto px-8 pt-24 max-w-[658px] w-full border-x border-stroke bg-white">
+      <div className="px-8 pt-24 max-w-[658px] w-full border-x border-stroke bg-white">
         <PawkBtn getList={getFollowingPosts} />
         {/* 貼文列表 */}
         {followingPosts?.recentPosts?.length !== 0 && (

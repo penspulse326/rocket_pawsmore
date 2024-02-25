@@ -50,7 +50,7 @@
 }
 
 body.mask-open {
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
 }
 
 .tooltip {
