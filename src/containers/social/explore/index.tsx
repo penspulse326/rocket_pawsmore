@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import type { PostDataType } from "@/types";
 import { MediaType, SpeciesType } from "@/types/enums";
@@ -31,23 +31,26 @@ const speciesData = {
   },
 };
 
+// 將貼文分成多個批次，每個批次 12 個
+const batchPosts = (posts: PostDataType[], batchSize: number) => {
+  if (!posts) {
+    return [];
+  }
+  const batches = [];
+  for (let i = 0; i < posts.length; i += batchSize) {
+    batches.push(posts.slice(i, i + batchSize));
+  }
+  return batches;
+};
+
 const Explore: React.FC<PropsType> = ({ posts }) => {
   const router = useRouter();
   const species: SpeciesType = Number(router.query.species);
-
+  const [postBatches, setPostBatches] = useState<PostDataType[][]>(
+    batchPosts(posts, 12)
+  );
   const [isMaskOpen, setIsMaskOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<PostDataType>();
-
-  // 將貼文分成多個批次，每個批次 12 個
-  const batchPosts = (posts: PostDataType[], batchSize: number) => {
-    const batches = [];
-    for (let i = 0; i < posts.length; i += batchSize) {
-      batches.push(posts.slice(i, i + batchSize));
-    }
-    return batches;
-  };
-  // 每批 12 個貼文
-  const postBatches = batchPosts(posts, 12);
 
   const handleClickPost = (data: PostDataType) => {
     setIsMaskOpen(!isMaskOpen);
@@ -56,9 +59,17 @@ const Explore: React.FC<PropsType> = ({ posts }) => {
 
   const getPosts = async () => {
     const response = await fetchGetSpeciesPosts(species);
-    const data = response.data;
-    return data;
+    const data: PostDataType[] = response.data;
+    setPostBatches(batchPosts(data, 12));
+    const newSelectedPost = data.filter(
+      (post) => post.postId === selectedPost?.postId
+    )[0];
+    setSelectedPost(newSelectedPost);
   };
+
+  useEffect(() => {
+    getPosts();
+  }, [species]);
 
   return (
     <>
