@@ -23,12 +23,13 @@ import { fetchCheckAuth } from "@/common/fetch/auth";
 
 interface UploadViewPropsType {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  getList: () => void;
 }
 
 const MAX_FILE_SIZE = 1024 * 1024 * 10;
 
-const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
-  const { token } = useSelector((state: RootState) => state.userInfo);
+const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen, getList }) => {
+  const { token, userId } = useSelector((state: RootState) => state.userInfo);
 
   // 表單相關
   const [file, setFile] = useState<File>();
@@ -112,9 +113,7 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
       const response = await fetchAddPost(token, data, selectedPetId!);
       console.log(response);
 
-      if (response.ok) {
-        alert("上傳成功");
-      } else {
+      if (!response.ok) {
         alert("上傳失敗，請稍後再試");
       }
     } catch (error) {
@@ -124,6 +123,7 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen }) => {
 
     setIsLoading(false);
     setIsOpen(false);
+    getList();
   };
 
   const handleClose = () => {

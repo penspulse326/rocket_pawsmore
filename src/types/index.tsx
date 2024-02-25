@@ -122,7 +122,7 @@ export interface PostDataType {
   media: string;
   mediaType: 0 | 1;
   likes: LikesType[];
-  comments: LessCommentDataType[];
+  comments: CommentDataType[];
   createDate: string;
   userId: number;
 }

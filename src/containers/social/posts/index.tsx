@@ -5,15 +5,24 @@ import { useSelector } from "react-redux";
 import PawkBtn from "./PawkBtn";
 import PostCard from "./PostCard";
 import MorePostHint from "./MorePostHint";
-import { filterPost } from "@/common/helpers/configurePosts";
+import {
+  filterPost,
+  filterPostsByDate,
+  sortPostsByLikes,
+} from "@/common/helpers/configurePosts";
 import { fetchGetAllPosts, fetchGetFollowingPosts } from "@/common/fetch/post";
 
 import type { RootState } from "@/common/redux/store";
 import type { PostDataType } from "@/types";
 
+interface FilteredPostsType {
+  recentPosts: PostDataType[];
+  olderPosts: PostDataType[];
+}
+
 interface PropsType {
   all: PostDataType[];
-  following: PostDataType[];
+  following: FilteredPostsType;
 }
 
 const Posts: React.FC<PropsType> = ({ all, following }) => {
@@ -22,9 +31,8 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
     (state: RootState) => state.userInfo
   );
   const [allPosts, setAllPosts] = useState(all || []);
-  const [followingPosts, setFollowingPosts] = useState<PostDataType[]>(
-    following || []
-  );
+  const [followingPosts, setFollowingPosts] =
+    useState<FilteredPostsType>(following);
 
   const getFollowingPosts = async () => {
     if (!userId) {
@@ -33,7 +41,8 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
 
     const response = await fetchGetFollowingPosts(userId);
     const data: PostDataType[] = response.data;
-    setFollowingPosts(data);
+    const { recentPosts, olderPosts } = filterPostsByDate(data);
+    setFollowingPosts({ recentPosts, olderPosts });
   };
 
   const getList = async () => {
@@ -45,7 +54,9 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
       const data = response.data;
 
       // 過濾掉自己的貼文與已追蹤的人的貼文
-      const filteredPosts = filterPost(data, followingPosts, userId);
+      const { recentPosts } = followingPosts;
+      const filteredPosts = sortPostsByLikes(filterPost(data, recentPosts));
+
       setAllPosts(filteredPosts);
     } catch (error) {
       console.error(error);
@@ -69,13 +80,13 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
   return (
     <>
       <div className="mx-auto px-8 pt-24 max-w-[658px] w-full border-x border-stroke bg-white">
-        <PawkBtn />
+        <PawkBtn getList={getFollowingPosts} />
         {/* 貼文列表 */}
-        {followingPosts && (
+        {followingPosts?.recentPosts?.length !== 0 && (
           <>
             <h2 className="mt-8 text-note">動態消息</h2>{" "}
             <div className="flex flex-col gap-8 my-4">
-              {followingPosts.map((data) => (
+              {followingPosts.recentPosts.map((data) => (
                 <PostCard
                   key={data.postId}
                   data={data}
@@ -83,9 +94,9 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
                 />
               ))}
             </div>
+            <MorePostHint />
           </>
         )}
-        {followingPosts && <MorePostHint />}
         <h2 className="mt-8 text-note">熱門貼文</h2>
         <div className="flex flex-col gap-8 my-4">
           {allPosts?.map((post: PostDataType) => (

@@ -72,7 +72,6 @@ export const fetchGetSinglePost = async (id: number) => {
     });
 
     const result = await response.json();
-    console.log(result);
 
     return { ok: response.ok, status: response.status, data: result.data };
   } catch (error) {

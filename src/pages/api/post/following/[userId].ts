@@ -1,10 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import apiBase from "../../apiBase";
+import { PostDataType } from "@/types";
+import { sortPostsByDate } from "@/common/helpers/configurePosts";
 
 interface ResponseType {
   statusCode?: number;
   message: string;
-  data?: any;
+  data?: PostDataType[];
 }
 
 export default async function handler(
@@ -19,7 +21,9 @@ export default async function handler(
     });
 
     const result = await response.json();
-    const { message, data } = result;
+    const { message, allPosts } = result;
+
+    const data = sortPostsByDate(allPosts);
 
     res.status(200).json({ message, data });
   } catch (error) {
