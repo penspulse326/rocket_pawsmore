@@ -7,7 +7,7 @@ import TableBody from "./TableBody";
 import { RecordCardType } from "@/types/enums";
 
 const Table: React.FC = () => {
-  const [cardType, setCardType] = useState<RecordCardType>(1);
+  const [cardType, setCardType] = useState<RecordCardType>(0);
 
   const handleCardTypeChange = (cardType: RecordCardType) => {
     setCardType(cardType);
