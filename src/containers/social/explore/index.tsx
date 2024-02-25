@@ -6,6 +6,7 @@ import { MediaType, SpeciesType } from "@/types/enums";
 import Mask from "@/components/hint/Mask";
 import PostView from "@/components/post/PostView";
 import { useRouter } from "next/router";
+import { fetchGetSpeciesPosts } from "@/common/fetch/post";
 
 interface PropsType {
   posts: PostDataType[];
@@ -53,12 +54,22 @@ const Explore: React.FC<PropsType> = ({ posts }) => {
     setSelectedPost(data);
   };
 
+  const getPosts = async () => {
+    const response = await fetchGetSpeciesPosts(species);
+    const data = response.data;
+    return data;
+  };
+
   return (
     <>
       {/* 點擊彈出貼文 */}
       {isMaskOpen && (
         <Mask maskType="post" setIsOpen={setIsMaskOpen}>
-          <PostView data={selectedPost!} onClose={() => setIsMaskOpen(false)} />
+          <PostView
+            data={selectedPost!}
+            getPost={getPosts}
+            onClose={() => setIsMaskOpen(false)}
+          />
         </Mask>
       )}
       <div className="mx-auto px-8 pt-24 max-w-[658px] w-full border-x border-stroke bg-white">
