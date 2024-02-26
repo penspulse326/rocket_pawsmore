@@ -60,14 +60,14 @@ const RecentCondition: React.FC = () => {
           </div>
           <span className="text-note">{getPetAge(selectedPet?.birthday!)}</span>
         </div>
-        <ul className="flex flex-col gap-2 mt-6">
+        <ul className="flex flex-col gap-2 mt-6 max-w-[449px] w-full">
           <li className="text-note">異常</li>
           {sickList
             .filter((item) => item.value)
             .map((item, index) => (
-              <li key={`${index}-${item.name}`} className="flex gap-8">
-                <span className="font-semibold">{item.name}</span>
-                <span>{item.value}</span>
+              <li key={`${index}-${item.name}`} className="flex gap-7 w-full">
+                <span className="font-semibold w-8">{item.name}</span>
+                <span className="max-w-[385px]">{item.value}</span>
               </li>
             ))}
         </ul>
