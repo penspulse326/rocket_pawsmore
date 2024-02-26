@@ -15,8 +15,10 @@ import { mediaDelete, mediaUpload } from "@/common/fetch/mediaManager";
 import { setUserInfo } from "@/common/redux/userInfoSlice";
 import BtnLoading from "../hint/BtnLoading";
 import getMediaId from "@/common/helpers/getMediaId";
+import { useRouter } from "next/router";
 
 const Profile: React.FC = () => {
+  const router = useRouter();
   const { token, account, username, headShot, introduction, link } =
     useSelector((state: RootState) => state.userInfo);
   const dispatch = useDispatch();
@@ -37,11 +39,10 @@ const Profile: React.FC = () => {
   const rowsOfTextarea: number = introduction.split("\n").length;
 
   const handleUpdate = async (data: MemberFormType) => {
-    console.log(data);
-    console.log(initailPhoto);
-
+    if (isLoading) return;
     setIsLoading(true);
     setStatusCode(0);
+    console.log(data);
 
     const response = await fetchCreateMember(data, token);
 
@@ -52,6 +53,8 @@ const Profile: React.FC = () => {
       return;
     }
 
+    dispatch(setUserInfo(response.data));
+
     // 請求上傳圖片，有傳入照片才執行
     if (data.headShot instanceof File) {
       try {
@@ -59,7 +62,6 @@ const Profile: React.FC = () => {
         const imgUrl = uploadResult.secure_url;
 
         const response = await fetchCreateMember(data, token, imgUrl);
-
         if (!response.ok) {
           setIsLoading(false);
           setStatusCode(response.status);
@@ -97,6 +99,24 @@ const Profile: React.FC = () => {
     });
     setInitailPhoto(headShot);
   }, [account, username, headShot, introduction, link, reset]);
+
+  // 顯示錯誤訊息
+  useEffect(() => {
+    switch (statusCode) {
+      case 400:
+        setError("account", { message: errorText.ACCOUNT_USED });
+        break;
+      case 401:
+        alert(errorText.LOGIN_AGAIN);
+        router.push("/login");
+        break;
+      case 500:
+        setError("account", { message: errorText.UNKNOWN_ERROR });
+        break;
+      default:
+        break;
+    }
+  }, [statusCode]);
 
   return (
     <div className="flex flex-col gap-y-8 max-w-[728px]">
