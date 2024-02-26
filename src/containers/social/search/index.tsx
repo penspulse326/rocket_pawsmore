@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import type { PostDataType, SearchPetData } from "@/types";
-import { GenderType, MediaType, SpeciesType } from "@/types/enums";
+import { PetGenderType, MediaType, SpeciesType } from "@/types/enums";
 import Mask from "@/components/hint/Mask";
 import PostView from "@/components/post/PostView";
 import { useRouter } from "next/router";
