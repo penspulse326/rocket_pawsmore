@@ -1,5 +1,5 @@
 import { IconHeart } from "@tabler/icons-react";
-import moment from "moment";
+import moment from "moment-timezone";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
@@ -172,7 +172,10 @@ const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
           <span className="w-1 h-1 bg-note rounded-full"></span>
           <span
             className="tooltip text-note"
-            data-tooltip={moment.utc(createDate).format("YYYY-MM-DD HH:mm")}
+            data-tooltip={moment
+              .utc(createDate)
+              .tz("Asia/Taipei")
+              .format("YYYY-MM-DD HH:mm")}
           >
             {moment.utc(createDate).fromNow()}
           </span>
