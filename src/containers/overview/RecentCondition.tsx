@@ -28,7 +28,7 @@ const RecentCondition: React.FC = () => {
     return (
       <section className="flex flex-col gap-y-4 scrollbar-none max-w-[497px] max-h-[386px] w-full">
         <h2 className="text-2xl leading-9">近期異常狀況</h2>
-        <div className="mt4 px-6 py-4 h-[335px] border border-stroke rounded-[30px]">
+        <div className="px-6 py-4 h-[335px] border border-stroke rounded-[30px]">
           <NoContent />
         </div>
       </section>
