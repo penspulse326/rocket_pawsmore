@@ -1,9 +1,6 @@
-import { IconPhoto } from "@tabler/icons-react";
-import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "@/common/redux/store";
-import ErrorMessage from "../ErrorMessage";
 import { errorText } from "@/common/lib/messageText";
 import { Controller, useForm } from "react-hook-form";
 import { MemberFormType } from "@/types";
@@ -24,7 +21,7 @@ const Profile: React.FC = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [statusCode, setStatusCode] = useState(0);
-  const [initailPhoto, setInitailPhoto] = useState<string | null>(null);
+  const [initailPhoto, setInitailPhoto] = useState<string>("");
 
   const {
     handleSubmit,
@@ -42,9 +39,9 @@ const Profile: React.FC = () => {
     if (isLoading) return;
     setIsLoading(true);
     setStatusCode(0);
-    console.log(data);
 
-    const response = await fetchCreateMember(data, token);
+    const response = await fetchCreateMember(data, token, initailPhoto!);
+    dispatch(setUserInfo(response.data));
 
     // 確定新增成功才做上傳雲端圖片
     if (!response.ok) {
@@ -52,8 +49,6 @@ const Profile: React.FC = () => {
       setStatusCode(response.status);
       return;
     }
-
-    dispatch(setUserInfo(response.data));
 
     // 請求上傳圖片，有傳入照片才執行
     if (data.headShot instanceof File) {
@@ -74,8 +69,6 @@ const Profile: React.FC = () => {
         // 如果原本有頭貼，就要刪除
         if (initailPhoto) {
           const mediaId = getMediaId(initailPhoto);
-          const deleteResult = await mediaDelete(mediaId, "image");
-          console.log(deleteResult);
         }
       } catch (error) {
         console.error(error);
@@ -93,10 +86,11 @@ const Profile: React.FC = () => {
     reset({
       account,
       username,
-      headShot,
+      headShot: headShot || initailPhoto,
       introduction,
       link,
     });
+
     setInitailPhoto(headShot);
   }, [account, username, headShot, introduction, link, reset]);
 

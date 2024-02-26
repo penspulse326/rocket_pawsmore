@@ -5,7 +5,7 @@ import type { MemberFormType } from "@/types";
 export const fetchCreateMember = async (
   data: MemberFormType,
   token: string,
-  imgUrl = ""
+  imgUrl?: string
 ) => {
   const { headShot, ...rest } = data;
 
