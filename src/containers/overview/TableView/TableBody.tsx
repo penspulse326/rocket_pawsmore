@@ -281,7 +281,7 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
                     }`}
                   >
                     {photo ? (
-                      <div className="max-w-[124px] max-h-[93px]">
+                      <div className="w-[124px] h-[93px]">
                         <Image
                           src={photo}
                           width={124}
@@ -353,7 +353,7 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
                     }`}
                   >
                     {photo ? (
-                      <div className="max-w-[124px] max-h-[93px]">
+                      <div className="w-[124px] h-[93px]">
                         <Image
                           src={photo}
                           width={124}
