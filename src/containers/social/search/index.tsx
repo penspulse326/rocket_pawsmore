@@ -68,7 +68,7 @@ const SearchResult: React.FC<PropsType> = ({ data }) => {
                     <div className="flex gap-2 text-note">
                       <span>{SpeciesType[PetSpecies]}</span>
                       <span>{Breed}</span>
-                      <span>{GenderType[PetGender]}</span>
+                      <span>{PetGenderType[PetGender]}</span>
                     </div>
                     <span>{getPetAge(Birthday)}</span>
                   </div>
