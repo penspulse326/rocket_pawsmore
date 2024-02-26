@@ -10,7 +10,7 @@ const Tabs: React.FC<PropsType> = ({ cardType, setCardType }) => {
   const btnStyle = (type: RecordCardType) => {
     return cardType === type
       ? "flex items-center px-4 py-2 rounded-full border border-primary bg-primary text-white duration-300"
-      : "flex items-center px-4 py-2 rounded-full border border-stroke bg-white text-primary duration-300";
+      : "flex items-center px-4 py-2 rounded-full border border-stroke bg-white duration-300";
   };
 
   return (

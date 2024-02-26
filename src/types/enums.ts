@@ -130,7 +130,7 @@ export enum SpeciesType {
   其他 = 3,
 }
 
-export enum GenderType {
+export enum PetGenderType {
   男生 = 0,
   女生 = 1,
 }
