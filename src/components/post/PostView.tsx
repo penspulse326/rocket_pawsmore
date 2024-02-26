@@ -1,5 +1,5 @@
 import { IconHeart, IconMessageCircle } from "@tabler/icons-react";
-import moment from "moment";
+import moment from "moment-timezone";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -15,7 +15,6 @@ import { fetchGetComment } from "@/common/fetch/comment";
 import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
 import { MediaType } from "@/types/enums";
-import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 
 interface PropsType {
   data: PostDataType;
@@ -49,8 +48,10 @@ const PostView: React.FC<PropsType> = ({ data, getPost, onClose }) => {
 
   // 讀取留言
   useEffect(() => {
-    setPostData(data);
-    getComments();
+    if (data) {
+      setPostData(data);
+      getComments();
+    }
   }, [data]);
 
   return (
@@ -109,7 +110,10 @@ const PostView: React.FC<PropsType> = ({ data, getPost, onClose }) => {
             <span className="w-1 h-1 bg-note rounded-full"></span>
             <span
               className="tooltip text-note text-nowrap"
-              data-tooltip={moment.utc(createDate).format("YYYY-MM-DD HH:mm")}
+              data-tooltip={moment
+                .utc(createDate)
+                .tz("Asia/Taipei")
+                .format("YYYY-MM-DD HH:mm")}
             >
               {moment.utc(createDate).fromNow()}
             </span>
