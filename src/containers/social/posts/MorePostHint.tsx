@@ -12,17 +12,12 @@ const MorePostHint: React.FC = () => {
       />
       <div>
         <p className="text-2xl">沒有其他新動態了</p>
-        <p className="text-note">你已看完所有追蹤中的貼文</p>
+        <p className="text-note">你已看完 3 天內所有追蹤中的貼文</p>
       </div>
       <p>
-        瞧瞧我們的{" "}
-        <Link href="/test/explore" className="text-primary font-bold">
-          探索
-        </Link>{" "}
+        瞧瞧我們的 <span className="text-primary font-bold">探索</span>{" "}
         或是繼續往下瀏覽{" "}
-        <Link href="#" className="text-primary font-bold">
-          熱門貼文
-        </Link>
+        <span className="text-primary font-bold">熱門貼文</span>
       </p>
     </section>
   );
