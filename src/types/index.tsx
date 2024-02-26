@@ -1,6 +1,6 @@
 import {
   AnniversaryType,
-  GenderType,
+  PetGenderType,
   MedicalCardType,
   MomentCategoryType,
   MomentIdType,
@@ -263,7 +263,7 @@ export interface SearchPetData {
   PetName: string;
   PetPhoto: string;
   PetSpecies: SpeciesType;
-  PetGender: GenderType;
+  PetGender: PetGenderType;
   Breed: string;
   Birthday: string;
   AdoptedDate: string;

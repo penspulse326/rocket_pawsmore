@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -17,10 +17,13 @@ import RecentCondition from "./RecentCondition";
 import Explanation from "./Explanation";
 import TableView from "./TableView";
 import Footer from "@/components/Footer";
+import Loading from "@/components/hint/Loading";
 
 import { RootState } from "@/common/redux/store";
 import getPetAge from "@/common/helpers/getPetAge";
+import { fetchFormattedRecord } from "@/common/helpers/fetchFormattedRecord";
 
+import { setRecordInfo } from "@/common/redux/recordSlice";
 import { PetDataType } from "@/types";
 import { PetGenderType, SpeciesType } from "@/types/enums";
 
@@ -29,7 +32,8 @@ interface PetCardProps {
 }
 
 const Overview: React.FC = () => {
-  const petRecord = useSelector((state: RootState) => state.petRecord);
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const petList = useSelector((state: RootState) => state.petList);
 
   const PetCard: React.FC<PetCardProps> = ({ data }) => {
@@ -65,9 +69,27 @@ const Overview: React.FC = () => {
       petSpecies,
       petGender,
       birthday,
+      petId,
+      adoptedDate,
     } = data;
+
+    const handleSwitchPet = async () => {
+      setIsLoading(true);
+      const recordData = await fetchFormattedRecord(
+        petAccount,
+        petId,
+        birthday,
+        adoptedDate
+      );
+      dispatch(setRecordInfo(recordData));
+      setIsLoading(false);
+    };
+
     return (
-      <div className="flex flex-col gap-y-4 p-4 max-w-[224px] w-full border border-stroke rounded-[30px] bg-white">
+      <div
+        className="flex flex-col gap-y-4 p-4 max-w-[224px] w-full border border-stroke rounded-[30px] bg-white hover:cursor-pointer"
+        onClick={handleSwitchPet}
+      >
         <div className="w-[192px] h-[192px]">
           <Image
             src={petPhoto || "/images/default-photo.svg"}
@@ -122,7 +144,9 @@ const Overview: React.FC = () => {
           <div className="flex justify-center gap-4 mt-5 mx-auto">
             <button
               type="button"
-              onClick={() => swiperRef.current?.slidePrev()}
+              onClick={() => {
+                swiperRef.current?.slidePrev();
+              }}
             >
               <IconChevronLeft size={16} />
             </button>
@@ -150,6 +174,7 @@ const Overview: React.FC = () => {
 
   return (
     <section className="max-w-[1344px]">
+      {isLoading && <Loading />}
       {/* 頁面標題與連結 */}
       <div className="flex justify-between w-full mt-8">
         <h2 className="flex items-center gap-2 text-2xl">
