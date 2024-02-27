@@ -13,6 +13,7 @@ import { mediaUpload } from "@/common/fetch/mediaManager";
 
 import type { MemberFormType } from "@/types";
 import type { RootState } from "@/common/redux/store";
+import useToken from "@/common/hooks/useToken";
 
 const defaultValues = {
   account: "",
@@ -24,7 +25,7 @@ const defaultValues = {
 
 // 新增個人資料表單
 const MemberForm: React.FC = () => {
-  const { token } = useSelector((state: RootState) => state.userInfo);
+  const { token } = useToken();
   const dispatch = useDispatch();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -41,6 +42,7 @@ const MemberForm: React.FC = () => {
 
   // 請求新增個人資料
   const handleCreateProfile = async (data: MemberFormType) => {
+    if (!token) return;
     setIsLoading(true);
     setStatusCode(0);
 
