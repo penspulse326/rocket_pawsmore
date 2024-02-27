@@ -17,6 +17,7 @@ import { RootState } from "@/common/redux/store";
 
 import { setRecordInfo } from "@/common/redux/recordSlice";
 import { fetchFormattedRecord } from "@/common/helpers/fetchFormattedRecord";
+import useToken from "@/common/hooks/useToken";
 
 interface FoodType {
   type: string;
@@ -71,7 +72,7 @@ interface PropsType {
 const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
   const dispatch = useDispatch();
 
-  const { token } = useSelector((state: RootState) => state.userInfo);
+  const { token } = useToken();
   const petList = useSelector((state: RootState) => state.petList);
 
   const [petAccount, setPetAccount] = useState("");
@@ -125,6 +126,7 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
+    if (!token) return;
     event.preventDefault();
     const data = formatDailyData(formState);
 
