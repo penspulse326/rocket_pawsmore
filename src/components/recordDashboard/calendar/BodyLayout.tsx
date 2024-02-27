@@ -66,7 +66,10 @@ const BodyLayout = () => {
               {/* top bar */}
               <div
                 className={`h-1 ${isCurrentMonth(date) ? "bg-stroke" : ""}
-                 ${isToday(date) && "!bg-secondary"}`}
+                 ${
+                   isToday(date) &&
+                   "bg-gradient-to-r from-[#7CCBFF] via-[#7CCBFF] to-[#0057FF]"
+                 }`}
               ></div>
               {/* day block */}
               <span

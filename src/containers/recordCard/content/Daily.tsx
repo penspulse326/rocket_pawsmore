@@ -148,8 +148,10 @@ const Daily: React.FC<DailyProps> = ({ data }) => {
               .map((item, index) => {
                 const { TITLE, content } = item;
                 return (
-                  <ul key={index} className="flex items-center gap-x-4 h-8">
-                    <li className="font-semibold min-w-12">{TITLE}</li>
+                  <ul key={index} className="flex items-center gap-x-4 ">
+                    <li className="font-semibold min-w-12 self-start">
+                      {TITLE}
+                    </li>
                     <li>
                       {TITLE === "症狀" && Array.isArray(content)
                         ? content.join("、")
