@@ -16,14 +16,14 @@ const Dot: React.FC<PropsType> = ({ name, size }) => {
     return (
       <span
         style={{ backgroundColor: dotColor[name] }}
-        className="inline-block mr-1 w-[6px] h-[6px] rounded-full"
+        className="shrink-0 inline-block mr-1 w-[6px] h-[6px] rounded-full"
       ></span>
     );
   }
   return (
     <span
       style={{ backgroundColor: dotColor[name] }}
-      className="inline-block mr-4 w-[11px] h-[11px] rounded-full"
+      className="shrink-0 inline-block mr-4 w-[11px] h-[11px] rounded-full"
     ></span>
   );
 };
