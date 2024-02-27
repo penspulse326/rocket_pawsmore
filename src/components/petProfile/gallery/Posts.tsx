@@ -22,16 +22,22 @@ const Posts: React.FC = () => {
 
   const [posts, setPosts] = useState<PostDataType[]>(postList || []);
   const [isMaskOpen, setIsMaskOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<PostDataType>();
 
   const getPosts = async () => {
     const response = await fetchGetPetPosts(petAccount);
-    const data = response.data;
+    const data: PostDataType[] = response.data;
     setPosts(data);
+    const newSelectedPost = data.filter(
+      (post) => post.postId === selectedPost?.postId
+    )[0];
+    setSelectedPost(newSelectedPost);
     return data;
   };
 
-  const handleOpenPost = () => {
+  const handleOpenPost = (post: PostDataType) => {
     setIsMaskOpen(true);
+    setSelectedPost(post);
     handleFreezeScroll(true);
   };
 
@@ -50,7 +56,7 @@ const Posts: React.FC = () => {
               <div key={index}>
                 <div
                   className="gallery-card relative z-0 w-[352px] h-[352px] rounded-[30px] overflow-hidden hover:cursor-pointer"
-                  onClick={() => handleOpenPost()}
+                  onClick={() => handleOpenPost(post)}
                 >
                   {/* 圖片 */}
                   {mediaType === MediaType.image && (
@@ -93,15 +99,6 @@ const Posts: React.FC = () => {
                     </li>
                   </ul>
                 </div>
-                {isMaskOpen && (
-                  <Mask setIsOpen={setIsMaskOpen} maskType="post">
-                    <PostView
-                      data={post}
-                      getPost={getPosts}
-                      onClose={() => setIsMaskOpen(false)}
-                    />
-                  </Mask>
-                )}
               </div>
             );
           })}
@@ -110,6 +107,15 @@ const Posts: React.FC = () => {
         <section className="mx-auto">
           <NoContent />
         </section>
+      )}
+      {isMaskOpen && (
+        <Mask setIsOpen={setIsMaskOpen} maskType="post">
+          <PostView
+            data={selectedPost!}
+            getPost={getPosts}
+            onClose={() => setIsMaskOpen(false)}
+          />
+        </Mask>
       )}
     </>
   );

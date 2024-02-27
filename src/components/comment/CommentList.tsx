@@ -92,9 +92,9 @@ const CommentList: React.FC<PropsType> = ({
                 </Link>
                 <span
                   className="tooltip text-note"
-                  data-tooltip={moment.utc(createDate).format("YYYY-MM-DD")}
+                  data-tooltip={moment(createDate).format("YYYY-MM-DD")}
                 >
-                  {moment.utc(createDate).fromNow()}
+                  {moment(createDate).fromNow()}
                 </span>
                 <p>{commentContent}</p>
               </div>

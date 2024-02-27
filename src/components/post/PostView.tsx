@@ -1,5 +1,5 @@
 import { IconHeart, IconMessageCircle } from "@tabler/icons-react";
-import moment from "moment";
+import moment from "moment-timezone";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -9,13 +9,11 @@ import CommentList from "../comment/CommentList";
 import InputComment from "../comment/InputComment";
 import PostMenu from "./PostMenu";
 import LikeBtn from "./LikeBtn";
-import { fetchGetSinglePost } from "@/common/fetch/post";
 import { fetchGetComment } from "@/common/fetch/comment";
 
 import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
 import { MediaType } from "@/types/enums";
-import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 
 interface PropsType {
   data: PostDataType;
@@ -49,8 +47,10 @@ const PostView: React.FC<PropsType> = ({ data, getPost, onClose }) => {
 
   // 讀取留言
   useEffect(() => {
-    setPostData(data);
-    getComments();
+    if (data) {
+      setPostData(data);
+      getComments();
+    }
   }, [data]);
 
   return (
@@ -109,9 +109,9 @@ const PostView: React.FC<PropsType> = ({ data, getPost, onClose }) => {
             <span className="w-1 h-1 bg-note rounded-full"></span>
             <span
               className="tooltip text-note text-nowrap"
-              data-tooltip={moment.utc(createDate).format("YYYY-MM-DD HH:mm")}
+              data-tooltip={moment(createDate).format("YYYY-MM-DD HH:mm")}
             >
-              {moment.utc(createDate).fromNow()}
+              {moment(createDate).fromNow()}
             </span>
           </div>
           {/* 選單 */}
@@ -126,7 +126,7 @@ const PostView: React.FC<PropsType> = ({ data, getPost, onClose }) => {
         </div>
         <section className="scrollbar-none overflow-y-scroll max-w-[411px] max-h-[353px] w-[411px] h-full">
           {/* 貼文內容 */}
-          <p className="mt-4 break-words">{postContent}</p>
+          <p className="mt-4 break-words whitespace-pre-wrap">{postContent}</p>
           {/* 留言列表 */}
           <CommentList
             from="postView"

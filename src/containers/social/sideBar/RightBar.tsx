@@ -15,32 +15,18 @@ const RightBar: React.FC = () => {
     backgroundColor: "white",
   };
 
-  // Debounce
-  const debounce = (func: Function, delay: number): (() => void) => {
-    let debounceTimer: NodeJS.Timeout;
-    return function (...args: any[]) {
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => func.apply(null, args), delay);
-    };
-  };
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
     setIsFocus(true);
   };
 
-  const executeSearch = () => {
-    router.push(`/search/account?keyword=${keyword}`);
-  };
-
-  const debouncedSearch = debounce(executeSearch, 500); // 500ms delay
-
-  useEffect(() => {
+  const handleSearch = () => {
     if (!keyword) {
       return;
     }
-    debouncedSearch();
-  }, [keyword]);
+    setKeyword("");
+    router.push(`/search/account?keyword=${keyword}`);
+  };
 
   return (
     <aside
@@ -58,11 +44,11 @@ const RightBar: React.FC = () => {
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={handleInputChange}
-          onKeyDown={(e) => e.key === "Enter" && debouncedSearch()}
+          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           placeholder="搜尋帳號名稱⋯⋯"
           className="w-full outline-none bg-transparent"
         />
-        <button type="button" onClick={debouncedSearch}>
+        <button type="button" onClick={handleSearch}>
           <IconSearch size={24} />
         </button>
       </section>

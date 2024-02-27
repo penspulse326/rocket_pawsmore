@@ -1,9 +1,6 @@
-import { IconPhoto } from "@tabler/icons-react";
-import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "@/common/redux/store";
-import ErrorMessage from "../ErrorMessage";
 import { errorText } from "@/common/lib/messageText";
 import { Controller, useForm } from "react-hook-form";
 import { MemberFormType } from "@/types";
@@ -15,14 +12,16 @@ import { mediaDelete, mediaUpload } from "@/common/fetch/mediaManager";
 import { setUserInfo } from "@/common/redux/userInfoSlice";
 import BtnLoading from "../hint/BtnLoading";
 import getMediaId from "@/common/helpers/getMediaId";
+import { useRouter } from "next/router";
 
 const Profile: React.FC = () => {
+  const router = useRouter();
   const { token, account, username, headShot, introduction, link } =
     useSelector((state: RootState) => state.userInfo);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [statusCode, setStatusCode] = useState(0);
-  const [initailPhoto, setInitailPhoto] = useState<string | null>(null);
+  const [initailPhoto, setInitailPhoto] = useState<string>("");
 
   const {
     handleSubmit,
@@ -37,13 +36,12 @@ const Profile: React.FC = () => {
   const rowsOfTextarea: number = introduction.split("\n").length;
 
   const handleUpdate = async (data: MemberFormType) => {
-    console.log(data);
-    console.log(initailPhoto);
-
+    if (isLoading) return;
     setIsLoading(true);
     setStatusCode(0);
 
-    const response = await fetchCreateMember(data, token);
+    const response = await fetchCreateMember(data, token, initailPhoto!);
+    dispatch(setUserInfo(response.data));
 
     // 確定新增成功才做上傳雲端圖片
     if (!response.ok) {
@@ -59,7 +57,6 @@ const Profile: React.FC = () => {
         const imgUrl = uploadResult.secure_url;
 
         const response = await fetchCreateMember(data, token, imgUrl);
-
         if (!response.ok) {
           setIsLoading(false);
           setStatusCode(response.status);
@@ -72,8 +69,6 @@ const Profile: React.FC = () => {
         // 如果原本有頭貼，就要刪除
         if (initailPhoto) {
           const mediaId = getMediaId(initailPhoto);
-          const deleteResult = await mediaDelete(mediaId, "image");
-          console.log(deleteResult);
         }
       } catch (error) {
         console.error(error);
@@ -91,12 +86,31 @@ const Profile: React.FC = () => {
     reset({
       account,
       username,
-      headShot,
+      headShot: headShot || initailPhoto,
       introduction,
       link,
     });
+
     setInitailPhoto(headShot);
   }, [account, username, headShot, introduction, link, reset]);
+
+  // 顯示錯誤訊息
+  useEffect(() => {
+    switch (statusCode) {
+      case 400:
+        setError("account", { message: errorText.ACCOUNT_USED });
+        break;
+      case 401:
+        alert(errorText.LOGIN_AGAIN);
+        router.push("/login");
+        break;
+      case 500:
+        setError("account", { message: errorText.UNKNOWN_ERROR });
+        break;
+      default:
+        break;
+    }
+  }, [statusCode]);
 
   return (
     <div className="flex flex-col gap-y-8 max-w-[728px]">
