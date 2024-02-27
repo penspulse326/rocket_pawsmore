@@ -63,7 +63,6 @@ export interface UserInfoType {
   headShot: string;
   introduction: string;
   link: string;
-  token: string;
 }
 
 export interface UserListDataType {

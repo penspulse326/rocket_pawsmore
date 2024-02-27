@@ -1,4 +1,5 @@
 import { fetchDeleteComment } from "@/common/fetch/comment";
+import useToken from "@/common/hooks/useToken";
 import { RootState } from "@/common/redux/store";
 import { IconDotsVertical } from "@tabler/icons-react";
 import { useState } from "react";
@@ -17,7 +18,8 @@ const CommentMenu: React.FC<PropsType> = ({
   commentId,
   getComments,
 }) => {
-  const { token, userId } = useSelector((state: RootState) => state.userInfo);
+  const { token } = useToken();
+  const { userId } = useSelector((state: RootState) => state.userInfo);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,7 +30,9 @@ const CommentMenu: React.FC<PropsType> = ({
   };
 
   const handleDelete = async (event: React.MouseEvent) => {
-    if (isLoading) return;
+    if (isLoading || !token) {
+      return;
+    }
 
     event.stopPropagation();
     setIsLoading(true);
