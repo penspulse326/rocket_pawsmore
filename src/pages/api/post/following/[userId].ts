@@ -21,9 +21,7 @@ export default async function handler(
     });
 
     const result = await response.json();
-    const { message, allPosts } = result;
-
-    const data = sortPostsByDate(allPosts);
+    const { message, data } = result;
 
     res.status(200).json({ message, data });
   } catch (error) {
