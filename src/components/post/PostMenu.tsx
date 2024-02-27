@@ -1,4 +1,5 @@
 import { fetchDeletePost } from "@/common/fetch/post";
+import useToken from "@/common/hooks/useToken";
 import { RootState } from "@/common/redux/store";
 import { MediaType } from "@/types/enums";
 import { IconDotsVertical } from "@tabler/icons-react";
@@ -22,10 +23,14 @@ const Menu: React.FC<PropsType> = ({
   getList,
   onClose: handleClose,
 }) => {
-  const { token } = useSelector((state: RootState) => state.userInfo);
+  const { token } = useToken();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleDeletePost = async () => {
+    if (!token) {
+      alert("請先登入");
+      return;
+    }
     await fetchDeletePost(token, postId, media, MediaType[mediaType]);
     getList();
     handleClose();
