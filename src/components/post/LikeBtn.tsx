@@ -5,6 +5,7 @@ import { fetchCheckAuth } from "@/common/fetch/auth";
 import { fetchLikePost } from "@/common/fetch/post";
 
 import type { RootState } from "@/common/redux/store";
+import useToken from "@/common/hooks/useToken";
 
 interface PropsType {
   userId: number | null;
@@ -20,7 +21,7 @@ const LikeBtn: React.FC<PropsType> = ({
   getList,
   getPost,
 }) => {
-  const { token } = useSelector((state: RootState) => state.userInfo);
+  const { token } = useToken();
 
   const btnStyle = isLiked ? "#FE6916" : "#EAEAEA";
 
@@ -37,11 +38,11 @@ const LikeBtn: React.FC<PropsType> = ({
     }
 
     const response = await fetchLikePost(token, postId);
-
-    if (response.ok) {
-      getList && getList();
-      getPost && getPost();
+    if (!response.ok) {
+      return;
     }
+    getList && getList();
+    getPost && getPost();
   };
 
   return (
