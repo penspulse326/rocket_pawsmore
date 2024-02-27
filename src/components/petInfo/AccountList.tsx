@@ -47,11 +47,12 @@ const AccountList: React.FC<PropsType> = ({ setId, petId }) => {
             <li>{selectedPet.petName}</li>
             <li className="text-note">@{selectedPet.petAccount}</li>
           </ul>
-
-          <IconChevronDown
-            size={24}
-            className={`${isExpanded && "rotate-180"} mr-2`}
-          />
+          {!petId && (
+            <IconChevronDown
+              size={24}
+              className={`${isExpanded && "rotate-180"} mr-2`}
+            />
+          )}
         </div>
       </div>
     );
@@ -105,7 +106,7 @@ const AccountList: React.FC<PropsType> = ({ setId, petId }) => {
           您尚未建立寵物檔案
         </Link>
       )}
-      {isExpanded && <ExpandedCard />}
+      {!petId && isExpanded && <ExpandedCard />}
     </section>
   );
 };
