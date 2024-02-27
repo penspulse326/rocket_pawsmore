@@ -35,17 +35,17 @@ const Explanation: React.FC = () => {
   const symptomList = [];
   const { urine, poo, vomit, symptom } = currentRecord as DailyCardDataType;
 
-  if (urine !== 0) {
+  if (urine !== 0 && urine !== 5) {
     symptomList.push({ urine: urine });
   }
-  if (poo !== 0) {
+  if (poo !== 0 && poo !== 7) {
     symptomList.push({ poo: poo });
   }
-  if (vomit !== 0) {
+  if (vomit !== 0 && vomit !== 12) {
     symptomList.push({ vomit: vomit });
   }
   const parsedSymptom = JSON.parse(symptom);
-  if (parsedSymptom.length !== 0) {
+  if (parsedSymptom.length !== 0 && parsedSymptom[0] !== "其他") {
     parsedSymptom.forEach((symptomItem: string) => {
       symptomList.push({ symptom: symptomItem });
     });
@@ -63,6 +63,7 @@ const Explanation: React.FC = () => {
             <Card data={item} />
           </React.Fragment>
         ))}
+        {symptomList.length === 0 && <NoContent />}
       </ul>
     </section>
   );

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,6 +35,9 @@ const Overview: React.FC = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const petList = useSelector((state: RootState) => state.petList);
+
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const foundPetIndex = useRef<number>();
 
   const PetCard: React.FC<PetCardProps> = ({ data }) => {
     if (!data) {
@@ -82,6 +85,10 @@ const Overview: React.FC = () => {
         adoptedDate
       );
       dispatch(setRecordInfo(recordData));
+
+      const index = petList.findIndex((pet) => pet.petId === petId);
+
+      setSelectedIndex(index);
       setIsLoading(false);
     };
 
@@ -114,9 +121,11 @@ const Overview: React.FC = () => {
     );
   };
 
-  const SwiperList: React.FC<{ list: PetDataType[] }> = ({ list }) => {
+  const SwiperList: React.FC = () => {
     const swiperRef = useRef<SwiperClass>();
     const [activeIndex, setActiveIndex] = useState(0);
+
+    foundPetIndex.current = selectedIndex;
 
     return (
       <div className="relative flex-grow">
@@ -130,6 +139,7 @@ const Overview: React.FC = () => {
           }}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
           onTransitionEnd={(swiper) => setActiveIndex(swiper.activeIndex)}
+          initialSlide={foundPetIndex.current}
           className="absolute z-50"
         >
           {!petList.length && <PetCard />}
@@ -191,7 +201,7 @@ const Overview: React.FC = () => {
       {/* 頁面內容 */}
       <div className="flex gap-[43px] mt-4 max-h-[386px]">
         <div className="max-w-[265px]">
-          <SwiperList list={petList} />
+          <SwiperList />
         </div>
         <RecentCondition />
         <Explanation />
