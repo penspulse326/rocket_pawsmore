@@ -193,7 +193,9 @@ const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
         </div>
       </section>
       {/* 內文 */}
-      <p>{postContent}</p>
+      <p className="break-words whitespace-pre-wrap line-clamp-2 text-ellipsis overflow-hidden ">
+        {postContent}
+      </p>
       {/* 留言 */}
       <CommentList
         from="postList"

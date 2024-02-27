@@ -126,7 +126,7 @@ const PostView: React.FC<PropsType> = ({ data, getPost, onClose }) => {
         </div>
         <section className="scrollbar-none overflow-y-scroll max-w-[411px] max-h-[353px] w-[411px] h-full">
           {/* 貼文內容 */}
-          <p className="mt-4 break-words">{postContent}</p>
+          <p className="mt-4 break-words whitespace-pre-wrap">{postContent}</p>
           {/* 留言列表 */}
           <CommentList
             from="postView"
