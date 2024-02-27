@@ -5,13 +5,14 @@ import Mask from "../../../components/hint/Mask";
 import UploadView from "../../../components/post/UploadView";
 import { useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
+import useToken from "@/common/hooks/useToken";
 
 interface PropsType {
   getList: () => void;
 }
 
 const PawkBtn: React.FC<PropsType> = ({ getList }) => {
-  const { token } = useSelector((state: RootState) => state.userInfo);
+  const { token } = useToken();
   const [isUploadOpen, setIsUploadOpen] = useState(false);
 
   const handleClick = () => {

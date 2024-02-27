@@ -18,6 +18,7 @@ import Menu from "../../../components/post/PostMenu";
 import CommentList from "@/components/comment/CommentList";
 import { fetchGetSinglePost } from "@/common/fetch/post";
 import ExtraCardButton from "./ExtraCardButton";
+import useToken from "@/common/hooks/useToken";
 
 interface PropsType {
   data: PostDataType;
@@ -25,7 +26,8 @@ interface PropsType {
 }
 
 const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
-  const { token, userId } = useSelector((state: RootState) => state.userInfo);
+  const { token } = useToken();
+  const { userId } = useSelector((state: RootState) => state.userInfo);
   const [data, setData] = useState<PostDataType>(initalData);
   const [comments, setComments] = useState<CommentDataType[]>([]);
   const [isMaskOpen, setIsMaskOpen] = useState(false);
