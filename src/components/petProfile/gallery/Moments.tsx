@@ -88,11 +88,11 @@ const Moments: React.FC = () => {
 
   const AgeCard = () => {
     const [expandedCard, setExpandedCard] = useState("");
-    const handleToggleCard = (id: string) => {
-      if (expandedCard === id) {
+    const handleToggleCard = (prop: string) => {
+      if (expandedCard === prop) {
         setExpandedCard("");
       } else {
-        setExpandedCard(id);
+        setExpandedCard(prop);
       }
     };
 
@@ -144,8 +144,11 @@ const Moments: React.FC = () => {
                               const reserveType = (event as MedicalCardDataType)
                                 .reserveType;
 
-                              const id = cardId.toString();
-                              const isExpanded = expandedCard === id;
+                              const isExpanded =
+                                expandedCard ===
+                                `${moment(event.targetDate).format(
+                                  "YYYYMMDD"
+                                )}${index}`;
 
                               const titleText = () => {
                                 const isReminder: boolean =
@@ -203,7 +206,7 @@ const Moments: React.FC = () => {
                                     isExpanded ? "pb-6" : "pb-4"
                                   }`}
                                   key={index}
-                                  id={id}
+                                  // id={id}
                                 >
                                   {/* title */}
                                   <div className="flex justify-between">
@@ -243,7 +246,13 @@ const Moments: React.FC = () => {
                                       className={`${
                                         isExpanded && "rotate-180"
                                       } duration-300 hover:cursor-pointer`}
-                                      onClick={() => handleToggleCard(id)}
+                                      onClick={() => {
+                                        handleToggleCard(
+                                          `${moment(event.targetDate).format(
+                                            "YYYYMMDD"
+                                          )}${index}`
+                                        );
+                                      }}
                                     />
                                   </div>
                                   {/* content */}
