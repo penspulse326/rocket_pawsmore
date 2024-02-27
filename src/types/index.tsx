@@ -100,6 +100,10 @@ export interface AddPostType {
   postContent: string;
   media: string;
   mediaType: 0 | 1;
+  medicalRecordId?: number;
+  dailyRecordId?: number;
+  momentId?: number;
+  milestoneId?: number;
 }
 
 export interface LikesType {

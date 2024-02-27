@@ -17,10 +17,10 @@ import Mask from "../hint/Mask";
 import { mediaUpload } from "@/common/fetch/mediaManager";
 import { fetchAddPost } from "@/common/fetch/post";
 
-import { MediaType } from "@/types/enums";
+import { MediaType, RecordCardType } from "@/types/enums";
 import type { RootState } from "@/common/redux/store";
 import { fetchCheckAuth } from "@/common/fetch/auth";
-import { CardUnionDataType } from "@/types";
+import { AddPostType, CardUnionDataType } from "@/types";
 import CardData from "./CardData";
 
 interface UploadViewPropsType {
@@ -96,32 +96,37 @@ const UploadView: React.FC<UploadViewPropsType> = ({
 
     setIsLoading(true);
 
-    // 確認 token 時效
-    try {
-      const response = await fetchCheckAuth(token);
-      if (!response.ok) {
-        alert("登入狀態過期，請重新登入");
-        return;
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      return;
-    }
-
     // 上傳圖片影片
     try {
       const uploadResult = await mediaUpload(file!, "post");
-      const mediaUrl = uploadResult.secure_url;
+      if (!uploadResult) {
+        alert("上傳失敗，請稍後再試");
+        return;
+      }
 
-      const data = {
+      const mediaUrl = uploadResult.secure_url;
+      const data: AddPostType = {
         postContent,
         mediaType: mediaType!,
         media: mediaUrl,
       };
 
-      const response = await fetchAddPost(token, data, selectedPetId!);
-      console.log(response);
+      // 確認是否有卡片資料
+      if (card) {
+        switch (RecordCardType[card.card]) {
+          case "日常紀錄":
+            data.dailyRecordId = card.cardId;
+            break;
+          case "醫療紀錄":
+            data.medicalRecordId = card.cardId;
+            break;
+          case "重要時刻":
+            data.momentId = card.cardId;
+            break;
+        }
+      }
 
+      const response = await fetchAddPost(token, data, selectedPetId!);
       if (!response.ok) {
         alert("上傳失敗，請稍後再試");
       }
@@ -142,8 +147,6 @@ const UploadView: React.FC<UploadViewPropsType> = ({
     }
     setIsOpen(false);
   };
-
-  console.log(card);
 
   return (
     <>

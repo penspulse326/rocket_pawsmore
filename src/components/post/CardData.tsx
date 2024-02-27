@@ -72,7 +72,7 @@ const CardData: React.FC<PropsType> = ({ data }) => {
       onClick={() => setIsExpanded(!isExpanded)}
       className={`${
         isExpanded
-          ? "max-h-[300px] overflow-y-scroll"
+          ? "max-h-[200px] overflow-y-scroll"
           : "max-h-[68px] overflow-hidden"
       } scrollbar-none mt-8 px-6 py-4 h-full border border-stroke rounded-[30px] duration-300`}
     >
