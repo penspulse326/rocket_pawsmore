@@ -38,7 +38,7 @@ const ExtraCardView: React.FC<PropsType> = ({ data, onClick }) => {
           <img
             src="/test/icon-exclamation.svg"
             alt="flag"
-            className="w-9 h-9"
+            className="w-6 h-6"
           />
         );
         title = ReserveType[medicalData.reserveType];
@@ -47,7 +47,10 @@ const ExtraCardView: React.FC<PropsType> = ({ data, onClick }) => {
     case "重要時刻":
       let momentData = data as MomentCardDataType;
       icon = <Dot name={2} size="sm" />;
-      title = MomentIdType[momentData.momentId];
+      title =
+        momentData.momentId === 25
+          ? `學會${momentData.momentDetails}`
+          : MomentIdType[momentData.momentId];
       break;
   }
 
@@ -58,7 +61,7 @@ const ExtraCardView: React.FC<PropsType> = ({ data, onClick }) => {
       className="absolute left-8 bottom-8 z-10 flex items-center px-6 py-4 max-w-36 rounded-[30px] bg-white font-bold hover:bg-stroke duration-300"
     >
       {icon}
-      <span className="truncate">{title}aaaaaa</span>
+      <span className="truncate">{title}</span>
     </button>
   );
 };

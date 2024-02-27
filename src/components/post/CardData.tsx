@@ -3,30 +3,22 @@ import Medical from "@/containers/recordCard/content/Medical";
 import Moment from "@/containers/recordCard/content/Moment";
 import Reminder from "@/containers/recordCard/content/Reminder";
 import {
-  AnniversaryCardDataType,
   CardUnionDataType,
   DailyCardDataType,
   MedicalCardDataType,
   MomentCardDataType,
 } from "@/types";
-import {
-  AnniversaryType,
-  MomentCategoryType,
-  MomentIdType,
-  RecordCardType,
-  RecordEventType,
-  ReserveType,
-} from "@/types/enums";
+import { MomentIdType, RecordEventType, ReserveType } from "@/types/enums";
 import Dot from "../icon/Dot";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { IconChevronDown } from "@tabler/icons-react";
-import Anniversary from "@/containers/recordCard/content/Anniversary";
 
 interface PropsType {
   data: CardUnionDataType | null;
 }
 const CardData: React.FC<PropsType> = ({ data }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const contentRef = useRef<HTMLElement>(null);
 
   if (!data) return null;
 
@@ -62,14 +54,26 @@ const CardData: React.FC<PropsType> = ({ data }) => {
     case "重要時刻":
       let momentData = data as MomentCardDataType;
       icon = <Dot name={2} size="lg" />;
-      title = MomentIdType[momentData.momentId];
+      title =
+        momentData.momentId === 25
+          ? `學會${momentData.momentDetails}`
+          : MomentIdType[momentData.momentId];
       content = <Moment data={data as MomentCardDataType} />;
       break;
   }
 
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+
+    if (isExpanded && contentRef.current) {
+      contentRef.current.scrollTop = 0;
+    }
+  };
+
   return (
     <section
-      onClick={() => setIsExpanded(!isExpanded)}
+      ref={contentRef}
+      onClick={toggleExpand}
       className={`${
         isExpanded
           ? "max-h-[200px] overflow-y-scroll"
