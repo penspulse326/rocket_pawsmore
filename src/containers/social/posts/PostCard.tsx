@@ -172,12 +172,9 @@ const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
           <span className="w-1 h-1 bg-note rounded-full"></span>
           <span
             className="tooltip text-note"
-            data-tooltip={moment
-              .utc(createDate)
-              .tz("Asia/Taipei")
-              .format("YYYY-MM-DD HH:mm")}
+            data-tooltip={moment(createDate).format("YYYY-MM-DD HH:mm")}
           >
-            {moment.utc(createDate).fromNow()}
+            {moment(createDate).fromNow()}
           </span>
         </div>
         <div className="flex gap-2 items-center">
@@ -196,7 +193,9 @@ const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
         </div>
       </section>
       {/* 內文 */}
-      <p>{postContent}</p>
+      <p className="break-words whitespace-pre-wrap line-clamp-2 text-ellipsis overflow-hidden ">
+        {postContent}
+      </p>
       {/* 留言 */}
       <CommentList
         from="postList"
