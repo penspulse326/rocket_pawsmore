@@ -17,6 +17,7 @@ import LikeBtn from "@/components/post/LikeBtn";
 import Menu from "../../../components/post/PostMenu";
 import CommentList from "@/components/comment/CommentList";
 import { fetchGetSinglePost } from "@/common/fetch/post";
+import ExtraCardButton from "./ExtraCardButton";
 
 interface PropsType {
   data: PostDataType;
@@ -41,6 +42,9 @@ const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
     mediaType,
     likes,
     createDate,
+    dailyRecordData,
+    medicalRecordData,
+    momentData,
   } = data;
 
   const isLiked = likes.some((like) => like.userId === userId);
@@ -141,6 +145,10 @@ const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
               className="w-full h-full bg-black object-contain cursor-pointer"
             />
           )}
+          <ExtraCardButton
+            data={dailyRecordData || momentData || medicalRecordData || null}
+            onClick={() => setIsMaskOpen(true)}
+          />
         </div>
         {/* 按讚按鈕 */}
         <LikeBtn

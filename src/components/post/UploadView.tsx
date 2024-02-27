@@ -17,18 +17,27 @@ import Mask from "../hint/Mask";
 import { mediaUpload } from "@/common/fetch/mediaManager";
 import { fetchAddPost } from "@/common/fetch/post";
 
-import { MediaType } from "@/types/enums";
+import { MediaType, RecordCardType } from "@/types/enums";
 import type { RootState } from "@/common/redux/store";
 import { fetchCheckAuth } from "@/common/fetch/auth";
+import { AddPostType, CardUnionDataType } from "@/types";
+import CardData from "./CardData";
 
 interface UploadViewPropsType {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  getList: () => void;
+  getList?: () => void;
+  card?: CardUnionDataType;
+  petId?: number;
 }
 
 const MAX_FILE_SIZE = 1024 * 1024 * 10;
 
-const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen, getList }) => {
+const UploadView: React.FC<UploadViewPropsType> = ({
+  setIsOpen,
+  getList,
+  card,
+  petId,
+}) => {
   const { token, userId } = useSelector((state: RootState) => state.userInfo);
 
   // 表單相關
@@ -87,32 +96,37 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen, getList }) => {
 
     setIsLoading(true);
 
-    // 確認 token 時效
-    try {
-      const response = await fetchCheckAuth(token);
-      if (!response.ok) {
-        alert("登入狀態過期，請重新登入");
-        return;
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      return;
-    }
-
     // 上傳圖片影片
     try {
       const uploadResult = await mediaUpload(file!, "post");
-      const mediaUrl = uploadResult.secure_url;
+      if (!uploadResult) {
+        alert("上傳失敗，請稍後再試");
+        return;
+      }
 
-      const data = {
+      const mediaUrl = uploadResult.secure_url;
+      const data: AddPostType = {
         postContent,
         mediaType: mediaType!,
         media: mediaUrl,
       };
 
-      const response = await fetchAddPost(token, data, selectedPetId!);
-      console.log(response);
+      // 確認是否有卡片資料
+      if (card) {
+        switch (RecordCardType[card.card]) {
+          case "日常紀錄":
+            data.dailyRecordId = card.cardId;
+            break;
+          case "醫療紀錄":
+            data.medicalRecordId = card.cardId;
+            break;
+          case "重要時刻":
+            data.momentId = card.cardId;
+            break;
+        }
+      }
 
+      const response = await fetchAddPost(token, data, selectedPetId!);
       if (!response.ok) {
         alert("上傳失敗，請稍後再試");
       }
@@ -123,7 +137,7 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen, getList }) => {
 
     setIsLoading(false);
     setIsOpen(false);
-    getList();
+    getList && getList();
   };
 
   const handleClose = () => {
@@ -147,7 +161,7 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen, getList }) => {
       )}
       <form
         onSubmit={handleSubmit}
-        className="mx-8 p-8 w-[1041px] rounded-[30px] bg-white"
+        className="mx-8 p-8 max-w-[1041px] w-full rounded-[30px] bg-white"
       >
         {/* 新增貼文與關閉按鈕 */}
         <div className="flex justify-between items-center">
@@ -158,7 +172,7 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen, getList }) => {
         </div>
         {/* 內容 */}
         <div className="flex mt-4 gap-8">
-          <label className="relative flex-grow flex justify-center items-center gap-8 max-w-[476px] aspect-square border border-stroke rounded-[30px] overflow-hidden cursor-pointer">
+          <label className="relative flex-grow flex justify-center items-center gap-8 max-w-[476px] max-h-[476px] aspect-square border border-stroke rounded-[30px] overflow-hidden cursor-pointer">
             <input
               name="media"
               type="file"
@@ -201,21 +215,31 @@ const UploadView: React.FC<UploadViewPropsType> = ({ setIsOpen, getList }) => {
             <textarea
               value={postContent}
               onChange={(e) => setPostContent(e.target.value)}
-              className="scrollbar-none flex-grow p-8 w-full border border-stroke outline-note rounded-[30px] resize-none"
+              className="scrollbar-none flex-grow p-8 min-h-[150px] w-full border border-stroke outline-note rounded-[30px] resize-none"
             />
+            {/* 卡片資料 */}
+            {card && <CardData data={card} />}
             <div className="flex gap-8 mt-8">
               {/* 里程碑按鈕 */}
-              <button
-                type="button"
-                className="flex-grow border border-stroke rounded-[30px] text-center"
-                onClick={() => setIsMilestoneOpen(!isMilestoneOpen)}
+              {!card && (
+                <button
+                  type="button"
+                  className="flex-grow border border-stroke rounded-[30px] text-center"
+                  onClick={() => setIsMilestoneOpen(!isMilestoneOpen)}
+                >
+                  <IconMedal size={48} className="mx-auto" />
+                  <span className="block mt-4 text-note">加上里程碑</span>
+                </button>
+              )}
+              <div
+                style={{
+                  flexDirection: card ? "row" : "column",
+                  maxWidth: card ? "none" : "250px",
+                }}
+                className={`flex-grow flex gap-8 max-w-[250px] w-full`}
               >
-                <IconMedal size={48} className="mx-auto" />
-                <span className="block mt-4 text-note">加上里程碑</span>
-              </button>
-              <div className="flex-grow flex flex-col gap-8 max-w-[250px] w-full">
                 {/* 寵物列表 */}
-                <AccountList setId={setSelectedPetId} />
+                <AccountList petId={petId} setId={setSelectedPetId} />
                 {/* 送出 */}
                 <button
                   type="submit"

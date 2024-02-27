@@ -9,14 +9,18 @@ import type { PetDataType } from "@/types";
 import Link from "next/link";
 
 interface PropsType {
+  petId?: number;
   setId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-const AccountList: React.FC<PropsType> = ({ setId }) => {
+const AccountList: React.FC<PropsType> = ({ setId, petId }) => {
   const petList = useSelector((state: RootState) => state.petList);
+  const initailPet = petList.filter((pet) => pet.petId === petId)?.[0];
 
   const [isExpanded, setIsExpanded] = useState(false);
-  const [selectedPet, setSelectedPet] = useState<PetDataType>(petList[0]);
+  const [selectedPet, setSelectedPet] = useState<PetDataType>(
+    initailPet || petList[0]
+  );
 
   useEffect(() => {
     if (selectedPet) {
@@ -43,11 +47,12 @@ const AccountList: React.FC<PropsType> = ({ setId }) => {
             <li>{selectedPet.petName}</li>
             <li className="text-note">@{selectedPet.petAccount}</li>
           </ul>
-
-          <IconChevronDown
-            size={24}
-            className={`${isExpanded && "rotate-180"} mr-2`}
-          />
+          {!petId && (
+            <IconChevronDown
+              size={24}
+              className={`${isExpanded && "rotate-180"} mr-2`}
+            />
+          )}
         </div>
       </div>
     );
@@ -101,7 +106,7 @@ const AccountList: React.FC<PropsType> = ({ setId }) => {
           您尚未建立寵物檔案
         </Link>
       )}
-      {isExpanded && <ExpandedCard />}
+      {!petId && isExpanded && <ExpandedCard />}
     </section>
   );
 };

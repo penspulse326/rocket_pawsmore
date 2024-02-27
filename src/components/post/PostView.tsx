@@ -14,6 +14,7 @@ import { fetchGetComment } from "@/common/fetch/comment";
 import type { RootState } from "@/common/redux/store";
 import type { CommentDataType, PostDataType } from "@/types";
 import { MediaType } from "@/types/enums";
+import CardData from "./CardData";
 
 interface PropsType {
   data: PostDataType;
@@ -36,6 +37,9 @@ const PostView: React.FC<PropsType> = ({ data, getPost, onClose }) => {
     mediaType,
     likes,
     createDate,
+    dailyRecordData,
+    medicalRecordData,
+    momentData,
   } = postData;
 
   const isLiked = likes.some((like) => like.userId === userId);
@@ -127,6 +131,10 @@ const PostView: React.FC<PropsType> = ({ data, getPost, onClose }) => {
         <section className="scrollbar-none overflow-y-scroll max-w-[411px] max-h-[353px] w-[411px] h-full">
           {/* 貼文內容 */}
           <p className="mt-4 break-words whitespace-pre-wrap">{postContent}</p>
+          {/* 額外卡片資料 */}
+          <CardData
+            data={dailyRecordData || medicalRecordData || momentData || null}
+          />
           {/* 留言列表 */}
           <CommentList
             from="postView"
