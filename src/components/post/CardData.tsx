@@ -23,14 +23,17 @@ import { IconChevronDown } from "@tabler/icons-react";
 import Anniversary from "@/containers/recordCard/content/Anniversary";
 
 interface PropsType {
-  data: CardUnionDataType;
+  data: CardUnionDataType | null;
 }
 const CardData: React.FC<PropsType> = ({ data }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  if (!data) return null;
+
   let icon;
   let title;
   let content;
   const { card } = data;
-  const [isExpanded, setIsExpanded] = useState(false);
 
   switch (RecordEventType[card]) {
     case "日常紀錄":
