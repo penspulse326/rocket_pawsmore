@@ -178,7 +178,7 @@ const Daily: React.FC<DailyProps> = ({ data }) => {
       {remark && (
         <ul className="flex flex-col gap-y-2">
           <li className="text-note">備註</li>
-          <li className="h-[72px]">{remark}</li>
+          <li>{remark}</li>
         </ul>
       )}
     </div>
