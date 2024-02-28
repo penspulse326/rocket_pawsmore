@@ -97,7 +97,7 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
                     index === 0 ? "pt-6" : "pt-3"
                   }`}
                 >
-                  {moment(targetDate).format("YYYY/M/DD")}
+                  {moment(targetDate).format("YYYY/M/D")}
                 </li>
                 {/* 一般 */}
                 <ul className="flex gap-x-2 px-4 border-l border-stroke">
@@ -222,7 +222,7 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
                     index === 0 ? "pt-6" : "pt-3"
                   }`}
                 >
-                  {moment(targetDate).format("YYYY/M/DD")}
+                  {moment(targetDate).format("YYYY/M/D")}
                 </div>
                 <ol className="flex gap-x-2 pl-4 border-l border-stroke h-full">
                   <li
@@ -330,7 +330,7 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
                     index === 0 ? "pt-6" : "pt-3"
                   }`}
                 >
-                  {moment(targetDate).format("YYYY/M/DD")}
+                  {moment(targetDate).format("YYYY/M/D")}
                 </div>
                 <ol className="flex gap-x-8 pl-4 border-l border-stroke h-full">
                   <li
