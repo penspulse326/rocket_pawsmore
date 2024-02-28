@@ -182,12 +182,10 @@ const Daily: React.FC<DailyProps> = ({ data }) => {
         </ToggleList>
       )}
       {/* note */}
-      {remark && (
-        <ul className="flex flex-col gap-y-2">
-          <li className="text-note">備註</li>
-          <li>{remark}</li>
-        </ul>
-      )}
+      <ul className="flex flex-col gap-y-2">
+        <li className="text-note">備註</li>
+        <li>{remark}</li>
+      </ul>
     </div>
   );
 };
