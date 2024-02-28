@@ -77,6 +77,7 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
     handleSubmit,
     control,
     setError,
+    clearErrors,
     formState: { errors },
   } = useForm<FormType>({
     defaultValues: {
@@ -86,7 +87,17 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
   });
 
   const handleAddMedicalRecord = async (data: FormType) => {
-    if (!token || !petId) return;
+    if (!token) {
+      alert("請先登入");
+      return;
+    }
+    if (!petId) {
+      alert("請先建立寵物檔案");
+      return;
+    }
+
+    clearErrors();
+
     const formData = { ...data };
     const { title, visitType, photo, remindDate } = formData;
 
@@ -109,6 +120,8 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
     const response = await fetchAddMedicalCard(token, petId, formData);
     if (!response.ok) {
       alert("新增失敗，請稍後再試");
+      setIsLoading(false);
+      return;
     }
 
     // 如果有醫療提醒要再新增一筆
