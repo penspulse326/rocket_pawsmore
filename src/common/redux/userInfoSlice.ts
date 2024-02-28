@@ -7,6 +7,7 @@ const initialState: UserInfoType = {
   account: "",
   headShot: "",
   introduction: "",
+  topic: null,
   link: "",
 };
 
