@@ -47,7 +47,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const followingPosts: PostDataType[] = followingPostsResult.data;
     const { recentPosts, olderPosts } = filterPostsByDate(followingPosts);
     const filteredPosts = sortPostsByLikes(filterPost(allPosts, recentPosts));
-    console.log({ recentPosts, olderPosts });
 
     return {
       props: { all: filteredPosts, following: { recentPosts, olderPosts } },
