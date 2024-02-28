@@ -38,7 +38,7 @@ const FoodInputs: React.FC<FoodInputsType> = ({
 
   const handleValueChange = (index: number, value: string) => {
     let newList = [...list];
-    newList[index] = { ...newList[index], amount: Number(value) };
+    newList[index] = { ...newList[index], amount: parseInt(value) };
     handleFoodChange(newList);
   };
 
@@ -66,7 +66,7 @@ const FoodInputs: React.FC<FoodInputsType> = ({
           />
           {/* 重量 */}
           <input
-            type="text"
+            type="number"
             name="amount"
             value={food.amount}
             onChange={(e) => handleValueChange(index, e.target.value)}
