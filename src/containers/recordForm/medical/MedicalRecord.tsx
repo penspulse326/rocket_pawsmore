@@ -19,6 +19,7 @@ import { setRecordInfo } from "@/common/redux/recordSlice";
 import { fetchFormattedRecord } from "@/common/helpers/fetchFormattedRecord";
 
 import { VisitType } from "@/types/enums";
+import useToken from "@/common/hooks/useToken";
 
 interface FormType {
   card: 1;
@@ -61,7 +62,7 @@ interface PropsType {
 const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
   const dispatch = useDispatch();
 
-  const { token } = useSelector((state: RootState) => state.userInfo);
+  const { token } = useToken();
   const petList = useSelector((state: RootState) => state.petList);
 
   const { petId } = useContext(PetIdContext);

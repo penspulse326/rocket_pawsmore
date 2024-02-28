@@ -13,11 +13,14 @@ import { setUserInfo } from "@/common/redux/userInfoSlice";
 import BtnLoading from "../hint/BtnLoading";
 import getMediaId from "@/common/helpers/getMediaId";
 import { useRouter } from "next/router";
+import useToken from "@/common/hooks/useToken";
 
 const Profile: React.FC = () => {
+  const { token } = useToken();
   const router = useRouter();
-  const { token, account, username, headShot, introduction, link } =
-    useSelector((state: RootState) => state.userInfo);
+  const { account, username, headShot, introduction, link } = useSelector(
+    (state: RootState) => state.userInfo
+  );
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [statusCode, setStatusCode] = useState(0);
@@ -36,7 +39,7 @@ const Profile: React.FC = () => {
   const rowsOfTextarea: number = introduction.split("\n").length;
 
   const handleUpdate = async (data: MemberFormType) => {
-    if (isLoading) return;
+    if (isLoading || !token) return;
     setIsLoading(true);
     setStatusCode(0);
 
@@ -69,6 +72,7 @@ const Profile: React.FC = () => {
         // 如果原本有頭貼，就要刪除
         if (initailPhoto) {
           const mediaId = getMediaId(initailPhoto);
+          await mediaDelete(mediaId, "image");
         }
       } catch (error) {
         console.error(error);

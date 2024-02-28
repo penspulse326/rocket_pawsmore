@@ -22,6 +22,7 @@ import type { RootState } from "@/common/redux/store";
 import { fetchCheckAuth } from "@/common/fetch/auth";
 import { AddPostType, CardUnionDataType } from "@/types";
 import CardData from "./CardData";
+import useToken from "@/common/hooks/useToken";
 
 interface UploadViewPropsType {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -38,7 +39,7 @@ const UploadView: React.FC<UploadViewPropsType> = ({
   card,
   petId,
 }) => {
-  const { token, userId } = useSelector((state: RootState) => state.userInfo);
+  const { token } = useToken();
 
   // 表單相關
   const [file, setFile] = useState<File>();
@@ -92,6 +93,10 @@ const UploadView: React.FC<UploadViewPropsType> = ({
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    if (!token) {
+      alert("請先登入");
+      return;
+    }
     event.preventDefault();
 
     setIsLoading(true);

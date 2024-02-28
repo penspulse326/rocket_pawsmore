@@ -23,12 +23,13 @@ import { RootState } from "@/common/redux/store";
 import { errorText } from "@/common/lib/messageText";
 import { gender, species } from "@/common/lib/formText";
 import type { PetFormType } from "@/types";
+import useToken from "@/common/hooks/useToken";
 
 const CreatePet: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-
-  const { token, userId } = useSelector((state: RootState) => state.userInfo);
+  const { token } = useToken();
+  const { userId } = useSelector((state: RootState) => state.userInfo);
 
   const [isLoading, setIsLoading] = useState(false);
   const [statusCode, setStatusCode] = useState(0);
@@ -47,6 +48,7 @@ const CreatePet: React.FC = () => {
   };
 
   const handleCreatePet = async (data: PetFormType) => {
+    if (isLoading || !token) return;
     setIsLoading(true);
     setStatusCode(0);
 

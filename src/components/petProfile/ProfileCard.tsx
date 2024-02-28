@@ -18,8 +18,10 @@ import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 
 import { RootState } from "@/common/redux/store";
 import { PetDataType, UserListDataType } from "@/types";
+import useToken from "@/common/hooks/useToken";
 
 const ProfileCard: React.FC = () => {
+  const { token } = useToken();
   const router = useRouter();
   const { petAccount } = router.query;
 
@@ -77,12 +79,12 @@ const ProfileCard: React.FC = () => {
     try {
       const response = await fetch(`/api/follow/${petAccount}`, {
         method: "PATCH",
-        headers: { Authorization: `Bearer ${userInfo.token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) {
         throw new Error("failed");
       }
-      if (userInfo.token !== "") {
+      if (token !== "") {
         if (isFollowing) {
           setIsFollowing(false);
         } else {
@@ -255,7 +257,7 @@ const ProfileCard: React.FC = () => {
                 if (isFollowing) {
                   setIsAlertShown(!isAlertShown);
                   handleFreezeScroll(true);
-                } else if (userInfo.token) {
+                } else if (token) {
                   handleFollow();
                 }
               }}

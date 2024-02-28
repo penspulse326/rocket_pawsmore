@@ -12,6 +12,7 @@ import Loading from "@/components/hint/Loading";
 import ErrorMessage from "@/components/ErrorMessage";
 import { VisitType } from "@/types/enums";
 import { reserveOptions } from "@/common/lib/formText";
+import useToken from "@/common/hooks/useToken";
 
 interface FormType {
   card: number;
@@ -27,7 +28,7 @@ interface PropsType {
 }
 
 const ReserveRemind: React.FC<PropsType> = ({ onClose: handleClose }) => {
-  const { token } = useSelector((state: RootState) => state.userInfo);
+  const { token } = useToken();
   const { petId } = useContext(PetIdContext);
   const { selectedDate } = useContext(DateContext);
   const [isLoading, setIsLoading] = useState(false);

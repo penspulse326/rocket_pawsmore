@@ -27,6 +27,7 @@ import { errorText } from "@/common/lib/messageText";
 import Select from "../Select";
 import ErrorMessage from "@/components/ErrorMessage";
 import TextInput from "../medical/TextInput";
+import useToken from "@/common/hooks/useToken";
 
 const MAX_FILE_SIZE = 1024 * 1024 * 2;
 
@@ -49,7 +50,7 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
   const { petId } = useContext(PetIdContext);
   const { selectedDate } = useContext(DateContext);
-  const { token } = useSelector((state: RootState) => state.userInfo);
+  const { token } = useToken();
   const petList = useSelector((state: RootState) => state.petList);
 
   const [petAccount, setPetAccount] = useState("");

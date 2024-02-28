@@ -15,20 +15,20 @@ import { fetchGetPetList } from "@/common/fetch/petProfile";
 
 const Navbar: React.FC = () => {
   const router = useRouter();
-  const { token: localToken, clearUser } = useToken();
+  const { token, clearUser } = useToken();
   const dispatch = useDispatch();
-  const { headShot, username, userId, token } = useSelector(
+  const { headShot, username, userId } = useSelector(
     (state: RootState) => state.userInfo
   );
 
   const checkIsLogin = async () => {
-    if (!localToken) {
+    if (!token) {
       router.push("/login");
       return;
     }
 
     // token 過期重新導向
-    const response = await fetchCheckAuth(localToken);
+    const response = await fetchCheckAuth(token);
     if (!response.ok) {
       clearUser();
       alert("登入狀態過期，請重新登入");
@@ -36,7 +36,7 @@ const Navbar: React.FC = () => {
       return;
     }
 
-    dispatch(setUserInfo({ ...response.data, token: localToken }));
+    dispatch(setUserInfo(response.data));
     const { username } = response.data;
 
     // username 不存在表示未完成個人資料的填寫，要重新導向
@@ -46,6 +46,7 @@ const Navbar: React.FC = () => {
     }
   };
 
+  // 取得寵物列表
   const getPetList = async () => {
     if (!userId) {
       return;
@@ -63,14 +64,14 @@ const Navbar: React.FC = () => {
     router.push("/login");
   };
 
-  // 本地有 token 但 redux 沒有時表示使用者是重新整理或離開網站再進入該頁面
+  // 檢查是否登入
   useEffect(() => {
-    if (localToken && !token) {
+    if (token) {
       checkIsLogin();
-      return;
     }
-  }, [token, localToken]);
+  }, [token]);
 
+  // 取得 userId 後再取得寵物列表
   useEffect(() => {
     if (userId) {
       getPetList();

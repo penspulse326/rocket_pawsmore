@@ -20,9 +20,11 @@ import getPetAge from "@/common/helpers/getPetAge";
 import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
 
 import { PetDataType, RequestedUserInfoType } from "@/types";
+import useToken from "@/common/hooks/useToken";
 
 const UserProfile: React.FC = () => {
   const router = useRouter();
+  const { token } = useToken();
   const { userAccount } = router.query;
 
   const userInfo = useSelector((state: RootState) => state.userInfo);
@@ -60,7 +62,7 @@ const UserProfile: React.FC = () => {
         const response = await fetch(`/api/pet/list/${userId}`, {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${userInfo.token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         if (!response.ok) {

@@ -96,7 +96,7 @@ export const fetchDeletePost = async (
   token: string,
   id: number,
   media: string,
-  mediaType: string
+  mediaType: "image" | "video"
 ) => {
   try {
     const response = await fetch(`${apiNext.DELETE_POST}/${id}`, {
