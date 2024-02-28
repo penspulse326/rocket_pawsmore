@@ -25,21 +25,28 @@ const ProfileGallery: React.FC = () => {
         {tabs.map((tab, index) => {
           const IconComponent = tab.icon;
           return (
-            <div
-              className="flex justify-center items-center gap-x-1 w-[132px] py-8"
-              key={`${index}-${tab.title}`}
-            >
-              <IconComponent
-                size={16}
-                color={` ${selectedTab === tab.title ? "#000000" : "#808080"} `}
-              />
+            <div key={index}>
               <div
-                className={`hover:cursor-pointer ${
-                  selectedTab === tab.title ? "font-bold" : "text-note"
+                className={`h-[5px] w-full ${
+                  selectedTab === tab.title &&
+                  "bg-gradient-to-r from-[#7CCBFF] via-[#7CCBFF] to-[#0057FF]"
                 }`}
-                onClick={() => handleToggleTab(tab.title)}
-              >
-                {tab.title}
+              ></div>
+              <div className="flex justify-center items-center gap-x-1 w-[132px] py-8">
+                <IconComponent
+                  size={16}
+                  color={` ${
+                    selectedTab === tab.title ? "#000000" : "#808080"
+                  } `}
+                />
+                <div
+                  className={`hover:cursor-pointer ${
+                    selectedTab === tab.title ? "font-bold" : "text-note"
+                  }`}
+                  onClick={() => handleToggleTab(tab.title)}
+                >
+                  {tab.title}
+                </div>
               </div>
             </div>
           );

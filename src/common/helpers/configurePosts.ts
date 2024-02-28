@@ -41,12 +41,18 @@ export const filterPostsByDate = (posts: PostDataType[]) => {
 };
 
 export const sortPostsByLikes = (posts: PostDataType[]) => {
+  if (!posts) {
+    return [];
+  }
   return posts.sort((a, b) => {
     return b.likes.length - a.likes.length;
   });
 };
 
 export const sortPostsByDate = (posts: PostDataType[]) => {
+  if (!posts) {
+    return [];
+  }
   return posts.sort((a, b) => {
     if (a.createDate > b.createDate) return -1;
     if (a.createDate < b.createDate) return 1;

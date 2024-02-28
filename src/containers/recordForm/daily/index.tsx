@@ -17,6 +17,7 @@ import { RootState } from "@/common/redux/store";
 
 import { setRecordInfo } from "@/common/redux/recordSlice";
 import { fetchFormattedRecord } from "@/common/helpers/fetchFormattedRecord";
+import useToken from "@/common/hooks/useToken";
 
 interface FoodType {
   type: string;
@@ -71,7 +72,7 @@ interface PropsType {
 const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
   const dispatch = useDispatch();
 
-  const { token } = useSelector((state: RootState) => state.userInfo);
+  const { token } = useToken();
   const petList = useSelector((state: RootState) => state.petList);
 
   const [petAccount, setPetAccount] = useState("");
@@ -124,8 +125,22 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleNumberChange = (name: string, value: string) => {
+    setFormState((prev) => ({ ...prev, [name]: parseInt(value) }));
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (!token) {
+      alert("請先登入");
+      return;
+    }
+    if (!petId) {
+      alert("請先建立寵物檔案");
+      return;
+    }
+
     const data = formatDailyData(formState);
 
     setIsLoading(true);
@@ -134,9 +149,8 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
       const response = await fetchAddDailyCard(token, petId!, data);
       if (!response.ok) {
         alert("新增失敗，請稍後再試");
-        return;
       }
-      alert("新增成功");
+
       handleClose();
     } catch (error) {
       alert("新增失敗，請稍後再試");
@@ -187,7 +201,7 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
               type="number"
               min={0}
               value={formState.weight}
-              onChange={(e) => handleTextChange("weight", e.target.value)}
+              onChange={(e) => handleNumberChange("weight", e.target.value)}
               className="form-input mr-1 w-16"
             />
             <Select
@@ -202,7 +216,7 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
               type="number"
               min={0}
               value={formState.water}
-              onChange={(e) => handleTextChange("water", e.target.value)}
+              onChange={(e) => handleNumberChange("water", e.target.value)}
               className="form-input mr-1 w-16"
             />
             <span>ml</span>

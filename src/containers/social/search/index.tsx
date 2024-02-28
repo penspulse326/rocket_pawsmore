@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import type { PostDataType, SearchPetData } from "@/types";
-import { GenderType, MediaType, SpeciesType } from "@/types/enums";
+import { PetGenderType, MediaType, SpeciesType } from "@/types/enums";
 import Mask from "@/components/hint/Mask";
 import PostView from "@/components/post/PostView";
 import { useRouter } from "next/router";
@@ -68,7 +68,7 @@ const SearchResult: React.FC<PropsType> = ({ data }) => {
                     <div className="flex gap-2 text-note">
                       <span>{SpeciesType[PetSpecies]}</span>
                       <span>{Breed}</span>
-                      <span>{GenderType[PetGender]}</span>
+                      <span>{PetGenderType[PetGender]}</span>
                     </div>
                     <span>{getPetAge(Birthday)}</span>
                   </div>

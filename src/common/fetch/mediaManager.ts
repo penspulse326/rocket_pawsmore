@@ -40,7 +40,10 @@ export const mediaUpload = async (
   });
 };
 
-export const mediaDelete = async (publicId: string, resourceType: string) => {
+export const mediaDelete = async (
+  publicId: string,
+  resourceType: "image" | "video"
+) => {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await fetch("/api/cld/delete", {

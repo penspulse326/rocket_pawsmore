@@ -1,6 +1,6 @@
 import {
   AnniversaryType,
-  GenderType,
+  PetGenderType,
   MedicalCardType,
   MomentCategoryType,
   MomentIdType,
@@ -63,7 +63,6 @@ export interface UserInfoType {
   headShot: string;
   introduction: string;
   link: string;
-  token: string;
 }
 
 export interface UserListDataType {
@@ -100,6 +99,10 @@ export interface AddPostType {
   postContent: string;
   media: string;
   mediaType: 0 | 1;
+  medicalRecordId?: number;
+  dailyRecordId?: number;
+  momentId?: number;
+  milestoneId?: number;
 }
 
 export interface LikesType {
@@ -108,7 +111,7 @@ export interface LikesType {
   userAccount: string;
 }
 
-interface LessCommentDataType {
+export interface LessCommentDataType {
   postContent: string;
   postId: number;
   userAccount: string;
@@ -123,6 +126,9 @@ export interface PostDataType {
   postContent: string;
   media: string;
   mediaType: 0 | 1;
+  medicalRecordData: MedicalCardDataType | null;
+  dailyRecordData: DailyCardDataType | null;
+  momentData: MomentCardDataType | null;
   likes: LikesType[];
   comments: CommentDataType[];
   createDate: string;
@@ -263,7 +269,7 @@ export interface SearchPetData {
   PetName: string;
   PetPhoto: string;
   PetSpecies: SpeciesType;
-  PetGender: GenderType;
+  PetGender: PetGenderType;
   Breed: string;
   Birthday: string;
   AdoptedDate: string;

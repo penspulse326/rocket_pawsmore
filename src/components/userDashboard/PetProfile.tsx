@@ -15,8 +15,10 @@ import getPetSpecies from "@/common/helpers/getPetSpecies";
 
 import ErrorMessage from "../ErrorMessage";
 import { errorText } from "@/common/lib/messageText";
+import useToken from "@/common/hooks/useToken";
 
 const PetProfile = () => {
+  const { token } = useToken();
   const userInfo = useSelector((state: RootState) => state.userInfo);
   const petList = useSelector((state: RootState) => state.petList);
 
@@ -66,7 +68,7 @@ const PetProfile = () => {
       const response = await fetch(`/api/pet/update/${petId}`, {
         method: "PATCH",
         headers: {
-          Authorization: `Bearer ${userInfo.token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });

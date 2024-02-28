@@ -97,7 +97,7 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
                     index === 0 ? "pt-6" : "pt-3"
                   }`}
                 >
-                  {moment(targetDate).format("YYYY/M/DD")}
+                  {moment(targetDate).format("YYYY/M/D")}
                 </li>
                 {/* 一般 */}
                 <ul className="flex gap-x-2 px-4 border-l border-stroke">
@@ -222,7 +222,7 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
                     index === 0 ? "pt-6" : "pt-3"
                   }`}
                 >
-                  {moment(targetDate).format("YYYY/M/DD")}
+                  {moment(targetDate).format("YYYY/M/D")}
                 </div>
                 <ol className="flex gap-x-2 pl-4 border-l border-stroke h-full">
                   <li
@@ -281,7 +281,7 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
                     }`}
                   >
                     {photo ? (
-                      <div className="max-w-[124px] max-h-[93px]">
+                      <div className="w-[124px] h-[93px]">
                         <Image
                           src={photo}
                           width={124}
@@ -314,8 +314,14 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
         {data
           .filter((event) => event.card === RecordCardType.重要時刻)
           .map((event, index) => {
-            const { targetDate, momentType, momentId, photo, desc } =
-              event as MomentCardDataType;
+            const {
+              targetDate,
+              momentType,
+              momentId,
+              photo,
+              desc,
+              momentDetails,
+            } = event as MomentCardDataType;
 
             return (
               <ul className="flex border-t border-stroke" key={index}>
@@ -324,7 +330,7 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
                     index === 0 ? "pt-6" : "pt-3"
                   }`}
                 >
-                  {moment(targetDate).format("YYYY/M/DD")}
+                  {moment(targetDate).format("YYYY/M/D")}
                 </div>
                 <ol className="flex gap-x-8 pl-4 border-l border-stroke h-full">
                   <li
@@ -337,7 +343,9 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
                       index === 0 ? "pt-6" : "pt-3"
                     }`}
                   >
-                    {momentId ? MomentIdType[momentId] : "-"}
+                    {momentId === 25
+                      ? momentDetails
+                      : MomentIdType[momentId] || "-"}
                   </li>
                   <li
                     className={`w-[124px] pb-3 ${
@@ -345,7 +353,7 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
                     }`}
                   >
                     {photo ? (
-                      <div className="max-w-[124px] max-h-[93px]">
+                      <div className="w-[124px] h-[93px]">
                         <Image
                           src={photo}
                           width={124}

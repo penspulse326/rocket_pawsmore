@@ -47,7 +47,7 @@ const Explore: React.FC<PropsType> = ({ posts }) => {
   const router = useRouter();
   const species: SpeciesType = Number(router.query.species);
   const [postBatches, setPostBatches] = useState<PostDataType[][]>(
-    batchPosts(posts, 12)
+    posts ? batchPosts(posts, 12) : []
   );
   const [isMaskOpen, setIsMaskOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<PostDataType>();

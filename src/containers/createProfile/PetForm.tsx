@@ -21,6 +21,7 @@ import { mediaUpload } from "@/common/fetch/mediaManager";
 import type { PetFormType } from "@/types";
 import type { RootState } from "@/common/redux/store";
 import { setPetList } from "@/common/redux/petListSlice";
+import useToken from "@/common/hooks/useToken";
 
 const defaultValues = {
   petAccount: "",
@@ -39,7 +40,8 @@ const defaultValues = {
 const PetForm: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { token, userId } = useSelector((state: RootState) => state.userInfo);
+  const { token } = useToken();
+  const { userId } = useSelector((state: RootState) => state.userInfo);
   const [isLoading, setIsLoading] = useState(false);
   const [statusCode, setStatusCode] = useState(0);
 
@@ -52,6 +54,7 @@ const PetForm: React.FC = () => {
   } = useForm<PetFormType>({ defaultValues });
 
   const handleCreatePet = async (data: PetFormType) => {
+    if (!token) return;
     setIsLoading(true);
     setStatusCode(0);
 

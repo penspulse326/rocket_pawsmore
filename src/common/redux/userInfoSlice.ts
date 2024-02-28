@@ -6,7 +6,6 @@ const initialState: UserInfoType = {
   username: "",
   account: "",
   headShot: "",
-  token: "",
   introduction: "",
   link: "",
 };

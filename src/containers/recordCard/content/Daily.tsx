@@ -105,8 +105,13 @@ const Daily: React.FC<DailyProps> = ({ data }) => {
               .filter((data) => data.content)
               .map((item, index) => {
                 return (
-                  <ul key={index} className="flex items-center gap-x-4 h-8">
-                    <li className="font-semibold min-w-12">{item.TITLE}</li>
+                  <ul
+                    key={index}
+                    className="flex items-center gap-x-4 max-h-[72px]"
+                  >
+                    <li className="font-semibold min-w-12 self-start">
+                      {item.TITLE}
+                    </li>
                     <ol className="flex gap-x-1">{item.content}</ol>
                   </ul>
                 );
@@ -143,8 +148,10 @@ const Daily: React.FC<DailyProps> = ({ data }) => {
               .map((item, index) => {
                 const { TITLE, content } = item;
                 return (
-                  <ul key={index} className="flex items-center gap-x-4 h-8">
-                    <li className="font-semibold min-w-12">{TITLE}</li>
+                  <ul key={index} className="flex items-center gap-x-4 ">
+                    <li className="font-semibold min-w-12 self-start">
+                      {TITLE}
+                    </li>
                     <li>
                       {TITLE === "症狀" && Array.isArray(content)
                         ? content.join("、")
@@ -175,12 +182,10 @@ const Daily: React.FC<DailyProps> = ({ data }) => {
         </ToggleList>
       )}
       {/* note */}
-      {remark && (
-        <ul className="flex flex-col gap-y-2">
-          <li className="text-note">備註</li>
-          <li className="h-[72px]">{remark}</li>
-        </ul>
-      )}
+      <ul className="flex flex-col gap-y-2">
+        <li className="text-note">備註</li>
+        <li>{remark}</li>
+      </ul>
     </div>
   );
 };

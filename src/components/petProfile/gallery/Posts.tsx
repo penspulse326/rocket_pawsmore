@@ -28,10 +28,13 @@ const Posts: React.FC = () => {
     const response = await fetchGetPetPosts(petAccount);
     const data: PostDataType[] = response.data;
     setPosts(data);
-    const newSelectedPost = data.filter(
-      (post) => post.postId === selectedPost?.postId
-    )[0];
-    setSelectedPost(newSelectedPost);
+
+    if (data) {
+      const newSelectedPost = data.filter(
+        (post) => post.postId === selectedPost?.postId
+      )[0];
+      setSelectedPost(newSelectedPost);
+    }
     return data;
   };
 

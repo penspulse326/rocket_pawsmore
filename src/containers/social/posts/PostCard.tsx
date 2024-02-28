@@ -17,6 +17,8 @@ import LikeBtn from "@/components/post/LikeBtn";
 import Menu from "../../../components/post/PostMenu";
 import CommentList from "@/components/comment/CommentList";
 import { fetchGetSinglePost } from "@/common/fetch/post";
+import ExtraCardButton from "./ExtraCardButton";
+import useToken from "@/common/hooks/useToken";
 
 interface PropsType {
   data: PostDataType;
@@ -24,7 +26,8 @@ interface PropsType {
 }
 
 const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
-  const { token, userId } = useSelector((state: RootState) => state.userInfo);
+  const { token } = useToken();
+  const { userId } = useSelector((state: RootState) => state.userInfo);
   const [data, setData] = useState<PostDataType>(initalData);
   const [comments, setComments] = useState<CommentDataType[]>([]);
   const [isMaskOpen, setIsMaskOpen] = useState(false);
@@ -41,6 +44,9 @@ const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
     mediaType,
     likes,
     createDate,
+    dailyRecordData,
+    medicalRecordData,
+    momentData,
   } = data;
 
   const isLiked = likes.some((like) => like.userId === userId);
@@ -141,6 +147,10 @@ const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
               className="w-full h-full bg-black object-contain cursor-pointer"
             />
           )}
+          <ExtraCardButton
+            data={dailyRecordData || momentData || medicalRecordData || null}
+            onClick={() => setIsMaskOpen(true)}
+          />
         </div>
         {/* 按讚按鈕 */}
         <LikeBtn
@@ -172,12 +182,9 @@ const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
           <span className="w-1 h-1 bg-note rounded-full"></span>
           <span
             className="tooltip text-note"
-            data-tooltip={moment
-              .utc(createDate)
-              .tz("Asia/Taipei")
-              .format("YYYY-MM-DD HH:mm")}
+            data-tooltip={moment(createDate).format("YYYY-MM-DD HH:mm")}
           >
-            {moment.utc(createDate).fromNow()}
+            {moment(createDate).fromNow()}
           </span>
         </div>
         <div className="flex gap-2 items-center">
@@ -196,7 +203,9 @@ const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
         </div>
       </section>
       {/* 內文 */}
-      <p>{postContent}</p>
+      <p className="break-words whitespace-pre-wrap line-clamp-2 text-ellipsis overflow-hidden ">
+        {postContent}
+      </p>
       {/* 留言 */}
       <CommentList
         from="postList"

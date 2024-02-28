@@ -32,6 +32,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const allPostsResult = await fetchGetAllPosts();
     const allPosts: PostDataType[] = allPostsResult.data;
+
+    if (!allPosts) {
+      return { props: { all: [] } };
+    }
+
     const sortedAllPosts = sortPostsByLikes(allPosts);
 
     if (!userId) {
@@ -42,6 +47,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const followingPosts: PostDataType[] = followingPostsResult.data;
     const { recentPosts, olderPosts } = filterPostsByDate(followingPosts);
     const filteredPosts = sortPostsByLikes(filterPost(allPosts, recentPosts));
+    console.log({ recentPosts, olderPosts });
 
     return {
       props: { all: filteredPosts, following: { recentPosts, olderPosts } },
