@@ -59,7 +59,14 @@ const ReserveRemind: React.FC<PropsType> = ({ onClose: handleClose }) => {
   });
 
   const handleAddReserveRemind = async (data: FormType) => {
-    if (!token || !petId) return;
+    if (!token) {
+      alert("請先登入");
+      return;
+    }
+    if (!petId) {
+      alert("請先建立寵物檔案");
+      return;
+    }
     const formData = { ...data };
 
     formData.targetDate = data.reserveDate;

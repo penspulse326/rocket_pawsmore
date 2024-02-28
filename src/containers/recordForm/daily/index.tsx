@@ -130,8 +130,17 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
-    if (!token) return;
     event.preventDefault();
+
+    if (!token) {
+      alert("請先登入");
+      return;
+    }
+    if (!petId) {
+      alert("請先建立寵物檔案");
+      return;
+    }
+
     const data = formatDailyData(formState);
 
     setIsLoading(true);
@@ -140,9 +149,8 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
       const response = await fetchAddDailyCard(token, petId!, data);
       if (!response.ok) {
         alert("新增失敗，請稍後再試");
-        return;
       }
-      alert("新增成功");
+
       handleClose();
     } catch (error) {
       alert("新增失敗，請稍後再試");

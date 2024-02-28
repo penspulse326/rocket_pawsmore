@@ -31,8 +31,9 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
     (state: RootState) => state.userInfo
   );
   const [allPosts, setAllPosts] = useState(all || []);
-  const [followingPosts, setFollowingPosts] =
-    useState<FilteredPostsType>(following);
+  const [followingPosts, setFollowingPosts] = useState<FilteredPostsType>(
+    following || { recentPosts: [], olderPosts: [] }
+  );
 
   const getFollowingPosts = async () => {
     if (!userId) {
@@ -41,6 +42,11 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
 
     const response = await fetchGetFollowingPosts(userId);
     const data: PostDataType[] = response.data;
+    if (!data || !response.ok) {
+      setFollowingPosts({ recentPosts: [], olderPosts: [] });
+      return;
+    }
+
     const { recentPosts, olderPosts } = filterPostsByDate(data);
     setFollowingPosts({ recentPosts, olderPosts });
   };
@@ -52,9 +58,16 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
     try {
       const response = await fetchGetAllPosts();
       const data = response.data;
+      if (!data || !response.ok) {
+        return;
+      }
 
       // 過濾掉自己的貼文與已追蹤的人的貼文
       const { recentPosts } = followingPosts;
+      if (!recentPosts || recentPosts.length === 0) {
+        setAllPosts(data);
+        return;
+      }
       const filteredPosts = sortPostsByLikes(filterPost(data, recentPosts));
 
       setAllPosts(filteredPosts);
@@ -86,7 +99,7 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
           <>
             <h2 className="mt-8 text-note">動態消息</h2>{" "}
             <div className="flex flex-col gap-8 my-4">
-              {followingPosts.recentPosts.map((data) => (
+              {followingPosts?.recentPosts.map((data) => (
                 <PostCard
                   key={data.postId}
                   data={data}

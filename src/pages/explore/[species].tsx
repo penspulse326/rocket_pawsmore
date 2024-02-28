@@ -12,6 +12,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   try {
     const response = await fetchGetSpeciesPosts(Number(species));
+    if (!response.ok) {
+      return { props: { posts: [] } };
+    }
     const posts = response.data;
     return { props: { posts } };
   } catch (error) {

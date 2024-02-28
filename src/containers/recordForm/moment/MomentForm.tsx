@@ -81,9 +81,15 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
   const selectedMomentType = watch("momentType");
 
   const handleAddMoment = async (data: MomentFormType) => {
-    if (!token || !petId) {
+    if (!token) {
+      alert("請先登入");
       return;
     }
+    if (!petId) {
+      alert("請先建立寵物檔案");
+      return;
+    }
+
     clearErrors();
     setIsLoading(true);
 
@@ -109,8 +115,9 @@ const MomentForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
     const response = await fetchAddMomentCard(token, petId, data);
     if (!response.ok) {
       alert("新增失敗，請稍後再試");
+      setIsLoading(false);
+      return;
     }
-    alert("新增成功");
 
     await fetchPetRecord();
 
