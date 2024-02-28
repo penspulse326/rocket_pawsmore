@@ -62,6 +62,7 @@ export interface UserInfoType {
   account: string;
   headShot: string;
   introduction: string;
+  topic: SpeciesType | null;
   link: string;
 }
 

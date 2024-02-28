@@ -110,3 +110,28 @@ export const fetchGetMilestone = async (petAccount: string) => {
     return { ok: false, status: 500 };
   }
 };
+
+export const fetchGetSpeciesAccounts = async (species: number) => {
+  try {
+    const response = await fetch(apiNext.GET_SPECIES_ACCOUNTS(species), {
+      method: "GET",
+    });
+    const result = await response.json();
+    return { ok: response.ok, status: response.status, data: result.data };
+  } catch (error) {
+    return { ok: false, status: 500 };
+  }
+};
+
+export const fetchFollowPet = async (petAccount: string, token: string) => {
+  try {
+    const response = await fetch(`${apiNext.FOLLOW_PET}/${petAccount}`, {
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const result = await response.json();
+    return { ok: response.ok, status: response.status, data: result.data };
+  } catch (error) {
+    return { ok: false, status: 500 };
+  }
+};

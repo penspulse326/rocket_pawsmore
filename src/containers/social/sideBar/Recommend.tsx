@@ -1,49 +1,110 @@
+import {
+  fetchFollowPet,
+  fetchGetSpeciesAccounts,
+} from "@/common/fetch/petProfile";
+import useToken from "@/common/hooks/useToken";
+import { RootState } from "@/common/redux/store";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-const accountList = [
-  {
-    pet_id: "123",
-    pet_name: "黑角龍",
-    pet_account: "blk_diablos",
-    photoUrl: "/test/photo-cat-test-2.png",
-  },
-  {
-    pet_id: "456",
-    pet_name: "陳嘟嘟",
-    pet_account: "duduchen123",
-    photoUrl: "/test/photo-dog-test-2.png",
-  },
-];
+interface AccountType {
+  petAccount: string;
+  petName: string;
+  petPhoto: string | null;
+  petsfollowers: {
+    id: number;
+  }[];
+}
 
 const Recommend: React.FC = () => {
+  const { token } = useToken();
+  const { topic, userId } = useSelector((state: RootState) => state.userInfo);
+  const [list, setList] = useState<AccountType[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleGetPetAccounts = async () => {
+    if (topic === null || isLoading) return;
+
+    setIsLoading(true);
+
+    const response = await fetchGetSpeciesAccounts(topic);
+    if (!response.ok) {
+      setList([]);
+      return;
+    }
+
+    // 過濾掉自己有追蹤的帳號
+    const filteredData: AccountType[] = response.data.filter(
+      (account: AccountType) =>
+        account.petsfollowers.every((follower) => follower.id !== userId)
+    );
+
+    const randomItems = filteredData
+      .sort((a, b) => b.petsfollowers.length - a.petsfollowers.length)
+      .slice(0, 2);
+    setList(() => randomItems);
+    setIsLoading(false);
+  };
+
+  const handleFollowPet = async (petAccount: string, index: number) => {
+    if (!token) {
+      alert("請先登入");
+      return;
+    }
+
+    if (isLoading) return;
+
+    setIsLoading(true);
+
+    const response = await fetchFollowPet(petAccount, token);
+    if (!response.ok) {
+      alert("追蹤失敗，請稍候再試");
+      setIsLoading(false);
+      return;
+    }
+
+    await handleGetPetAccounts();
+
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    console.log("渲染");
+    handleGetPetAccounts();
+  }, []);
+
   return (
     <section>
-      <h2 className="text-note">為您推薦</h2>
+      <h2 className="text-note">
+        {list?.length === 0 || !list ? "暫無推薦" : "推薦帳號"}
+      </h2>
       <ul className="flex flex-col gap-6 mt-4">
-        {accountList.map(({ pet_id, pet_name, pet_account, photoUrl }) => (
-          <li key={pet_id} className="flex justify-between items-center">
+        {list?.map(({ petAccount, petName, petPhoto }, index) => (
+          <li key={petAccount} className="flex justify-between items-center">
             <div className="flex items-center gap-4 max-w-[216px] w-full truncate">
               <Link
-                href="#"
+                href={`/pet/${petAccount}`}
                 className="shrink-0 relative w-12 h-12 rounded-full overflow-hidden"
               >
                 <Image
-                  src={photoUrl}
-                  alt={pet_name}
+                  src={petPhoto || "/images/default-photo.png"}
+                  alt={petName}
                   priority={false}
                   fill={true}
                   sizes="100%"
                   className="w-auto h-auto object-cover"
                 />
               </Link>
-              <Link href="#">
-                <p>{pet_name}</p>
-                <p>@{pet_account}</p>
+              <Link href={`/pet/${petAccount}`}>
+                <p>{petName}</p>
+                <p>@{petAccount}</p>
               </Link>
             </div>
             <button
               type="button"
+              onClick={() => handleFollowPet(petAccount, index)}
               className="shrink-0 px-8 py-2 rounded-[30px] bg-primary text-white"
             >
               追蹤

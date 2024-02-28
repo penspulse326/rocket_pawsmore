@@ -42,6 +42,9 @@ const apiBase = {
     `${apiUrl}/dashboard/cards/moment/add/${petId}`,
   // 取得里程碑列表
   GET_MILESTONE_LIST: `${apiUrl}/milestone`, // 動態路由 /:petAccount
+  // 查看特定物種的帳號
+  GET_SPECIES_ACCOUNTS: (species: string) =>
+    `${apiUrl}/social/petspecies/account/${species}`,
 };
 
 export default apiBase;

@@ -95,7 +95,7 @@ const ProfileCard: React.FC = () => {
   }, 500);
 
   const PetProfile = () => {
-    const htmlIntro = petIntro.split("\n");
+    const htmlIntro = petIntro?.split("\n");
     const linkIcon = (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +147,7 @@ const ProfileCard: React.FC = () => {
         </ul>
         <ol className="flex flex-col gap-y-2">
           <li>
-            {htmlIntro.map((string, index) => (
+            {htmlIntro?.map((string, index) => (
               <React.Fragment key={index}>
                 {string}
                 {index !== htmlIntro.length - 1 && <br />}
