@@ -87,7 +87,8 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
   const handleAddMedicalRecord = async (data: FormType) => {
     if (!token || !petId) return;
-    const { title, visitType, photo } = data;
+    const formData = { ...data };
+    const { title, visitType, photo, remindDate } = formData;
 
     if (!title || !visitType) {
       setError("root", { type: "manual", message: "請輸入必填項目" });
@@ -97,19 +98,33 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
     setIsLoading(true);
 
+    // 有照片才進行上傳
     if (photo instanceof File) {
       const uploadResult = await mediaUpload(photo, "medical");
       if (uploadResult) {
-        data.photo = uploadResult.secure_url;
+        formData.photo = uploadResult.secure_url;
       }
     }
 
-    const response = await fetchAddMedicalCard(token, petId, data);
+    const response = await fetchAddMedicalCard(token, petId, formData);
     if (!response.ok) {
       alert("新增失敗，請稍後再試");
     }
-    alert("新增成功");
 
+    // 如果有醫療提醒要再新增一筆
+    if (remindDate) {
+      const reserveData = {
+        card: 1,
+        cardType: 0,
+        visitType: 0,
+        reserveType: visitType,
+        reserveDate: remindDate,
+        targetDate: remindDate,
+      };
+      await fetchAddMedicalCard(token, petId, reserveData);
+    }
+
+    // 重新取得全部卡片資料
     await fetchPetRecord();
 
     setIsLoading(false);

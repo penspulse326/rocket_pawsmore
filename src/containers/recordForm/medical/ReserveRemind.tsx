@@ -2,9 +2,9 @@ import Select from "../Select";
 import DateInput from "./DateInput";
 
 import RadioCheck from "@/components/form/record/RadioCheck";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/common/redux/store";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DateContext, PetIdContext } from "@/pages/record_dashboard";
 import { Controller, useForm } from "react-hook-form";
 import { fetchAddMedicalCard } from "@/common/fetch/recordCard";
@@ -13,6 +13,8 @@ import ErrorMessage from "@/components/ErrorMessage";
 import { VisitType } from "@/types/enums";
 import { reserveOptions } from "@/common/lib/formText";
 import useToken from "@/common/hooks/useToken";
+import { fetchFormattedRecord } from "@/common/helpers/fetchFormattedRecord";
+import { setRecordInfo } from "@/common/redux/recordSlice";
 
 interface FormType {
   card: number;
@@ -28,10 +30,15 @@ interface PropsType {
 }
 
 const ReserveRemind: React.FC<PropsType> = ({ onClose: handleClose }) => {
+  const dispatch = useDispatch();
+
   const { token } = useToken();
   const { petId } = useContext(PetIdContext);
-  const { selectedDate } = useContext(DateContext);
+  const [petAccount, setPetAccount] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [adoptedDate, setAdoptedDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const petList = useSelector((state: RootState) => state.petList);
 
   const defaultValues: FormType = {
     card: 1,
@@ -39,14 +46,13 @@ const ReserveRemind: React.FC<PropsType> = ({ onClose: handleClose }) => {
     visitType: 0,
     reserveType: null,
     reserveDate: "",
-    targetDate: selectedDate,
+    targetDate: "",
   };
 
   const {
     handleSubmit,
     control,
     setError,
-    clearErrors,
     formState: { errors },
   } = useForm<FormType>({
     defaultValues,
@@ -54,28 +60,59 @@ const ReserveRemind: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
   const handleAddReserveRemind = async (data: FormType) => {
     if (!token || !petId) return;
+    const formData = { ...data };
 
-    const { reserveType, targetDate } = data;
-    if (reserveType === null || !targetDate) {
+    formData.targetDate = data.reserveDate;
+
+    const { reserveType, reserveDate } = formData;
+    if (reserveType === null || !reserveDate) {
       setError("root", { type: "manual", message: "請選擇類型與日期" });
+      return;
     }
 
     setIsLoading(true);
     const response = await fetchAddMedicalCard(token, petId, data);
 
-    if (response.ok) {
-      alert("新增成功");
-      handleClose();
-    } else {
+    if (!response.ok) {
       setError("card", {
         type: "manual",
         message: "新增失敗，請稍後再試",
       });
+      setIsLoading(false);
+      return;
     }
 
+    await fetchPetRecord();
     setIsLoading(false);
     handleClose();
   };
+
+  const fetchPetRecord = async () => {
+    try {
+      if (petAccount && petId) {
+        const recordData = await fetchFormattedRecord(
+          petAccount,
+          petId,
+          birthday,
+          adoptedDate
+        );
+        dispatch(setRecordInfo(recordData));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (petId) {
+      const foundPet = petList.find((pet) => pet.petId === petId);
+      if (foundPet) {
+        setPetAccount(foundPet.petAccount);
+        setBirthday(foundPet.birthday);
+        setAdoptedDate(foundPet.adoptedDate);
+      }
+    }
+  }, [petId]);
 
   return (
     <>
