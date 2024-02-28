@@ -125,6 +125,10 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleNumberChange = (name: string, value: string) => {
+    setFormState((prev) => ({ ...prev, [name]: parseInt(value) }));
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     if (!token) return;
     event.preventDefault();
@@ -189,7 +193,7 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
               type="number"
               min={0}
               value={formState.weight}
-              onChange={(e) => handleTextChange("weight", e.target.value)}
+              onChange={(e) => handleNumberChange("weight", e.target.value)}
               className="form-input mr-1 w-16"
             />
             <Select
@@ -204,7 +208,7 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
               type="number"
               min={0}
               value={formState.water}
-              onChange={(e) => handleTextChange("water", e.target.value)}
+              onChange={(e) => handleNumberChange("water", e.target.value)}
               className="form-input mr-1 w-16"
             />
             <span>ml</span>
