@@ -158,15 +158,13 @@ const Moments: React.FC = () => {
 
                               const titleText = () => {
                                 const isReminder: boolean =
-                                  RecordCardType[card] === "醫療紀錄" &&
-                                  MedicalCardType[cardType] === "醫療提醒";
+                                  card === RecordCardType.醫療紀錄 &&
+                                  cardType === MedicalCardType.醫療提醒;
 
                                 const title = (event as MedicalCardDataType)
                                   .title;
-                                const momentType = (event as MomentCardDataType)
-                                  .momentType;
-                                const momentId = (event as MomentCardDataType)
-                                  .momentId;
+                                const { momentType, momentId } =
+                                  event as MomentCardDataType;
 
                                 if (isReminder) {
                                   return ReserveType[reserveType];
@@ -176,9 +174,7 @@ const Moments: React.FC = () => {
                                   } else {
                                     return "新技能";
                                   }
-                                } else if (
-                                  RecordCardType[card] === "醫療紀錄"
-                                ) {
+                                } else if (card === RecordCardType.醫療紀錄) {
                                   return title;
                                 } else {
                                   return RecordCardType[card];
@@ -217,8 +213,7 @@ const Moments: React.FC = () => {
                                   <div className="flex justify-between">
                                     <div className="flex gap-x-1 items-center font-bold">
                                       {card === RecordCardType.醫療紀錄 &&
-                                      MedicalCardType[cardType] ===
-                                        "醫療提醒" ? (
+                                      cardType === MedicalCardType.醫療提醒 ? (
                                         <Image
                                           src="/test/icon-exclamation.svg"
                                           width={6}
