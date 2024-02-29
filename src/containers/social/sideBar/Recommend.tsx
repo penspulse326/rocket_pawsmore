@@ -27,7 +27,7 @@ const Recommend: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleGetPetAccounts = async () => {
-    if (topic === null || isLoading) return;
+    if (topic === null) return;
 
     setIsLoading(true);
 
@@ -78,7 +78,6 @@ const Recommend: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!petList || petList.length === 0) return;
     handleGetPetAccounts();
   }, [petList]);
 
