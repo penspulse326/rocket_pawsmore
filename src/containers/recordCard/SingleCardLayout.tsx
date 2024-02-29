@@ -119,7 +119,7 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({
               className="flex justify-center"
               onClick={() => handleUploadViewOpen()}
             >
-              <ShareBtn />
+              {isAnniversary || <ShareBtn />}
             </div>
           </>
         )}
