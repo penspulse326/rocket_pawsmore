@@ -39,6 +39,8 @@ const Medical: React.FC<MedicalProps> = ({ data }) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
+  const noticeArray = notice?.split("\n");
+
   const medicalData: MedicalDataType[] = [
     { TITLE: "標題", content: <li className="py-1">{title}</li> },
     {
@@ -63,7 +65,16 @@ const Medical: React.FC<MedicalProps> = ({ data }) => {
     },
     {
       TITLE: "居家注意事項",
-      content: notice ? <li className="py-1">{notice}</li> : null,
+      content: notice ? (
+        <li className="py-1">
+          {noticeArray?.map((string, index) => (
+            <React.Fragment key={index}>
+              {string}
+              {index !== noticeArray.length - 1 && <br />}
+            </React.Fragment>
+          ))}
+        </li>
+      ) : null,
     },
     {
       TITLE: "開銷",
