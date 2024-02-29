@@ -182,10 +182,10 @@ const Moments: React.FC = () => {
                               };
 
                               const cardContent = () => {
-                                const visitType = (event as MedicalCardDataType)
-                                  .visitType;
+                                const cardType = (event as MedicalCardDataType)
+                                  .cardType;
 
-                                if (MedicalCardType[visitType] === "醫療提醒") {
+                                if (cardType === MedicalCardType.醫療提醒) {
                                   return <Reminder data={event} />;
                                 } else {
                                   switch (card) {
