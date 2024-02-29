@@ -138,17 +138,23 @@ const Moments: React.FC = () => {
                           {/* card container */}
                           <div className="flex flex-col gap-y-4 max-w-[472px] w-full">
                             {dateGroup.events.map((event, index) => {
-                              const { cardId, card } = event;
-                              const cardType = (event as MedicalCardDataType)
-                                .cardType;
-                              const reserveType = (event as MedicalCardDataType)
-                                .reserveType;
+                              const { card, targetDate } = event;
+                              const { cardType, reserveType, reserveDate } =
+                                event as MedicalCardDataType;
 
-                              const isExpanded =
-                                expandedCard ===
-                                `${moment(event.targetDate).format(
-                                  "YYYYMMDD"
-                                )}${index}`;
+                              const cardIndex = () => {
+                                if (cardType === MedicalCardType.醫療提醒) {
+                                  return `${moment(reserveDate).format(
+                                    "YYYYMMDD"
+                                  )}${index}`;
+                                } else {
+                                  return `${moment(targetDate).format(
+                                    "YYYYMMDD"
+                                  )}${index}`;
+                                }
+                              };
+
+                              const isExpanded = expandedCard === cardIndex();
 
                               const titleText = () => {
                                 const isReminder: boolean =
@@ -206,7 +212,6 @@ const Moments: React.FC = () => {
                                     isExpanded ? "pb-6" : "pb-4"
                                   }`}
                                   key={index}
-                                  // id={id}
                                 >
                                   {/* title */}
                                   <div className="flex justify-between">
@@ -247,11 +252,7 @@ const Moments: React.FC = () => {
                                         isExpanded && "rotate-180"
                                       } duration-300 hover:cursor-pointer`}
                                       onClick={() => {
-                                        handleToggleCard(
-                                          `${moment(event.targetDate).format(
-                                            "YYYYMMDD"
-                                          )}${index}`
-                                        );
+                                        handleToggleCard(cardIndex());
                                       }}
                                     />
                                   </div>
