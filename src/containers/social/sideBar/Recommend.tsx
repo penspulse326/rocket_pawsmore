@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 interface AccountType {
+  petId: number;
   petAccount: string;
   petName: string;
   petPhoto: string | null;
@@ -21,6 +22,7 @@ interface AccountType {
 const Recommend: React.FC = () => {
   const { token } = useToken();
   const { topic, userId } = useSelector((state: RootState) => state.userInfo);
+  const petList = useSelector((state: RootState) => state.petList);
   const [list, setList] = useState<AccountType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,8 +37,12 @@ const Recommend: React.FC = () => {
       return;
     }
 
-    // 過濾掉自己有追蹤的帳號
-    const filteredData: AccountType[] = response.data.filter(
+    // 過濾掉自己有追蹤的帳號和自己的寵物
+    const data = response.data;
+    const exceptSelfData = data.filter((account: AccountType) =>
+      petList.every((pet) => pet.petId !== account.petId)
+    );
+    const filteredData: AccountType[] = exceptSelfData.filter(
       (account: AccountType) =>
         account.petsfollowers.every((follower) => follower.id !== userId)
     );
@@ -71,7 +77,6 @@ const Recommend: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log("渲染");
     handleGetPetAccounts();
   }, []);
 
