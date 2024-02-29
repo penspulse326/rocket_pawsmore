@@ -39,12 +39,13 @@ const Recommend: React.FC = () => {
 
     // 過濾掉自己有追蹤的帳號和自己的寵物
     const data = response.data;
-    const exceptSelfData = data.filter((account: AccountType) =>
-      petList.every((pet) => pet.petId !== account.petId)
+    const exceptSelfData = data.filter(
+      (account: AccountType) =>
+        !petList.some((pet) => pet.petId === account.petId)
     );
     const filteredData: AccountType[] = exceptSelfData.filter(
       (account: AccountType) =>
-        account.petsfollowers.every((follower) => follower.id !== userId)
+        !account.petsfollowers.some((follower) => follower.id === userId)
     );
 
     const randomItems = filteredData
@@ -77,8 +78,9 @@ const Recommend: React.FC = () => {
   };
 
   useEffect(() => {
+    if (!petList || petList.length === 0) return;
     handleGetPetAccounts();
-  }, []);
+  }, [petList]);
 
   return (
     <section>
