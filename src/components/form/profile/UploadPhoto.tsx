@@ -4,7 +4,7 @@ import React, { forwardRef, useEffect, useState } from "react";
 
 import ErrorMessage from "@/components/ErrorMessage";
 
-const MAX_FILE_SIZE = 1024 * 1024;
+const MAX_FILE_SIZE = 1024 * 1024 * 2;
 
 interface UploadPhotoPropsType {
   name: "headShot" | "petPhoto";

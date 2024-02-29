@@ -75,10 +75,8 @@ const CardData: React.FC<PropsType> = ({ data }) => {
       ref={contentRef}
       onClick={toggleExpand}
       className={`${
-        isExpanded
-          ? "max-h-[200px] overflow-y-scroll"
-          : "max-h-[68px] overflow-hidden"
-      } scrollbar-none mt-8 px-6 py-4 h-full border border-stroke rounded-[30px] duration-300`}
+        !isExpanded && "max-h-[68px] overflow-hidden"
+      } scrollbar-none mt-8 px-6 py-4 border border-stroke rounded-[30px] duration-300`}
     >
       <h3 className="flex justify-between items-center mb-6 text-2xl font-bold">
         <div className="flex items-center">

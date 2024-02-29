@@ -7,7 +7,6 @@ import {
 } from "@tabler/icons-react";
 import Image from "next/image";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 
 import List from "../milestone/List";
 import AccountList from "../petInfo/AccountList";
@@ -18,8 +17,7 @@ import { mediaUpload } from "@/common/fetch/mediaManager";
 import { fetchAddPost } from "@/common/fetch/post";
 
 import { MediaType, RecordCardType } from "@/types/enums";
-import type { RootState } from "@/common/redux/store";
-import { fetchCheckAuth } from "@/common/fetch/auth";
+
 import { AddPostType, CardUnionDataType } from "@/types";
 import CardData from "./CardData";
 import useToken from "@/common/hooks/useToken";

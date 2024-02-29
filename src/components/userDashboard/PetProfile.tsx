@@ -19,7 +19,6 @@ import useToken from "@/common/hooks/useToken";
 
 const PetProfile = () => {
   const { token } = useToken();
-  const userInfo = useSelector((state: RootState) => state.userInfo);
   const petList = useSelector((state: RootState) => state.petList);
 
   const router = useRouter();

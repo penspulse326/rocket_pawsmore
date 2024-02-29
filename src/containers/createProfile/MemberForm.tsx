@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUserInfo } from "@/common/redux/userInfoSlice";
 
 import TextInput from "@/components/form/profile/TextInput";
@@ -12,7 +12,6 @@ import { fetchCreateMember } from "@/common/fetch/memberProfile";
 import { mediaUpload } from "@/common/fetch/mediaManager";
 
 import type { MemberFormType } from "@/types";
-import type { RootState } from "@/common/redux/store";
 import useToken from "@/common/hooks/useToken";
 
 const defaultValues = {
