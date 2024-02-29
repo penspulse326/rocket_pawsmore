@@ -65,7 +65,7 @@ const Posts: React.FC<PropsType> = ({ all, following }) => {
       // 過濾掉自己的貼文與已追蹤的人的貼文
       const { recentPosts } = followingPosts;
       if (!recentPosts || recentPosts.length === 0) {
-        setAllPosts(data);
+        setAllPosts(sortPostsByLikes(data));
         return;
       }
       const filteredPosts = sortPostsByLikes(filterPost(data, recentPosts));
