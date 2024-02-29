@@ -22,10 +22,10 @@ const Mask: React.FC<MaskPropsType> = ({ setIsOpen, children, maskType }) => {
   useEffect(() => {
     handleFreezeScroll(true);
 
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsOpen(false);
-    };
-    document.addEventListener("keydown", handleEsc);
+    // const handleEsc = (e: KeyboardEvent) => {
+    //   if (e.key === "Escape") setIsOpen(false);
+    // };
+    // document.addEventListener("keydown", handleEsc);
 
     const handleFreeze = () => {
       window.scrollTo(0, scrollbarPosition.current);
@@ -33,7 +33,7 @@ const Mask: React.FC<MaskPropsType> = ({ setIsOpen, children, maskType }) => {
     window.addEventListener("scroll", handleFreeze);
 
     return () => {
-      document.removeEventListener("keydown", handleEsc);
+      // document.removeEventListener("keydown", handleEsc);
       window.removeEventListener("scroll", handleFreeze);
       window.scrollTo(0, scrollbarPosition.current);
       handleFreezeScroll(false);
