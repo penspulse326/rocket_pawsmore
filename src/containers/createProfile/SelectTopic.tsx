@@ -1,12 +1,13 @@
 import { fetchCreateMember } from "@/common/fetch/memberProfile";
 import useToken from "@/common/hooks/useToken";
 import { RootState } from "@/common/redux/store";
+import { setUserInfo } from "@/common/redux/userInfoSlice";
 import { SpeciesType } from "@/types/enums";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const data = [
   { name: SpeciesType[0], src: "/images/topic-dog.png" },
@@ -17,6 +18,7 @@ const data = [
 const SelectTopic = () => {
   const { token } = useToken();
   const router = useRouter();
+  const dispatch = useDispatch();
   const { username, account, headShot, introduction, link } = useSelector(
     (state: RootState) => state.userInfo
   );
@@ -28,6 +30,7 @@ const SelectTopic = () => {
       alert("請先登入");
       return;
     }
+    if (isLoading) return;
 
     setIsLoading(true);
 
@@ -46,6 +49,8 @@ const SelectTopic = () => {
       setIsLoading(false);
       return;
     }
+
+    dispatch(setUserInfo(response.data));
 
     setIsLoading(false);
     router.push("/");
