@@ -22,6 +22,7 @@ import {
   MomentIdType,
   MomentCategoryType,
 } from "@/types/enums";
+import { notEqual } from "assert";
 
 interface TableBodyProps {
   cardType: RecordCardType;
@@ -229,6 +230,8 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
               photo,
             } = event as MedicalCardDataType;
 
+            const noticeArray = notice?.split("\n");
+
             return (
               <ul className="flex border-t border-stroke" key={index}>
                 <div
@@ -282,7 +285,18 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
                       index === 0 ? "pt-6" : "pt-3"
                     }`}
                   >
-                    {notice ? notice : "-"}
+                    {notice ? (
+                      <>
+                        {noticeArray?.map((string, index) => (
+                          <React.Fragment key={index}>
+                            {string}
+                            {index !== noticeArray.length - 1 && <br />}
+                          </React.Fragment>
+                        ))}
+                      </>
+                    ) : (
+                      "-"
+                    )}
                   </li>
                   <li
                     className={`w-[71px] pb-3 ${index === 0 ? "pt-6" : "pt-3"}`}
