@@ -138,29 +138,33 @@ const Moments: React.FC = () => {
                           {/* card container */}
                           <div className="flex flex-col gap-y-4 max-w-[472px] w-full">
                             {dateGroup.events.map((event, index) => {
-                              const { cardId, card } = event;
-                              const cardType = (event as MedicalCardDataType)
-                                .cardType;
-                              const reserveType = (event as MedicalCardDataType)
-                                .reserveType;
+                              const { card, targetDate } = event;
+                              const { cardType, reserveType, reserveDate } =
+                                event as MedicalCardDataType;
 
-                              const isExpanded =
-                                expandedCard ===
-                                `${moment(event.targetDate).format(
-                                  "YYYYMMDD"
-                                )}${index}`;
+                              const cardIndex = () => {
+                                if (cardType === MedicalCardType.醫療提醒) {
+                                  return `${moment(reserveDate).format(
+                                    "YYYYMMDD"
+                                  )}${index}`;
+                                } else {
+                                  return `${moment(targetDate).format(
+                                    "YYYYMMDD"
+                                  )}${index}`;
+                                }
+                              };
+
+                              const isExpanded = expandedCard === cardIndex();
 
                               const titleText = () => {
                                 const isReminder: boolean =
-                                  RecordCardType[card] === "醫療紀錄" &&
-                                  MedicalCardType[cardType] === "醫療提醒";
+                                  card === RecordCardType.醫療紀錄 &&
+                                  cardType === MedicalCardType.醫療提醒;
 
                                 const title = (event as MedicalCardDataType)
                                   .title;
-                                const momentType = (event as MomentCardDataType)
-                                  .momentType;
-                                const momentId = (event as MomentCardDataType)
-                                  .momentId;
+                                const { momentType, momentId } =
+                                  event as MomentCardDataType;
 
                                 if (isReminder) {
                                   return ReserveType[reserveType];
@@ -170,9 +174,7 @@ const Moments: React.FC = () => {
                                   } else {
                                     return "新技能";
                                   }
-                                } else if (
-                                  RecordCardType[card] === "醫療紀錄"
-                                ) {
+                                } else if (card === RecordCardType.醫療紀錄) {
                                   return title;
                                 } else {
                                   return RecordCardType[card];
@@ -180,10 +182,10 @@ const Moments: React.FC = () => {
                               };
 
                               const cardContent = () => {
-                                const visitType = (event as MedicalCardDataType)
-                                  .visitType;
+                                const cardType = (event as MedicalCardDataType)
+                                  .cardType;
 
-                                if (MedicalCardType[visitType] === "醫療提醒") {
+                                if (cardType === MedicalCardType.醫療提醒) {
                                   return <Reminder data={event} />;
                                 } else {
                                   switch (card) {
@@ -206,14 +208,12 @@ const Moments: React.FC = () => {
                                     isExpanded ? "pb-6" : "pb-4"
                                   }`}
                                   key={index}
-                                  // id={id}
                                 >
                                   {/* title */}
                                   <div className="flex justify-between">
                                     <div className="flex gap-x-1 items-center font-bold">
                                       {card === RecordCardType.醫療紀錄 &&
-                                      MedicalCardType[cardType] ===
-                                        "醫療提醒" ? (
+                                      cardType === MedicalCardType.醫療提醒 ? (
                                         <Image
                                           src="/test/icon-exclamation.svg"
                                           width={6}
@@ -247,11 +247,7 @@ const Moments: React.FC = () => {
                                         isExpanded && "rotate-180"
                                       } duration-300 hover:cursor-pointer`}
                                       onClick={() => {
-                                        handleToggleCard(
-                                          `${moment(event.targetDate).format(
-                                            "YYYYMMDD"
-                                          )}${index}`
-                                        );
+                                        handleToggleCard(cardIndex());
                                       }}
                                     />
                                   </div>
