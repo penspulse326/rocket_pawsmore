@@ -197,6 +197,13 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
   };
 
   const Medical = () => {
+    const costFormat = (number: number) => {
+      if (!number) {
+        return null;
+      }
+      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+
     return (
       <>
         {data
@@ -273,7 +280,7 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
                   <li
                     className={`w-[71px] pb-3 ${index === 0 ? "pt-6" : "pt-3"}`}
                   >
-                    {cost ? cost : "-"}
+                    {cost ? costFormat(cost) : "-"}
                   </li>
                   <li
                     className={`w-[125px] pb-3 ${
