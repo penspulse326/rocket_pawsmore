@@ -17,10 +17,12 @@ import {
   UrineType,
   PooType,
   VomitType,
+  MedicalCardType,
   VisitType,
   MomentIdType,
   MomentCategoryType,
 } from "@/types/enums";
+import { notEqual } from "assert";
 
 interface TableBodyProps {
   cardType: RecordCardType;
@@ -197,10 +199,23 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
   };
 
   const Medical = () => {
+    const costFormat = (number: number) => {
+      if (!number) {
+        return null;
+      }
+      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+
     return (
       <>
         {data
-          .filter((event) => event.card === RecordCardType.醫療紀錄)
+          .filter((event) => {
+            const { card, cardType } = event as MedicalCardDataType;
+            return (
+              card === RecordCardType.醫療紀錄 &&
+              cardType !== MedicalCardType.醫療提醒
+            );
+          })
           .map((event, index) => {
             const {
               targetDate,
@@ -214,6 +229,8 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
               cost,
               photo,
             } = event as MedicalCardDataType;
+
+            const noticeArray = notice?.split("\n");
 
             return (
               <ul className="flex border-t border-stroke" key={index}>
@@ -268,12 +285,23 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
                       index === 0 ? "pt-6" : "pt-3"
                     }`}
                   >
-                    {notice ? notice : "-"}
+                    {notice ? (
+                      <>
+                        {noticeArray?.map((string, index) => (
+                          <React.Fragment key={index}>
+                            {string}
+                            {index !== noticeArray.length - 1 && <br />}
+                          </React.Fragment>
+                        ))}
+                      </>
+                    ) : (
+                      "-"
+                    )}
                   </li>
                   <li
                     className={`w-[71px] pb-3 ${index === 0 ? "pt-6" : "pt-3"}`}
                   >
-                    {cost ? cost : "-"}
+                    {cost ? costFormat(cost) : "-"}
                   </li>
                   <li
                     className={`w-[125px] pb-3 ${
