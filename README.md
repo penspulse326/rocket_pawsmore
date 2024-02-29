@@ -1,40 +1,29 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center" style="font-weight: 700">Pawsmore｜寵物社交與數據記錄平台</h1>
+<div align="center" style="margin-bottom:24px">
+  
+![image](https://github.com/penspulse326/rocket_pawsmore/assets/22139550/3919bea0-e970-417e-80d2-4584d6fc9b2b)
 
-## Getting Started
+### ｜[網站連結](https://rocket-pawsmore.vercel.app/)｜[設計稿](https://www.figma.com/file/k4eFSqtEjqGKgduy7kFHgu/Web-setting?type=design&node-id=577%3A1780&mode=design&t=lMnpJOSpgNjy7Uzn-1)｜[前端 Repo](https://github.com/penspulse326/rocket_pawsmore)｜[後端 Repo](https://github.com/koalaoliver/Pawsmore)｜
 
-First, run the development server:
+</div>
+<br/>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 設計沿革
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+根據內政部至 2023 年 10 月的統計，在 2017 至 2018 年間，國人每年登記新生兒人數與毛孩領養數已經交叉，  
+至今每年毛孩領養數不斷上漲，寵物保健與社交更是個大社群熱門話題。  
+Pawsmore 結合社交網站與數據記錄功能，提供飼主們分享生活點滴與照護資料，促進分享交流，溫暖毛孩們的每一天。
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## 功能介紹
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- 註冊帳號
+- 建立個人資料
+- 建立寵物檔案
+- 發布寵物檔案貼文
+- 對貼文按下喜歡
+- 對貼文發布留言
+- 刪除貼文
+- 探索物種貼文
+- 追蹤寵物檔案
+- 
