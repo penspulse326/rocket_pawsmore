@@ -17,6 +17,7 @@ import {
   UrineType,
   PooType,
   VomitType,
+  MedicalCardType,
   VisitType,
   MomentIdType,
   MomentCategoryType,
@@ -207,7 +208,13 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
     return (
       <>
         {data
-          .filter((event) => event.card === RecordCardType.醫療紀錄)
+          .filter((event) => {
+            const { card, cardType } = event as MedicalCardDataType;
+            return (
+              card === RecordCardType.醫療紀錄 &&
+              cardType !== MedicalCardType.醫療提醒
+            );
+          })
           .map((event, index) => {
             const {
               targetDate,
