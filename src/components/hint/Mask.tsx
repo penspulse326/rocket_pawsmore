@@ -42,8 +42,7 @@ const Mask: React.FC<MaskPropsType> = ({ setIsOpen, children, maskType }) => {
 
   return (
     <div
-      onScroll={(e) => {
-        console.log(e);
+      onScroll={() => {
         window.scrollTo(0, scrollbarPosition.current);
       }}
       onClick={handleCloseClick}

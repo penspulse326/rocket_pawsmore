@@ -58,9 +58,9 @@ const PostView: React.FC<PropsType> = ({ data, getPost, onClose }) => {
   }, [data]);
 
   return (
-    <section className="flex gap-8 p-8 rounded-[32px] bg-white">
+    <section className="flex gap-8 p-8 max-h-[594px] h-full rounded-[32px] bg-white">
       {/* 多媒體區 */}
-      <section className="relative max-w-[530px] max-h-[530px] w-[530px] h-[530px] rounded-[26px] overflow-hidden">
+      <section className="relative max-w-[530px] max-h-[530px] w-[530px] h-[530px] rounded-[30px] overflow-hidden">
         {mediaType === MediaType.image && (
           <Image
             src={media}
