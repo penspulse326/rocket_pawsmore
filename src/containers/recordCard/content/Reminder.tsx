@@ -11,6 +11,8 @@ const Reminder: React.FC<ReminderProps> = ({ data }) => {
   const reserveType = (data as MedicalCardDataType).reserveType;
   const reserveDate = (data as MedicalCardDataType).reserveDate;
 
+  console.log(data);
+
   return (
     <ul className="flex flex-col gap-y-2">
       <ol className="flex gap-x-8">
@@ -19,7 +21,7 @@ const Reminder: React.FC<ReminderProps> = ({ data }) => {
       </ol>
       <ol className="flex gap-x-8">
         <li className="font-semibold">預約時間</li>
-        <li>{moment(reserveDate).format("YYYY/M/D HH:MM")}</li>
+        <li>{moment(reserveDate).format("YYYY/M/D HH:mm")}</li>
       </ol>
     </ul>
   );
