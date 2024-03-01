@@ -215,6 +215,12 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
               cardType !== MedicalCardType.醫療提醒
             );
           })
+          .sort((a, b) => {
+            const targetDateA = a.targetDate;
+            const targetDateB = b.targetDate;
+
+            return moment(targetDateB).diff(moment(targetDateA));
+          })
           .map((event, index) => {
             const {
               targetDate,
