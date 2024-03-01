@@ -8,10 +8,7 @@ interface ReminderProps {
 }
 
 const Reminder: React.FC<ReminderProps> = ({ data }) => {
-  const reserveType = (data as MedicalCardDataType).reserveType;
-  const reserveDate = (data as MedicalCardDataType).reserveDate;
-
-  console.log(data);
+  const { reserveType, reserveDate } = data as MedicalCardDataType;
 
   return (
     <ul className="flex flex-col gap-y-2">
