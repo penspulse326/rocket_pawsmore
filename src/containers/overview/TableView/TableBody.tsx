@@ -22,7 +22,6 @@ import {
   MomentIdType,
   MomentCategoryType,
 } from "@/types/enums";
-import { notEqual } from "assert";
 
 interface TableBodyProps {
   cardType: RecordCardType;
@@ -205,12 +204,12 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
       }
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
-
     return (
       <>
         {data
           .filter((event) => {
             const { card, cardType } = event as MedicalCardDataType;
+
             return (
               card === RecordCardType.醫療紀錄 &&
               cardType !== MedicalCardType.醫療提醒
