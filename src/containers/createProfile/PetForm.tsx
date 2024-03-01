@@ -301,7 +301,7 @@ const PetForm: React.FC = () => {
           </button>
         </form>
         <div className="flex justify-end">
-          <Link href="/" className="mt-4 text-note underline">
+          <Link href="/member/new/topic" className="mt-4 text-note underline">
             略過此步驟
           </Link>
         </div>
