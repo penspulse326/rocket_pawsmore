@@ -99,7 +99,7 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <nav className="fixed top-0 z-50 w-[100%] border-b border-stroke bg-white text-black">
+    <nav className="fixed top-0 z-50 w-full border-b border-stroke bg-white text-black">
       <div className="outer grid grid-cols-3 pl-8 pr-6 h-16">
         {/* Logo 連結 */}
         <Link href="/" className="col-span-1 flex items-center">
@@ -113,7 +113,7 @@ const Navbar: React.FC = () => {
           <Image
             src="/images/logo-text.svg"
             alt="logo-text"
-            priority={false}
+            priority={true}
             width={0}
             height={0}
             className="ml-2 w-auto h-6"
