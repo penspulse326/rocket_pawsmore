@@ -20,6 +20,8 @@ import { fetchFormattedRecord } from "@/common/helpers/fetchFormattedRecord";
 
 import { VisitType } from "@/types/enums";
 import useToken from "@/common/hooks/useToken";
+import AreaInput from "./AreaInput";
+import NumberInput from "./NumberInput";
 
 interface FormType {
   card: 1;
@@ -237,11 +239,10 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
           name="check"
           control={control}
           render={({ field }) => (
-            <TextInput
+            <AreaInput
               {...field}
               title="臨床檢查"
               placeholder="請輸入臨床檢查結果"
-              isArea
             />
           )}
         />
@@ -249,11 +250,10 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
           name="notice"
           control={control}
           render={({ field }) => (
-            <TextInput
+            <AreaInput
               {...field}
               title="居家注意事項"
               placeholder="請輸入居家注意事項"
-              isArea
             />
           )}
         />
@@ -261,11 +261,11 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
           name="cost"
           control={control}
           render={({ field }) => (
-            <TextInput
+            <NumberInput
               {...field}
               title="開銷"
               placeholder="請輸入數字"
-              isMoney
+              onChange={(value: number) => field.onChange(value)}
             />
           )}
         />

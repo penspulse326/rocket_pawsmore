@@ -126,7 +126,7 @@ const DailyForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
   };
 
   const handleNumberChange = (name: string, value: string) => {
-    setFormState((prev) => ({ ...prev, [name]: parseInt(value || "0") }));
+    setFormState((prev) => ({ ...prev, [name]: value ? parseInt(value) : 0 }));
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
