@@ -228,7 +228,7 @@ const UploadView: React.FC<UploadViewPropsType> = ({
                 <button
                   type="button"
                   className="flex-grow border border-stroke rounded-[30px] text-center"
-                  onClick={() => setIsMilestoneOpen(!isMilestoneOpen)}
+                  onClick={() => {}}
                 >
                   <IconMedal size={48} className="mx-auto" />
                   <span className="block mt-4 text-note">加上里程碑</span>
