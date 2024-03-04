@@ -49,7 +49,9 @@ const SignUp: React.FC = () => {
     }
 
     setStatusCode(response.status);
-    setIsLoading(false);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   };
 
   useEffect(() => {
