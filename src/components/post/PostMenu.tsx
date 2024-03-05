@@ -43,7 +43,6 @@ const Menu: React.FC<PropsType> = ({
     );
     getList();
     handleClose();
-
     setIsLoading(false);
   };
 

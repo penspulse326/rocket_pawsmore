@@ -107,7 +107,6 @@ export const fetchDeletePost = async (
     if (response.ok) {
       const mediaId = getMediaId(media);
       const response = await mediaDelete(mediaId, mediaType);
-      console.log(response);
     }
 
     return { ok: response.ok, status: response.status };
