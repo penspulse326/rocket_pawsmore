@@ -20,23 +20,6 @@ import { fetchGetSinglePost } from "@/common/fetch/post";
 import ExtraCardButton from "./ExtraCardButton";
 import useToken from "@/common/hooks/useToken";
 
-const defaultData: PostDataType = {
-  userId: 0,
-  petId: 0,
-  postId: 0,
-  petAccount: "",
-  petPhoto: "",
-  postContent: "",
-  media: "",
-  mediaType: MediaType.image,
-  likes: [],
-  comments: [],
-  createDate: "",
-  dailyRecordData: null,
-  medicalRecordData: null,
-  momentData: null,
-};
-
 interface PropsType {
   data: PostDataType;
   getList: () => void;
@@ -45,7 +28,7 @@ interface PropsType {
 const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
   const { token } = useToken();
   const { userId } = useSelector((state: RootState) => state.userInfo);
-  const [data, setData] = useState<PostDataType>(initalData || defaultData);
+  const [data, setData] = useState<PostDataType>(initalData);
   const [comments, setComments] = useState<CommentDataType[]>([]);
   const [isMaskOpen, setIsMaskOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -64,7 +47,7 @@ const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
     dailyRecordData,
     medicalRecordData,
     momentData,
-  } = initalData || data;
+  } = data;
 
   const isLiked = likes.some((like) => like.userId === userId);
 
@@ -125,8 +108,6 @@ const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
       }
     };
   }, []);
-
-  if (!data) return null;
 
   return (
     <div className="flex flex-col gap-4 p-8 border border-stroke rounded-[32px]">
