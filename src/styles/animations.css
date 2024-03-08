@@ -1,0 +1,129 @@
+/* 選單動畫 */
+/* top right */
+.tenkai-t-r {
+  animation: tenkai-t-r 0.1s linear;
+}
+@keyframes tenkai-t-r {
+  0% {
+    transform: scale(0);
+    transform-origin: top right;
+  }
+
+  100% {
+    transform: scale(1);
+    transform-origin: top right;
+  }
+}
+
+.fuuin-t-r {
+  animation: fuuin-t-r 0.1s linear forwards;
+  animation-delay: 0.1s;
+}
+@keyframes fuuin-t-r {
+  0% {
+    transform: scale(1);
+    transform-origin: top right;
+  }
+
+  100% {
+    transform: scale(0);
+    transform-origin: top right;
+  }
+}
+
+/* top left */
+.tenkai-t-l {
+  animation: tenkai-t-r 0.1s linear;
+}
+@keyframes tenkai-t-l {
+  0% {
+    transform: scale(0);
+    transform-origin: top left;
+  }
+
+  100% {
+    transform: scale(1);
+    transform-origin: top left;
+  }
+}
+
+.fuuin-t-l {
+  animation: fuuin-t-l 0.1s linear forwards;
+  animation-delay: 0.1s;
+}
+@keyframes fuuin-t-l {
+  0% {
+    transform: scale(1);
+    transform-origin: top left;
+  }
+
+  100% {
+    transform: scale(0);
+    transform-origin: top left;
+  }
+}
+
+/* bottom left */
+.tenkai-b-l {
+  animation: tenkai-b-l 0.1s linear;
+}
+@keyframes tenkai-b-l {
+  0% {
+    transform: scale(0);
+    transform-origin: bottom left;
+  }
+
+  100% {
+    transform: scale(1);
+    transform-origin: bottom left;
+  }
+}
+.fuuin-b-l {
+  animation: fuuin-b-l 0.1s linear forwards;
+  animation-delay: 0.1s;
+}
+@keyframes fuuin-b-l {
+  0% {
+    transform: scale(1);
+    transform-origin: bottom left;
+  }
+
+  100% {
+    transform: scale(0);
+    transform-origin: bottom left;
+  }
+}
+
+/* slidebar */
+/* 頁面切換往右 */
+.slide-r {
+  animation: slide-r 0.3s ease-out forwards;
+}
+
+@keyframes slide-r {
+  0% {
+    transform: translateX(0) scaleX(1);
+  }
+  50% {
+    transform: translateX(50%) scaleX(2);
+  }
+  100% {
+    transform: translateX(100%) scaleX(1);
+  }
+}
+/* 頁面切換往左 */
+.slide-l {
+  animation: slide-l 0.3s ease-out forwards;
+}
+
+@keyframes slide-l {
+  0% {
+    transform: translateX(100%) scaleX(1);
+  }
+  50% {
+    transform: translateX(50%) scaleX(2);
+  }
+  100% {
+    transform: translateX(0) scaleX(1);
+  }
+}
