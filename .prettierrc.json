@@ -6,22 +6,5 @@
   "printWidth": 100,
   "jsxSingleQuote": true,
   "plugins": ["prettier-plugin-tailwindcss"],
-  "importOrder": [
-    "external",
-    "builtin",
-    "internal",
-    "parent",
-    "sibling",
-    "index",
-    "object",
-    "type"
-  ],
-  "importGroups": [
-    {
-      "pattern": "react",
-      "group": "external",
-      "position": "before"
-    }
-  ],
-  "importOrderSeparation": true
+  "importOrder": ["external", "builtin", "internal", "parent", "sibling", "index", "object", "type"]
 }
