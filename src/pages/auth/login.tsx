@@ -3,7 +3,7 @@ import { ReactElement } from 'react';
 import HomeLayout from '@/containers/auth/Layout';
 import Login from '@/containers/auth/Login';
 
-import type { NextPageWithLayout } from './_app';
+import type { NextPageWithLayout } from '../_app';
 
 function LoginPage(): NextPageWithLayout {
   return <Login />;

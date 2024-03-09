@@ -2,7 +2,7 @@ import HomeLayout from "@/containers/auth/Layout";
 import SignUp from "@/containers/auth/SignUp";
 
 import type { ReactElement } from "react";
-import type { NextPageWithLayout } from "../pages/_app";
+import type { NextPageWithLayout } from "../_app";
 
 const SignUpPage: NextPageWithLayout = () => {
   return <SignUp />;
