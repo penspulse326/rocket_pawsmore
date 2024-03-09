@@ -19,6 +19,7 @@
   },
   "plugins": ["react"],
   "rules": {
+    "camelcase": ["off", { "properties": ["Noto_Sans_TC"] }],
     "no-console": "error",
     "react/require-default-props": "off",
     "@typescript-eslint/no-explicit-any": "error",
