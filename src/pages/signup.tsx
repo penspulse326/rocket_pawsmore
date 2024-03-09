@@ -1,15 +1,12 @@
-import HomeLayout from "@/containers/auth/Layout";
-import SignUp from "@/containers/auth/SignUp";
+import Layout from '@/containers/Auth/Layout';
+import SignUp from '@/containers/Auth/SignUpForm';
 
-import type { ReactElement } from "react";
-import type { NextPageWithLayout } from "../pages/_app";
-
-const SignUpPage: NextPageWithLayout = () => {
-  return <SignUp />;
-};
-
-SignUpPage.getLayout = function getLayout(page: ReactElement) {
-  return <HomeLayout>{page}</HomeLayout>;
-};
+function SignUpPage() {
+  return (
+    <Layout>
+      <SignUp />
+    </Layout>
+  );
+}
 
 export default SignUpPage;

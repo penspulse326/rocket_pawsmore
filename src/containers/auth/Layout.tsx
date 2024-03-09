@@ -1,7 +1,11 @@
 import Image from 'next/image';
 import Footer from '@/components/Footer';
 
-function Layout({ children }: { children: React.ReactNode }) {
+interface LayoutProps {
+  children: React.ReactNode;
+}
+
+function Layout({ children }: LayoutProps) {
   return (
     <section className='outer'>
       <div className='inner flex h-screen flex-col'>

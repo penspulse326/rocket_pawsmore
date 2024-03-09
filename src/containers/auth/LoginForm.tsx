@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
@@ -12,24 +12,24 @@ import PasswordInput from '@/components/form/profile/PasswordInput';
 import TextInput from '@/components/form/profile/TextInput';
 import Loading from '@/components/hint/Loading';
 
-interface LoginFormType {
+export interface LoginFormType {
   email: string;
   password: string;
 }
 
-const Login: React.FC = () => {
+function LoginForm() {
+  const { updateUser } = useToken();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [statusCode, setStatusCode] = useState(0);
+  const dispatch = useDispatch();
+
   const {
     handleSubmit,
     control,
     setError,
     formState: { errors, isValid },
   } = useForm<LoginFormType>();
-
-  const { updateUser } = useToken();
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
-  const [statusCode, setStatusCode] = useState(0);
 
   const isBtnDisabled = !isValid || isLoading;
 
@@ -38,14 +38,18 @@ const Login: React.FC = () => {
     setStatusCode(0); // 重置狀態 否則 hook-form 的 error 會被清空
 
     const response = await fetchLogin(data);
+
     if (response.ok) {
       const { token, userId, username } = response.data;
-      dispatch(setUserInfo(response.data));
-      updateUser(token, userId);
+
+      // username 不存在表示還沒新增個人資料
       if (!username) {
         router.push('/member/new/profile');
         return;
       }
+
+      dispatch(setUserInfo(response.data));
+      updateUser(token, userId);
       router.push('/');
     }
 
@@ -55,6 +59,7 @@ const Login: React.FC = () => {
     }, 1000);
   };
 
+  // 錯誤訊息
   useEffect(() => {
     switch (statusCode) {
       case 400:
@@ -69,7 +74,7 @@ const Login: React.FC = () => {
       default:
         break;
     }
-  }, [statusCode]);
+  }, [statusCode, setError]);
 
   return (
     <>
@@ -119,7 +124,7 @@ const Login: React.FC = () => {
               />
             )}
           />
-          <Link href='#' className='self-end text-primary'>
+          <Link href='/login' className='self-end text-primary'>
             忘記密碼？
           </Link>
         </div>
@@ -140,6 +145,6 @@ const Login: React.FC = () => {
       {isLoading && <Loading />}
     </>
   );
-};
+}
 
-export default Login;
+export default LoginForm;
