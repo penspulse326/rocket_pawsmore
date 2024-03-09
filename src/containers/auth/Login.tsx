@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
+
 import { fetchLogin } from '@/common/fetch/auth';
 import useToken from '@/common/hooks/useToken';
-
 import { errorText } from '@/common/lib/messageText';
 import { setUserInfo } from '@/common/redux/userInfoSlice';
 import PasswordInput from '@/components/form/profile/PasswordInput';
@@ -126,9 +126,7 @@ const Login: React.FC = () => {
         <button
           type='submit'
           disabled={isBtnDisabled}
-          className={`${
-            isValid ? 'bg-primary' : 'bg-note'
-          } mt-4 rounded-full py-3  text-white`}
+          className={`${isValid ? 'bg-primary' : 'bg-note'} mt-4 rounded-full py-3  text-white`}
         >
           登入
         </button>

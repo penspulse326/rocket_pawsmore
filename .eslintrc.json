@@ -9,6 +9,7 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
+    "plugin:prettier/recommended",
     "prettier"
   ],
   "parser": "@typescript-eslint/parser",
@@ -44,12 +45,12 @@
       "error",
       {
         "groups": [
-          "index",
-          "sibling",
-          "parent",
-          "internal",
           "external",
           "builtin",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
           "object",
           "type"
         ],
@@ -72,9 +73,6 @@
   },
   "settings": {
     "import/resolver": {
-      "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
-      },
       "alias": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"],
         "map": [

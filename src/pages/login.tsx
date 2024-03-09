@@ -1,13 +1,13 @@
-import { ReactElement } from "react";
+import { ReactElement } from 'react';
 
-import HomeLayout from "@/containers/auth/Layout";
-import Login from "@/containers/auth/Login";
+import HomeLayout from '@/containers/auth/Layout';
+import Login from '@/containers/auth/Login';
 
-import type { NextPageWithLayout } from "./_app";
+import type { NextPageWithLayout } from './_app';
 
-const LoginPage: NextPageWithLayout = () => {
+function LoginPage(): NextPageWithLayout {
   return <Login />;
-};
+}
 
 LoginPage.getLayout = function getLayout(page: ReactElement) {
   return <HomeLayout>{page}</HomeLayout>;

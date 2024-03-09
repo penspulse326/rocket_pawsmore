@@ -1,5 +1,5 @@
-import Footer from '@/components/Footer';
 import Image from 'next/image';
+import Footer from '@/components/Footer';
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,13 +9,7 @@ function Layout({ children }: { children: React.ReactNode }) {
           {/* 圖片 */}
           <header className='col-span-6 flex flex-col justify-center gap-12 pl-12'>
             <div className='flex items-center gap-4'>
-              <Image
-                src='/images/logo-rounded.svg'
-                alt='logo'
-                priority
-                width={82}
-                height={82}
-              />
+              <Image src='/images/logo-rounded.svg' alt='logo' priority width={82} height={82} />
               <Image
                 src='/images/logo-text.svg'
                 alt='logo-text'
