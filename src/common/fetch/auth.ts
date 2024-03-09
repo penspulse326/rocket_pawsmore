@@ -1,11 +1,10 @@
-import apiNext from "./apiNext";
-
-import type { LoginFormType } from "@/types";
+import { LoginFormType } from '@/containers/Auth/LoginForm';
+import apiNext from './apiNext';
 
 export const fetchLogin = async (data: LoginFormType) => {
   try {
     const response = await fetch(apiNext.LOGIN, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(data),
     });
 
@@ -13,7 +12,6 @@ export const fetchLogin = async (data: LoginFormType) => {
 
     return { ok: response.ok, status: response.status, data: result.data };
   } catch (error) {
-    console.error("未知的錯誤");
     return { ok: false, status: 500 };
   }
 };
@@ -21,7 +19,7 @@ export const fetchLogin = async (data: LoginFormType) => {
 export const fetchSignup = async (data: LoginFormType) => {
   try {
     const response = await fetch(apiNext.SIGN_UP, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(data),
     });
 
@@ -31,7 +29,6 @@ export const fetchSignup = async (data: LoginFormType) => {
 
     return await fetchLogin(data);
   } catch (error) {
-    console.error("未知的錯誤");
     return { ok: false, status: 500 };
   }
 };
@@ -39,7 +36,7 @@ export const fetchSignup = async (data: LoginFormType) => {
 export const fetchCheckAuth = async (token: string) => {
   try {
     const response = await fetch(apiNext.CHECK_AUTH, {
-      method: "GET",
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -47,7 +44,6 @@ export const fetchCheckAuth = async (token: string) => {
     const result = await response.json();
     return { ok: response.ok, status: response.status, data: result.data };
   } catch (error) {
-    console.error("未知的錯誤");
     return { ok: false, status: 500 };
   }
 };

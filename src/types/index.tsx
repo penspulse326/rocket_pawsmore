@@ -12,18 +12,7 @@ import {
   UrineType,
   VisitType,
   VomitType,
-} from "./enums";
-
-export interface LoginFormType {
-  email: string;
-  password: string;
-}
-
-export interface SignUpFormType {
-  email: string;
-  password: string;
-  checkPassword: string;
-}
+} from './enums';
 
 export interface MemberFormType {
   account: string;
@@ -155,9 +144,9 @@ export interface DailyDataType {
   weight: string;
   food: string;
   water: number;
-  urine: string | (typeof UrineType)[""];
-  poo: string | (typeof PooType)[""];
-  vomit: string | (typeof VomitType)[""];
+  urine: string | (typeof UrineType)[''];
+  poo: string | (typeof PooType)[''];
+  vomit: string | (typeof VomitType)[''];
   symptom: string;
   deworming: string;
   medicine: string;

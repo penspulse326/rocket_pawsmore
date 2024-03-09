@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
+
 import { fetchLogin, fetchSignup } from '@/common/fetch/auth';
 import useToken from '@/common/hooks/useToken';
 import { errorText } from '@/common/lib/messageText';
@@ -10,9 +11,20 @@ import { setUserInfo } from '@/common/redux/userInfoSlice';
 import PasswordInput from '@/components/form/profile/PasswordInput';
 import TextInput from '@/components/form/profile/TextInput';
 import Loading from '@/components/hint/Loading';
-import type { LoginFormType, SignUpFormType } from '@/types';
 
-const SignUp: React.FC = () => {
+interface SignUpFormType {
+  email: string;
+  password: string;
+  checkPassword: string;
+}
+
+function SignUpForm() {
+  const { updateUser } = useToken();
+  const router = useRouter();
+  const [statusCode, setStatusCode] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+
   const {
     handleSubmit,
     control,
@@ -24,24 +36,20 @@ const SignUp: React.FC = () => {
   // 用 watch 來監聽密碼的值
   const watchedPassword = watch('password');
 
-  const { updateUser } = useToken();
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const [statusCode, setStatusCode] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const onSubmit = async (data: LoginFormType) => {
+  const onSubmit = async (data: SignUpFormType) => {
     setIsLoading(true);
     setStatusCode(0); // 重置狀態 否則 hook-form 的 error 會被清空
 
     const { email, password } = data;
-    const formData = { email, password }; // 註冊不用傳 checkPassword
+    const formData = { email, password };
 
     const response = await fetchSignup(formData);
+
     if (response.ok) {
       const loginResult = await fetchLogin(formData);
       const { token, userId } = loginResult.data;
-      dispatch(setUserInfo(response.data));
+
+      dispatch(setUserInfo(loginResult.data));
       updateUser(token, userId);
       router.push('/member/new/profile');
     }
@@ -52,6 +60,7 @@ const SignUp: React.FC = () => {
     }, 1000);
   };
 
+  // 錯誤訊息
   useEffect(() => {
     switch (statusCode) {
       case 409:
@@ -143,6 +152,6 @@ const SignUp: React.FC = () => {
       {isLoading && <Loading />}
     </>
   );
-};
+}
 
-export default SignUp;
+export default SignUpForm;
