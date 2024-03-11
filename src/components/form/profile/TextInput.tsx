@@ -1,61 +1,75 @@
-import React, { forwardRef } from "react";
-import ErrorMessage from "../../ErrorMessage";
+import { IconEye, IconEyeClosed } from '@tabler/icons-react';
+import React, { forwardRef, useState } from 'react';
 
-// apply react-hook-form
-interface InputPropsType {
-  name: string;
-  title: string;
-  placeholder: string;
-  maxLength?: number;
-  message?: string;
-  value?: string;
+import ErrorMessage from '@/components/ErrorMessage';
+
+interface PropsType {
+  name: string; // input name
+  title: string; // input 上方的標題
+  placeholder: string; // 輸入框提示
+  maxLength?: number; // 最大字數
+  message?: string; // 錯誤訊息
+  star?: boolean; // 必填圖案
+  isPwd?: boolean; // 是否為密碼
   onChange: () => void;
   onBlur: () => void;
-  star?: boolean;
 }
 
-const TextInput = forwardRef<HTMLInputElement, InputPropsType>(
-  (
-    {
-      name,
-      title,
-      placeholder,
-      value,
-      maxLength,
-      message,
-      onChange,
-      onBlur,
-      star,
-    },
-    ref
-  ) => {
-    const borderStyle = message ? { border: "1px solid #F23030" } : {};
+const TextInput = forwardRef<HTMLInputElement, PropsType>(
+  ({ name, title, placeholder, maxLength, message, star, isPwd, onChange, onBlur }, ref) => {
+    const [showPassword, setShowPassword] = useState(false);
+    const borderStyle = message ? { border: '1px solid #F23030' } : {};
 
     return (
-      <div className="flex flex-col gap-1 w-full">
-        <h4 className="flex justify-between items-center">
+      <div className='flex w-full flex-col gap-1'>
+        <h4 className='flex items-center justify-between'>
           <span>
             {title}
-            {star && <span className="text-error">*</span>}
+            {star && <span className='text-error'>*</span>}
           </span>
           {message && <ErrorMessage>{message}</ErrorMessage>}
         </h4>
-        <input
-          type="text"
-          ref={ref}
-          name={name}
-          value={value || ""}
-          placeholder={placeholder}
-          maxLength={maxLength}
-          onChange={onChange}
-          onBlur={onBlur}
+        <div
           style={borderStyle}
-          className="p-3 w-full outline-0 border border-stroke rounded-[10px] focus:border-note"
-        />
+          className='flex w-full rounded-[10px] border border-stroke p-3 outline-0 focus:border-note'
+        >
+          <input
+            ref={ref}
+            name={name}
+            type={isPwd && !showPassword ? 'password' : 'text'}
+            placeholder={placeholder}
+            maxLength={maxLength}
+            onChange={onChange}
+            onBlur={onBlur}
+            style={borderStyle}
+            className='w-full outline-none'
+          />
+          {isPwd &&
+            (showPassword ? (
+              <IconEye
+                size={24}
+                className='stroke-note hover:cursor-pointer'
+                onClick={() => setShowPassword(false)}
+              />
+            ) : (
+              <IconEyeClosed
+                size={24}
+                className='stroke-note hover:cursor-pointer'
+                onClick={() => setShowPassword(true)}
+              />
+            ))}
+        </div>
       </div>
     );
   }
 );
 
-TextInput.displayName = "TextInput";
+TextInput.displayName = 'TextInput';
+TextInput.defaultProps = {
+  maxLength: 30,
+  message: '',
+  star: false,
+  isPwd: false,
+};
+
 export default TextInput;
