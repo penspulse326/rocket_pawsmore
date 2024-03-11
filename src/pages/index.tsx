@@ -1,20 +1,36 @@
-import cookie from 'cookie';
-import { GetServerSideProps } from 'next';
+import { GetServerSidePropsContext } from 'next';
 
-import Layout from '@/containers/Social/Layout';
-import Posts from '@/containers/Social/posts';
+import cookie from 'cookie';
+
 import { fetchGetAllPosts, fetchGetFollowingPosts } from '@/common/fetch/post';
 import { filterPost, filterPostsByDate, sortPostsByLikes } from '@/common/helpers/configurePosts';
+import Layout from '@/containers/Social/Layout';
+import Posts from '@/containers/Social/posts';
 
-import type { ReactElement } from 'react';
-import type { NextPageWithLayout } from './_app';
 import type { PostDataType } from '@/types';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+interface PropsType {
+  all: PostDataType[];
+  following: {
+    recentPosts: PostDataType[];
+    olderPosts: PostDataType[];
+  };
+}
+
+function SocialPage({ all, following }: PropsType) {
+  return (
+    <Layout>
+      <Posts all={all} following={following} />
+    </Layout>
+  );
+}
+
+// 利用 userId 取得所有貼文
+async function getServerSideProps(context: GetServerSidePropsContext) {
   const cookieStr = context.req.headers.cookie || '';
   const parsedCookies = cookie.parse(cookieStr);
   const userId = Number(parsedCookies.userId);
-  const token = parsedCookies.token;
+  const { token } = parsedCookies;
 
   if (!token) {
     return {
@@ -48,25 +64,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: { all: filteredPosts, following: { recentPosts, olderPosts } },
     };
   } catch (error) {
-    console.error(error);
     return { props: {} };
   }
-};
-
-export interface PropsType {
-  all: PostDataType[];
-  following: {
-    recentPosts: PostDataType[];
-    olderPosts: PostDataType[];
-  };
 }
 
-const SocialPage: NextPageWithLayout<PropsType> = ({ all, following }) => {
-  return <Posts all={all} following={following} />;
-};
-
-SocialPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
-
+export { getServerSideProps };
 export default SocialPage;
