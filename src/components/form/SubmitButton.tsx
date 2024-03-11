@@ -8,7 +8,7 @@ function SubmitButton({ children, disable }: PropsType) {
     <button
       type='submit'
       disabled={disable}
-      className={`${disable ? 'bg-note' : 'bg-primary'} mt-4 w-full rounded-full py-3 text-white `}
+      className={`${disable ? 'bg-note' : 'bg-primary'} mt-4 w-full rounded-full py-2 text-xl font-semibold leading-normal text-white`}
     >
       {children}
     </button>

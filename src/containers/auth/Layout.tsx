@@ -35,7 +35,7 @@ function Layout({ children }: LayoutProps) {
           </header>
           {/* 表單 */}
           <div className='col-span-5 col-start-8 flex flex-col justify-center pr-12'>
-            <section className='flex flex-col justify-center gap-8 rounded-[30px] border border-stroke p-8'>
+            <section className='flex flex-col justify-center gap-8 rounded-[30px] border border-stroke bg-white p-8'>
               {children}
             </section>
           </div>
