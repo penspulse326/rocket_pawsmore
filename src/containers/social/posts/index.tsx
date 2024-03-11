@@ -79,6 +79,7 @@ function Posts({ all, following }: PropsType) {
     }
   }, [userId, username]);
 
+  // 如果有重新取得追蹤貼文的話全部貼文也要重新取得
   useEffect(() => {
     getList();
   }, [followingPosts]);
