@@ -37,7 +37,6 @@ function PostCard({ data: initalData, getList }: PropsType) {
 
   const {
     userId: authorId,
-    petId,
     postId,
     petAccount,
     petPhoto,

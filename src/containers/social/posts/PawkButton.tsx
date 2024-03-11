@@ -1,68 +1,62 @@
-import { IconPhoto, IconMovie, IconMedal } from "@tabler/icons-react";
-import { useState } from "react";
+import { IconPhoto, IconMovie, IconMedal } from '@tabler/icons-react';
+import { useState } from 'react';
 
-import Mask from "../../../components/hint/Mask";
-import UploadView from "../../../components/post/UploadView";
-import { useSelector } from "react-redux";
-import { RootState } from "@/common/redux/store";
-import useToken from "@/common/hooks/useToken";
+import useToken from '@/common/hooks/useToken';
+import Mask from '@/components/hint/Mask';
+import UploadView from '@/components/post/UploadView';
 
 interface PropsType {
   getList: () => void;
 }
 
-const PawkBtn: React.FC<PropsType> = ({ getList }) => {
+function PawkBtn({ getList }: PropsType) {
   const { token } = useToken();
   const [isUploadOpen, setIsUploadOpen] = useState(false);
 
   const handleClick = () => {
     if (!token) {
-      alert("請先登入");
+      alert('請先登入');
       return;
     }
     setIsUploadOpen(!isUploadOpen);
   };
 
   return (
-    <section>
+    <>
       {/* 貼文按鈕 */}
-      <div
-        className="px-8 pt-8 pb-6 border border-stroke rounded-[30px] cursor-pointer"
+      <button
+        type='button'
         onClick={handleClick}
+        className='w-full cursor-pointer rounded-[30px] border border-stroke px-8 pb-6 pt-8 outline-none duration-300 hover:bg-stroke'
       >
         {isUploadOpen && (
-          <Mask maskType="upload" setIsOpen={setIsUploadOpen}>
+          <Mask maskType='upload' setIsOpen={setIsUploadOpen}>
             <UploadView setIsOpen={setIsUploadOpen} getList={getList} />
           </Mask>
         )}
-        <div className="px-8 py-4 w-full border border-stroke rounded-[30px] outline-none text-note">
+        <div className='rounded-[30px] border border-stroke px-8 py-4 text-left text-note outline-none'>
           在想些什麼呢？
         </div>
-        <div className="flex justify-between items-center mt-6">
-          <div className="flex gap-8 text-note">
-            <button type="button" className="flex items-center gap-2">
-              <IconPhoto className="stroke-black" />
+        <div className='mt-6 flex items-center justify-between'>
+          <div className='flex gap-8 text-note'>
+            <span className='flex items-center gap-2'>
+              <IconPhoto className='stroke-black' />
               附上照片
-            </button>
-            <button type="button" className="flex items-center gap-2">
-              <IconMovie className="stroke-black" />
+            </span>
+            <span className='flex items-center gap-2'>
+              <IconMovie className='stroke-black' />
               附上影片
-            </button>
-            <button type="button" className="flex items-center gap-2">
-              <IconMedal className="stroke-black" />
+            </span>
+            <span className='flex items-center gap-2'>
+              <IconMedal className='stroke-black' />
               附上里程碑
-            </button>
+            </span>
           </div>
-          <button
-            type="button"
-            className="px-8 py-2 rounded-[30px] bg-primary text-white font-bold"
-          >
-            Pawk!
-          </button>
+          <span className='rounded-[30px] bg-primary px-8 py-2 font-bold text-white'>Pawk!</span>
         </div>
-      </div>
-    </section>
+      </button>
+    </>
   );
-};
+}
 
 export default PawkBtn;

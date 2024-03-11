@@ -12,6 +12,7 @@ import PostCard from './PostCard';
 import type { RootState } from '@/common/redux/store';
 import type { PostDataType } from '@/types';
 
+// 貼文要過濾出 3 天內的與其他的
 interface FilteredPostsType {
   recentPosts: PostDataType[];
   olderPosts: PostDataType[];
@@ -28,6 +29,7 @@ function Posts({ all, following }: PropsType) {
   const [allPosts, setAllPosts] = useState(all);
   const [followingPosts, setFollowingPosts] = useState<FilteredPostsType>(following);
 
+  // 取得追蹤的貼文
   const getFollowingPosts = async () => {
     if (!userId) {
       return;
@@ -44,6 +46,7 @@ function Posts({ all, following }: PropsType) {
     setFollowingPosts({ recentPosts, olderPosts });
   };
 
+  // 取得全部貼文
   const getList = async () => {
     if (!userId) {
       return;
