@@ -1,21 +1,17 @@
-import cookie from "cookie";
-import { GetServerSideProps } from "next";
+import cookie from 'cookie';
+import { GetServerSideProps } from 'next';
 
-import Layout from "@/containers/social/Layout";
-import Posts from "@/containers/social/posts";
-import { fetchGetAllPosts, fetchGetFollowingPosts } from "@/common/fetch/post";
-import {
-  filterPost,
-  filterPostsByDate,
-  sortPostsByLikes,
-} from "@/common/helpers/configurePosts";
+import Layout from '@/containers/Social/Layout';
+import Posts from '@/containers/Social/posts';
+import { fetchGetAllPosts, fetchGetFollowingPosts } from '@/common/fetch/post';
+import { filterPost, filterPostsByDate, sortPostsByLikes } from '@/common/helpers/configurePosts';
 
-import type { ReactElement } from "react";
-import type { NextPageWithLayout } from "./_app";
-import type { PostDataType } from "@/types";
+import type { ReactElement } from 'react';
+import type { NextPageWithLayout } from './_app';
+import type { PostDataType } from '@/types';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const cookieStr = context.req.headers.cookie || "";
+  const cookieStr = context.req.headers.cookie || '';
   const parsedCookies = cookie.parse(cookieStr);
   const userId = Number(parsedCookies.userId);
   const token = parsedCookies.token;
@@ -23,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (!token) {
     return {
       redirect: {
-        destination: "/login",
+        destination: '/login',
         permanent: false,
       },
     };
