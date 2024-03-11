@@ -1,4 +1,4 @@
-import { LoginFormType } from '@/containers/Auth/LoginForm';
+import { LoginFormType } from '@/containers/auth/LoginForm';
 
 import apiNext from './apiNext';
 

@@ -1,5 +1,5 @@
-import Layout from '@/containers/Auth/Layout';
-import SignUp from '@/containers/Auth/SignUpForm';
+import Layout from '@/containers/auth/Layout';
+import SignUp from '@/containers/auth/SignUpForm';
 
 function SignUpPage() {
   return (

@@ -1,5 +1,5 @@
-import Layout from '@/containers/Auth/Layout';
-import Login from '@/containers/Auth/LoginForm';
+import Layout from '@/containers/auth/Layout';
+import Login from '@/containers/auth/LoginForm';
 
 function LoginPage() {
   return (
