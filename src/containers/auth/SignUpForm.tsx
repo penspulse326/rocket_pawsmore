@@ -9,6 +9,7 @@ import useToken from '@/common/hooks/useToken';
 import { errorText } from '@/common/lib/messageText';
 import { setUserInfo } from '@/common/redux/userInfoSlice';
 import TextInput from '@/components/form/profile/TextInput';
+import SubmitButton from '@/components/form/SubmitButton';
 import Loading from '@/components/hint/Loading';
 
 import type { LoginFormType } from './LoginForm';
@@ -140,13 +141,7 @@ function SignUpForm() {
             />
           )}
         />
-        <button
-          type='submit'
-          disabled={!isValid}
-          className={`${isValid ? 'bg-primary' : 'bg-note'} mt-4 rounded-full py-3  text-white`}
-        >
-          註冊
-        </button>
+        <SubmitButton disable={!isValid}>註冊</SubmitButton>
       </form>
       <div className='flex justify-center gap-4'>
         已有帳號？

@@ -9,6 +9,7 @@ import useToken from '@/common/hooks/useToken';
 import { errorText } from '@/common/lib/messageText';
 import { setUserInfo } from '@/common/redux/userInfoSlice';
 import TextInput from '@/components/form/profile/TextInput';
+import SubmitButton from '@/components/form/SubmitButton';
 import Loading from '@/components/hint/Loading';
 
 export interface LoginFormType {
@@ -132,13 +133,7 @@ function LoginForm() {
             忘記密碼？
           </Link>
         </div>
-        <button
-          type='submit'
-          disabled={isBtnDisabled}
-          className={`${isValid ? 'bg-primary' : 'bg-note'} mt-4 rounded-full py-3 text-white`}
-        >
-          登入
-        </button>
+        <SubmitButton disable={isBtnDisabled}>登入</SubmitButton>
       </form>
       <div className='flex justify-center gap-4'>
         還沒有帳號？
