@@ -21,7 +21,7 @@ export enum RecordEventType {
 // Daily Card
 
 export enum UrineType {
-  "" = 0,
+  '' = 0,
   黃色透明 = 1,
   橘色或深黃色 = 2,
   紅色或粉紅色 = 3,
@@ -30,7 +30,7 @@ export enum UrineType {
 }
 
 export enum PooType {
-  "" = 0,
+  '' = 0,
   軟便 = 1,
   下痢 = 2,
   深色且質地硬 = 3,
@@ -41,7 +41,7 @@ export enum PooType {
 }
 
 export enum VomitType {
-  "" = 0,
+  '' = 0,
   嘔吐外觀形狀 = 1,
   吐毛球 = 2,
   透明無色 = 3,

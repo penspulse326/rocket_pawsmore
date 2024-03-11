@@ -21,6 +21,8 @@
   "rules": {
     "camelcase": ["off", { "properties": ["Noto_Sans_TC"] }],
     "no-console": "warn",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/explicit-module-boundary-types": "off", // Allows you to skip explicit return types in TypeScript
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }], // Only .tsx files for JSX
@@ -65,9 +67,7 @@
             "position": "before"
           }
         ],
-        "pathGroupsExcludedImportTypes": [
-          "react"
-        ],
+        "pathGroupsExcludedImportTypes": ["react"],
         "alphabetize": {
           "order": "asc",
           "caseInsensitive": true
@@ -79,9 +79,7 @@
     "import/resolver": {
       "alias": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"],
-        "map": [
-          ["@", "./src"]
-        ]
+        "map": [["@", "./src"]]
       }
     }
   }

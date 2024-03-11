@@ -18,7 +18,7 @@ function Layout({ children }: LayoutProps) {
               <Image
                 src='/images/logo-text.svg'
                 alt='logo-text'
-                priority
+                priority={false}
                 width={297}
                 height={62}
                 className='h-auto w-auto'
@@ -27,7 +27,7 @@ function Layout({ children }: LayoutProps) {
             <Image
               src='/images/banner-home.png'
               alt='home-banner'
-              priority
+              priority={false}
               width={563}
               height={70}
               className='h-auto w-auto'
