@@ -5,7 +5,7 @@ import cookie from 'cookie';
 import { fetchGetAllPosts, fetchGetFollowingPosts } from '@/common/fetch/post';
 import { filterPost, filterPostsByDate, sortPostsByLikes } from '@/common/helpers/configurePosts';
 import Layout from '@/containers/Social/Layout';
-import Posts from '@/containers/Social/posts';
+import Posts from '@/containers/Social/Posts';
 
 import type { PostDataType } from '@/types';
 
