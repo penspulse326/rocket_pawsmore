@@ -25,6 +25,7 @@ function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
+  // React Hook Form
   const {
     handleSubmit,
     control,
@@ -38,23 +39,26 @@ function SignUpForm() {
 
   const onSubmit = async (data: SignUpFormType) => {
     setIsLoading(true);
-    setStatusCode(0); // 重置狀態 否則 hook-form 的 error 會被清空
+    setStatusCode(0);
 
     const { email, password } = data;
     const formData = { email, password };
 
-    const response = await fetchSignup(formData);
+    const sigunpResponse = await fetchSignup(formData);
 
-    if (response.ok) {
-      const loginResult = await fetchLogin(formData);
-      const { token, userId } = loginResult.data;
+    setStatusCode(sigunpResponse.status);
 
-      dispatch(setUserInfo(loginResult.data));
-      updateUser(token, userId);
-      router.push('/member/new/profile');
+    if (!sigunpResponse.ok) {
+      return;
     }
 
-    setStatusCode(response.status);
+    const loginResponse = await fetchLogin(formData);
+    const { token, userId } = loginResponse.data;
+
+    dispatch(setUserInfo(loginResponse.data));
+    updateUser(token, userId);
+    router.push('/member/new/profile');
+
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
