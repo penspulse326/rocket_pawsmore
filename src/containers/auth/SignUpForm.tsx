@@ -12,9 +12,9 @@ import PasswordInput from '@/components/form/profile/PasswordInput';
 import TextInput from '@/components/form/profile/TextInput';
 import Loading from '@/components/hint/Loading';
 
-interface SignUpFormType {
-  email: string;
-  password: string;
+import { LoginFormType } from './LoginForm';
+
+interface SignUpFormType extends LoginFormType {
   checkPassword: string;
 }
 
@@ -42,7 +42,7 @@ function SignUpForm() {
     setStatusCode(0);
 
     const { email, password } = data;
-    const formData = { email, password };
+    const formData: LoginFormType = { email, password };
 
     const sigunpResponse = await fetchSignup(formData);
 
