@@ -1,31 +1,33 @@
-import { IconHeart } from "@tabler/icons-react";
-import moment from "moment-timezone";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
-import { useSelector } from "react-redux";
+import { IconHeart } from '@tabler/icons-react';
+import moment from 'moment-timezone';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 
-import Mask from "../../../components/hint/Mask";
-import PostView from "../../../components/post/PostView";
-import InputComment from "@/components/comment/InputComment";
-import { fetchGetComment } from "@/common/fetch/comment";
+import { fetchGetComment } from '@/common/fetch/comment';
+import { fetchGetSinglePost } from '@/common/fetch/post';
+import useToken from '@/common/hooks/useToken';
+import CommentList from '@/components/comment/CommentList';
+import InputComment from '@/components/comment/InputComment';
+import LikeBtn from '@/components/post/LikeBtn';
+import { MediaType } from '@/types/enums';
 
-import type { RootState } from "@/common/redux/store";
-import type { CommentDataType, PostDataType } from "@/types";
-import { MediaType } from "@/types/enums";
-import LikeBtn from "@/components/post/LikeBtn";
-import Menu from "../../../components/post/PostMenu";
-import CommentList from "@/components/comment/CommentList";
-import { fetchGetSinglePost } from "@/common/fetch/post";
-import ExtraCardButton from "./ExtraCardButton";
-import useToken from "@/common/hooks/useToken";
+import Mask from '../../../components/hint/Mask';
+import Menu from '../../../components/post/PostMenu';
+import PostView from '../../../components/post/PostView';
+
+import ExtraCardButton from './RecordCardTag';
+
+import type { RootState } from '@/common/redux/store';
+import type { CommentDataType, PostDataType } from '@/types';
 
 interface PropsType {
   data: PostDataType;
   getList: () => void;
 }
 
-const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
+function PostCard({ data: initalData, getList }: PropsType) {
   const { token } = useToken();
   const { userId } = useSelector((state: RootState) => state.userInfo);
   const [data, setData] = useState<PostDataType>(initalData);
@@ -35,7 +37,6 @@ const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
 
   const {
     userId: authorId,
-    petId,
     postId,
     petAccount,
     petPhoto,
@@ -110,41 +111,37 @@ const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-4 p-8 border border-stroke rounded-[32px]">
-      <section className="relative">
+    <div className='flex flex-col gap-4 rounded-[32px] border border-stroke p-8'>
+      <section className='relative'>
         {/* 遮罩 */}
         {isMaskOpen && (
-          <Mask setIsOpen={setIsMaskOpen} maskType="post">
-            <PostView
-              data={data}
-              getPost={getPost}
-              onClose={() => setIsMaskOpen(false)}
-            />
+          <Mask setIsOpen={setIsMaskOpen} maskType='post'>
+            <PostView data={data} getPost={getPost} onClose={() => setIsMaskOpen(false)} />
           </Mask>
         )}
         {/* 多媒體內容 */}
-        <div className="relative max-w-[528px] max-h-[528px] aspect-square rounded-[26px] overflow-hidden">
+        <div className='relative aspect-square max-h-[528px] max-w-[528px] overflow-hidden rounded-[26px]'>
           {mediaType === MediaType.image && (
             <Image
               src={media}
               alt={petAccount}
-              priority={true}
+              priority
               onClick={() => setIsMaskOpen(true)}
-              fill={true}
-              sizes="100%"
-              style={{ objectFit: "cover" }}
-              className="w-auto h-auto cursor-pointer"
+              fill
+              sizes='100%'
+              style={{ objectFit: 'cover' }}
+              className='h-auto w-auto cursor-pointer'
             />
           )}
           {mediaType === MediaType.video && (
             <video
               ref={videoRef}
               src={media}
-              autoPlay={true}
-              muted={true}
+              autoPlay
+              muted
               onClick={handleVideoToggle}
               onDoubleClick={handleVideoDoubleClick}
-              className="w-full h-full bg-black object-contain cursor-pointer"
+              className='h-full w-full cursor-pointer bg-black object-contain'
             />
           )}
           <ExtraCardButton
@@ -153,44 +150,39 @@ const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
           />
         </div>
         {/* 按讚按鈕 */}
-        <LikeBtn
-          userId={userId}
-          postId={postId}
-          isLiked={isLiked}
-          getPost={getPost}
-        />
+        <LikeBtn userId={userId} postId={postId} isLiked={isLiked} getPost={getPost} />
       </section>
       {/* 寵物資訊 */}
-      <section className="flex justify-between items-center">
-        <div className="flex gap-2 items-center">
+      <section className='flex items-center justify-between'>
+        <div className='flex items-center gap-2'>
           <Link
             href={`/pet/${petAccount}`}
-            className="relative max-w-12 max-h-12 w-12 h-12 rounded-full overflow-hidden"
+            className='relative h-12 max-h-12 w-12 max-w-12 overflow-hidden rounded-full'
           >
             <Image
-              src={petPhoto || "/images/default-photo.png"}
+              src={petPhoto || '/images/default-photo.png'}
               alt={petAccount}
-              fill={true}
-              sizes="100%"
-              style={{ objectFit: "cover" }}
-              className="w-auto h-auto"
+              fill
+              sizes='100%'
+              style={{ objectFit: 'cover' }}
+              className='h-auto w-auto'
             />
           </Link>
-          <Link href={`/pet/${petAccount}`} className="font-bold">
+          <Link href={`/pet/${petAccount}`} className='font-bold'>
             {petAccount}
           </Link>
-          <span className="w-1 h-1 bg-note rounded-full"></span>
+          <span className='h-1 w-1 rounded-full bg-note' />
           <span
-            className="tooltip text-note"
-            data-tooltip={moment(createDate).format("YYYY-MM-DD HH:mm")}
+            className='tooltip text-note'
+            data-tooltip={moment(createDate).format('YYYY-MM-DD HH:mm')}
           >
             {moment(createDate).fromNow()}
           </span>
         </div>
-        <div className="flex gap-2 items-center">
+        <div className='flex items-center gap-2'>
           {/* 按讚數 */}
-          <IconHeart fill="#808080" color="#808080" />
-          <span className="text-note">{likes.length}</span>
+          <IconHeart fill='#808080' color='#808080' />
+          <span className='text-note'>{likes.length}</span>
           {/* 開啟選單 */}
           <Menu
             postId={postId}
@@ -203,21 +195,19 @@ const PostCard: React.FC<PropsType> = ({ data: initalData, getList }) => {
         </div>
       </section>
       {/* 內文 */}
-      <p className="break-words whitespace-pre-wrap line-clamp-2 text-ellipsis overflow-hidden ">
+      <p className='line-clamp-2 overflow-hidden text-ellipsis whitespace-pre-wrap break-words '>
         {postContent}
       </p>
       {/* 留言 */}
       <CommentList
-        from="postList"
+        from='postList'
         postId={postId}
         comments={comments}
         onClick={() => setIsMaskOpen(true)}
       />
-      {token && (
-        <InputComment postId={postId} getComments={getComments} isEffect />
-      )}
+      {token && <InputComment postId={postId} getComments={getComments} isEffect />}
     </div>
   );
-};
+}
 
 export default PostCard;

@@ -1,10 +1,10 @@
-import Layout from "@/containers/social/Layout";
+import Layout from '@/containers/Social/Layout';
 
-import type { ReactElement } from "react";
-import type { NextPageWithLayout } from "../_app";
-import type { GetServerSideProps } from "next";
-import { PostDataType } from "@/types";
-import SearchResult from "@/containers/social/search";
+import type { ReactElement } from 'react';
+import type { NextPageWithLayout } from '../_app';
+import type { GetServerSideProps } from 'next';
+import { PostDataType } from '@/types';
+import SearchResult from '@/containers/Social/search';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { keyword } = context.query;
