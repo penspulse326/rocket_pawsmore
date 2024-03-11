@@ -8,7 +8,6 @@ import { fetchLogin } from '@/common/fetch/auth';
 import useToken from '@/common/hooks/useToken';
 import { errorText } from '@/common/lib/messageText';
 import { setUserInfo } from '@/common/redux/userInfoSlice';
-import PasswordInput from '@/components/form/profile/PasswordInput';
 import TextInput from '@/components/form/profile/TextInput';
 import Loading from '@/components/hint/Loading';
 
@@ -34,7 +33,7 @@ function LoginForm() {
 
   const isBtnDisabled = !isValid || isLoading;
 
-  const onSubmit = async (data: LoginFormType) => {
+  const handleLogin = async (data: LoginFormType) => {
     setIsLoading(true);
     setStatusCode(0); // 重置狀態 否則 react-hook-form 的 error 會被清空
 
@@ -86,7 +85,7 @@ function LoginForm() {
         <h2 className='text-[32px]'>歡迎回來！</h2>
         <h3 className='text-note'>讓我們繼續記錄美好時光！</h3>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
+      <form onSubmit={handleSubmit(handleLogin)} className='flex flex-col gap-4'>
         {/* Email */}
         <Controller
           name='email'
@@ -120,9 +119,10 @@ function LoginForm() {
               },
             }}
             render={({ field }) => (
-              <PasswordInput
+              <TextInput
                 title='密碼'
                 placeholder='輸入密碼'
+                isPwd
                 message={errors.password?.message}
                 {...field}
               />
@@ -135,7 +135,7 @@ function LoginForm() {
         <button
           type='submit'
           disabled={isBtnDisabled}
-          className={`${isValid ? 'bg-primary' : 'bg-note'} mt-4 rounded-full py-3  text-white`}
+          className={`${isValid ? 'bg-primary' : 'bg-note'} mt-4 rounded-full py-3 text-white`}
         >
           登入
         </button>

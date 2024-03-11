@@ -8,11 +8,10 @@ import { fetchLogin, fetchSignup } from '@/common/fetch/auth';
 import useToken from '@/common/hooks/useToken';
 import { errorText } from '@/common/lib/messageText';
 import { setUserInfo } from '@/common/redux/userInfoSlice';
-import PasswordInput from '@/components/form/profile/PasswordInput';
 import TextInput from '@/components/form/profile/TextInput';
 import Loading from '@/components/hint/Loading';
 
-import { LoginFormType } from './LoginForm';
+import type { LoginFormType } from './LoginForm';
 
 interface SignUpFormType extends LoginFormType {
   checkPassword: string;
@@ -37,7 +36,7 @@ function SignUpForm() {
   // 用 watch 來監聽密碼的值
   const watchedPassword = watch('password');
 
-  const onSubmit = async (data: SignUpFormType) => {
+  const handleSignUp = async (data: SignUpFormType) => {
     setIsLoading(true);
     setStatusCode(0);
 
@@ -84,7 +83,7 @@ function SignUpForm() {
         <h2 className='text-[32px]'>註冊</h2>
         <h3 className='text-note'>一同開啟與毛孩相伴的精彩冒險！</h3>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
+      <form onSubmit={handleSubmit(handleSignUp)} className='flex flex-col gap-4'>
         <Controller
           name='email'
           control={control}
@@ -115,10 +114,11 @@ function SignUpForm() {
             },
           }}
           render={({ field }) => (
-            <PasswordInput
+            <TextInput
               {...field}
               title='密碼'
               placeholder='輸入6個字以上英數字'
+              isPwd
               message={errors.password?.message}
             />
           )}
@@ -131,10 +131,11 @@ function SignUpForm() {
             validate: (value) => value === watchedPassword || errorText.PASSWORD_NOT_MATCH,
           }}
           render={({ field }) => (
-            <PasswordInput
+            <TextInput
               {...field}
               title='確認密碼'
               placeholder='再次輸入密碼'
+              isPwd
               message={errors.checkPassword?.message}
             />
           )}
