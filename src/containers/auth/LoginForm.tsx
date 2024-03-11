@@ -24,6 +24,7 @@ function LoginForm() {
   const [statusCode, setStatusCode] = useState(0);
   const dispatch = useDispatch();
 
+  // React Hook Form
   const {
     handleSubmit,
     control,
@@ -35,25 +36,28 @@ function LoginForm() {
 
   const onSubmit = async (data: LoginFormType) => {
     setIsLoading(true);
-    setStatusCode(0); // 重置狀態 否則 hook-form 的 error 會被清空
+    setStatusCode(0); // 重置狀態 否則 react-hook-form 的 error 會被清空
 
     const response = await fetchLogin(data);
 
-    if (response.ok) {
-      const { token, userId, username } = response.data;
+    setStatusCode(response.status);
 
-      // username 不存在表示還沒新增個人資料
-      if (!username) {
-        router.push('/member/new/profile');
-        return;
-      }
-
-      dispatch(setUserInfo(response.data));
-      updateUser(token, userId);
-      router.push('/');
+    if (!response.ok) {
+      return;
     }
 
-    setStatusCode(response.status);
+    const { token, userId, username } = response.data;
+
+    // username 不存在表示還沒新增個人資料
+    if (!username) {
+      router.push('/member/new/profile');
+      return;
+    }
+
+    dispatch(setUserInfo(response.data));
+    updateUser(token, userId);
+    router.push('/');
+
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
