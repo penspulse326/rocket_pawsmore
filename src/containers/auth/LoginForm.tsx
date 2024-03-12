@@ -8,8 +8,8 @@ import { fetchLogin } from '@/common/fetch/auth';
 import useToken from '@/common/hooks/useToken';
 import { errorText } from '@/common/lib/messageText';
 import { setUserInfo } from '@/common/redux/userInfoSlice';
-import PasswordInput from '@/components/form/profile/PasswordInput';
 import TextInput from '@/components/form/profile/TextInput';
+import SubmitButton from '@/components/form/SubmitButton';
 import Loading from '@/components/hint/Loading';
 
 export interface LoginFormType {
@@ -24,6 +24,7 @@ function LoginForm() {
   const [statusCode, setStatusCode] = useState(0);
   const dispatch = useDispatch();
 
+  // React Hook Form
   const {
     handleSubmit,
     control,
@@ -33,27 +34,30 @@ function LoginForm() {
 
   const isBtnDisabled = !isValid || isLoading;
 
-  const onSubmit = async (data: LoginFormType) => {
+  const handleLogin = async (data: LoginFormType) => {
     setIsLoading(true);
-    setStatusCode(0); // 重置狀態 否則 hook-form 的 error 會被清空
+    setStatusCode(0); // 重置狀態 否則 react-hook-form 的 error 會被清空
 
     const response = await fetchLogin(data);
 
-    if (response.ok) {
-      const { token, userId, username } = response.data;
+    setStatusCode(response.status);
 
-      // username 不存在表示還沒新增個人資料
-      if (!username) {
-        router.push('/member/new/profile');
-        return;
-      }
-
-      dispatch(setUserInfo(response.data));
-      updateUser(token, userId);
-      router.push('/');
+    if (!response.ok) {
+      return;
     }
 
-    setStatusCode(response.status);
+    const { token, userId, username } = response.data;
+
+    // username 不存在表示還沒新增個人資料
+    if (!username) {
+      router.push('/member/new/profile');
+      return;
+    }
+
+    dispatch(setUserInfo(response.data));
+    updateUser(token, userId);
+    router.push('/');
+
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
@@ -82,7 +86,7 @@ function LoginForm() {
         <h2 className='text-[32px]'>歡迎回來！</h2>
         <h3 className='text-note'>讓我們繼續記錄美好時光！</h3>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
+      <form onSubmit={handleSubmit(handleLogin)} className='flex flex-col gap-4'>
         {/* Email */}
         <Controller
           name='email'
@@ -116,9 +120,10 @@ function LoginForm() {
               },
             }}
             render={({ field }) => (
-              <PasswordInput
+              <TextInput
                 title='密碼'
                 placeholder='輸入密碼'
+                isPwd
                 message={errors.password?.message}
                 {...field}
               />
@@ -128,13 +133,7 @@ function LoginForm() {
             忘記密碼？
           </Link>
         </div>
-        <button
-          type='submit'
-          disabled={isBtnDisabled}
-          className={`${isValid ? 'bg-primary' : 'bg-note'} mt-4 rounded-full py-3  text-white`}
-        >
-          登入
-        </button>
+        <SubmitButton disable={isBtnDisabled}>登入</SubmitButton>
       </form>
       <div className='flex justify-center gap-4'>
         還沒有帳號？

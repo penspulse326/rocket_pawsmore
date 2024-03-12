@@ -3,18 +3,19 @@
 @tailwind utilities;
 
 @layer base {
-  html{
-    @apply overflow-y-scroll
+  html {
+    @apply overflow-y-scroll;
   }
 
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
+  /* 隱藏 input number 箭頭 */
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
-  /* to hide the calendar icon in input-type-date */
-  input[type="date"]::-webkit-inner-spin-button,
-  input[type="date"]::-webkit-calendar-picker-indicator {
+  /* 隱藏 input date icon */
+  input[type='date']::-webkit-inner-spin-button,
+  input[type='date']::-webkit-calendar-picker-indicator {
     opacity: 0;
     position: absolute;
     left: 0;
@@ -30,12 +31,8 @@
   .outer {
     @apply mx-auto max-w-[1440px];
   }
-  .gallery-card:hover .overlay {
-    opacity: 1;
-    z-index: 1;
-  }
   .form-input {
-    @apply px-2 py-1 border border-stroke outline-1 outline-note rounded-[10px];
+    @apply rounded-[10px] border border-stroke px-2 py-1 outline-1 outline-note;
   }
 }
 
@@ -46,13 +43,14 @@
   .shadow-custom {
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
   }
-
 }
 
-body.mask-open {
-  /* overflow-y: hidden; */
+.gallery-card:hover .overlay {
+  opacity: 1;
+  z-index: 1;
 }
 
+/* 提示日期 */
 .tooltip {
   position: relative;
   cursor: pointer;

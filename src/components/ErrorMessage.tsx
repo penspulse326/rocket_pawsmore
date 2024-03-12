@@ -1,16 +1,20 @@
-import { IconAlertCircle } from "@tabler/icons-react";
+import { IconAlertCircle } from '@tabler/icons-react';
 
-interface ErrorMessagePropsType {
+interface PropsType {
   children: React.ReactNode;
 }
 
-const ErrorMessage: React.FC<ErrorMessagePropsType> = ({ children }) => {
+function ErrorMessage({ children }: PropsType) {
   return (
-    <span className="flex items-center gap-1 text-error">
-      {children && <IconAlertCircle />}
-      {children}
+    <span className='flex items-center gap-1 text-error'>
+      {children && (
+        <>
+          <IconAlertCircle />
+          {children}
+        </>
+      )}
     </span>
   );
-};
+}
 
 export default ErrorMessage;

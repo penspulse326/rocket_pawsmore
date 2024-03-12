@@ -1,4 +1,5 @@
 import Image from 'next/image';
+
 import Footer from '@/components/Footer';
 
 interface LayoutProps {
@@ -10,7 +11,7 @@ function Layout({ children }: LayoutProps) {
     <section className='outer'>
       <div className='inner flex h-screen flex-col'>
         <section className='grid flex-grow grid-cols-12 gap-8'>
-          {/* 圖片 */}
+          {/* banner */}
           <header className='col-span-6 flex flex-col justify-center gap-12 pl-12'>
             <div className='flex items-center gap-4'>
               <Image src='/images/logo-rounded.svg' alt='logo' priority width={82} height={82} />
@@ -34,7 +35,7 @@ function Layout({ children }: LayoutProps) {
           </header>
           {/* 表單 */}
           <div className='col-span-5 col-start-8 flex flex-col justify-center pr-12'>
-            <section className='flex flex-col justify-center gap-8 rounded-[30px] border border-stroke p-8'>
+            <section className='flex flex-col justify-center gap-8 rounded-[30px] border border-stroke bg-white p-8'>
               {children}
             </section>
           </div>

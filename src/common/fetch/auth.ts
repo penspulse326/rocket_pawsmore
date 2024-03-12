@@ -1,4 +1,5 @@
 import { LoginFormType } from '@/containers/Auth/LoginForm';
+
 import apiNext from './apiNext';
 
 export const fetchLogin = async (data: LoginFormType) => {
