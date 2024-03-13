@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import useToken from '@/common/hooks/useToken';
 import Mask from '@/components/hint/Mask';
-import UploadView from '@/components/post/UploadView';
+import UploadView from '@/components/Post/UploadView';
 
 interface PropsType {
   getList: () => void;
@@ -11,14 +11,14 @@ interface PropsType {
 
 function PawkBtn({ getList }: PropsType) {
   const { token } = useToken();
-  const [isUploadOpen, setIsUploadOpen] = useState(false);
+  const [isUploadViewOpen, setIsUploadViewOpen] = useState(false);
 
   const handleClick = () => {
     if (!token) {
       alert('請先登入');
       return;
     }
-    setIsUploadOpen(!isUploadOpen);
+    setIsUploadViewOpen(!isUploadViewOpen);
   };
 
   return (
@@ -29,9 +29,9 @@ function PawkBtn({ getList }: PropsType) {
         onClick={handleClick}
         className='w-full cursor-pointer rounded-[30px] border border-stroke px-8 pb-6 pt-8 outline-none duration-300 hover:bg-stroke'
       >
-        {isUploadOpen && (
-          <Mask maskType='upload' setIsOpen={setIsUploadOpen}>
-            <UploadView setIsOpen={setIsUploadOpen} getList={getList} />
+        {isUploadViewOpen && (
+          <Mask maskType='upload' setIsOpen={setIsUploadViewOpen}>
+            <UploadView setIsOpen={setIsUploadViewOpen} getList={getList} />
           </Mask>
         )}
         <div className='rounded-[30px] border border-stroke px-8 py-4 text-left text-note outline-none'>

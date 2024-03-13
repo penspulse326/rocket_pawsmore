@@ -1,12 +1,13 @@
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
-import type { PostDataType } from "@/types";
-import { MediaType, SpeciesType } from "@/types/enums";
-import Mask from "@/components/hint/Mask";
-import PostView from "@/components/post/PostView";
-import { useRouter } from "next/router";
-import { fetchGetSpeciesPosts } from "@/common/fetch/post";
+import { fetchGetSpeciesPosts } from '@/common/fetch/post';
+import Mask from '@/components/hint/Mask';
+import PostView from '@/components/Post/PostView';
+import { MediaType, SpeciesType } from '@/types/enums';
+
+import type { PostDataType } from '@/types';
 
 interface PropsType {
   posts: PostDataType[];
@@ -14,20 +15,20 @@ interface PropsType {
 
 const speciesData = {
   [SpeciesType.狗]: {
-    name: "狗",
-    src: "/images/exp-dog.png",
+    name: '狗',
+    src: '/images/exp-dog.png',
   },
   [SpeciesType.貓]: {
-    name: "貓",
-    src: "/images/exp-cat.png",
+    name: '貓',
+    src: '/images/exp-cat.png',
   },
   [SpeciesType.倉鼠]: {
-    name: "倉鼠",
-    src: "/images/exp-rice.png",
+    name: '倉鼠',
+    src: '/images/exp-rice.png',
   },
   [SpeciesType.其他]: {
-    name: "其他",
-    src: "/images/exp-more-lg.jpg",
+    name: '其他',
+    src: '/images/exp-more-lg.jpg',
   },
 };
 
@@ -59,11 +60,9 @@ const Explore: React.FC<PropsType> = ({ posts }) => {
 
   const getPosts = async () => {
     const response = await fetchGetSpeciesPosts(species);
-    const data: PostDataType[] = response.data;
+    const { data } = response;
     setPostBatches(batchPosts(data, 12));
-    const newSelectedPost = data.filter(
-      (post) => post.postId === selectedPost?.postId
-    )[0];
+    const newSelectedPost = data.filter((post) => post.postId === selectedPost?.postId)[0];
     setSelectedPost(newSelectedPost);
   };
 
@@ -75,59 +74,53 @@ const Explore: React.FC<PropsType> = ({ posts }) => {
     <>
       {/* 點擊彈出貼文 */}
       {isMaskOpen && (
-        <Mask maskType="post" setIsOpen={setIsMaskOpen}>
-          <PostView
-            data={selectedPost!}
-            getPost={getPosts}
-            onClose={() => setIsMaskOpen(false)}
-          />
+        <Mask maskType='post' setIsOpen={setIsMaskOpen}>
+          <PostView data={selectedPost!} getPost={getPosts} onClose={() => setIsMaskOpen(false)} />
         </Mask>
       )}
-      <div className="flex flex-col px-8 py-24 max-w-[658px] w-full border-x border-stroke bg-white">
-        <h1 className="text-[32px]">探索貼文</h1>
-        <div className="relative mx-auto max-w-[144px] max-h-[144px] w-full h-[144px] rounded-full overflow-hidden">
+      <div className='flex w-full max-w-[658px] flex-col border-x border-stroke bg-white px-8 py-24'>
+        <h1 className='text-[32px]'>探索貼文</h1>
+        <div className='relative mx-auto h-[144px] max-h-[144px] w-full max-w-[144px] overflow-hidden rounded-full'>
           <Image
             src={speciesData[species]?.src}
-            alt="探索貼文"
-            fill={true}
-            sizes="100%"
-            className="w-auto h-auto object-cover"
+            alt='探索貼文'
+            fill
+            sizes='100%'
+            className='h-auto w-auto object-cover'
           />
         </div>
-        <h2 className="mt-4 mb-8 text-2xl text-center">
-          {speciesData[species]?.name}
-        </h2>
-        <section className="flex flex-col gap-2">
+        <h2 className='mb-8 mt-4 text-center text-2xl'>{speciesData[species]?.name}</h2>
+        <section className='flex flex-col gap-2'>
           {postBatches?.map((batch, batchIndex) => (
-            <div key={batchIndex} className="grid grid-cols-3 gap-2">
+            <div key={batchIndex} className='grid grid-cols-3 gap-2'>
               {batch?.map((post, index) => (
                 <button
-                  type="button"
+                  type='button'
                   key={`${batchIndex}-${index}-${post.postId}`}
                   onClick={() => handleClickPost(post)}
                   className={`${
                     (index + 1) % 5 === 0 && index % 3 !== 2
-                      ? "col-span-2 row-span-2"
-                      : "col-span-1"
+                      ? 'col-span-2 row-span-2'
+                      : 'col-span-1'
                   } rounded-[30px]`}
                 >
-                  <div className="w-full h-full aspect-square rounded-[30px] overflow-hidden">
+                  <div className='aspect-square h-full w-full overflow-hidden rounded-[30px]'>
                     {post.mediaType === MediaType.image && (
                       <Image
                         src={post.media}
                         width={200}
                         height={200}
                         alt={post.petAccount}
-                        className="w-full h-full object-cover"
+                        className='h-full w-full object-cover'
                       />
                     )}
                     {post.mediaType === MediaType.video && (
                       <video
                         src={post.media}
-                        autoPlay={true}
-                        muted={true}
-                        loop={true}
-                        className="w-full h-full bg-black object-cover"
+                        autoPlay
+                        muted
+                        loop
+                        className='h-full w-full bg-black object-cover'
                       />
                     )}
                   </div>

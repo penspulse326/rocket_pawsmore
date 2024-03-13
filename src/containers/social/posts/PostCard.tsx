@@ -1,5 +1,5 @@
 import { IconHeart } from '@tabler/icons-react';
-import moment from 'moment-timezone';
+import moment from 'moment';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState, useRef } from 'react';
@@ -10,12 +10,12 @@ import { fetchGetSinglePost } from '@/common/fetch/post';
 import useToken from '@/common/hooks/useToken';
 import CommentList from '@/components/comment/CommentList';
 import InputComment from '@/components/comment/InputComment';
-import LikeBtn from '@/components/post/LikeBtn';
+import LikeBtn from '@/components/Post/LikeBtn';
 import { MediaType } from '@/types/enums';
 
 import Mask from '../../../components/hint/Mask';
-import Menu from '../../../components/post/PostMenu';
-import PostView from '../../../components/post/PostView';
+import Menu from '../../../components/Post/PostMenu';
+import PostView from '../../../components/Post/PostView';
 
 import ExtraCardButton from './RecordCardTag';
 
