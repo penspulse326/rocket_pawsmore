@@ -30,9 +30,7 @@ function PawkBtn({ getList }: PropsType) {
         className='w-full cursor-pointer rounded-[30px] border border-stroke px-8 pb-6 pt-8 outline-none duration-300 hover:bg-stroke'
       >
         {isUploadViewOpen && (
-          <Mask maskType='upload' setIsOpen={setIsUploadViewOpen}>
-            <UploadView setIsOpen={setIsUploadViewOpen} getList={getList} />
-          </Mask>
+          <UploadView onClose={() => setIsUploadViewOpen(false)} getList={getList} />
         )}
         <div className='rounded-[30px] border border-stroke px-8 py-4 text-left text-note outline-none'>
           在想些什麼呢？
