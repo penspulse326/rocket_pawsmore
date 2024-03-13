@@ -5,9 +5,9 @@
   },
   "extends": [
     "airbnb",
-    "airbnb/hooks",
+    "airbnb",
+    "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:prettier/recommended",
     "prettier"
@@ -57,17 +57,11 @@
         ],
         "pathGroups": [
           {
-            "pattern": "next",
-            "group": "external",
-            "position": "before"
-          },
-          {
             "pattern": "^@/components",
             "group": "internal",
             "position": "before"
           }
         ],
-        "pathGroupsExcludedImportTypes": ["react"],
         "newlines-between": "always",
         "alphabetize": {
           "order": "asc",
