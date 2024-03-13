@@ -1,13 +1,11 @@
-import {
-  fetchFollowPet,
-  fetchGetSpeciesAccounts,
-} from "@/common/fetch/petProfile";
-import useToken from "@/common/hooks/useToken";
-import { RootState } from "@/common/redux/store";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { fetchFollowPet, fetchGetSpeciesAccounts } from '@/common/fetch/petProfile';
+import useToken from '@/common/hooks/useToken';
+import { RootState } from '@/common/redux/store';
 
 interface AccountType {
   petId: number;
@@ -38,14 +36,12 @@ const Recommend: React.FC = () => {
     }
 
     // 過濾掉自己有追蹤的帳號和自己的寵物
-    const data = response.data;
+    const { data } = response;
     const exceptSelfData = data.filter(
-      (account: AccountType) =>
-        !petList.some((pet) => pet.petId === account.petId)
+      (account: AccountType) => !petList.some((pet) => pet.petId === account.petId)
     );
     const filteredData: AccountType[] = exceptSelfData.filter(
-      (account: AccountType) =>
-        !account.petsfollowers.some((follower) => follower.id === userId)
+      (account: AccountType) => !account.petsfollowers.some((follower) => follower.id === userId)
     );
 
     const randomItems = filteredData
@@ -57,7 +53,7 @@ const Recommend: React.FC = () => {
 
   const handleFollowPet = async (petAccount: string, index: number) => {
     if (!token) {
-      alert("請先登入");
+      alert('請先登入');
       return;
     }
 
@@ -67,7 +63,7 @@ const Recommend: React.FC = () => {
 
     const response = await fetchFollowPet(petAccount, token);
     if (!response.ok) {
-      alert("追蹤失敗，請稍候再試");
+      alert('追蹤失敗，請稍候再試');
       setIsLoading(false);
       return;
     }
@@ -83,24 +79,22 @@ const Recommend: React.FC = () => {
 
   return (
     <section>
-      <h2 className="text-note">
-        {list?.length === 0 || !list ? "暫無推薦" : "推薦帳號"}
-      </h2>
-      <ul className="flex flex-col gap-6 mt-4">
+      <h2 className='text-note'>{list?.length === 0 || !list ? '暫無推薦' : '推薦帳號'}</h2>
+      <ul className='mt-4 flex flex-col gap-6'>
         {list?.map(({ petAccount, petName, petPhoto }, index) => (
-          <li key={petAccount} className="flex justify-between items-center">
-            <div className="flex items-center gap-4 max-w-[216px] w-full truncate">
+          <li key={petAccount} className='flex items-center justify-between'>
+            <div className='flex w-full max-w-[216px] items-center gap-4 truncate'>
               <Link
                 href={`/pet/${petAccount}`}
-                className="shrink-0 relative w-12 h-12 rounded-full overflow-hidden"
+                className='relative h-12 w-12 shrink-0 overflow-hidden rounded-full'
               >
                 <Image
-                  src={petPhoto || "/images/default-photo.png"}
+                  src={petPhoto || '/images/default-photo.png'}
                   alt={petName}
                   priority={false}
-                  fill={true}
-                  sizes="100%"
-                  className="w-auto h-auto object-cover"
+                  fill
+                  sizes='100%'
+                  className='h-auto w-auto object-cover'
                 />
               </Link>
               <Link href={`/pet/${petAccount}`}>
@@ -109,9 +103,9 @@ const Recommend: React.FC = () => {
               </Link>
             </div>
             <button
-              type="button"
+              type='button'
               onClick={() => handleFollowPet(petAccount, index)}
-              className="shrink-0 px-8 py-2 rounded-[30px] bg-primary text-white"
+              className='shrink-0 rounded-[30px] bg-primary px-8 py-2 text-white'
             >
               追蹤
             </button>

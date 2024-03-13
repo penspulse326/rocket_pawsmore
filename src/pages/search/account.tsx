@@ -1,10 +1,11 @@
-import Layout from '@/containers/Social/Layout';
-
-import type { ReactElement } from 'react';
-import type { NextPageWithLayout } from '../_app';
 import type { GetServerSideProps } from 'next';
+
+import Layout from '@/containers/Social/Layout';
+import SearchResult from '@/containers/Social/Search';
 import { PostDataType } from '@/types';
-import SearchResult from '@/containers/Social/search';
+
+import type { NextPageWithLayout } from '../_app';
+import type { ReactElement } from 'react';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { keyword } = context.query;
@@ -32,7 +33,7 @@ export interface PropsType {
 }
 
 const ExplorePage: NextPageWithLayout<PropsType> = ({ data }) => {
-  return <SearchResult data={data}></SearchResult>;
+  return <SearchResult data={data} />;
 };
 
 ExplorePage.getLayout = function getLayout(page: ReactElement) {

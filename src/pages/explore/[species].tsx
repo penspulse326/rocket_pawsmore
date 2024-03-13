@@ -1,11 +1,12 @@
-import Layout from '@/containers/Social/Layout';
-import Explore from '@/containers/Social/explore';
-
-import type { ReactElement } from 'react';
-import type { NextPageWithLayout } from '../_app';
 import type { GetServerSideProps } from 'next';
+
 import { fetchGetSpeciesPosts } from '@/common/fetch/post';
+import Explore from '@/containers/Social/Explore';
+import Layout from '@/containers/Social/Layout';
 import { PostDataType } from '@/types';
+
+import type { NextPageWithLayout } from '../_app';
+import type { ReactElement } from 'react';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { species } = context.query;
