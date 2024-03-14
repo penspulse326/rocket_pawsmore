@@ -5,8 +5,6 @@ import React from 'react';
 
 import { UserListDataType } from '@/common/constants/types';
 
-import handleFreezeScroll from '@/common/helpers/handleFreezeScroll';
-
 interface PropsType {
   type: 'following' | 'follower';
   userList: UserListDataType[];
@@ -48,7 +46,6 @@ function NetworkList({ type, userList, isClosed, setIsClosed }: PropsType) {
 
   const handleCloseCard = () => {
     setIsClosed(!isClosed);
-    handleFreezeScroll(false);
   };
 
   return (

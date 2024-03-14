@@ -1,20 +1,19 @@
-import React, { createContext, useContext, useMemo, useState } from 'react';
 import { IconChevronUp, IconEdit } from '@tabler/icons-react';
-
-import Title from './card/Title';
-import ShareBtn from './card/ShareBtn';
-
-import Moment from './content/Moment';
-import Medical from './content/Medical';
-import Daily from './content/Daily';
-import Reminder from './content/Reminder';
-import Anniversary from './content/Anniversary';
+import React, { createContext, useContext, useMemo, useState } from 'react';
 
 import { CardUnionDataType, MedicalCardDataType } from '@/common/constants/types';
 import { RecordEventType, MedicalCardType } from '@/common/constants/types/enums';
-import UploadView from '@/components/Post/UploadView';
 import Mask from '@/components/hint/Mask';
+import UploadView from '@/containers/Social/UploadView';
 import { PetIdContext } from '@/pages/record_dashboard';
+
+import ShareBtn from './card/ShareBtn';
+import Title from './card/Title';
+import Anniversary from './content/Anniversary';
+import Daily from './content/Daily';
+import Medical from './content/Medical';
+import Moment from './content/Moment';
+import Reminder from './content/Reminder';
 
 export const DataContext = createContext<CardUnionDataType | undefined>(undefined);
 
@@ -43,23 +42,22 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({ data, id, isOpened, o
   const [isUploadViewOpen, setIsUploadViewOpen] = useState(false);
 
   const Content: React.FC = () => {
-    const visitType = (data as MedicalCardDataType).visitType;
+    const { visitType } = data as MedicalCardDataType;
 
     if (MedicalCardType[visitType] === '醫療提醒') {
       return <Reminder data={data} />;
-    } else {
-      switch (RecordEventType[card]) {
-        case '醫療紀錄':
-          return <Medical data={data} />;
-        case '重要時刻':
-          return <Moment data={data} />;
-        case '日常紀錄':
-          return <Daily data={data} />;
-        case '紀念日':
-          return <Anniversary />;
-        default:
-          return null;
-      }
+    }
+    switch (RecordEventType[card]) {
+      case '醫療紀錄':
+        return <Medical data={data} />;
+      case '重要時刻':
+        return <Moment data={data} />;
+      case '日常紀錄':
+        return <Daily data={data} />;
+      case '紀念日':
+        return <Anniversary />;
+      default:
+        return null;
     }
   };
 
@@ -81,11 +79,11 @@ const SingleCardLayout: React.FC<SingleCardPropsType> = ({ data, id, isOpened, o
           {/* icons */}
           <div className='flex gap-x-2'>
             {isOpened && !isAnniversary && (
-              <IconEdit size={24} color={'#203170'} className='hover:cursor-pointer' />
+              <IconEdit size={24} color='#203170' className='hover:cursor-pointer' />
             )}
             <IconChevronUp
               size={24}
-              color={'#808080'}
+              color='#808080'
               className={`${!isOpened && 'rotate-180'} duration-300 hover:cursor-pointer`}
               onClick={() => onToggle(id)}
             />

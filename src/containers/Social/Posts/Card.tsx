@@ -5,29 +5,27 @@ import Link from 'next/link';
 import { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
+import { MediaType } from '@/common/constants/types/enums';
 import { fetchGetComment } from '@/common/fetch/comment';
 import { fetchGetSinglePost } from '@/common/fetch/post';
 import useToken from '@/common/hooks/useToken';
 import CommentList from '@/components/comment/CommentList';
 import InputComment from '@/components/comment/InputComment';
-import LikeBtn from '@/components/Post/LikeBtn';
-import { MediaType } from '@/common/constants/types/enums';
+import LikeBtn from '@/components/post/LikeBtn';
+import Menu from '@/components/post/PostMenu';
+import PostView from '@/components/post/PostView';
 
-import Mask from '../../../components/hint/Mask';
-import Menu from '../../../components/Post/PostMenu';
-import PostView from '../../../components/Post/PostView';
+import RecordCardTag from './RecordCardTag';
 
-import ExtraCardButton from './RecordCardTag';
-
-import type { RootState } from '@/common/redux/store';
 import type { CommentDataType, PostDataType } from '@/common/constants/types';
+import type { RootState } from '@/common/redux/store';
 
 interface PropsType {
   data: PostDataType;
   getList: () => void;
 }
 
-function PostCard({ data: initalData, getList }: PropsType) {
+function Card({ data: initalData, getList }: PropsType) {
   const { token } = useToken();
   const { userId } = useSelector((state: RootState) => state.userInfo);
   const [data, setData] = useState<PostDataType>(initalData);
@@ -115,9 +113,7 @@ function PostCard({ data: initalData, getList }: PropsType) {
       <section className='relative'>
         {/* 遮罩 */}
         {isMaskOpen && (
-          <Mask setIsOpen={setIsMaskOpen} maskType='post'>
-            <PostView data={data} getPost={getPost} onClose={() => setIsMaskOpen(false)} />
-          </Mask>
+          <PostView data={data} getPost={getPost} onClose={() => setIsMaskOpen(false)} />
         )}
         {/* 多媒體內容 */}
         <div className='relative aspect-square max-h-[528px] max-w-[528px] overflow-hidden rounded-[26px]'>
@@ -144,7 +140,7 @@ function PostCard({ data: initalData, getList }: PropsType) {
               className='h-full w-full cursor-pointer bg-black object-contain'
             />
           )}
-          <ExtraCardButton
+          <RecordCardTag
             data={dailyRecordData || momentData || medicalRecordData || null}
             onClick={() => setIsMaskOpen(true)}
           />
@@ -210,4 +206,4 @@ function PostCard({ data: initalData, getList }: PropsType) {
   );
 }
 
-export default PostCard;
+export default Card;

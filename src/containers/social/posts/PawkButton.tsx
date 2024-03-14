@@ -2,8 +2,7 @@ import { IconPhoto, IconMovie, IconMedal } from '@tabler/icons-react';
 import { useState } from 'react';
 
 import useToken from '@/common/hooks/useToken';
-import Mask from '@/components/hint/Mask';
-import UploadView from '@/components/Post/UploadView';
+import UploadView from '@/containers/Social/UploadView';
 
 interface PropsType {
   getList: () => void;

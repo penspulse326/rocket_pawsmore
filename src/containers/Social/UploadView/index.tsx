@@ -1,38 +1,34 @@
-import { IconChevronLeft, IconMedal, IconMovie, IconPhoto, IconX } from '@tabler/icons-react';
-import Image from 'next/image';
+import { IconChevronLeft, IconMedal, IconX } from '@tabler/icons-react';
 import { useState } from 'react';
 
+import { AddPostType, CardUnionDataType } from '@/common/constants/types';
+import { MediaType, RecordCardType } from '@/common/constants/types/enums';
 import { mediaUpload } from '@/common/fetch/mediaManager';
 import { fetchAddPost } from '@/common/fetch/post';
 import useToken from '@/common/hooks/useToken';
-import { AddPostType, CardUnionDataType } from '@/common/constants/types';
-import { MediaType, RecordCardType } from '@/common/constants/types/enums';
 
-import AlertCard from '../hint/AlertCard';
-import Loading from '../hint/Loading';
-import Mask from '../hint/Mask';
-import List from '../milestone/List';
-import AccountList from '../petInfo/AccountList';
+import Loading from '../../../components/hint/Loading';
+import Mask from '../../../components/hint/Mask';
+import List from '../../../components/milestone/List';
+import AccountList from '../../../components/petInfo/AccountList';
+import CardData from '../../../components/post/CardData';
 
-import CardData from './CardData';
+import UploadInput from './UploadInput';
 
-const MAX_FILE_SIZE = 1024 * 1024 * 10;
-
-interface UploadViewPropsType {
+interface PropsType {
   onClose: () => void;
   getList?: () => void;
   card?: CardUnionDataType;
   petId?: number;
 }
 
-function UploadView({ onClose, getList, card, petId }: UploadViewPropsType) {
+function UploadView({ onClose, getList, card, petId }: PropsType) {
   const { token } = useToken();
 
   // 表單相關
-  const [file, setFile] = useState<File>();
-  const [preview, setPreview] = useState('');
+  const [file, setFile] = useState<File | null>(null);
+  const [mediaType, setMediaType] = useState<MediaType | null>(null);
   const [postContent, setPostContent] = useState('');
-  const [mediaType, setMediaType] = useState<MediaType>();
 
   // 寵物相關
   const [selectedPetId, setSelectedPetId] = useState<number | null>(null);
@@ -40,40 +36,14 @@ function UploadView({ onClose, getList, card, petId }: UploadViewPropsType) {
 
   // 提示
   const [isLoading, setIsLoading] = useState(false);
-  const [isYetHint, setIsYetHint] = useState(false);
 
   // 按鈕樣式
   const isBtnDisabled = !file || !postContent || !selectedPetId;
 
-  // 處理檔案選擇與預覽
-  const handleMediaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputFile = event.target.files?.[0];
-    event.persist();
-
-    setFile(file);
-
-    //  限制大小
-    if (inputFile) {
-      if (inputFile.size > MAX_FILE_SIZE) {
-        alert('檔案不能超過 10MB');
-        return;
-      }
-
-      const previewUrl = URL.createObjectURL(inputFile);
-      setPreview(previewUrl);
-
-      const fileType = inputFile.type.split('/')[0];
-      switch (fileType) {
-        case 'image':
-          setMediaType(MediaType.image);
-          break;
-        case 'video':
-          setMediaType(MediaType.video);
-          break;
-        default:
-          break;
-      }
-    }
+  // 處理檔案選擇
+  const handleMediaChange = (media: File, type: MediaType) => {
+    setMediaType(type);
+    setFile(media);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -82,18 +52,17 @@ function UploadView({ onClose, getList, card, petId }: UploadViewPropsType) {
       return;
     }
     event.preventDefault();
-
     setIsLoading(true);
 
     // 上傳圖片影片
     try {
-      const uploadResult = await mediaUpload(file!, 'post');
-      if (!uploadResult) {
+      const uploadResponse = await mediaUpload(file!, 'post');
+      if (!uploadResponse) {
         alert('上傳失敗，請稍後再試');
         return;
       }
 
-      const mediaUrl = uploadResult.secure_url;
+      const mediaUrl = uploadResponse.secure_url;
       const data: AddPostType = {
         postContent,
         mediaType: mediaType!,
@@ -117,25 +86,27 @@ function UploadView({ onClose, getList, card, petId }: UploadViewPropsType) {
         }
       }
 
-      const response = await fetchAddPost(token, data, selectedPetId!);
-      if (!response.ok) {
+      const addPostResponse = await fetchAddPost(token, data, selectedPetId!);
+      if (!addPostResponse.ok) {
         alert('上傳失敗，請稍後再試');
+        setIsLoading(false);
+        return;
       }
     } catch (error) {
       alert('上傳失敗，請稍後再試');
-      console.error('Error uploading the file:', error);
+      setIsLoading(false);
+      return;
+    }
+
+    if (getList) {
+      getList();
     }
 
     setIsLoading(false);
-    setIsOpen(false);
-    getList && getList();
+    onClose();
   };
 
   const handleClose = () => {
-    if (file || postContent) {
-      setIsYetHint(true);
-      return;
-    }
     onClose();
   };
 
@@ -155,43 +126,7 @@ function UploadView({ onClose, getList, card, petId }: UploadViewPropsType) {
           </div>
           <div className='mt-4 flex gap-8'>
             {/* 檔案 */}
-            <label
-              htmlFor='media'
-              className='relative flex aspect-square max-h-[476px] max-w-[476px] flex-grow cursor-pointer items-center justify-center gap-8 overflow-hidden rounded-[30px] border border-stroke'
-            >
-              <input
-                id='media'
-                name='media'
-                type='file'
-                accept='.png, .jpg, .jpeg, .mp4, .mov'
-                onChange={handleMediaChange}
-                className='hidden'
-              />
-              <div className='flex items-center'>
-                <IconPhoto size={24} />
-                <span className='ml-2 text-note'>附上照片</span>
-              </div>
-              <div className='flex items-center'>
-                <IconMovie size={24} />
-                <span className='ml-2 text-note'>附上影片</span>
-              </div>
-              {/* 預覽 */}
-              <div className='absolute h-full w-full'>
-                {mediaType === MediaType.image && (
-                  <Image src={preview} fill style={{ objectFit: 'cover' }} alt='preview' />
-                )}
-                {mediaType === MediaType.video && (
-                  <video
-                    src={preview}
-                    autoPlay
-                    controls
-                    loop
-                    muted
-                    className='absolute h-full w-full'
-                  />
-                )}
-              </div>
-            </label>
+            <UploadInput mediaType={mediaType} onChange={handleMediaChange} />
             <section className='relative flex max-w-[469px] flex-grow flex-col'>
               {/* 文字輸入 */}
               <textarea
@@ -258,5 +193,11 @@ function UploadView({ onClose, getList, card, petId }: UploadViewPropsType) {
     </>
   );
 }
+
+UploadView.defaultProps = {
+  getList: () => {},
+  card: null,
+  petId: null,
+};
 
 export default UploadView;

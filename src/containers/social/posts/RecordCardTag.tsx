@@ -1,10 +1,10 @@
-import Dot from '@/components/icon/Dot';
 import {
   CardUnionDataType,
   MedicalCardDataType,
   MomentCardDataType,
 } from '@/common/constants/types';
 import { MomentIdType, RecordCardType, ReserveType } from '@/common/constants/types/enums';
+import Dot from '@/components/icon/Dot';
 
 interface PropsType {
   data: CardUnionDataType | null;
