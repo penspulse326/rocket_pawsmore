@@ -4,11 +4,9 @@ import Link from 'next/link';
 import React, { useState, memo } from 'react';
 
 import handleFreezeScroll from '@/common/helpers/handleFreezeScroll';
-
 import AlertCard from '@/components/hint/AlertCard';
 import Mask from '@/components/hint/Mask';
-import NetworkList from '@/components/petProfile/NetworkList';
-
+import NetworkList from '@/components/NetworkList';
 import { RequestedUserInfoType } from '@/types';
 
 interface PropsType {
