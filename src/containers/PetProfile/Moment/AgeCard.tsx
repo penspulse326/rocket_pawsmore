@@ -73,6 +73,7 @@ function AgeCard({ sortedData }: PropsType) {
                             const { cardType, reserveType, reserveDate } =
                               event as MedicalCardDataType;
 
+                            // 產生用於 index 的卡片 key
                             const cardIndex = () => {
                               if (cardType === MedicalCardType.醫療提醒) {
                                 return `${moment(reserveDate).format('YYYYMMDD')}${dateIndex}`;
@@ -82,6 +83,7 @@ function AgeCard({ sortedData }: PropsType) {
 
                             const isExpanded: boolean = expandedCard === cardIndex();
 
+                            // 卡片標題邏輯
                             const titleText = () => {
                               const isReminder: boolean =
                                 card === RecordCardType.醫療紀錄 &&
@@ -105,6 +107,7 @@ function AgeCard({ sortedData }: PropsType) {
                               return RecordCardType[card];
                             };
 
+                            // 卡片內容邏輯
                             const cardContent = () => {
                               if (cardType === MedicalCardType.醫療提醒) {
                                 return <Reminder data={event} />;

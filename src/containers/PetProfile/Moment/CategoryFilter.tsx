@@ -2,6 +2,7 @@ import { IconChevronDown } from '@tabler/icons-react';
 
 import getIconColor from '@/common/helpers/getIconColor';
 
+// 用於展開/關閉分類、選擇不同分類的 useState hook
 interface PropsType {
   isExpanded: boolean;
   handleExpandCategory: (isExpanded: boolean) => void;
