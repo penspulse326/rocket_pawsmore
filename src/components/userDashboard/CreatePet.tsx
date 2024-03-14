@@ -1,29 +1,25 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import { useSelector, useDispatch } from "react-redux";
-import { Controller, useForm } from "react-hook-form";
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useSelector, useDispatch } from 'react-redux';
+import { Controller, useForm } from 'react-hook-form';
 
-import BtnLoading from "../hint/BtnLoading";
+import BtnLoading from '../hint/BtnLoading';
 
-import UploadPhoto from "../form/profile/UploadPhoto";
-import RadioSelect from "../form/profile/RadioSelect";
-import TextInput from "../form/profile/TextInput";
-import DateInput from "../form/profile/DateInput";
+import UploadPhoto from '../form/profile/UploadPhoto';
+import RadioSelect from '../form/profile/RadioSelect';
+import TextInput from '../form/profile/TextInput';
+import DateInput from '../form/profile/DateInput';
 
-import { mediaUpload } from "@/common/fetch/mediaManager";
-import {
-  fetchCreatePet,
-  fetchUpdatePet,
-  fetchGetPetList,
-} from "@/common/fetch/petProfile";
+import { mediaUpload } from '@/common/fetch/mediaManager';
+import { fetchCreatePet, fetchUpdatePet, fetchGetPetList } from '@/common/fetch/petProfile';
 
-import { setPetList } from "@/common/redux/petListSlice";
-import { RootState } from "@/common/redux/store";
+import { setPetList } from '@/common/redux/petListSlice';
+import { RootState } from '@/common/redux/store';
 
-import { errorText } from "@/common/lib/messageText";
-import { gender, species } from "@/common/lib/formText";
-import type { PetFormType } from "@/types";
-import useToken from "@/common/hooks/useToken";
+import { errorText } from '@/common/constants/messageText';
+import { gender, species } from '@/common/constants/formText';
+import type { PetFormType } from '@/common/types';
+import useToken from '@/common/hooks/useToken';
 
 const CreatePet: React.FC = () => {
   const router = useRouter();
@@ -35,16 +31,16 @@ const CreatePet: React.FC = () => {
   const [statusCode, setStatusCode] = useState(0);
 
   const defaultValues = {
-    petAccount: "",
-    petName: "",
+    petAccount: '',
+    petName: '',
     petSpecies: null,
     petGender: null,
-    breed: "",
-    birthday: "",
-    adoptedDate: "",
+    breed: '',
+    birthday: '',
+    adoptedDate: '',
     petPhoto: null,
-    petIntro: "",
-    link: "",
+    petIntro: '',
+    link: '',
   };
 
   const handleCreatePet = async (data: PetFormType) => {
@@ -57,7 +53,7 @@ const CreatePet: React.FC = () => {
 
     if (response.status === 500) {
       setIsLoading(false);
-      alert("發生未知錯誤，請稍候再試");
+      alert('發生未知錯誤，請稍候再試');
       return;
     }
 
@@ -73,7 +69,7 @@ const CreatePet: React.FC = () => {
       const petId = response.data.petId;
 
       try {
-        const uploadResult = await mediaUpload(data.petPhoto, "pet");
+        const uploadResult = await mediaUpload(data.petPhoto, 'pet');
         const imgUrl = uploadResult.secure_url;
 
         const response = await fetchUpdatePet(data, token, imgUrl, petId);
@@ -81,13 +77,13 @@ const CreatePet: React.FC = () => {
         if (!response.ok) {
           setIsLoading(false);
           setStatusCode(response.status);
-          alert("新增失敗，請稍候再試");
+          alert('新增失敗，請稍候再試');
           return;
         }
       } catch (error) {
         setIsLoading(false);
         setStatusCode(500);
-        alert("新增失敗，請稍候再試");
+        alert('新增失敗，請稍候再試');
         return;
       }
     }
@@ -106,8 +102,8 @@ const CreatePet: React.FC = () => {
     }
 
     setIsLoading(false);
-    alert("新增成功");
-    router.push("/");
+    alert('新增成功');
+    router.push('/');
   };
 
   const handleAdd = (data: PetFormType) => handleCreatePet(data);
@@ -122,38 +118,36 @@ const CreatePet: React.FC = () => {
     } = useForm<PetFormType>({ defaultValues });
 
     return (
-      <section className="p-8 border border-stroke rounded-[30px] w-full">
-        <h2 className="text-2xl">寵物基本資料</h2>
-        <form onSubmit={handleSubmit(handleAdd)} className="mt-4">
-          <section className="flex gap-12 w-full">
+      <section className='w-full rounded-[30px] border border-stroke p-8'>
+        <h2 className='text-2xl'>寵物基本資料</h2>
+        <form onSubmit={handleSubmit(handleAdd)} className='mt-4'>
+          <section className='flex w-full gap-12'>
             {/* 上傳照片 */}
             <Controller
-              name="petPhoto"
+              name='petPhoto'
               control={control}
               render={({ field }) => (
                 <UploadPhoto
                   {...field}
-                  title="寵物照片"
-                  setError={() =>
-                    setError("petPhoto", { message: errorText.IMAGE_OVERSIZE })
-                  }
-                  clearErrors={() => clearErrors("petPhoto")}
+                  title='寵物照片'
+                  setError={() => setError('petPhoto', { message: errorText.IMAGE_OVERSIZE })}
+                  clearErrors={() => clearErrors('petPhoto')}
                   message={errors.petPhoto?.message}
                   onChange={(file: File) => field.onChange(file)}
                 />
               )}
             />
             {/* 其他欄位 */}
-            <div className="flex-grow flex flex-col gap-4">
+            <div className='flex flex-grow flex-col gap-4'>
               {/* 物種 */}
               <Controller
-                name="petSpecies"
+                name='petSpecies'
                 control={control}
                 rules={{ required: errorText.REQUIRED }}
                 render={({ field }) => (
                   <RadioSelect
                     {...field}
-                    title="物種"
+                    title='物種'
                     dataSet={species}
                     message={errors.petSpecies?.message}
                     onChange={(value) => field.onChange(value)}
@@ -162,13 +156,13 @@ const CreatePet: React.FC = () => {
               />
               {/* 性別 */}
               <Controller
-                name="petGender"
+                name='petGender'
                 control={control}
                 rules={{ required: errorText.REQUIRED }}
                 render={({ field }) => (
                   <RadioSelect
                     {...field}
-                    title="性別"
+                    title='性別'
                     dataSet={gender}
                     message={errors.petGender?.message}
                     onChange={(value) => field.onChange(value)}
@@ -177,14 +171,14 @@ const CreatePet: React.FC = () => {
               />
               {/* 品種 */}
               <Controller
-                name="breed"
+                name='breed'
                 control={control}
                 rules={{ required: errorText.REQUIRED }}
                 render={({ field }) => (
                   <TextInput
                     {...field}
-                    title="品種"
-                    placeholder="米克斯、柴犬、敘利亞倉鼠等等"
+                    title='品種'
+                    placeholder='米克斯、柴犬、敘利亞倉鼠等等'
                     message={errors.breed?.message}
                     star={true}
                   />
@@ -192,13 +186,13 @@ const CreatePet: React.FC = () => {
               />
               {/* 生日 */}
               <Controller
-                name="birthday"
+                name='birthday'
                 control={control}
                 rules={{ required: errorText.REQUIRED }}
                 render={({ field }) => (
                   <DateInput
                     {...field}
-                    title="生日"
+                    title='生日'
                     message={errors.birthday?.message}
                     star={true}
                     onChange={(value) => field.onChange(value)}
@@ -207,12 +201,12 @@ const CreatePet: React.FC = () => {
               />
               {/* 領養日 */}
               <Controller
-                name="adoptedDate"
+                name='adoptedDate'
                 control={control}
                 render={({ field }) => (
                   <DateInput
                     {...field}
-                    title="領養日"
+                    title='領養日'
                     onChange={(value) => field.onChange(value)}
                   />
                 )}
@@ -220,12 +214,12 @@ const CreatePet: React.FC = () => {
             </div>
           </section>
           {/* 寵物帳號資料 */}
-          <section className="flex flex-col gap-4 mt-12">
-            <h2 className="text-2xl">寵物基本資料</h2>
-            <div className="flex gap-8">
+          <section className='mt-12 flex flex-col gap-4'>
+            <h2 className='text-2xl'>寵物基本資料</h2>
+            <div className='flex gap-8'>
               {/* 寵物帳號 */}
               <Controller
-                name="petAccount"
+                name='petAccount'
                 control={control}
                 rules={{
                   required: errorText.REQUIRED,
@@ -236,8 +230,8 @@ const CreatePet: React.FC = () => {
                 }}
                 render={({ field }) => (
                   <TextInput
-                    title="寵物帳號"
-                    placeholder="設定寵物帳號，30字內以英數字組成。"
+                    title='寵物帳號'
+                    placeholder='設定寵物帳號，30字內以英數字組成。'
                     message={errors.petAccount?.message}
                     maxLength={30}
                     star={true}
@@ -247,13 +241,13 @@ const CreatePet: React.FC = () => {
               />
               {/* 寵物名稱 */}
               <Controller
-                name="petName"
+                name='petName'
                 control={control}
                 rules={{ required: errorText.REQUIRED }}
                 render={({ field }) => (
                   <TextInput
-                    title="寵物名稱"
-                    placeholder="在個人檔案上顯示寵物的名稱"
+                    title='寵物名稱'
+                    placeholder='在個人檔案上顯示寵物的名稱'
                     maxLength={15}
                     message={errors.petName?.message}
                     star={true}
@@ -262,39 +256,31 @@ const CreatePet: React.FC = () => {
                 )}
               />
             </div>
-            <div className="flex gap-8">
+            <div className='flex gap-8'>
               {/* 寵物簡介 */}
               <Controller
-                name="petIntro"
+                name='petIntro'
                 control={control}
                 render={({ field }) => (
-                  <TextInput
-                    title="寵物簡介"
-                    placeholder="輸入寵物簡介"
-                    {...field}
-                  />
+                  <TextInput title='寵物簡介' placeholder='輸入寵物簡介' {...field} />
                 )}
               />
               {/* 連結 */}
               <Controller
-                name="link"
+                name='link'
                 control={control}
                 render={({ field }) => (
-                  <TextInput
-                    title="連結"
-                    placeholder="新增外部連結"
-                    {...field}
-                  />
+                  <TextInput title='連結' placeholder='新增外部連結' {...field} />
                 )}
               />
             </div>
           </section>
           <button
-            type="submit"
+            type='submit'
             disabled={isLoading}
-            className="flex justify-center items-center mt-12 py-2 w-full min-h-[46px] rounded-full bg-primary text-xl text-white font-semibold"
+            className='mt-12 flex min-h-[46px] w-full items-center justify-center rounded-full bg-primary py-2 text-xl font-semibold text-white'
           >
-            {isLoading ? <BtnLoading /> : "新增寵物檔案"}
+            {isLoading ? <BtnLoading /> : '新增寵物檔案'}
           </button>
         </form>
       </section>
@@ -302,8 +288,8 @@ const CreatePet: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-y-8 max-w-[728px]">
-      <div className="text-xl">新增寵物檔案</div>
+    <div className='flex max-w-[728px] flex-col gap-y-8'>
+      <div className='text-xl'>新增寵物檔案</div>
       <Form />
     </div>
   );

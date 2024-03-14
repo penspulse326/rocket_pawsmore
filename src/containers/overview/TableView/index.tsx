@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import Tabs from "./Tabs";
-import TableTitle from "./TableTitle";
-import TableBody from "./TableBody";
+import Tabs from './Tabs';
+import TableTitle from './TableTitle';
+import TableBody from './TableBody';
 
-import { RecordCardType } from "@/types/enums";
+import { RecordCardType } from '@/common/types/enums';
 
 const Table: React.FC = () => {
   const [cardType, setCardType] = useState<RecordCardType>(0);
@@ -14,9 +14,9 @@ const Table: React.FC = () => {
   };
 
   return (
-    <div className="mt-4">
+    <div className='mt-4'>
       <Tabs cardType={cardType} setCardType={handleCardTypeChange} />
-      <div className="mt-8">
+      <div className='mt-8'>
         <TableTitle cardType={cardType} />
         <TableBody cardType={cardType} />
       </div>

@@ -1,9 +1,6 @@
-import { PostDataType } from "@/types";
+import { PostDataType } from '@/common/types';
 
-export const filterPost = (
-  allPosts: PostDataType[],
-  followingPosts: PostDataType[]
-) => {
+export const filterPost = (allPosts: PostDataType[], followingPosts: PostDataType[]) => {
   const filteredPosts = allPosts.filter((all) => {
     if (!followingPosts) {
       return allPosts;

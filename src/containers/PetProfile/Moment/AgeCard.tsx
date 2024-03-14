@@ -9,8 +9,8 @@ import Daily from '@/containers/recordCard/content/Daily';
 import Medical from '@/containers/recordCard/content/Medical';
 import Moment from '@/containers/recordCard/content/Moment';
 import Reminder from '@/containers/recordCard/content/Reminder';
-import { MedicalCardDataType, MomentCardDataType } from '@/types';
-import { RecordCardType, MedicalCardType, ReserveType, MomentIdType } from '@/types/enums';
+import { MedicalCardDataType, MomentCardDataType } from '@/common/types';
+import { RecordCardType, MedicalCardType, ReserveType, MomentIdType } from '@/common/types/enums';
 
 interface PropsType {
   sortedData: SortedDataType[];

@@ -1,7 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
-import type { PetDataType } from "@/types";
+import type { PetDataType } from '@/common/types';
 
 interface PetCardProps {
   data?: PetDataType;
@@ -10,22 +10,22 @@ interface PetCardProps {
 const PetCard: React.FC<PetCardProps> = ({ data }) => {
   if (!data) {
     return (
-      <div className="flex flex-col gap-7 mx-auto p-4 max-w-[204px] border border-stroke rounded-[30px] bg-white">
-        <div className="relative w-[172px] h-[172px] rounded-[30px] overflow-hidden hover:scale-110">
+      <div className='mx-auto flex max-w-[204px] flex-col gap-7 rounded-[30px] border border-stroke bg-white p-4'>
+        <div className='relative h-[172px] w-[172px] overflow-hidden rounded-[30px] hover:scale-110'>
           <Image
-            src="/images/default-photo.png"
-            alt="尚未有寵物照片"
+            src='/images/default-photo.png'
+            alt='尚未有寵物照片'
             priority={true}
             fill={true}
-            sizes="100%"
-            style={{ objectFit: "cover" }}
-            className="w-auto h-auto"
+            sizes='100%'
+            style={{ objectFit: 'cover' }}
+            className='h-auto w-auto'
           />
         </div>
-        <span className="text-center">尚未有寵物資料</span>
+        <span className='text-center'>尚未有寵物資料</span>
         <Link
-          href="/user_dashboard?to=create_pet"
-          className="mb-4 py-2 rounded-[30px] bg-primary text-white text-center"
+          href='/user_dashboard?to=create_pet'
+          className='mb-4 rounded-[30px] bg-primary py-2 text-center text-white'
         >
           新增寵物檔案
         </Link>
@@ -36,25 +36,25 @@ const PetCard: React.FC<PetCardProps> = ({ data }) => {
   const { petAccount, petName, petPhoto } = data;
 
   return (
-    <div className="flex flex-col gap-4 mx-auto p-4 max-w-[204px] border border-stroke rounded-[30px] bg-white">
-      <div className="relative w-[172px] h-[172px] rounded-[30px] overflow-hidden">
+    <div className='mx-auto flex max-w-[204px] flex-col gap-4 rounded-[30px] border border-stroke bg-white p-4'>
+      <div className='relative h-[172px] w-[172px] overflow-hidden rounded-[30px]'>
         <Image
-          src={petPhoto || "/images/default-photo.png"}
+          src={petPhoto || '/images/default-photo.png'}
           alt={petName}
           priority={true}
           fill={true}
-          sizes="100%"
-          style={{ objectFit: "cover" }}
-          className="w-auto h-auto hover:scale-110 duration-150"
+          sizes='100%'
+          style={{ objectFit: 'cover' }}
+          className='h-auto w-auto duration-150 hover:scale-110'
         />
       </div>
-      <div className="flex flex-col gap-1">
+      <div className='flex flex-col gap-1'>
         <span>{petName}</span>
         <span>@{petAccount}</span>
       </div>
       <Link
         href={`/pet/${petAccount}`}
-        className="mb-4 py-2 rounded-[30px] bg-primary text-white text-center hover:bg-primary/70 duration-300"
+        className='mb-4 rounded-[30px] bg-primary py-2 text-center text-white duration-300 hover:bg-primary/70'
       >
         寵物檔案
       </Link>

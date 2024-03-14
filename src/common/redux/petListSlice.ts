@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-import type { PetDataType } from "@/types";
+import type { PetDataType } from '@/common/types';
 
 const initialState: PetDataType[] = [];
 
 export const petListSlice = createSlice({
-  name: "petList",
+  name: 'petList',
   initialState,
   reducers: {
     setPetList: (_, action) => {

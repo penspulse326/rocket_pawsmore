@@ -7,7 +7,7 @@ import { RootState } from '@/common/redux/store';
 import PetList from '@/containers/UserProfile/PetList';
 import Profile from '@/containers/UserProfile/Profile';
 
-import { PetDataType, RequestedUserInfoType } from '@/types';
+import { PetDataType, RequestedUserInfoType } from '@/common/types';
 
 interface PropsType {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;

@@ -1,9 +1,9 @@
-import { RecordCardType } from "@/types/enums";
+import { RecordCardType } from '@/common/types/enums';
 
 const dotColor: Record<number, string> = {
-  0: "#969AFF",
-  1: "#FF6D80",
-  2: "#FFA959",
+  0: '#969AFF',
+  1: '#FF6D80',
+  2: '#FFA959',
 };
 
 interface PropsType {
@@ -12,19 +12,19 @@ interface PropsType {
 }
 
 const Dot: React.FC<PropsType> = ({ name, size }) => {
-  if (size === "sm") {
+  if (size === 'sm') {
     return (
       <span
         style={{ backgroundColor: dotColor[name] }}
-        className="shrink-0 inline-block mr-1 w-[6px] h-[6px] rounded-full"
-      ></span>
+        className='mr-1 inline-block h-[6px] w-[6px] shrink-0 rounded-full'
+      />
     );
   }
   return (
     <span
       style={{ backgroundColor: dotColor[name] }}
-      className="shrink-0 inline-block mr-4 w-[11px] h-[11px] rounded-full"
-    ></span>
+      className='mr-4 inline-block h-[11px] w-[11px] shrink-0 rounded-full'
+    />
   );
 };
 

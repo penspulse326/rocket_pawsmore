@@ -8,8 +8,8 @@ import Mask from '@/components/hint/Mask';
 import NoContent from '@/components/NoContent';
 import PostView from '@/components/post/PostView';
 import { PetDataContext } from '@/containers/PetProfile';
-import { PostDataType } from '@/types';
-import { MediaType } from '@/types/enums';
+import { PostDataType } from '@/common/types';
+import { MediaType } from '@/common/types/enums';
 
 import handleFreezeScroll from '@/common/helpers/handleFreezeScroll';
 

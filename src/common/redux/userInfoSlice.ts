@@ -1,18 +1,19 @@
-import { UserInfoType } from "@/types";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+
+import { UserInfoType } from '@/common/types';
 
 const initialState: UserInfoType = {
   userId: null,
-  username: "",
-  account: "",
-  headShot: "",
-  introduction: "",
+  username: '',
+  account: '',
+  headShot: '',
+  introduction: '',
   topic: null,
-  link: "",
+  link: '',
 };
 
 export const userInfoSlice = createSlice({
-  name: "userInfo",
+  name: 'userInfo',
   initialState,
   reducers: {
     setUserInfo: (state, action) => {

@@ -1,11 +1,11 @@
-import moment from "moment";
+import moment from 'moment';
 
-import { CardUnionDataType, MedicalCardDataType } from "@/types";
-import { MedicalCardType } from "@/types/enums";
+import { CardUnionDataType, MedicalCardDataType } from '@/common/types';
+import { MedicalCardType } from '@/common/types/enums';
 
 const sortData = (data: CardUnionDataType[]) => {
   // 將醫療提醒類卡片資料置頂
-  let sortedData: CardUnionDataType[] = [];
+  const sortedData: CardUnionDataType[] = [];
 
   data
     .sort((a, b) => {
@@ -15,7 +15,7 @@ const sortData = (data: CardUnionDataType[]) => {
       return moment(targetDateB).diff(moment(targetDateA));
     })
     .forEach((data) => {
-      const cardType = (data as MedicalCardDataType).cardType;
+      const { cardType } = data as MedicalCardDataType;
       if (cardType === MedicalCardType.醫療提醒) {
         sortedData.unshift(data);
       } else {

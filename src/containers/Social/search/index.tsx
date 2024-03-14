@@ -7,9 +7,9 @@ import { fetchGetSpeciesPosts } from '@/common/fetch/post';
 import getPetAge from '@/common/helpers/getPetAge';
 import Mask from '@/components/hint/Mask';
 import PostView from '@/components/Post/PostView';
-import { PetGenderType, MediaType, SpeciesType } from '@/types/enums';
+import { PetGenderType, MediaType, SpeciesType } from '@/common/types/enums';
 
-import type { PostDataType, SearchPetData } from '@/types';
+import type { PostDataType, SearchPetData } from '@/common/types';
 
 interface PropsType {
   data: SearchPetData[];

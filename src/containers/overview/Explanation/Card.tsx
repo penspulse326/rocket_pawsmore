@@ -1,5 +1,5 @@
-import { symptomInfo } from "@/common/lib/symptomInfo";
-import { UrineType, PooType, VomitType } from "@/types/enums";
+import { symptomInfo } from '@/common/constants/symptomInfo';
+import { UrineType, PooType, VomitType } from '@/common/types/enums';
 
 interface Symptom {
   urine?: number;
@@ -18,17 +18,15 @@ const Card: React.FC<CardProps> = ({ data }) => {
   const urineType = symptomInfo.urine.find((item) => item.type === urine)?.type;
   const pooType = symptomInfo.poo.find((item) => item.type === poo)?.type;
   const vomitType = symptomInfo.vomit.find((item) => item.type === vomit)?.type;
-  const symptomType = symptomInfo.symptom.find(
-    (item) => item.type === symptom
-  )?.type;
+  const symptomType = symptomInfo.symptom.find((item) => item.type === symptom)?.type;
 
   return (
-    <li className="flex flex-col gap-4 px-6 py-4 border border-stroke rounded-[30px]">
+    <li className='flex flex-col gap-4 rounded-[30px] border border-stroke px-6 py-4'>
       <div>
-        <span className="inline-block px-3 py-1 bg-primary text-white rounded-[30px]">
+        <span className='inline-block rounded-[30px] bg-primary px-3 py-1 text-white'>
           異常狀況
         </span>
-        <div className="flex gap-2 mt-1">
+        <div className='mt-1 flex gap-2'>
           <span>
             {urineType !== undefined && UrineType[urineType]}
             {pooType !== undefined && PooType[pooType]}
@@ -38,29 +36,15 @@ const Card: React.FC<CardProps> = ({ data }) => {
         </div>
       </div>
       <div>
-        <span className="inline-block px-3 py-1 text-primary border border-primary rounded-[30px]">
+        <span className='inline-block rounded-[30px] border border-primary px-3 py-1 text-primary'>
           可能原因
         </span>
-        <div className="flex gap-2 mt-1">
-          {urine && (
-            <span>
-              {symptomInfo.urine.find((item) => item.type === urine)?.text}
-            </span>
-          )}
-          {poo && (
-            <span>
-              {symptomInfo.poo.find((item) => item.type === poo)?.text}
-            </span>
-          )}
-          {vomit && (
-            <span>
-              {symptomInfo.vomit.find((item) => item.type === vomit)?.text}
-            </span>
-          )}
+        <div className='mt-1 flex gap-2'>
+          {urine && <span>{symptomInfo.urine.find((item) => item.type === urine)?.text}</span>}
+          {poo && <span>{symptomInfo.poo.find((item) => item.type === poo)?.text}</span>}
+          {vomit && <span>{symptomInfo.vomit.find((item) => item.type === vomit)?.text}</span>}
           {symptom && (
-            <span>
-              {symptomInfo.symptom.find((item) => item.type === symptom)?.text}
-            </span>
+            <span>{symptomInfo.symptom.find((item) => item.type === symptom)?.text}</span>
           )}
         </div>
       </div>

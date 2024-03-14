@@ -2,7 +2,7 @@ import type { GetServerSideProps } from 'next';
 
 import Layout from '@/containers/Social/Layout';
 import SearchResult from '@/containers/Social/Search';
-import { PostDataType } from '@/types';
+import { PostDataType } from '@/common/types';
 
 import type { NextPageWithLayout } from '../_app';
 import type { ReactElement } from 'react';

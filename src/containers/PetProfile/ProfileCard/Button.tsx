@@ -3,11 +3,12 @@ import { DebouncedFunc } from 'lodash';
 import { useRouter } from 'next/router';
 import { useState, memo, useContext } from 'react';
 
-import handleFreezeScroll from '@/common/helpers/handleFreezeScroll';
+import { PetDataType } from '@/common/types';
 import AlertCard from '@/components/hint/AlertCard';
 import Mask from '@/components/hint/Mask';
 import { PetDataContext } from '@/containers/PetProfile';
-import { PetDataType } from '@/types';
+
+import handleFreezeScroll from '@/common/helpers/handleFreezeScroll';
 
 // 是否為自己的寵物、追蹤狀態的 useState hook
 // 追蹤/取消追蹤 api

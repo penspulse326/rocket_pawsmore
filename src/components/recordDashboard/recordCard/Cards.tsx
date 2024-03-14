@@ -1,13 +1,13 @@
-import React, { useState, useContext } from "react";
-import { useSelector } from "react-redux";
-import moment from "moment";
+import React, { useState, useContext } from 'react';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
 
-import { DateContext } from "@/pages/record_dashboard";
-import SingleCardLayout from "@/containers/recordCard/SingleCardLayout";
+import { DateContext } from '@/pages/record_dashboard';
+import SingleCardLayout from '@/containers/recordCard/SingleCardLayout';
 
-import type { RootState } from "@/common/redux/store";
-import { MedicalCardDataType } from "@/types";
-import { MedicalCardType } from "@/types/enums";
+import type { RootState } from '@/common/redux/store';
+import { MedicalCardDataType } from '@/common/types';
+import { MedicalCardType } from '@/common/types/enums';
 
 const Cards: React.FC = () => {
   const { selectedDate } = useContext(DateContext);
@@ -29,10 +29,10 @@ const Cards: React.FC = () => {
           const reserveDate = (data as MedicalCardDataType).reserveDate;
 
           return (
-            (MedicalCardType[visitType] === "醫療提醒" &&
-              moment(reserveDate).format("YYYY-MM-DD") === selectedDate) ||
-            (MedicalCardType[visitType] !== "醫療提醒" &&
-              moment(targetDate).format("YYYY-MM-DD") === selectedDate)
+            (MedicalCardType[visitType] === '醫療提醒' &&
+              moment(reserveDate).format('YYYY-MM-DD') === selectedDate) ||
+            (MedicalCardType[visitType] !== '醫療提醒' &&
+              moment(targetDate).format('YYYY-MM-DD') === selectedDate)
           );
         })
         .map((data, index) => (

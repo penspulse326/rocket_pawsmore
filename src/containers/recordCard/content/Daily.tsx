@@ -1,8 +1,9 @@
-import React from "react";
-import ToggleList from "../card/ToggleList";
+import React from 'react';
 
-import { CardUnionDataType, DailyCardDataType } from "@/types";
-import { UrineType, PooType, VomitType } from "@/types/enums";
+import { CardUnionDataType, DailyCardDataType } from '@/common/types';
+import { UrineType, PooType, VomitType } from '@/common/types/enums';
+
+import ToggleList from '../card/ToggleList';
 
 interface DailyDataType {
   TITLE: string;
@@ -39,17 +40,16 @@ const Daily: React.FC<DailyProps> = ({ data }) => {
   } = data as DailyCardDataType;
 
   const hasRoutineRecord: boolean =
-    (weight && weight.slice(0, 1) !== "0") || food !== "[]" || water !== 0;
+    (weight && weight.slice(0, 1) !== '0') || food !== '[]' || water !== 0;
 
-  const isAbnormal: boolean =
-    urine !== 0 || poo !== 0 || vomit !== 0 || symptom !== "[]";
+  const isAbnormal: boolean = urine !== 0 || poo !== 0 || vomit !== 0 || symptom !== '[]';
 
   const hasDailyCares: boolean =
-    deworming !== "" || medicine !== "" || injection !== "" || rehab !== "";
+    deworming !== '' || medicine !== '' || injection !== '' || rehab !== '';
 
   const Routine: React.FC = () => {
     const weightFormat = (weight: string) => {
-      const separate = weight.split(".");
+      const separate = weight.split('.');
       const value = separate[0];
       const unit = separate[1];
 
@@ -58,7 +58,7 @@ const Daily: React.FC<DailyProps> = ({ data }) => {
 
     const routineData: DailyDataType[] = [
       {
-        TITLE: "體重",
+        TITLE: '體重',
         content:
           Number(weightFormat(weight).value) !== 0 ? (
             <>
@@ -68,7 +68,7 @@ const Daily: React.FC<DailyProps> = ({ data }) => {
           ) : null,
       },
       {
-        TITLE: "飲水量",
+        TITLE: '飲水量',
         content: water ? (
           <>
             <li>{water}</li>
@@ -77,42 +77,35 @@ const Daily: React.FC<DailyProps> = ({ data }) => {
         ) : null,
       },
       {
-        TITLE: "進食量",
+        TITLE: '進食量',
         content:
-          food !== "[]" ? (
-            <div className="flex flex-col">
-              {JSON.parse(food).map(
-                (item: { type: string; amount: number }, index: number) => {
-                  const { type, amount } = item;
-                  return (
-                    <ul key={index} className="flex gap-x-1">
-                      <li>{type}</li>
-                      <li>{amount}</li>
-                      <li>g</li>
-                    </ul>
-                  );
-                }
-              )}
+          food !== '[]' ? (
+            <div className='flex flex-col'>
+              {JSON.parse(food).map((item: { type: string; amount: number }, index: number) => {
+                const { type, amount } = item;
+                return (
+                  <ul key={index} className='flex gap-x-1'>
+                    <li>{type}</li>
+                    <li>{amount}</li>
+                    <li>g</li>
+                  </ul>
+                );
+              })}
             </div>
           ) : null,
       },
     ];
     return (
       routineData && (
-        <ToggleList title={"一般"}>
-          <div className="flex flex-col gap-y-2">
+        <ToggleList title='一般'>
+          <div className='flex flex-col gap-y-2'>
             {routineData
               .filter((data) => data.content)
               .map((item, index) => {
                 return (
-                  <ul
-                    key={index}
-                    className="flex items-center gap-x-4 max-h-[72px]"
-                  >
-                    <li className="font-semibold min-w-12 self-start">
-                      {item.TITLE}
-                    </li>
-                    <ol className="flex gap-x-1">{item.content}</ol>
+                  <ul key={index} className='flex max-h-[72px] items-center gap-x-4'>
+                    <li className='min-w-12 self-start font-semibold'>{item.TITLE}</li>
+                    <ol className='flex gap-x-1'>{item.content}</ol>
                   </ul>
                 );
               })}
@@ -123,39 +116,35 @@ const Daily: React.FC<DailyProps> = ({ data }) => {
   };
 
   const abnormal: DataArrayType[] = [
-    { TITLE: "尿液", content: UrineType[urine] },
-    { TITLE: "糞便", content: PooType[poo] },
-    { TITLE: "嘔吐", content: VomitType[vomit] },
-    { TITLE: "症狀", content: symptom !== "[]" && JSON.parse(symptom) },
+    { TITLE: '尿液', content: UrineType[urine] },
+    { TITLE: '糞便', content: PooType[poo] },
+    { TITLE: '嘔吐', content: VomitType[vomit] },
+    { TITLE: '症狀', content: symptom !== '[]' && JSON.parse(symptom) },
   ];
 
   const dailyCares: DataArrayType[] = [
-    { TITLE: "驅蟲", content: deworming },
-    { TITLE: "用藥", content: medicine },
-    { TITLE: "注射", content: injection },
-    { TITLE: "復健", content: rehab },
+    { TITLE: '驅蟲', content: deworming },
+    { TITLE: '用藥', content: medicine },
+    { TITLE: '注射', content: injection },
+    { TITLE: '復健', content: rehab },
   ];
 
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className='flex flex-col gap-y-4'>
       {hasRoutineRecord && <Routine />}
       {/* the abnormals */}
       {isAbnormal && (
-        <ToggleList title={"異常"}>
-          <div className="flex flex-col gap-y-2">
+        <ToggleList title='異常'>
+          <div className='flex flex-col gap-y-2'>
             {abnormal
               .filter((item) => item.content)
               .map((item, index) => {
                 const { TITLE, content } = item;
                 return (
-                  <ul key={index} className="flex items-center gap-x-4 ">
-                    <li className="font-semibold min-w-12 self-start">
-                      {TITLE}
-                    </li>
+                  <ul key={index} className='flex items-center gap-x-4 '>
+                    <li className='min-w-12 self-start font-semibold'>{TITLE}</li>
                     <li>
-                      {TITLE === "症狀" && Array.isArray(content)
-                        ? content.join("、")
-                        : content}
+                      {TITLE === '症狀' && Array.isArray(content) ? content.join('、') : content}
                     </li>
                   </ul>
                 );
@@ -165,15 +154,15 @@ const Daily: React.FC<DailyProps> = ({ data }) => {
       )}
       {/* daily cares */}
       {hasDailyCares && (
-        <ToggleList title={"日常照護"}>
-          <div className="flex flex-col gap-y-2">
+        <ToggleList title='日常照護'>
+          <div className='flex flex-col gap-y-2'>
             {dailyCares
               .filter((item) => item.content)
               .map((item, index) => {
                 const { TITLE, content } = item;
                 return (
-                  <ul key={index} className="flex gap-x-4 items-center h-8">
-                    <li className="font-semibold min-w-12">{TITLE}</li>
+                  <ul key={index} className='flex h-8 items-center gap-x-4'>
+                    <li className='min-w-12 font-semibold'>{TITLE}</li>
                     <li>{content}</li>
                   </ul>
                 );
@@ -182,8 +171,8 @@ const Daily: React.FC<DailyProps> = ({ data }) => {
         </ToggleList>
       )}
       {/* note */}
-      <ul className="flex flex-col gap-y-2">
-        <li className="text-note">備註</li>
+      <ul className='flex flex-col gap-y-2'>
+        <li className='text-note'>備註</li>
         <li>{remark}</li>
       </ul>
     </div>

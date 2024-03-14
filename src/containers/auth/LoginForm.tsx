@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 
+import { errorText } from '@/common/constants/messageText';
 import { fetchLogin } from '@/common/fetch/auth';
 import useToken from '@/common/hooks/useToken';
-import { errorText } from '@/common/lib/messageText';
 import { setUserInfo } from '@/common/redux/userInfoSlice';
 import TextInput from '@/components/form/profile/TextInput';
 import SubmitButton from '@/components/form/SubmitButton';

@@ -3,8 +3,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 
+import { PetDataType } from '@/common/types';
 import { PetDataContext } from '@/containers/PetProfile';
-import { PetDataType } from '@/types';
 
 function Companionship() {
   const router = useRouter();

@@ -2,7 +2,7 @@ import { IconChevronUp } from '@tabler/icons-react';
 import Image from 'next/image';
 import React, { useState, useContext, memo } from 'react';
 
-import { milestoneList } from '@/common/lib/milestoneList';
+import { milestoneList } from '@/common/constants/milestoneList';
 import { PetDataContext } from '@/containers/PetProfile';
 
 function Milestones() {

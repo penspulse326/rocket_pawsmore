@@ -1,14 +1,11 @@
-import { DailyDataType, MomentDataType, MomentFormType } from "@/types";
-import apiNext from "./apiNext";
+import { DailyDataType, MomentDataType, MomentFormType } from '@/common/types';
 
-export const fetchAddDailyCard = async (
-  token: string,
-  petId: number,
-  data: DailyDataType
-) => {
+import apiNext from './apiNext';
+
+export const fetchAddDailyCard = async (token: string, petId: number, data: DailyDataType) => {
   try {
     const response = await fetch(apiNext.ADD_DAILY_CARD(petId), {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(data),
       headers: {
         Authorization: `Bearer ${token}`,
@@ -30,7 +27,7 @@ export const fetchAddMedicalCard = async (
 ) => {
   try {
     const response = await fetch(apiNext.ADD_MEDICAL_CARD(petId), {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(data),
       headers: {
         Authorization: `Bearer ${token}`,
@@ -52,7 +49,7 @@ export const fetchAddMomentCard = async (
 ) => {
   try {
     const response = await fetch(apiNext.ADD_MOMENT_CARD(petId), {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(data),
       headers: {
         Authorization: `Bearer ${token}`,

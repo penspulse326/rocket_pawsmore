@@ -1,21 +1,17 @@
-import React, { useContext } from "react";
-import Image from "next/image";
-import { DataContext } from "../SingleCardLayout";
+import React, { useContext } from 'react';
+import Image from 'next/image';
+import { DataContext } from '../SingleCardLayout';
 
-import getIconColor from "@/common/helpers/getIconColor";
+import getIconColor from '@/common/helpers/getIconColor';
 
-import {
-  MedicalCardDataType,
-  MomentCardDataType,
-  AnniversaryCardDataType,
-} from "@/types";
+import { MedicalCardDataType, MomentCardDataType, AnniversaryCardDataType } from '@/common/types';
 import {
   RecordEventType,
   MedicalCardType,
   ReserveType,
   MomentIdType,
   AnniversaryType,
-} from "@/types/enums";
+} from '@/common/types/enums';
 
 const Title: React.FC = () => {
   const data = useContext(DataContext);
@@ -38,7 +34,7 @@ const Title: React.FC = () => {
       if (momentType !== 2) {
         return MomentIdType[momentId];
       } else {
-        return "新技能";
+        return '新技能';
       }
     } else if (isAnniversary) {
       return AnniversaryType[anniversaryType];
@@ -50,40 +46,23 @@ const Title: React.FC = () => {
   };
 
   return (
-    <div className="flex gap-x-4 items-center h-9">
-      {isAnniversary && (
-        <Image
-          src="/test/icon-flag.svg"
-          width={36}
-          height={36}
-          alt="flag icon"
-        />
-      )}
+    <div className='flex h-9 items-center gap-x-4'>
+      {isAnniversary && <Image src='/test/icon-flag.svg' width={36} height={36} alt='flag icon' />}
       {isReminder && (
-        <Image
-          src="/test/icon-exclamation.svg"
-          width={9}
-          height={36}
-          alt="exclamation symbol"
-        />
+        <Image src='/test/icon-exclamation.svg' width={9} height={36} alt='exclamation symbol' />
       )}
       {!isReminder && !isAnniversary && (
         <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="11"
-          height="11"
-          viewBox="0 0 6 6"
-          fill="none"
+          xmlns='http://www.w3.org/2000/svg'
+          width='11'
+          height='11'
+          viewBox='0 0 6 6'
+          fill='none'
         >
-          <circle
-            cx="3"
-            cy="3"
-            r="3"
-            fill={getIconColor(RecordEventType[card])}
-          />
+          <circle cx='3' cy='3' r='3' fill={getIconColor(RecordEventType[card])} />
         </svg>
       )}
-      <span className="text-2xl font-bold">{titleText()}</span>
+      <span className='text-2xl font-bold'>{titleText()}</span>
     </div>
   );
 };

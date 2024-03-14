@@ -1,13 +1,13 @@
-import { useEffect, useState, useContext } from "react";
-import { useSelector } from "react-redux";
-import Link from "next/link";
-import Image from "next/image";
-import { IconChevronUp } from "@tabler/icons-react";
+import { useEffect, useState, useContext } from 'react';
+import { useSelector } from 'react-redux';
+import Link from 'next/link';
+import Image from 'next/image';
+import { IconChevronUp } from '@tabler/icons-react';
 
-import { PetIdContext } from "@/pages/record_dashboard";
+import { PetIdContext } from '@/pages/record_dashboard';
 
-import type { RootState } from "@/common/redux/store";
-import type { PetDataType } from "@/types";
+import type { RootState } from '@/common/redux/store';
+import type { PetDataType } from '@/common/types';
 
 const AccountList: React.FC = () => {
   const { setPetId } = useContext(PetIdContext);
@@ -28,36 +28,33 @@ const AccountList: React.FC = () => {
 
   const AccountCard = () => {
     return (
-      <div className="flex gap-x-2 items-center w-full border border-stroke rounded-[60px] p-2 hover:cursor-pointer">
-        <div className="relative max-w-12 max-h-12 w-full h-full rounded-full overflow-hidden">
+      <div className='flex w-full items-center gap-x-2 rounded-[60px] border border-stroke p-2 hover:cursor-pointer'>
+        <div className='relative h-full max-h-12 w-full max-w-12 overflow-hidden rounded-full'>
           <Image
-            src={selectedPet.petPhoto || "/images/default-photo.png"}
+            src={selectedPet.petPhoto || '/images/default-photo.png'}
             alt={selectedPet.petAccount}
             fill={true}
-            sizes="100%"
-            style={{ objectFit: "cover" }}
+            sizes='100%'
+            style={{ objectFit: 'cover' }}
           />
         </div>
-        <div className="flex grow justify-between items-center">
+        <div className='flex grow items-center justify-between'>
           <ul>
             <li>{selectedPet.petName}</li>
-            <li className="text-note">@{selectedPet.petAccount}</li>
+            <li className='text-note'>@{selectedPet.petAccount}</li>
           </ul>
-          <IconChevronUp
-            size={24}
-            className={`${!isExpanded && "rotate-180"} duration-300 mr-2`}
-          />
+          <IconChevronUp size={24} className={`${!isExpanded && 'rotate-180'} mr-2 duration-300`} />
         </div>
       </div>
     );
   };
   const ExpandedCard = () => {
     return (
-      <div className="absolute top-[76px] z-10 p-2 w-full bg-white shadow-custom rounded-[30px]">
+      <div className='shadow-custom absolute top-[76px] z-10 w-full rounded-[30px] bg-white p-2'>
         {petList.map(({ petAccount, petName, petPhoto, petId }, index) => {
           return (
             <ul
-              className="flex gap-x-2 items-center rounded-[60px] p-2 hover:bg-secondary hover:cursor-pointer"
+              className='flex items-center gap-x-2 rounded-[60px] p-2 hover:cursor-pointer hover:bg-secondary'
               onClick={() => {
                 setSelectedPet(petList[index]);
                 setIsExpanded(false);
@@ -65,18 +62,18 @@ const AccountList: React.FC = () => {
               }}
               key={`${index}-${petAccount}`}
             >
-              <div className="relative max-w-12 max-h-12 w-full h-12 rounded-full overflow-hidden">
+              <div className='relative h-12 max-h-12 w-full max-w-12 overflow-hidden rounded-full'>
                 <Image
-                  src={petPhoto || "/images/default-photo.png"}
+                  src={petPhoto || '/images/default-photo.png'}
                   alt={petAccount}
                   fill={true}
-                  sizes="100%"
-                  style={{ objectFit: "cover" }}
+                  sizes='100%'
+                  style={{ objectFit: 'cover' }}
                 />
               </div>
-              <ol className="mr-2 truncate">
+              <ol className='mr-2 truncate'>
                 <li>{petName}</li>
-                <li className="text-note">@{petAccount}</li>
+                <li className='text-note'>@{petAccount}</li>
               </ol>
             </ul>
           );
@@ -86,7 +83,7 @@ const AccountList: React.FC = () => {
   };
   return (
     <section
-      className="relative flex flex-col justify-center items-center max-w-[250px] w-full h-16"
+      className='relative flex h-16 w-full max-w-[250px] flex-col items-center justify-center'
       onClick={() => setIsExpanded(!isExpanded)}
       onBlur={() => setIsExpanded(false)}
       tabIndex={1}
@@ -94,7 +91,7 @@ const AccountList: React.FC = () => {
       {selectedPet ? (
         <AccountCard />
       ) : (
-        <Link href="#" className="text-primary font-bold">
+        <Link href='#' className='font-bold text-primary'>
           您尚未建立寵物檔案
         </Link>
       )}

@@ -7,7 +7,7 @@ import handleFreezeScroll from '@/common/helpers/handleFreezeScroll';
 import AlertCard from '@/components/hint/AlertCard';
 import Mask from '@/components/hint/Mask';
 import NetworkList from '@/components/NetworkList';
-import { RequestedUserInfoType } from '@/types';
+import { RequestedUserInfoType } from '@/common/types';
 
 interface PropsType {
   userData: RequestedUserInfoType | undefined;

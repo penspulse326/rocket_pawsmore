@@ -1,27 +1,27 @@
-import { Controller, useForm } from "react-hook-form";
-import { useContext, useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/common/redux/store";
+import { useContext, useState, useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { DateContext, PetIdContext } from "@/pages/record_dashboard";
-import { fetchAddMedicalCard } from "@/common/fetch/recordCard";
-import { mediaUpload } from "@/common/fetch/mediaManager";
-import ErrorMessage from "@/components/ErrorMessage";
-import Loading from "@/components/hint/Loading";
-import { errorText } from "@/common/lib/messageText";
-import { visitOptions } from "@/common/lib/formText";
-import Select from "../Select";
-import DateInput from "./DateInput";
-import ImageInput from "../ImageInput";
-import TextInput from "./TextInput";
+import { visitOptions } from '@/common/constants/formText';
+import { errorText } from '@/common/constants/messageText';
+import { mediaUpload } from '@/common/fetch/mediaManager';
+import { fetchAddMedicalCard } from '@/common/fetch/recordCard';
+import { fetchFormattedRecord } from '@/common/helpers/fetchFormattedRecord';
+import useToken from '@/common/hooks/useToken';
+import { setRecordInfo } from '@/common/redux/recordSlice';
+import { RootState } from '@/common/redux/store';
+import ErrorMessage from '@/components/ErrorMessage';
+import Loading from '@/components/hint/Loading';
+import { DateContext, PetIdContext } from '@/pages/record_dashboard';
+import { VisitType } from '@/common/types/enums';
 
-import { setRecordInfo } from "@/common/redux/recordSlice";
-import { fetchFormattedRecord } from "@/common/helpers/fetchFormattedRecord";
+import ImageInput from '../ImageInput';
+import Select from '../Select';
 
-import { VisitType } from "@/types/enums";
-import useToken from "@/common/hooks/useToken";
-import AreaInput from "./AreaInput";
-import NumberInput from "./NumberInput";
+import AreaInput from './AreaInput';
+import DateInput from './DateInput';
+import NumberInput from './NumberInput';
+import TextInput from './TextInput';
 
 interface FormType {
   card: 1;
@@ -45,16 +45,16 @@ const defaultValues: FormType = {
   cardType: 1,
   reserveType: 0,
   visitType: null,
-  title: "",
-  hospital: "",
-  doctor: "",
-  medicine: "",
-  check: "",
-  notice: "",
+  title: '',
+  hospital: '',
+  doctor: '',
+  medicine: '',
+  check: '',
+  notice: '',
   cost: null,
   photo: null,
-  targetDate: "",
-  remindDate: "",
+  targetDate: '',
+  remindDate: '',
 };
 
 interface PropsType {
@@ -70,9 +70,9 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
   const { petId } = useContext(PetIdContext);
   const { selectedDate } = useContext(DateContext);
 
-  const [petAccount, setPetAccount] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [adoptedDate, setAdoptedDate] = useState("");
+  const [petAccount, setPetAccount] = useState('');
+  const [birthday, setBirthday] = useState('');
+  const [adoptedDate, setAdoptedDate] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -90,11 +90,11 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
   const handleAddMedicalRecord = async (data: FormType) => {
     if (!token) {
-      alert("請先登入");
+      alert('請先登入');
       return;
     }
     if (!petId) {
-      alert("請先建立寵物檔案");
+      alert('請先建立寵物檔案');
       return;
     }
 
@@ -104,7 +104,7 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
     const { title, visitType, photo, remindDate } = formData;
 
     if (!title || !visitType) {
-      setError("root", { type: "manual", message: "請輸入必填項目" });
+      setError('root', { type: 'manual', message: '請輸入必填項目' });
       setIsLoading(false);
       return;
     }
@@ -113,7 +113,7 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
     // 有照片才進行上傳
     if (photo instanceof File) {
-      const uploadResult = await mediaUpload(photo, "medical");
+      const uploadResult = await mediaUpload(photo, 'medical');
       if (uploadResult) {
         formData.photo = uploadResult.secure_url;
       }
@@ -121,7 +121,7 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
     const response = await fetchAddMedicalCard(token, petId, formData);
     if (!response.ok) {
-      alert("新增失敗，請稍後再試");
+      alert('新增失敗，請稍後再試');
       setIsLoading(false);
       return;
     }
@@ -149,12 +149,7 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
   const fetchPetRecord = async () => {
     try {
       if (petAccount && petId) {
-        const recordData = await fetchFormattedRecord(
-          petAccount,
-          petId,
-          birthday,
-          adoptedDate
-        );
+        const recordData = await fetchFormattedRecord(petAccount, petId, birthday, adoptedDate);
         dispatch(setRecordInfo(recordData));
       }
     } catch (error) {
@@ -175,135 +170,97 @@ const MedicalRecord: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit(handleAddMedicalRecord)}
-        className="flex flex-col gap-4"
-      >
+      <form onSubmit={handleSubmit(handleAddMedicalRecord)} className='flex flex-col gap-4'>
         <Controller
-          name="title"
+          name='title'
           control={control}
           render={({ field }) => (
-            <TextInput
-              {...field}
-              title="標題"
-              placeholder="請輸入標題"
-              star={true}
-            />
+            <TextInput {...field} title='標題' placeholder='請輸入標題' star />
           )}
         />
-        <div className="flex justify-between items-center">
-          <span className="font-semibold">
+        <div className='flex items-center justify-between'>
+          <span className='font-semibold'>
             看診類型
-            <span className="text-error">*</span>
+            <span className='text-error'>*</span>
           </span>
-          <div className="flex-grow flex items-center max-w-[248px]">
+          <div className='flex max-w-[248px] flex-grow items-center'>
             <Controller
-              name="visitType"
+              name='visitType'
               control={control}
-              render={({ field }) => (
-                <Select {...field} title="選擇類型" options={visitOptions} />
-              )}
+              render={({ field }) => <Select {...field} title='選擇類型' options={visitOptions} />}
             />
           </div>
         </div>
         <Controller
-          name="hospital"
+          name='hospital'
+          control={control}
+          render={({ field }) => <TextInput {...field} title='醫院' placeholder='請輸入醫院名稱' />}
+        />
+        <Controller
+          name='doctor'
           control={control}
           render={({ field }) => (
-            <TextInput {...field} title="醫院" placeholder="請輸入醫院名稱" />
+            <TextInput {...field} title='獸醫師' placeholder='請輸入獸醫師名稱' />
           )}
         />
         <Controller
-          name="doctor"
+          name='medicine'
           control={control}
           render={({ field }) => (
-            <TextInput
-              {...field}
-              title="獸醫師"
-              placeholder="請輸入獸醫師名稱"
-            />
+            <TextInput {...field} title='服用藥物' placeholder='請輸入藥品名稱' />
           )}
         />
         <Controller
-          name="medicine"
+          name='check'
           control={control}
           render={({ field }) => (
-            <TextInput
-              {...field}
-              title="服用藥物"
-              placeholder="請輸入藥品名稱"
-            />
+            <AreaInput {...field} title='臨床檢查' placeholder='請輸入臨床檢查結果' />
           )}
         />
         <Controller
-          name="check"
+          name='notice'
           control={control}
           render={({ field }) => (
-            <AreaInput
-              {...field}
-              title="臨床檢查"
-              placeholder="請輸入臨床檢查結果"
-            />
+            <AreaInput {...field} title='居家注意事項' placeholder='請輸入居家注意事項' />
           )}
         />
         <Controller
-          name="notice"
-          control={control}
-          render={({ field }) => (
-            <AreaInput
-              {...field}
-              title="居家注意事項"
-              placeholder="請輸入居家注意事項"
-            />
-          )}
-        />
-        <Controller
-          name="cost"
+          name='cost'
           control={control}
           render={({ field }) => (
             <NumberInput
               {...field}
-              title="開銷"
-              placeholder="請輸入數字"
+              title='開銷'
+              placeholder='請輸入數字'
               onChange={(value: number) => field.onChange(value)}
             />
           )}
         />
         <Controller
-          name="photo"
+          name='photo'
           control={control}
           render={({ field }) => (
             <ImageInput
               {...field}
               onChange={(file: File | null) => field.onChange(file)}
-              setError={() =>
-                setError("photo", { message: errorText.IMAGE_OVERSIZE })
-              }
+              setError={() => setError('photo', { message: errorText.IMAGE_OVERSIZE })}
               message={errors.photo?.message}
             />
           )}
         />
         <Controller
-          name="remindDate"
+          name='remindDate'
           control={control}
           render={({ field }) => (
-            <DateInput
-              {...field}
-              title="回診提醒"
-              placeholder="新增提醒日期"
-              type="time"
-            />
+            <DateInput {...field} title='回診提醒' placeholder='新增提醒日期' type='time' />
           )}
         />
         {errors.root?.message && (
-          <div className="flex justify-center">
+          <div className='flex justify-center'>
             <ErrorMessage>{errors.root?.message}</ErrorMessage>
           </div>
         )}
-        <button
-          type="submit"
-          className="mt-2 py-2 rounded-full bg-primary text-white"
-        >
+        <button type='submit' className='mt-2 rounded-full bg-primary py-2 text-white'>
           儲存
         </button>
       </form>

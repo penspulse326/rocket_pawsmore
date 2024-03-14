@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 
 import { fetchLogin, fetchSignup } from '@/common/fetch/auth';
 import useToken from '@/common/hooks/useToken';
-import { errorText } from '@/common/lib/messageText';
+import { errorText } from '@/common/constants/messageText';
 import { setUserInfo } from '@/common/redux/userInfoSlice';
 import TextInput from '@/components/form/profile/TextInput';
 import SubmitButton from '@/components/form/SubmitButton';

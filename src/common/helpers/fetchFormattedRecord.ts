@@ -1,10 +1,10 @@
-import { fetchGetRecord } from "../fetch/petProfile";
+import { fetchGetRecord } from '../fetch/petProfile';
 
-import { FetchDataType } from "@/pages/pet/[petAccount]";
-import { CardUnionDataType } from "@/types";
+import { FetchDataType } from '@/pages/pet/[petAccount]';
+import { CardUnionDataType } from '@/common/types';
 
-import sortData from "./sortData";
-import createAnniversaryEvent from "./createAnniversary";
+import sortData from './sortData';
+import createAnniversaryEvent from './createAnniversary';
 
 export const fetchFormattedRecord = async (
   petAccount: string,
@@ -15,24 +15,15 @@ export const fetchFormattedRecord = async (
   try {
     const response = await fetchGetRecord(petAccount);
     if (!response.ok) {
-      throw new Error("failed");
+      throw new Error('failed');
     }
 
-    const { dailyCards, medicalCards, momentCards }: FetchDataType =
-      response.data;
-    const recordData: CardUnionDataType[] = [
-      ...dailyCards,
-      ...medicalCards,
-      ...momentCards,
-    ];
+    const { dailyCards, medicalCards, momentCards }: FetchDataType = response.data;
+    const recordData: CardUnionDataType[] = [...dailyCards, ...medicalCards, ...momentCards];
 
     const sortedData = sortData(recordData);
 
-    const anniversaryEvent = createAnniversaryEvent(
-      birthday,
-      adoptedDate,
-      petId
-    );
+    const anniversaryEvent = createAnniversaryEvent(birthday, adoptedDate, petId);
 
     const data = sortedData.concat(anniversaryEvent);
     const combinedData = { petId: petId, data };

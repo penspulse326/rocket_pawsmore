@@ -1,4 +1,4 @@
-import { AddPostType } from '@/types';
+import { AddPostType } from '@/common/types';
 
 import getMediaId from '../helpers/getMediaId';
 

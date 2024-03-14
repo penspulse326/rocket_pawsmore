@@ -1,21 +1,17 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { useRouter } from "next/router";
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
-import Image from "next/image";
-import moment from "moment";
-import {
-  IconPhoto,
-  IconCalendarPlus,
-  IconChevronRight,
-} from "@tabler/icons-react";
+import Image from 'next/image';
+import moment from 'moment';
+import { IconPhoto, IconCalendarPlus, IconChevronRight } from '@tabler/icons-react';
 
-import { RootState } from "@/common/redux/store";
-import getPetSpecies from "@/common/helpers/getPetSpecies";
+import { RootState } from '@/common/redux/store';
+import getPetSpecies from '@/common/helpers/getPetSpecies';
 
-import ErrorMessage from "../ErrorMessage";
-import { errorText } from "@/common/lib/messageText";
-import useToken from "@/common/hooks/useToken";
+import ErrorMessage from '../ErrorMessage';
+import { errorText } from '@/common/constants/messageText';
+import useToken from '@/common/hooks/useToken';
 
 const PetProfile = () => {
   const { token } = useToken();
@@ -32,10 +28,10 @@ const PetProfile = () => {
   const [info, setInfo] = useState(selectedPet && selectedPet.petIntro);
   const [link, setLink] = useState(selectedPet && selectedPet.link);
   const [birthday, setBirthday] = useState(
-    selectedPet && moment(selectedPet.birthday).format("YYYY-MM-DD")
+    selectedPet && moment(selectedPet.birthday).format('YYYY-MM-DD')
   );
   const [adoptedDate, setAdoptedDate] = useState(
-    selectedPet && moment(selectedPet.adoptedDate).format("YYYY-MM-DD")
+    selectedPet && moment(selectedPet.adoptedDate).format('YYYY-MM-DD')
   );
 
   if (!selectedPet) {
@@ -44,7 +40,7 @@ const PetProfile = () => {
 
   const { petPhoto, petSpecies, petGender } = selectedPet;
 
-  const rowsOfTextarea: number = info ? info.split("\n").length : 1;
+  const rowsOfTextarea: number = info ? info.split('\n').length : 1;
 
   const formData = {
     petId: petId,
@@ -65,7 +61,7 @@ const PetProfile = () => {
 
     try {
       const response = await fetch(`/api/pet/update/${petId}`, {
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -85,101 +81,95 @@ const PetProfile = () => {
   };
 
   return (
-    <div className="flex flex-col gap-y-8 max-w-[1192px] mt-8 ml-[144px]">
-      <ul className="flex text-xl gap-x-4 items-center">
-        <li className="hover:cursor-pointer" onClick={handleGoBack}>
+    <div className='ml-[144px] mt-8 flex max-w-[1192px] flex-col gap-y-8'>
+      <ul className='flex items-center gap-x-4 text-xl'>
+        <li className='hover:cursor-pointer' onClick={handleGoBack}>
           寵物檔案清單
         </li>
         <IconChevronRight />
         <li>{name}</li>
       </ul>
       <form
-        className="flex flex-col gap-y-12 border border-stroke p-8 rounded-[30px] max-w-[728px] w-full"
+        className='flex w-full max-w-[728px] flex-col gap-y-12 rounded-[30px] border border-stroke p-8'
         onSubmit={handleSubmit}
       >
         {/* profile */}
-        <div className="flex flex-col gap-y-4">
-          <div className="text-xl">寵物基本資料</div>
-          <div className="flex gap-x-12">
+        <div className='flex flex-col gap-y-4'>
+          <div className='text-xl'>寵物基本資料</div>
+          <div className='flex gap-x-12'>
             {/* photo */}
-            <div className="flex flex-col gap-y-4 max-w-[264px] w-full">
+            <div className='flex w-full max-w-[264px] flex-col gap-y-4'>
               <div>寵物照片</div>
-              <div className="w-[168px] h-[168px] mx-auto">
+              <div className='mx-auto h-[168px] w-[168px]'>
                 <Image
-                  src={petPhoto || "/images/default-photo.svg"}
+                  src={petPhoto || '/images/default-photo.svg'}
                   width={168}
                   height={168}
-                  alt="user avatar"
-                  className="w-full h-full border border-stroke rounded-full object-cover"
+                  alt='user avatar'
+                  className='h-full w-full rounded-full border border-stroke object-cover'
                 />
               </div>
-              <button className="flex gap-x-2 mx-auto" type="button">
-                <IconPhoto size={24} color={"#203170"} />
-                <span className="text-primary">上傳照片</span>
+              <button className='mx-auto flex gap-x-2' type='button'>
+                <IconPhoto size={24} color={'#203170'} />
+                <span className='text-primary'>上傳照片</span>
               </button>
             </div>
             {/* bio */}
-            <div className="flex flex-col gap-y-4 max-w-[352px] w-full">
-              <ul className="flex flex-col gap-y-1">
+            <div className='flex w-full max-w-[352px] flex-col gap-y-4'>
+              <ul className='flex flex-col gap-y-1'>
                 <li>物種</li>
-                <li className="bg-primary text-white px-4 py-2 rounded-full self-start">
+                <li className='self-start rounded-full bg-primary px-4 py-2 text-white'>
                   {getPetSpecies(petSpecies)}
                 </li>
               </ul>
-              <ul className="flex flex-col gap-y-1">
+              <ul className='flex flex-col gap-y-1'>
                 <li>性別</li>
-                <li className="bg-primary text-white px-4 py-2 rounded-full self-start">
-                  {petGender ? "女生" : "男生"}
+                <li className='self-start rounded-full bg-primary px-4 py-2 text-white'>
+                  {petGender ? '女生' : '男生'}
                 </li>
               </ul>
-              <ul className="flex flex-col gap-y-1">
-                <ol className="flex justify-between">
+              <ul className='flex flex-col gap-y-1'>
+                <ol className='flex justify-between'>
                   <li>
-                    品種<span className="text-error font-semibold">*</span>
+                    品種<span className='font-semibold text-error'>*</span>
                   </li>
                   <ErrorMessage>{errorText.REQUIRED_FILED}</ErrorMessage>
                 </ol>
                 <input
-                  type="text"
+                  type='text'
                   value={breed}
-                  className="border border-stroke rounded-[10px] px-4 py-3"
+                  className='rounded-[10px] border border-stroke px-4 py-3'
                   onChange={(e) => setBreed(e.target.value)}
                 />
               </ul>
-              <ul className="flex flex-col gap-y-1">
-                <ol className="flex justify-between">
-                  <label htmlFor="birthday">
-                    生日<span className="text-error font-semibold">*</span>
+              <ul className='flex flex-col gap-y-1'>
+                <ol className='flex justify-between'>
+                  <label htmlFor='birthday'>
+                    生日<span className='font-semibold text-error'>*</span>
                   </label>
                   <ErrorMessage>{errorText.REQUIRED_FILED}</ErrorMessage>
                 </ol>
-                <ol className="flex gap-x-2 relative">
-                  <IconCalendarPlus size={24} className="absolute" />
+                <ol className='relative flex gap-x-2'>
+                  <IconCalendarPlus size={24} className='absolute' />
                   <input
-                    type="date"
+                    type='date'
                     value={birthday}
-                    id="birthday"
-                    className="pl-8 w-full"
-                    onChange={(e) =>
-                      setBirthday(moment(e.target.value).format("YYYY-MM-DD"))
-                    }
+                    id='birthday'
+                    className='w-full pl-8'
+                    onChange={(e) => setBirthday(moment(e.target.value).format('YYYY-MM-DD'))}
                   />
                 </ol>
               </ul>
-              <ul className="flex flex-col gap-y-1">
-                <label htmlFor="adoptedDate">領養日</label>
-                <ol className="flex gap-x-2 relative">
-                  <IconCalendarPlus size={24} className="absolute" />
+              <ul className='flex flex-col gap-y-1'>
+                <label htmlFor='adoptedDate'>領養日</label>
+                <ol className='relative flex gap-x-2'>
+                  <IconCalendarPlus size={24} className='absolute' />
                   <input
-                    type="date"
-                    value={adoptedDate || ""}
-                    id="adoptedDate"
-                    className="pl-8 w-full"
-                    onChange={(e) =>
-                      setAdoptedDate(
-                        moment(e.target.value).format("YYYY-MM-DD")
-                      )
-                    }
+                    type='date'
+                    value={adoptedDate || ''}
+                    id='adoptedDate'
+                    className='w-full pl-8'
+                    onChange={(e) => setAdoptedDate(moment(e.target.value).format('YYYY-MM-DD'))}
                   />
                 </ol>
               </ul>
@@ -187,70 +177,70 @@ const PetProfile = () => {
           </div>
         </div>
         {/* account */}
-        <div className="flex flex-col gap-y-4 w-full">
-          <div className="text-xl">寵物帳號資料</div>
-          <div className="flex gap-x-8 justify-between">
+        <div className='flex w-full flex-col gap-y-4'>
+          <div className='text-xl'>寵物帳號資料</div>
+          <div className='flex justify-between gap-x-8'>
             {/* pet account */}
-            <ul className="flex flex-col gap-y-1 max-w-[316px] w-full">
-              <ol className="flex justify-between">
+            <ul className='flex w-full max-w-[316px] flex-col gap-y-1'>
+              <ol className='flex justify-between'>
                 <li>
-                  寵物帳號<span className="text-error font-semibold">*</span>
+                  寵物帳號<span className='font-semibold text-error'>*</span>
                 </li>
                 <ErrorMessage>{errorText.ACCOUNT_EXIST}</ErrorMessage>
               </ol>
               <input
-                type="text"
+                type='text'
                 value={account}
-                className="border border-stroke rounded-[10px] px-4 py-3"
+                className='rounded-[10px] border border-stroke px-4 py-3'
                 onChange={(e) => setAccount(e.target.value)}
               />
             </ul>
             {/* pet name */}
-            <ul className="flex flex-col gap-y-1 max-w-[316px] w-full">
-              <ol className="flex justify-between">
+            <ul className='flex w-full max-w-[316px] flex-col gap-y-1'>
+              <ol className='flex justify-between'>
                 <li>
-                  寵物名稱<span className="text-error font-semibold">*</span>
+                  寵物名稱<span className='font-semibold text-error'>*</span>
                 </li>
                 <ErrorMessage>{errorText.REQUIRED_FILED}</ErrorMessage>
               </ol>
               <input
-                type="text"
+                type='text'
                 value={name}
-                className="border border-stroke rounded-[10px] px-4 py-3"
+                className='rounded-[10px] border border-stroke px-4 py-3'
                 onChange={(e) => setName(e.target.value)}
               />
             </ul>
           </div>
-          <div className="flex gap-x-8 justify-between">
+          <div className='flex justify-between gap-x-8'>
             {/* info */}
-            <div className="flex flex-col gap-y-1 max-w-[316px] w-full">
-              <label htmlFor="info">寵物簡介</label>
+            <div className='flex w-full max-w-[316px] flex-col gap-y-1'>
+              <label htmlFor='info'>寵物簡介</label>
               <textarea
-                name="info"
-                id="info"
+                name='info'
+                id='info'
                 value={info}
                 maxLength={150}
                 rows={rowsOfTextarea}
-                className="border border-stroke rounded-[10px] px-4 py-3 h-auto resize-none"
+                className='h-auto resize-none rounded-[10px] border border-stroke px-4 py-3'
                 onChange={(e) => setInfo(e.target.value)}
               ></textarea>
             </div>
             {/* link */}
-            <div className="flex flex-col gap-y-1 max-w-[316px] w-full">
-              <label htmlFor="link">連結</label>
+            <div className='flex w-full max-w-[316px] flex-col gap-y-1'>
+              <label htmlFor='link'>連結</label>
               <input
-                type="text"
-                id="link"
+                type='text'
+                id='link'
                 value={link}
-                className="border border-stroke rounded-[10px] px-4 py-3"
+                className='rounded-[10px] border border-stroke px-4 py-3'
                 onChange={(e) => setLink(e.target.value)}
               />
             </div>
           </div>
         </div>
         <button
-          className="text-white bg-primary rounded-[300px] px-[104px] py-2 self-center"
-          type="submit"
+          className='self-center rounded-[300px] bg-primary px-[104px] py-2 text-white'
+          type='submit'
         >
           送出
         </button>

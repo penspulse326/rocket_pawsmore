@@ -1,7 +1,7 @@
 import moment from 'moment';
 
-import { CardUnionDataType, MedicalCardDataType } from '@/types';
-import { MedicalCardType } from '@/types/enums';
+import { CardUnionDataType, MedicalCardDataType } from '@/common/types';
+import { MedicalCardType } from '@/common/types/enums';
 
 export interface SortedDataType {
   ageInMonth: number;

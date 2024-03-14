@@ -5,8 +5,8 @@ import { useState } from 'react';
 import { mediaUpload } from '@/common/fetch/mediaManager';
 import { fetchAddPost } from '@/common/fetch/post';
 import useToken from '@/common/hooks/useToken';
-import { AddPostType, CardUnionDataType } from '@/types';
-import { MediaType, RecordCardType } from '@/types/enums';
+import { AddPostType, CardUnionDataType } from '@/common/types';
+import { MediaType, RecordCardType } from '@/common/types/enums';
 
 import AlertCard from '../hint/AlertCard';
 import Loading from '../hint/Loading';

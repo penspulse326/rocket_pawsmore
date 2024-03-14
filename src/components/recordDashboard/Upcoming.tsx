@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useSelector } from "react-redux";
-import Image from "next/image";
-import moment from "moment";
+import React, { useState, useEffect, useContext } from 'react';
+import { useSelector } from 'react-redux';
+import Image from 'next/image';
+import moment from 'moment';
 
-import { PetIdContext } from "@/pages/record_dashboard";
-import { RootState } from "@/common/redux/store";
+import { PetIdContext } from '@/pages/record_dashboard';
+import { RootState } from '@/common/redux/store';
 
-import { PetDataType, MedicalCardDataType } from "@/types";
-import { MedicalCardType, ReserveType } from "@/types/enums";
+import { PetDataType, MedicalCardDataType } from '@/common/types';
+import { MedicalCardType, ReserveType } from '@/common/types/enums';
 
 const Upcoming: React.FC = () => {
   const { petId } = useContext(PetIdContext);
@@ -30,28 +30,23 @@ const Upcoming: React.FC = () => {
 
   if (!selectedPet) {
     return (
-      <section className="flex flex-col gap-y-2 max-w-[832px] w-full">
-        <div className="text-note">即將到來</div>
-        <ul className="flex  border border-stroke rounded-[30px] p-8 min-h-[184px] h-full">
-          <li className="flex flex-col gap-y-2 w-1/2">
-            <div className="flex gap-x-1 items-center">
+      <section className='flex w-full max-w-[832px] flex-col gap-y-2'>
+        <div className='text-note'>即將到來</div>
+        <ul className='flex  h-full min-h-[184px] rounded-[30px] border border-stroke p-8'>
+          <li className='flex w-1/2 flex-col gap-y-2'>
+            <div className='flex items-center gap-x-1'>
               <Image
-                src="/test/icon-exclamation.svg"
+                src='/test/icon-exclamation.svg'
                 width={6}
                 height={24}
-                alt="exclamation mark"
+                alt='exclamation mark'
               />
               <div>醫療提醒</div>
             </div>
           </li>
-          <li className="flex flex-col gap-y-2 w-1/2">
-            <div className="flex gap-x-1 items-center">
-              <Image
-                src="/test/icon-flag.svg"
-                width={24}
-                height={24}
-                alt="flag icon"
-              />
+          <li className='flex w-1/2 flex-col gap-y-2'>
+            <div className='flex items-center gap-x-1'>
+              <Image src='/test/icon-flag.svg' width={24} height={24} alt='flag icon' />
               <div>紀念日</div>
             </div>
           </li>
@@ -80,22 +75,17 @@ const Upcoming: React.FC = () => {
       .slice(0, 3);
 
     return (
-      <div className="flex flex-col gap-y-2 w-1/2">
-        <div className="flex gap-x-1 items-center">
-          <Image
-            src="/test/icon-exclamation.svg"
-            width={6}
-            height={24}
-            alt="exclamation mark"
-          />
+      <div className='flex w-1/2 flex-col gap-y-2'>
+        <div className='flex items-center gap-x-1'>
+          <Image src='/test/icon-exclamation.svg' width={6} height={24} alt='exclamation mark' />
           <div>醫療提醒</div>
         </div>
         {eventData.map((event, index) => {
           const { reserveDate, reserveType } = event as MedicalCardDataType;
 
           return (
-            <ul className="flex gap-x-4" key={index}>
-              <li className="w-[42px]">{moment(reserveDate).format("M/D")}</li>
+            <ul className='flex gap-x-4' key={index}>
+              <li className='w-[42px]'>{moment(reserveDate).format('M/D')}</li>
               <li>{ReserveType[reserveType]}</li>
             </ul>
           );
@@ -107,23 +97,18 @@ const Upcoming: React.FC = () => {
     const { birthday, adoptedDate } = selectedPet;
 
     return (
-      <div className="flex flex-col gap-y-2 w-1/2">
-        <div className="flex gap-x-1 items-center">
-          <Image
-            src="/test/icon-flag.svg"
-            width={24}
-            height={24}
-            alt="flag icon"
-          />
+      <div className='flex w-1/2 flex-col gap-y-2'>
+        <div className='flex items-center gap-x-1'>
+          <Image src='/test/icon-flag.svg' width={24} height={24} alt='flag icon' />
           <div>紀念日</div>
         </div>
-        <ul className="flex gap-x-4">
-          <li className="w-[42px]">{moment(birthday).format("M/D")}</li>
+        <ul className='flex gap-x-4'>
+          <li className='w-[42px]'>{moment(birthday).format('M/D')}</li>
           <li>生日</li>
         </ul>
         {adoptedDate && (
-          <ul className="flex gap-x-4">
-            <li className="w-[42px]">{moment(adoptedDate).format("M/D")}</li>
+          <ul className='flex gap-x-4'>
+            <li className='w-[42px]'>{moment(adoptedDate).format('M/D')}</li>
             <li>領養日</li>
           </ul>
         )}
@@ -131,9 +116,9 @@ const Upcoming: React.FC = () => {
     );
   };
   return (
-    <section className="flex flex-col gap-y-2 max-w-[832px] w-full">
-      <div className="text-note">即將到來</div>
-      <div className="flex border border-stroke rounded-[30px] p-8 min-h-[184px] h-full">
+    <section className='flex w-full max-w-[832px] flex-col gap-y-2'>
+      <div className='text-note'>即將到來</div>
+      <div className='flex h-full min-h-[184px] rounded-[30px] border border-stroke p-8'>
         <Reminders />
         <Moments />
       </div>

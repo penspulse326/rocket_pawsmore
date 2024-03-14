@@ -1,17 +1,13 @@
-import apiNext from "./apiNext";
+import apiNext from './apiNext';
 
-import type { MemberFormType } from "@/types";
+import type { MemberFormType } from '@/common/types';
 
-export const fetchCreateMember = async (
-  data: MemberFormType,
-  token: string,
-  imgUrl?: string
-) => {
+export const fetchCreateMember = async (data: MemberFormType, token: string, imgUrl?: string) => {
   const { headShot, ...rest } = data;
 
   try {
     const response = await fetch(apiNext.CREATE_MEMBER, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({ ...rest, headShot: imgUrl }),
       headers: {
         Authorization: `Bearer ${token}`,

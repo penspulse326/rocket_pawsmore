@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import RadioCheck from "@/components/form/record/RadioCheck";
-import MedicalRecord from "./MedicalRecord";
-import ReserveRemind from "./ReserveRemind";
+import RadioCheck from '@/components/form/record/RadioCheck';
+import MedicalRecord from './MedicalRecord';
+import ReserveRemind from './ReserveRemind';
 
-import { MedicalCardType } from "@/types/enums";
+import { MedicalCardType } from '@/common/types/enums';
 
 interface PropsType {
   onClose: () => void;
@@ -19,22 +19,22 @@ const MedicalForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
   };
 
   return (
-    <section className="flex flex-col gap-6">
+    <section className='flex flex-col gap-6'>
       <div>
         {/* 醫療卡片類型 */}
-        <span className="text-note">選擇醫療紀錄類型</span>
-        <div className="flex items-center gap-4 mt-2">
+        <span className='text-note'>選擇醫療紀錄類型</span>
+        <div className='mt-2 flex items-center gap-4'>
           {!isComfirmed && (
             <>
               <RadioCheck
-                name="cardType"
-                text="新增提醒日期"
+                name='cardType'
+                text='新增提醒日期'
                 checked={cardType === MedicalCardType.醫療提醒}
                 onChange={() => handleCardTypeChange(MedicalCardType.醫療提醒)}
               />
               <RadioCheck
-                name="cardType"
-                text="新增就診紀錄"
+                name='cardType'
+                text='新增就診紀錄'
                 checked={cardType === MedicalCardType.就診紀錄}
                 onChange={() => handleCardTypeChange(MedicalCardType.就診紀錄)}
               />
@@ -50,12 +50,12 @@ const MedicalForm: React.FC<PropsType> = ({ onClose: handleClose }) => {
       </div>
       {!isComfirmed && (
         <button
-          type="button"
+          type='button'
           disabled={cardType === null}
           onClick={() => setIsComfirmed(true)}
           className={`${
-            cardType !== null ? "bg-primary" : "bg-note"
-          } py-2 rounded-full bg-primary text-white`}
+            cardType !== null ? 'bg-primary' : 'bg-note'
+          } rounded-full bg-primary py-2 text-white`}
         >
           確認
         </button>

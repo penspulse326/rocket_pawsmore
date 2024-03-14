@@ -1,20 +1,22 @@
-import Select from "../Select";
-import DateInput from "./DateInput";
+import { useContext, useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 
-import RadioCheck from "@/components/form/record/RadioCheck";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/common/redux/store";
-import { useContext, useEffect, useState } from "react";
-import { DateContext, PetIdContext } from "@/pages/record_dashboard";
-import { Controller, useForm } from "react-hook-form";
-import { fetchAddMedicalCard } from "@/common/fetch/recordCard";
-import Loading from "@/components/hint/Loading";
-import ErrorMessage from "@/components/ErrorMessage";
-import { VisitType } from "@/types/enums";
-import { reserveOptions } from "@/common/lib/formText";
-import useToken from "@/common/hooks/useToken";
-import { fetchFormattedRecord } from "@/common/helpers/fetchFormattedRecord";
-import { setRecordInfo } from "@/common/redux/recordSlice";
+import { reserveOptions } from '@/common/constants/formText';
+import { fetchAddMedicalCard } from '@/common/fetch/recordCard';
+import { fetchFormattedRecord } from '@/common/helpers/fetchFormattedRecord';
+import useToken from '@/common/hooks/useToken';
+import { setRecordInfo } from '@/common/redux/recordSlice';
+import { RootState } from '@/common/redux/store';
+import ErrorMessage from '@/components/ErrorMessage';
+import RadioCheck from '@/components/form/record/RadioCheck';
+import Loading from '@/components/hint/Loading';
+import { DateContext, PetIdContext } from '@/pages/record_dashboard';
+import { VisitType } from '@/common/types/enums';
+
+import Select from '../Select';
+
+import DateInput from './DateInput';
 
 interface FormType {
   card: number;
@@ -34,9 +36,9 @@ const ReserveRemind: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
   const { token } = useToken();
   const { petId } = useContext(PetIdContext);
-  const [petAccount, setPetAccount] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [adoptedDate, setAdoptedDate] = useState("");
+  const [petAccount, setPetAccount] = useState('');
+  const [birthday, setBirthday] = useState('');
+  const [adoptedDate, setAdoptedDate] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const petList = useSelector((state: RootState) => state.petList);
 
@@ -45,8 +47,8 @@ const ReserveRemind: React.FC<PropsType> = ({ onClose: handleClose }) => {
     cardType: 0,
     visitType: 0,
     reserveType: null,
-    reserveDate: "",
-    targetDate: "",
+    reserveDate: '',
+    targetDate: '',
   };
 
   const {
@@ -60,11 +62,11 @@ const ReserveRemind: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
   const handleAddReserveRemind = async (data: FormType) => {
     if (!token) {
-      alert("請先登入");
+      alert('請先登入');
       return;
     }
     if (!petId) {
-      alert("請先建立寵物檔案");
+      alert('請先建立寵物檔案');
       return;
     }
     const formData = { ...data };
@@ -73,7 +75,7 @@ const ReserveRemind: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
     const { reserveType, reserveDate } = formData;
     if (reserveType === null || !reserveDate) {
-      setError("root", { type: "manual", message: "請選擇類型與日期" });
+      setError('root', { type: 'manual', message: '請選擇類型與日期' });
       return;
     }
 
@@ -81,9 +83,9 @@ const ReserveRemind: React.FC<PropsType> = ({ onClose: handleClose }) => {
     const response = await fetchAddMedicalCard(token, petId, data);
 
     if (!response.ok) {
-      setError("card", {
-        type: "manual",
-        message: "新增失敗，請稍後再試",
+      setError('card', {
+        type: 'manual',
+        message: '新增失敗，請稍後再試',
       });
       setIsLoading(false);
       return;
@@ -97,12 +99,7 @@ const ReserveRemind: React.FC<PropsType> = ({ onClose: handleClose }) => {
   const fetchPetRecord = async () => {
     try {
       if (petAccount && petId) {
-        const recordData = await fetchFormattedRecord(
-          petAccount,
-          petId,
-          birthday,
-          adoptedDate
-        );
+        const recordData = await fetchFormattedRecord(petAccount, petId, birthday, adoptedDate);
         dispatch(setRecordInfo(recordData));
       }
     } catch (error) {
@@ -123,26 +120,18 @@ const ReserveRemind: React.FC<PropsType> = ({ onClose: handleClose }) => {
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit(handleAddReserveRemind)}
-        className="flex flex-col gap-4"
-      >
-        <RadioCheck
-          name="醫療提醒"
-          text="新增提醒日期"
-          checked={true}
-          onChange={() => {}}
-        />
-        <div className="flex justify-between items-center">
-          <span className="font-semibold">提醒類型</span>
-          <div className="flex-grow flex items-center max-w-[248px]">
+      <form onSubmit={handleSubmit(handleAddReserveRemind)} className='flex flex-col gap-4'>
+        <RadioCheck name='醫療提醒' text='新增提醒日期' checked onChange={() => {}} />
+        <div className='flex items-center justify-between'>
+          <span className='font-semibold'>提醒類型</span>
+          <div className='flex max-w-[248px] flex-grow items-center'>
             <Controller
-              name="reserveType"
+              name='reserveType'
               control={control}
               render={({ field }) => (
                 <Select
                   {...field}
-                  title="選擇類型"
+                  title='選擇類型'
                   options={reserveOptions}
                   message={errors.reserveType?.message}
                 />
@@ -151,25 +140,22 @@ const ReserveRemind: React.FC<PropsType> = ({ onClose: handleClose }) => {
           </div>
         </div>
         <Controller
-          name="reserveDate"
+          name='reserveDate'
           control={control}
           render={({ field }) => (
             <DateInput
               {...field}
-              title="預約日期"
-              placeholder="選擇日期與時間"
-              type="time"
+              title='預約日期'
+              placeholder='選擇日期與時間'
+              type='time'
               message={errors.reserveDate?.message}
             />
           )}
         />
-        <div className="flex justify-center mt-2">
+        <div className='mt-2 flex justify-center'>
           <ErrorMessage>{errors.root?.message}</ErrorMessage>
         </div>
-        <button
-          type="submit"
-          className="pt-2 py-2 rounded-full bg-primary text-white"
-        >
+        <button type='submit' className='rounded-full bg-primary py-2 pt-2 text-white'>
           儲存
         </button>
       </form>

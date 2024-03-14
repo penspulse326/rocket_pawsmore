@@ -1,13 +1,13 @@
-import apiNext from "./apiNext";
+import apiNext from './apiNext';
 
-import type { PetFormType } from "@/types";
+import type { PetFormType } from '@/common/types';
 
 export const fetchCreatePet = async (data: PetFormType, token: string) => {
   const { petPhoto, ...rest } = data;
 
   try {
     const response = await fetch(apiNext.CREATE_PET, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({ ...rest }),
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -23,14 +23,14 @@ export const fetchCreatePet = async (data: PetFormType, token: string) => {
 export const fetchUpdatePet = async (
   data: PetFormType,
   token: string,
-  imgUrl = "",
+  imgUrl = '',
   petId: number
 ) => {
   const { petPhoto, ...rest } = data;
 
   try {
     const response = await fetch(`${apiNext.UPDATE_PET}/${petId}`, {
-      method: "PATCH",
+      method: 'PATCH',
       body: JSON.stringify({ ...rest, petPhoto: imgUrl }),
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -46,7 +46,7 @@ export const fetchUpdatePet = async (
 export const fetchGetPetList = async (userId: number) => {
   try {
     const response = await fetch(`${apiNext.GET_PETS}/${userId}`, {
-      method: "GET",
+      method: 'GET',
     });
 
     const result = await response.json();
@@ -59,7 +59,7 @@ export const fetchGetPetList = async (userId: number) => {
 export const fetchGetPet = async (petAccount: string) => {
   try {
     const response = await fetch(`${apiNext.GET_PET}/${petAccount}`, {
-      method: "GET",
+      method: 'GET',
     });
 
     const result = await response.json();
@@ -72,7 +72,7 @@ export const fetchGetPet = async (petAccount: string) => {
 export const fetchGetPost = async (petAccount: string) => {
   try {
     const response = await fetch(`${apiNext.GET_PET_POST}/${petAccount}`, {
-      method: "GET",
+      method: 'GET',
     });
 
     const result = await response.json();
@@ -85,7 +85,7 @@ export const fetchGetPost = async (petAccount: string) => {
 export const fetchGetRecord = async (petAccount: string) => {
   try {
     const response = await fetch(`${apiNext.GET_PET_RECORD}/${petAccount}`, {
-      method: "GET",
+      method: 'GET',
     });
 
     const result = await response.json();
@@ -97,12 +97,9 @@ export const fetchGetRecord = async (petAccount: string) => {
 
 export const fetchGetMilestone = async (petAccount: string) => {
   try {
-    const response = await fetch(
-      `${apiNext.GET_MILESTONE_LIST}/${petAccount}`,
-      {
-        method: "GET",
-      }
-    );
+    const response = await fetch(`${apiNext.GET_MILESTONE_LIST}/${petAccount}`, {
+      method: 'GET',
+    });
 
     const result = await response.json();
     return { ok: response.ok, status: response.status, data: result.data };
@@ -114,7 +111,7 @@ export const fetchGetMilestone = async (petAccount: string) => {
 export const fetchGetSpeciesAccounts = async (species: number) => {
   try {
     const response = await fetch(apiNext.GET_SPECIES_ACCOUNTS(species), {
-      method: "GET",
+      method: 'GET',
     });
     const result = await response.json();
     return { ok: response.ok, status: response.status, data: result.data };
@@ -126,7 +123,7 @@ export const fetchGetSpeciesAccounts = async (species: number) => {
 export const fetchFollowPet = async (petAccount: string, token: string) => {
   try {
     const response = await fetch(`${apiNext.FOLLOW_PET}/${petAccount}`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: { Authorization: `Bearer ${token}` },
     });
     const result = await response.json();

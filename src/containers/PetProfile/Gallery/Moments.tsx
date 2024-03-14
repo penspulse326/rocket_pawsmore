@@ -4,7 +4,7 @@ import React, { useState, useContext } from 'react';
 import sortByAge from '@/common/helpers/sortByAge';
 import NoContent from '@/components/NoContent';
 import { PetDataContext } from '@/containers/PetProfile';
-import { RecordCardType } from '@/types/enums';
+import { RecordCardType } from '@/common/types/enums';
 
 import AgeCard from '../Moment/AgeCard';
 import CategoryFilter from '../Moment/CategoryFilter';

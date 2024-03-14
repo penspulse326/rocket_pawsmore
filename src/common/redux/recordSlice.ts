@@ -1,5 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { CardUnionDataType } from "@/types";
+import { createSlice } from '@reduxjs/toolkit';
+
+import { CardUnionDataType } from '@/common/types';
 
 interface initialStateType {
   petId: number | null;
@@ -12,7 +13,7 @@ const initialState: initialStateType = {
 };
 
 export const recordSlice = createSlice({
-  name: "record",
+  name: 'record',
   initialState,
   reducers: {
     setRecordInfo: (state, action) => {

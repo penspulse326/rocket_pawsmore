@@ -1,20 +1,9 @@
-import { DailyFormStateType } from "@/containers/recordForm/daily";
-import { DailyDataType } from "@/types";
-import { PooType, UrineType, VomitType } from "@/types/enums";
+import { DailyFormStateType } from '@/containers/recordForm/daily';
+import { DailyDataType } from '@/common/types';
+import { PooType, UrineType, VomitType } from '@/common/types/enums';
 
 export const formatDailyData = (data: DailyFormStateType): DailyDataType => {
-  const {
-    weight,
-    weight_unit,
-    food,
-    vomit,
-    urine,
-    poo,
-    symptom,
-    selected,
-    water,
-    ...rest
-  } = data;
+  const { weight, weight_unit, food, vomit, urine, poo, symptom, selected, water, ...rest } = data;
 
   const foodData = food.filter((item) => item.amount !== 0);
   console.log(foodData);
