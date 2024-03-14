@@ -1,9 +1,9 @@
-import apiNext from "./apiNext";
+import apiNext from '../constants/nextApi';
 
 export const fetchGetComment = async (id: number) => {
   try {
     const response = await fetch(`${apiNext.GET_COMMENT}/${id}`, {
-      method: "GET",
+      method: 'GET',
     });
 
     const result = await response.json();
@@ -21,7 +21,7 @@ export const fetchAddComment = async (
 ) => {
   try {
     const response = await fetch(`${apiNext.ADD_COMMENT}/${id}`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(data),
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -34,21 +34,14 @@ export const fetchAddComment = async (
   }
 };
 
-export const fetchDeleteComment = async (
-  token: string,
-  postId: number,
-  commentId: number
-) => {
+export const fetchDeleteComment = async (token: string, postId: number, commentId: number) => {
   try {
-    const response = await fetch(
-      `${apiNext.DELETE_COMMENT(postId, commentId)}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(`${apiNext.DELETE_COMMENT(postId, commentId)}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     const result = await response.json();
 

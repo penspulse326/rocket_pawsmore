@@ -1,5 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import apiBase from "../apiBase";
+import apiBase from '../../../common/constants/baseApi';
+
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 interface ResponseType {
   statusCode?: number;
@@ -7,10 +8,7 @@ interface ResponseType {
   data?: any;
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) {
   // const requestBody = req.body;
   // const token = req.headers.authorization;
 
@@ -18,11 +16,11 @@ export default async function handler(
   //   return res.status(401).json({ message: "請重新登入" });
   // }
 
-  const account = req.query.account;
+  const { account } = req.query;
 
   try {
     const response = await fetch(`${apiBase.CHECK_MEMBER}/${account}`, {
-      method: "GET",
+      method: 'GET',
       // headers: {
       //   "Content-Type": "application/json",
       //   Authorization: token,
@@ -41,6 +39,6 @@ export default async function handler(
         break;
     }
   } catch (error) {
-    res.status(500).json({ message: "未知的錯誤" });
+    res.status(500).json({ message: '未知的錯誤' });
   }
 }

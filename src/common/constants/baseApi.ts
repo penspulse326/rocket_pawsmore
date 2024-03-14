@@ -18,10 +18,8 @@ const apiBase = {
   GET_PET_RECORD: `${apiUrl}/cards`, // 動態路由 /:petAccount
   // 貼文
   GET_ALL_POSTS: `${apiUrl}/social/posts/all`,
-  GET_SPECIES_POSTS: (species: string) =>
-    `${apiUrl}/social/petspecies/posts/${species}`,
-  GET_FOLLOWING_POSTS: (useId: string) =>
-    `${apiUrl}/social/posts/following/${useId}`, // 動態路由 /:userId
+  GET_SPECIES_POSTS: (species: string) => `${apiUrl}/social/petspecies/posts/${species}`,
+  GET_FOLLOWING_POSTS: (useId: string) => `${apiUrl}/social/posts/following/${useId}`, // 動態路由 /:userId
   GET_SINGLE_POST: `${apiUrl}/social/posts`, // 動態路由 /:postId
   ADD_POST: `${apiUrl}/social/posts`, // 動態路由 /:petId
   DELETE_POST: `${apiUrl}/social/posts/delete`, // 動態路由 /:postId
@@ -32,19 +30,15 @@ const apiBase = {
   DELETE_COMMENT: (postId: string, commentId: string) =>
     `${apiUrl}/social/posts/${postId}/comments/delete/${commentId}`,
   // 新增日常卡片
-  ADD_DAILY_CARD: (petId: string) =>
-    `${apiUrl}/dashboard/cards/daily/add/${petId}`,
+  ADD_DAILY_CARD: (petId: string) => `${apiUrl}/dashboard/cards/daily/add/${petId}`,
   // 新增醫療卡片
-  ADD_MEDICAL_CARD: (petId: string) =>
-    `${apiUrl}/dashboard/cards/medical/add/${petId}`,
+  ADD_MEDICAL_CARD: (petId: string) => `${apiUrl}/dashboard/cards/medical/add/${petId}`,
   // 新增重要時刻卡片
-  ADD_MOMENT_CARD: (petId: string) =>
-    `${apiUrl}/dashboard/cards/moment/add/${petId}`,
+  ADD_MOMENT_CARD: (petId: string) => `${apiUrl}/dashboard/cards/moment/add/${petId}`,
   // 取得里程碑列表
   GET_MILESTONE_LIST: `${apiUrl}/milestone`, // 動態路由 /:petAccount
   // 查看特定物種的帳號
-  GET_SPECIES_ACCOUNTS: (species: string) =>
-    `${apiUrl}/social/petspecies/account/${species}`,
+  GET_SPECIES_ACCOUNTS: (species: string) => `${apiUrl}/social/petspecies/account/${species}`,
 };
 
 export default apiBase;

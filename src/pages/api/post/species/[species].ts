@@ -1,5 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import apiBase from "../../apiBase";
+import apiBase from '../../../../common/constants/baseApi';
+
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 interface ResponseType {
   statusCode?: number;
@@ -7,15 +8,12 @@ interface ResponseType {
   data?: any;
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) {
   const { species } = req.query;
 
   try {
     const response = await fetch(apiBase.GET_SPECIES_POSTS(species as string), {
-      method: "GET",
+      method: 'GET',
     });
 
     const result = await response.json();
@@ -23,6 +21,6 @@ export default async function handler(
 
     res.status(statusCode).json({ message, data });
   } catch (error) {
-    res.status(500).json({ message: "未知的錯誤" });
+    res.status(500).json({ message: '未知的錯誤' });
   }
 }

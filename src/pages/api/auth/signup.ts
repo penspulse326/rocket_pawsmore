@@ -1,5 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import apiBase from "../apiBase";
+import apiBase from '../../../common/constants/baseApi';
+
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 interface ResponseType {
   statusCode?: number;
@@ -7,17 +8,14 @@ interface ResponseType {
   data?: any;
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseType>) {
   const requestBody = req.body;
 
   try {
     const response = await fetch(apiBase.SIGN_UP, {
-      method: "POST",
+      method: 'POST',
       body: requestBody,
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' },
     });
 
     const result = await response.json();
@@ -32,6 +30,6 @@ export default async function handler(
         break;
     }
   } catch (error) {
-    res.status(500).json({ message: "未知的錯誤" });
+    res.status(500).json({ message: '未知的錯誤' });
   }
 }

@@ -1,7 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import apiBase from '../../apiBase';
 import { PostDataType } from '@/common/constants/types';
 import { sortPostsByDate } from '@/common/helpers/configurePosts';
+
+import apiBase from '../../../../common/constants/baseApi';
+
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 interface ResponseType {
   statusCode?: number;

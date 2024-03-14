@@ -1,6 +1,6 @@
 import { DailyDataType, MomentDataType, MomentFormType } from '@/common/constants/types';
 
-import apiNext from './apiNext';
+import apiNext from '../constants/nextApi';
 
 export const fetchAddDailyCard = async (token: string, petId: number, data: DailyDataType) => {
   try {

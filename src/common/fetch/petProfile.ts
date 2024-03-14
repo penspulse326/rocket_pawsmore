@@ -1,4 +1,4 @@
-import apiNext from './apiNext';
+import apiNext from '../constants/nextApi';
 
 import type { PetFormType } from '@/common/constants/types';
 

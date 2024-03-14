@@ -1,4 +1,4 @@
-import apiNext from './apiNext';
+import apiNext from '../constants/nextApi';
 
 import type { MemberFormType } from '@/common/constants/types';
 

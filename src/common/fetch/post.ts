@@ -2,7 +2,7 @@ import { AddPostType } from '@/common/constants/types';
 
 import getMediaId from '../helpers/getMediaId';
 
-import apiNext from './apiNext';
+import apiNext from '../constants/nextApi';
 import { mediaDelete } from './mediaManager';
 
 export const fetchGetAllPosts = async () => {
