@@ -9,6 +9,8 @@ import Mask from '@/components/hint/Mask';
 import { PetDataContext } from '@/containers/PetProfile';
 import { PetDataType } from '@/types';
 
+// 是否為自己的寵物、追蹤狀態的 useState hook
+// 追蹤/取消追蹤 api
 interface PropsType {
   token: string | undefined;
   isMyPet: boolean;
