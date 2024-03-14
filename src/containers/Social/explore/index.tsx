@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react';
 import { fetchGetSpeciesPosts } from '@/common/fetch/post';
 import Mask from '@/components/hint/Mask';
 import PostView from '@/components/Post/PostView';
-import { MediaType, SpeciesType } from '@/common/types/enums';
+import { MediaType, SpeciesType } from '@/common/constants/types/enums';
 
-import type { PostDataType } from '@/common/types';
+import type { PostDataType } from '@/common/constants/types';
 
 interface PropsType {
   posts: PostDataType[];

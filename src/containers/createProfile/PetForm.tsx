@@ -14,7 +14,7 @@ import BtnLoading from '@/components/hint/BtnLoading';
 import { fetchCreatePet, fetchGetPetList, fetchUpdatePet } from '@/common/fetch/petProfile';
 import { mediaUpload } from '@/common/fetch/mediaManager';
 
-import type { PetFormType } from '@/common/types';
+import type { PetFormType } from '@/common/constants/types';
 import type { RootState } from '@/common/redux/store';
 import { setPetList } from '@/common/redux/petListSlice';
 import useToken from '@/common/hooks/useToken';

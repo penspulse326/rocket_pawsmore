@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import { UserListDataType } from '@/common/types';
+import { UserListDataType } from '@/common/constants/types';
 
 import handleFreezeScroll from '@/common/helpers/handleFreezeScroll';
 

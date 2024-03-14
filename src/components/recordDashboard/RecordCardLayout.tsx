@@ -4,7 +4,7 @@ import Cards from './recordCard/Cards';
 import AddRecordBtn from './recordCard/AddRecordBtn';
 import RecordForm from '@/containers/recordForm';
 
-import { RecordCardType } from '@/common/types/enums';
+import { RecordCardType } from '@/common/constants/types/enums';
 
 const RecordCardLayout: React.FC = () => {
   const [formType, setFormType] = useState<number | null>(null);

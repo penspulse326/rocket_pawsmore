@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import React from 'react';
 
+import { CardUnionDataType, MomentCardDataType } from '@/common/constants/types';
+import { MomentCategoryType, MomentIdType } from '@/common/constants/types/enums';
 import getCategoryBgcolor from '@/common/helpers/getCategoryBgcolor';
-import { CardUnionDataType, MomentCardDataType } from '@/common/types';
-import { MomentCategoryType, MomentIdType } from '@/common/types/enums';
 
 interface MomentDataType {
   TITLE: string;

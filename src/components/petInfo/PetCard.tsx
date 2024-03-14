@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import type { PetDataType } from '@/common/types';
+import type { PetDataType } from '@/common/constants/types';
 
 interface PetCardProps {
   data?: PetDataType;

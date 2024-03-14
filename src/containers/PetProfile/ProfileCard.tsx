@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import useToken from '@/common/hooks/useToken';
 import { RootState } from '@/common/redux/store';
 import { PetDataContext } from '@/containers/PetProfile';
-import { PetDataType, UserListDataType } from '@/common/types';
+import { PetDataType, UserListDataType } from '@/common/constants/types';
 
 import Button from './ProfileCard/Button';
 import Companionship from './ProfileCard/Companionship';

@@ -11,7 +11,7 @@ import useToken from '@/common/hooks/useToken';
 import CommentList from '@/components/comment/CommentList';
 import InputComment from '@/components/comment/InputComment';
 import LikeBtn from '@/components/Post/LikeBtn';
-import { MediaType } from '@/common/types/enums';
+import { MediaType } from '@/common/constants/types/enums';
 
 import Mask from '../../../components/hint/Mask';
 import Menu from '../../../components/Post/PostMenu';
@@ -20,7 +20,7 @@ import PostView from '../../../components/Post/PostView';
 import ExtraCardButton from './RecordCardTag';
 
 import type { RootState } from '@/common/redux/store';
-import type { CommentDataType, PostDataType } from '@/common/types';
+import type { CommentDataType, PostDataType } from '@/common/constants/types';
 
 interface PropsType {
   data: PostDataType;

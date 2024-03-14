@@ -14,14 +14,14 @@ import {
   MedicalCardDataType,
   MomentCardDataType,
   AnniversaryCardDataType,
-} from '@/common/types';
+} from '@/common/constants/types';
 import {
   RecordEventType,
   MomentIdType,
   MedicalCardType,
   ReserveType,
   AnniversaryType,
-} from '@/common/types/enums';
+} from '@/common/constants/types/enums';
 
 const EventCard: React.FC<{ prop: string }> = ({ prop }) => {
   const { monthState } = useContext(MonthContext);

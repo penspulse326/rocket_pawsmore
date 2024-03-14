@@ -4,7 +4,7 @@ import RadioCheck from '@/components/form/record/RadioCheck';
 import MedicalRecord from './MedicalRecord';
 import ReserveRemind from './ReserveRemind';
 
-import { MedicalCardType } from '@/common/types/enums';
+import { MedicalCardType } from '@/common/constants/types/enums';
 
 interface PropsType {
   onClose: () => void;

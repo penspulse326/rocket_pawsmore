@@ -16,7 +16,7 @@ import {
   DailyCardDataType,
   MedicalCardDataType,
   MomentCardDataType,
-} from '@/common/types';
+} from '@/common/constants/types';
 
 export const PetDataContext = createContext<
   | {

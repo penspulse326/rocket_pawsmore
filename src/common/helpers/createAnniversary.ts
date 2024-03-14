@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { RecordEventType, AnniversaryType } from '@/common/types/enums';
+import { RecordEventType, AnniversaryType } from '@/common/constants/types/enums';
 
 const createAnniversaryEvent = (birthday: string, adoptedDate: string | null, petId: number) => {
   const anniversaryEvent = [];

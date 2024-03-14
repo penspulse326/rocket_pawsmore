@@ -10,7 +10,7 @@ import Loading from '@/components/hint/Loading';
 import { unitCategory } from '@/common/constants/formText';
 import { DateContext, PetIdContext } from '@/pages/record_dashboard';
 import { formatDailyData } from '@/common/helpers/formatDailyData';
-import { PooType, UrineType, VomitType } from '@/common/types/enums';
+import { PooType, UrineType, VomitType } from '@/common/constants/types/enums';
 import { fetchAddDailyCard } from '@/common/fetch/recordCard';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/common/redux/store';

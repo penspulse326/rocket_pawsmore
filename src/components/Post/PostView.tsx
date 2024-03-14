@@ -12,8 +12,8 @@ import LikeBtn from './LikeBtn';
 import { fetchGetComment } from '@/common/fetch/comment';
 
 import type { RootState } from '@/common/redux/store';
-import type { CommentDataType, PostDataType } from '@/common/types';
-import { MediaType } from '@/common/types/enums';
+import type { CommentDataType, PostDataType } from '@/common/constants/types';
+import { MediaType } from '@/common/constants/types/enums';
 import CardData from './CardData';
 
 interface PropsType {

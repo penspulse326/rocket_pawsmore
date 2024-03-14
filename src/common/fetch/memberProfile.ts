@@ -1,6 +1,6 @@
 import apiNext from './apiNext';
 
-import type { MemberFormType } from '@/common/types';
+import type { MemberFormType } from '@/common/constants/types';
 
 export const fetchCreateMember = async (data: MemberFormType, token: string, imgUrl?: string) => {
   const { headShot, ...rest } = data;

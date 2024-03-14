@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 
-import { PetDataType } from '@/common/types';
+import { PetDataType } from '@/common/constants/types';
 import { PetDataContext } from '@/containers/PetProfile';
 
 function Companionship() {

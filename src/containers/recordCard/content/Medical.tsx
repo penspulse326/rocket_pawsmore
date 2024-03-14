@@ -3,8 +3,8 @@ import moment from 'moment';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
-import { CardUnionDataType, MedicalCardDataType } from '@/common/types';
-import { VisitType } from '@/common/types/enums';
+import { CardUnionDataType, MedicalCardDataType } from '@/common/constants/types';
+import { VisitType } from '@/common/constants/types/enums';
 
 interface MedicalDataType {
   TITLE: string;

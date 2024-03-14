@@ -20,8 +20,8 @@ import getPetAge from '@/common/helpers/getPetAge';
 import { fetchFormattedRecord } from '@/common/helpers/fetchFormattedRecord';
 
 import { setRecordInfo } from '@/common/redux/recordSlice';
-import { PetDataType } from '@/common/types';
-import { PetGenderType, SpeciesType } from '@/common/types/enums';
+import { PetDataType } from '@/common/constants/types';
+import { PetGenderType, SpeciesType } from '@/common/constants/types/enums';
 
 interface PetCardProps {
   data?: PetDataType;

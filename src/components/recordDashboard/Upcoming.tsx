@@ -6,8 +6,8 @@ import moment from 'moment';
 import { PetIdContext } from '@/pages/record_dashboard';
 import { RootState } from '@/common/redux/store';
 
-import { PetDataType, MedicalCardDataType } from '@/common/types';
-import { MedicalCardType, ReserveType } from '@/common/types/enums';
+import { PetDataType, MedicalCardDataType } from '@/common/constants/types';
+import { MedicalCardType, ReserveType } from '@/common/constants/types/enums';
 
 const Upcoming: React.FC = () => {
   const { petId } = useContext(PetIdContext);

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/common/redux/store';
 import { errorText } from '@/common/constants/messageText';
 import { Controller, useForm } from 'react-hook-form';
-import { MemberFormType } from '@/common/types';
+import { MemberFormType } from '@/common/constants/types';
 import UploadPhoto from '../form/profile/UploadPhoto';
 import TextInput from '../form/profile/TextInput';
 import { useEffect, useState } from 'react';

@@ -3,7 +3,7 @@ import { IconX } from '@tabler/icons-react';
 import { recordCard } from '@/common/constants/formText';
 import DailyForm from './daily';
 import Dot from '@/components/icon/Dot';
-import { RecordCardType } from '@/common/types/enums';
+import { RecordCardType } from '@/common/constants/types/enums';
 import MedicalForm from './medical';
 import MomentForm from './moment/MomentForm';
 

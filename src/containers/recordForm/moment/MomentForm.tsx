@@ -18,8 +18,8 @@ import {
   socialOptions,
 } from '@/common/constants/formText';
 
-import { MomentCategoryType, MomentIdType } from '@/common/types/enums';
-import { MomentFormType, OptionType } from '@/common/types';
+import { MomentCategoryType, MomentIdType } from '@/common/constants/types/enums';
+import { MomentFormType, OptionType } from '@/common/constants/types';
 
 import { Controller, useForm } from 'react-hook-form';
 import ImageInput from '../ImageInput';

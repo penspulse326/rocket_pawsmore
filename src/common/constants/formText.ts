@@ -1,4 +1,9 @@
-import { RecordCardType, MomentCategoryType, VisitType, MomentIdType } from '@/common/types/enums';
+import {
+  RecordCardType,
+  MomentCategoryType,
+  VisitType,
+  MomentIdType,
+} from '@/common/constants/types/enums';
 
 export const species = [
   { label: '狗', value: 0 },

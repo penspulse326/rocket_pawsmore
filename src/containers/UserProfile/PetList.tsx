@@ -7,8 +7,8 @@ import getPetAge from '@/common/helpers/getPetAge';
 import AddPet from '@/components/AddPet';
 import NoContent from '@/components/NoContent';
 
-import { PetDataType } from '@/common/types';
-import { SpeciesType, PetGenderType } from '@/common/types/enums';
+import { PetDataType } from '@/common/constants/types';
+import { SpeciesType, PetGenderType } from '@/common/constants/types/enums';
 
 interface PropsType {
   petList: PetDataType[] | undefined;

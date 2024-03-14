@@ -10,7 +10,7 @@ import PawkButton from './PawkButton';
 import PostCard from './PostCard';
 
 import type { RootState } from '@/common/redux/store';
-import type { PostDataType } from '@/common/types';
+import type { PostDataType } from '@/common/constants/types';
 
 // 貼文要過濾出 3 天內的與其他的
 interface FilteredPostsType {

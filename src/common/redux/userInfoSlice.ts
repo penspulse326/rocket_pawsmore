@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { UserInfoType } from '@/common/types';
+import { UserInfoType } from '@/common/constants/types';
 
 const initialState: UserInfoType = {
   userId: null,

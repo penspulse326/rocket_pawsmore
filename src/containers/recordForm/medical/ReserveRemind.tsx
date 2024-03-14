@@ -12,7 +12,7 @@ import ErrorMessage from '@/components/ErrorMessage';
 import RadioCheck from '@/components/form/record/RadioCheck';
 import Loading from '@/components/hint/Loading';
 import { DateContext, PetIdContext } from '@/pages/record_dashboard';
-import { VisitType } from '@/common/types/enums';
+import { VisitType } from '@/common/constants/types/enums';
 
 import Select from '../Select';
 

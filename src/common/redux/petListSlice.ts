@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { PetDataType } from '@/common/types';
+import type { PetDataType } from '@/common/constants/types';
 
 const initialState: PetDataType[] = [];
 

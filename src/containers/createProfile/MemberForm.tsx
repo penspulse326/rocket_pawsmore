@@ -11,7 +11,7 @@ import BtnLoading from '@/components/hint/BtnLoading';
 import { fetchCreateMember } from '@/common/fetch/memberProfile';
 import { mediaUpload } from '@/common/fetch/mediaManager';
 
-import type { MemberFormType } from '@/common/types';
+import type { MemberFormType } from '@/common/constants/types';
 import useToken from '@/common/hooks/useToken';
 
 const defaultValues = {

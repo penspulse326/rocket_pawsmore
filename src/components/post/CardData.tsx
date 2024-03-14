@@ -7,8 +7,8 @@ import {
   DailyCardDataType,
   MedicalCardDataType,
   MomentCardDataType,
-} from '@/common/types';
-import { MomentIdType, RecordEventType, ReserveType } from '@/common/types/enums';
+} from '@/common/constants/types';
+import { MomentIdType, RecordEventType, ReserveType } from '@/common/constants/types/enums';
 import Dot from '../icon/Dot';
 import { useRef, useState } from 'react';
 import { IconChevronDown } from '@tabler/icons-react';

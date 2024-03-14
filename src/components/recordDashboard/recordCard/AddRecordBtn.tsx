@@ -2,7 +2,7 @@ import { IconCirclePlus } from '@tabler/icons-react';
 import React, { useState } from 'react';
 
 import Dot from '@/components/icon/Dot';
-import { RecordCardType } from '@/common/types/enums';
+import { RecordCardType } from '@/common/constants/types/enums';
 
 interface PropsType {
   setFormType: (value: number) => void;

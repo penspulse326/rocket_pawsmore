@@ -7,8 +7,8 @@ import { formatSymptom } from '@/common/helpers/formatMedicalData';
 import getPetAge from '@/common/helpers/getPetAge';
 
 import { RootState } from '@/common/redux/store';
-import { DailyCardDataType } from '@/common/types';
-import { PooType, UrineType, VomitType } from '@/common/types/enums';
+import { DailyCardDataType } from '@/common/constants/types';
+import { PooType, UrineType, VomitType } from '@/common/constants/types/enums';
 
 const RecentCondition: React.FC = () => {
   const petList = useSelector((state: RootState) => state.petList);

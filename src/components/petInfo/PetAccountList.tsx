@@ -7,7 +7,7 @@ import { IconChevronUp } from '@tabler/icons-react';
 import { PetIdContext } from '@/pages/record_dashboard';
 
 import type { RootState } from '@/common/redux/store';
-import type { PetDataType } from '@/common/types';
+import type { PetDataType } from '@/common/constants/types';
 
 const AccountList: React.FC = () => {
   const { setPetId } = useContext(PetIdContext);

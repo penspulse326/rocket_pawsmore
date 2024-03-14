@@ -1,6 +1,6 @@
 import apiNext from './apiNext';
 
-import type { PetFormType } from '@/common/types';
+import type { PetFormType } from '@/common/constants/types';
 
 export const fetchCreatePet = async (data: PetFormType, token: string) => {
   const { petPhoto, ...rest } = data;

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { CardUnionDataType } from '@/common/types';
+import { CardUnionDataType } from '@/common/constants/types';
 
 interface initialStateType {
   petId: number | null;

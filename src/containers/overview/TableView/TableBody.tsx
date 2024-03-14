@@ -6,7 +6,11 @@ import moment from 'moment';
 import NoContent from '@/components/NoContent';
 
 import { RootState } from '@/common/redux/store';
-import { DailyCardDataType, MedicalCardDataType, MomentCardDataType } from '@/common/types';
+import {
+  DailyCardDataType,
+  MedicalCardDataType,
+  MomentCardDataType,
+} from '@/common/constants/types';
 
 import {
   RecordCardType,
@@ -17,7 +21,7 @@ import {
   VisitType,
   MomentIdType,
   MomentCategoryType,
-} from '@/common/types/enums';
+} from '@/common/constants/types/enums';
 
 interface TableBodyProps {
   cardType: RecordCardType;

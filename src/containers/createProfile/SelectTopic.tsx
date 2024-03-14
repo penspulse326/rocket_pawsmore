@@ -2,7 +2,7 @@ import { fetchCreateMember } from '@/common/fetch/memberProfile';
 import useToken from '@/common/hooks/useToken';
 import { RootState } from '@/common/redux/store';
 import { setUserInfo } from '@/common/redux/userInfoSlice';
-import { SpeciesType } from '@/common/types/enums';
+import { SpeciesType } from '@/common/constants/types/enums';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

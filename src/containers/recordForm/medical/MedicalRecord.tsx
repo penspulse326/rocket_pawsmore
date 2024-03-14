@@ -13,7 +13,7 @@ import { RootState } from '@/common/redux/store';
 import ErrorMessage from '@/components/ErrorMessage';
 import Loading from '@/components/hint/Loading';
 import { DateContext, PetIdContext } from '@/pages/record_dashboard';
-import { VisitType } from '@/common/types/enums';
+import { VisitType } from '@/common/constants/types/enums';
 
 import ImageInput from '../ImageInput';
 import Select from '../Select';

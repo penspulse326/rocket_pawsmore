@@ -18,7 +18,7 @@ import { RootState } from '@/common/redux/store';
 
 import { errorText } from '@/common/constants/messageText';
 import { gender, species } from '@/common/constants/formText';
-import type { PetFormType } from '@/common/types';
+import type { PetFormType } from '@/common/constants/types';
 import useToken from '@/common/hooks/useToken';
 
 const CreatePet: React.FC = () => {

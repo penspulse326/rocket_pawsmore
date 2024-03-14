@@ -3,7 +3,7 @@ import type { GetServerSideProps } from 'next';
 import { fetchGetSpeciesPosts } from '@/common/fetch/post';
 import Explore from '@/containers/Social/Explore';
 import Layout from '@/containers/Social/Layout';
-import { PostDataType } from '@/common/types';
+import { PostDataType } from '@/common/constants/types';
 
 import type { NextPageWithLayout } from '../_app';
 import type { ReactElement } from 'react';

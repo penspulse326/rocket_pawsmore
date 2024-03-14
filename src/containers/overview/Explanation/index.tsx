@@ -5,7 +5,7 @@ import Card from './Card';
 import NoContent from '@/components/NoContent';
 
 import { RootState } from '@/common/redux/store';
-import { DailyCardDataType } from '@/common/types';
+import { DailyCardDataType } from '@/common/constants/types';
 
 const Explanation: React.FC = () => {
   const petRecord = useSelector((state: RootState) => state.petRecord);

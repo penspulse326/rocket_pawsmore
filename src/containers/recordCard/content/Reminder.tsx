@@ -1,7 +1,7 @@
 import moment from 'moment';
 
-import { CardUnionDataType, MedicalCardDataType } from '@/common/types';
-import { ReserveType } from '@/common/types/enums';
+import { CardUnionDataType, MedicalCardDataType } from '@/common/constants/types';
+import { ReserveType } from '@/common/constants/types/enums';
 
 interface ReminderProps {
   data: CardUnionDataType;

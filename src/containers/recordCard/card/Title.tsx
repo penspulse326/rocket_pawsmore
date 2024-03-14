@@ -4,14 +4,18 @@ import { DataContext } from '../SingleCardLayout';
 
 import getIconColor from '@/common/helpers/getIconColor';
 
-import { MedicalCardDataType, MomentCardDataType, AnniversaryCardDataType } from '@/common/types';
+import {
+  MedicalCardDataType,
+  MomentCardDataType,
+  AnniversaryCardDataType,
+} from '@/common/constants/types';
 import {
   RecordEventType,
   MedicalCardType,
   ReserveType,
   MomentIdType,
   AnniversaryType,
-} from '@/common/types/enums';
+} from '@/common/constants/types/enums';
 
 const Title: React.FC = () => {
   const data = useContext(DataContext);

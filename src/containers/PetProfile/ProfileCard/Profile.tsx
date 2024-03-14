@@ -6,8 +6,8 @@ import handleFreezeScroll from '@/common/helpers/handleFreezeScroll';
 import Mask from '@/components/hint/Mask';
 import NetworkList from '@/components/NetworkList';
 import { PetDataContext } from '@/containers/PetProfile';
-import { PetDataType, UserListDataType } from '@/common/types';
-import { PetGenderType, SpeciesType } from '@/common/types/enums';
+import { PetDataType, UserListDataType } from '@/common/constants/types';
+import { PetGenderType, SpeciesType } from '@/common/constants/types/enums';
 
 interface PropsType {
   petAccount: string | string[] | undefined;

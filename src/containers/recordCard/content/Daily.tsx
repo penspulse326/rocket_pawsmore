@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { CardUnionDataType, DailyCardDataType } from '@/common/types';
-import { UrineType, PooType, VomitType } from '@/common/types/enums';
+import { CardUnionDataType, DailyCardDataType } from '@/common/constants/types';
+import { UrineType, PooType, VomitType } from '@/common/constants/types/enums';
 
 import ToggleList from '../card/ToggleList';
 

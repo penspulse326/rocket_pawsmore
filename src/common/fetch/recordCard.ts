@@ -1,4 +1,4 @@
-import { DailyDataType, MomentDataType, MomentFormType } from '@/common/types';
+import { DailyDataType, MomentDataType, MomentFormType } from '@/common/constants/types';
 
 import apiNext from './apiNext';
 

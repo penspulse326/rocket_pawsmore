@@ -1,4 +1,4 @@
-import { RecordCardType } from '@/common/types/enums';
+import { RecordCardType } from '@/common/constants/types/enums';
 
 const dotColor: Record<number, string> = {
   0: '#969AFF',

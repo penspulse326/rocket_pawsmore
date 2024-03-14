@@ -7,7 +7,7 @@ import { useRef, useState } from 'react';
 
 import PetCard from './PetCard';
 
-import type { PetDataType } from '@/common/types';
+import type { PetDataType } from '@/common/constants/types';
 
 const SwiperList: React.FC<{ list: PetDataType[] }> = ({ list }) => {
   const swiperRef = useRef<SwiperClass>();

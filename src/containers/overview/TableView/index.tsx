@@ -4,7 +4,7 @@ import Tabs from './Tabs';
 import TableTitle from './TableTitle';
 import TableBody from './TableBody';
 
-import { RecordCardType } from '@/common/types/enums';
+import { RecordCardType } from '@/common/constants/types/enums';
 
 const Table: React.FC = () => {
   const [cardType, setCardType] = useState<RecordCardType>(0);

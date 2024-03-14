@@ -1,11 +1,11 @@
 import moment from 'moment';
-
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 
 import CommentMenu from './CommentMenu';
-import type { CommentDataType } from '@/common/types';
+
+import type { CommentDataType } from '@/common/constants/types';
 
 interface PropsType {
   from: 'postList' | 'postView';
@@ -66,7 +66,7 @@ const CommentList: React.FC<PropsType> = ({
                   src={userPhoto || '/images/default-photo.png'}
                   alt={userAccount}
                   priority={false}
-                  fill={true}
+                  fill
                   sizes='100%'
                   style={{ objectFit: 'cover' }}
                   className='h-auto w-auto'

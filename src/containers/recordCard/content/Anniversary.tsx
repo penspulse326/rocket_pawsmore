@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { AnniversaryCardDataType } from '@/common/types';
+import { AnniversaryCardDataType } from '@/common/constants/types';
 
 import { DataContext } from '../SingleCardLayout';
 

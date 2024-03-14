@@ -10,8 +10,8 @@ import Daily from './content/Daily';
 import Reminder from './content/Reminder';
 import Anniversary from './content/Anniversary';
 
-import { CardUnionDataType, MedicalCardDataType } from '@/common/types';
-import { RecordEventType, MedicalCardType } from '@/common/types/enums';
+import { CardUnionDataType, MedicalCardDataType } from '@/common/constants/types';
+import { RecordEventType, MedicalCardType } from '@/common/constants/types/enums';
 import UploadView from '@/components/Post/UploadView';
 import Mask from '@/components/hint/Mask';
 import { PetIdContext } from '@/pages/record_dashboard';

@@ -1,4 +1,4 @@
-import { UrineType, PooType, VomitType } from '@/common/types/enums';
+import { UrineType, PooType, VomitType } from '@/common/constants/types/enums';
 
 export const symptomInfo = {
   urine: [

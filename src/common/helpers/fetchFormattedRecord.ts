@@ -1,7 +1,7 @@
 import { fetchGetRecord } from '../fetch/petProfile';
 
 import { FetchDataType } from '@/pages/pet/[petAccount]';
-import { CardUnionDataType } from '@/common/types';
+import { CardUnionDataType } from '@/common/constants/types';
 
 import sortData from './sortData';
 import createAnniversaryEvent from './createAnniversary';

@@ -5,7 +5,7 @@ import { filterPost, filterPostsByDate, sortPostsByLikes } from '@/common/helper
 import Layout from '@/containers/Social/Layout';
 import Posts from '@/containers/Social/Posts';
 
-import type { PostDataType } from '@/common/types';
+import type { PostDataType } from '@/common/constants/types';
 import type { GetServerSidePropsContext } from 'next';
 
 interface PropsType {

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 import type { RootState } from '@/common/redux/store';
 
-import type { PetDataType } from '@/common/types';
+import type { PetDataType } from '@/common/constants/types';
 import Link from 'next/link';
 
 interface PropsType {

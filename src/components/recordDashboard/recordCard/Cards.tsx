@@ -6,8 +6,8 @@ import { DateContext } from '@/pages/record_dashboard';
 import SingleCardLayout from '@/containers/recordCard/SingleCardLayout';
 
 import type { RootState } from '@/common/redux/store';
-import { MedicalCardDataType } from '@/common/types';
-import { MedicalCardType } from '@/common/types/enums';
+import { MedicalCardDataType } from '@/common/constants/types';
+import { MedicalCardType } from '@/common/constants/types/enums';
 
 const Cards: React.FC = () => {
   const { selectedDate } = useContext(DateContext);

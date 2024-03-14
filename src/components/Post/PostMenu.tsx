@@ -1,10 +1,12 @@
-import { fetchDeletePost } from '@/common/fetch/post';
-import useToken from '@/common/hooks/useToken';
-import { RootState } from '@/common/redux/store';
-import { MediaType } from '@/common/types/enums';
 import { IconDotsVertical } from '@tabler/icons-react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+
+import { MediaType } from '@/common/constants/types/enums';
+import { fetchDeletePost } from '@/common/fetch/post';
+import useToken from '@/common/hooks/useToken';
+import { RootState } from '@/common/redux/store';
+
 import Loading from '../hint/Loading';
 
 interface PropsType {
