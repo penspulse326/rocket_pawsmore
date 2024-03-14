@@ -1,10 +1,10 @@
-import { Html, Head, Main, NextScript } from "next/document";
+import { Html, Head, Main, NextScript } from 'next/document';
 
 export default function Document() {
   return (
-    <Html lang="zh-TW">
+    <Html lang='zh-TW'>
       <Head>
-        <link rel="icon" href="/images/logo.svg" type="image/x-icon" />
+        <link rel='icon' href='/images/logo.svg' type='image/x-icon' />
       </Head>
       <body>
         <Main />

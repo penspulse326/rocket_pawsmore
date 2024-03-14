@@ -1,65 +1,51 @@
-import { IconX } from "@tabler/icons-react";
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef } from 'react';
 
-import handleFreezeScroll from "@/common/helpers/handleFreezeScroll";
-
-interface MaskPropsType {
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+interface PropsType {
+  onClose: () => void;
   children: ReactNode;
-  maskType?: "post" | string;
 }
 
-const Mask: React.FC<MaskPropsType> = ({ setIsOpen, children, maskType }) => {
+function Mask({ onClose, children }: PropsType) {
+  // 記憶當前 scrollbar 位置
   const scrollbarPosition = useRef(window.scrollY);
-  const handleCloseClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
 
-    const target = e.target as HTMLElement;
-    if (target.classList.contains("mask")) setIsOpen(false);
-    handleFreezeScroll(false);
+  // 觸發滾動事件時重新設定 scrollbar 位置
+  const handleScroll = () => {
+    window.scrollTo(0, scrollbarPosition.current);
+  };
+
+  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+
+    // 點擊到有 mask 的元素時關閉
+    const target = event.target as HTMLElement;
+    if (target.classList.contains('mask')) {
+      onClose();
+    }
   };
 
   useEffect(() => {
-    handleFreezeScroll(true);
-
-    // const handleEsc = (e: KeyboardEvent) => {
-    //   if (e.key === "Escape") setIsOpen(false);
-    // };
-    // document.addEventListener("keydown", handleEsc);
-
     const handleFreeze = () => {
       window.scrollTo(0, scrollbarPosition.current);
     };
-    window.addEventListener("scroll", handleFreeze);
+    window.addEventListener('scroll', handleFreeze);
 
     return () => {
-      // document.removeEventListener("keydown", handleEsc);
-      window.removeEventListener("scroll", handleFreeze);
+      window.removeEventListener('scroll', handleFreeze);
       window.scrollTo(0, scrollbarPosition.current);
-      handleFreezeScroll(false);
     };
-  });
+  }, []);
 
   return (
-    <div
-      onScroll={() => {
-        window.scrollTo(0, scrollbarPosition.current);
-      }}
-      onClick={handleCloseClick}
-      className="mask fixed top-0 left-0 z-50 flex justify-center items-center w-full h-full bg-black/50"
-      tabIndex={0}
+    <button
+      type='button'
+      onScroll={handleScroll}
+      onClick={handleClose}
+      className='mask fixed left-0 top-0 z-50 flex h-full w-full cursor-default items-center justify-center bg-black/50'
     >
-      {maskType === "post" && (
-        <button type="button" className="fixed top-12 right-12">
-          <IconX
-            onClick={() => setIsOpen(false)}
-            className="w-10 h-10 text-white fill-white"
-          />
-        </button>
-      )}
       {children}
-    </div>
+    </button>
   );
-};
+}
 
 export default Mask;

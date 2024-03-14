@@ -4,13 +4,14 @@ import { useRouter } from 'next/router';
 import React, { useState, useContext } from 'react';
 
 import { fetchGetPetPosts } from '@/common/fetch/post';
-import handleFreezeScroll from '@/common/helpers/handleFreezeScroll';
 import Mask from '@/components/hint/Mask';
 import NoContent from '@/components/NoContent';
 import PostView from '@/components/post/PostView';
 import { PetDataContext } from '@/containers/PetProfile';
 import { PostDataType } from '@/types';
 import { MediaType } from '@/types/enums';
+
+import handleFreezeScroll from '@/common/helpers/handleFreezeScroll';
 
 function Posts() {
   const router = useRouter();

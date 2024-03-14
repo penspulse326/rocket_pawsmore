@@ -1,5 +1,3 @@
-import { GetServerSidePropsContext } from 'next';
-
 import cookie from 'cookie';
 
 import { fetchGetAllPosts, fetchGetFollowingPosts } from '@/common/fetch/post';
@@ -8,6 +6,7 @@ import Layout from '@/containers/Social/Layout';
 import Posts from '@/containers/Social/Posts';
 
 import type { PostDataType } from '@/types';
+import type { GetServerSidePropsContext } from 'next';
 
 interface PropsType {
   all: PostDataType[];

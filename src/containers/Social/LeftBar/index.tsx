@@ -1,13 +1,12 @@
 import Image from 'next/image';
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPetList } from '@/common/redux/petListSlice';
-import { fetchGetPetList } from '@/common/fetch/petProfile';
 
-import MoreMenu from '@/containers/Social/sideBar/MoreMenu';
+import { fetchGetPetList } from '@/common/fetch/petProfile';
+import { setPetList } from '@/common/redux/petListSlice';
 import SwiperList from '@/components/petInfo/SwiperList';
+import MoreMenu from '@/containers/Social/LeftBar/MoreMenu';
 
 import type { RootState } from '@/common/redux/store';
 
@@ -36,8 +35,8 @@ const LeftBar: React.FC = () => {
           <Image
             src={headShot || '/images/default-photo.png'}
             alt={username || 'avatar'}
-            priority={true}
-            fill={true}
+            priority
+            fill
             sizes='100%'
             style={{ objectFit: 'cover' }}
             className='h-auto w-auto'
