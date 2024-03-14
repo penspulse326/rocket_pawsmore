@@ -1,34 +1,35 @@
 import { IconHeartFilled, IconMessageCircle2Filled } from '@tabler/icons-react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 
 import { fetchGetPetPosts } from '@/common/fetch/post';
-import handleFreezeScroll from '@/common/helpers/handleFreezeScroll';
 import Mask from '@/components/hint/Mask';
 import NoContent from '@/components/NoContent';
-import PostView from '@/components/Post/PostView';
-import { PetDataContext } from '@/pages/pet/[petAccount]';
+import PostView from '@/components/post/PostView';
+import { PetDataContext } from '@/containers/PetProfile';
 import { PostDataType } from '@/types';
 import { MediaType } from '@/types/enums';
 
-const Posts: React.FC = () => {
+import handleFreezeScroll from '@/common/helpers/handleFreezeScroll';
+
+function Posts() {
   const router = useRouter();
   const petAccount = router.query.petAccount as string;
 
   const { postList } = useContext(PetDataContext)!;
 
-  const [posts, setPosts] = useState<PostDataType[]>(postList || []);
   const [isMaskOpen, setIsMaskOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<PostDataType>();
 
-  const getPosts = async () => {
+  const fetchPost = async () => {
     const response = await fetchGetPetPosts(petAccount);
     const { data } = response;
-    setPosts(data);
 
     if (data) {
-      const newSelectedPost = data.filter((post) => post.postId === selectedPost?.postId)[0];
+      const newSelectedPost = data.filter(
+        (post: PostDataType) => post.postId === selectedPost?.postId
+      )[0];
       setSelectedPost(newSelectedPost);
     }
     return data;
@@ -40,28 +41,25 @@ const Posts: React.FC = () => {
     handleFreezeScroll(true);
   };
 
-  useEffect(() => {
-    getPosts();
-  }, [postList]);
-
   return (
     <>
-      {posts ? (
+      {postList ? (
         <section className='mr-auto flex flex-wrap gap-4 overflow-hidden'>
-          {posts?.map((post, index) => {
+          {postList.map((post) => {
             const { media, likes, mediaType, comments, postContent } = post;
 
             return (
-              <div key={index}>
-                <div
-                  className='gallery-card relative z-0 h-[352px] w-[352px] overflow-hidden rounded-[30px] hover:cursor-pointer'
+              <div key={postContent}>
+                <button
+                  className='gallery-card relative z-0 h-[352px] w-[352px] overflow-hidden rounded-[30px]'
                   onClick={() => handleOpenPost(post)}
+                  type='button'
                 >
                   {/* 圖片 */}
                   {mediaType === MediaType.image && (
                     <Image
                       alt={postContent}
-                      className='h-full w-full  object-cover'
+                      className='h-full w-full object-cover'
                       src={media}
                       width={352}
                       height={352}
@@ -70,7 +68,10 @@ const Posts: React.FC = () => {
                   )}
                   {/* 影片 */}
                   {mediaType === MediaType.video && (
-                    <video src={media} controls={false} className='h-full w-full object-cover' />
+                    <video controls={false} className='h-full w-full object-cover'>
+                      <source src={media} />
+                      <track kind='captions' />
+                    </video>
                   )}
                   {/* milestone badge */}
                   {/* {value.hasMilestone ? (
@@ -93,7 +94,7 @@ const Posts: React.FC = () => {
                       <div>{comments?.length || 0}</div>
                     </li>
                   </ul>
-                </div>
+                </button>
               </div>
             );
           })}
@@ -103,13 +104,14 @@ const Posts: React.FC = () => {
           <NoContent />
         </section>
       )}
+      {/* expand post */}
       {isMaskOpen && (
         <Mask setIsOpen={setIsMaskOpen} maskType='post'>
-          <PostView data={selectedPost!} getPost={getPosts} onClose={() => setIsMaskOpen(false)} />
+          <PostView data={selectedPost!} getPost={fetchPost} onClose={() => setIsMaskOpen(false)} />
         </Mask>
       )}
     </>
   );
-};
+}
 
 export default Posts;

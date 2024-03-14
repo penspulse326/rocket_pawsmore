@@ -1,9 +1,9 @@
-import moment from "moment";
+import moment from 'moment';
 
-import { CardUnionDataType, MedicalCardDataType } from "@/types";
-import { MedicalCardType } from "@/types/enums";
+import { CardUnionDataType, MedicalCardDataType } from '@/types';
+import { MedicalCardType } from '@/types/enums';
 
-interface SortedDataType {
+export interface SortedDataType {
   ageInMonth: number;
   events: {
     date: string;
@@ -11,10 +11,7 @@ interface SortedDataType {
   }[];
 }
 
-function sortByAge(
-  originalData: CardUnionDataType[],
-  birthday: string
-): SortedDataType[] {
+function sortByAge(originalData: CardUnionDataType[], birthday: string): SortedDataType[] {
   const sortedData: SortedDataType[] = [];
 
   originalData
@@ -26,13 +23,9 @@ function sortByAge(
       const reserveDateB = (b as MedicalCardDataType).reserveDate;
 
       const dateA =
-        MedicalCardType[typeA] === "醫療提醒"
-          ? moment(reserveDateA)
-          : moment(a.targetDate);
+        MedicalCardType[typeA] === '醫療提醒' ? moment(reserveDateA) : moment(a.targetDate);
       const dateB =
-        MedicalCardType[typeB] === "醫療提醒"
-          ? moment(reserveDateB)
-          : moment(b.targetDate);
+        MedicalCardType[typeB] === '醫療提醒' ? moment(reserveDateB) : moment(b.targetDate);
 
       if (dateA.isAfter(dateB)) return -1;
       if (dateA.isBefore(dateB)) return 1;
@@ -41,29 +34,22 @@ function sortByAge(
     })
     .forEach((event) => {
       const { targetDate } = event;
-      const cardType = (event as MedicalCardDataType).cardType;
-      const reserveDate = (event as MedicalCardDataType).reserveDate;
+      const { cardType, reserveDate } = event as MedicalCardDataType;
 
-      const date =
-        (MedicalCardType[cardType] === "醫療提醒" && reserveDate) || targetDate;
-      const ageInMonth = moment(date).diff(
-        moment(birthday).format("YYYY-MM-DD"),
-        "month"
-      );
+      const date = (MedicalCardType[cardType] === '醫療提醒' && reserveDate) || targetDate;
+      const ageInMonth = moment(date).diff(moment(birthday).format('YYYY-MM-DD'), 'month');
 
-      let ageGroup = sortedData.find(
-        (group) => group.ageInMonth === ageInMonth
-      );
+      let ageGroup = sortedData.find((group) => group.ageInMonth === ageInMonth);
       if (!ageGroup) {
         ageGroup = { ageInMonth, events: [] };
         sortedData.push(ageGroup);
       }
 
       let dateGroup = ageGroup.events.find(
-        (group) => group.date === moment(date).format("YYYY-MM-DD")
+        (group) => group.date === moment(date).format('YYYY-MM-DD')
       );
       if (!dateGroup) {
-        dateGroup = { date: moment(date).format("YYYY-MM-DD"), events: [] };
+        dateGroup = { date: moment(date).format('YYYY-MM-DD'), events: [] };
         ageGroup.events.push(dateGroup);
       }
       dateGroup.events.push(event);
