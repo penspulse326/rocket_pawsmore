@@ -30,7 +30,7 @@ function Button({ token, isMyPet, isFollowing, handleFollow }: PropsType) {
     router.push(`/user_dashboard/edit_pet/${prop}`);
   };
 
-  const handleButtonClick = () => {
+  const handleFollowButton = () => {
     if (isFollowing) {
       setShowAlert(!showAlert);
       handleFreezeScroll(true);
@@ -75,7 +75,7 @@ function Button({ token, isMyPet, isFollowing, handleFollow }: PropsType) {
             : 'bg-primary text-white'
         }`}
         type='button'
-        onClick={handleButtonClick}
+        onClick={handleFollowButton}
         onMouseOver={() => setButtonText('取消追蹤')}
         onMouseOut={() => setButtonText('追蹤中')}
         onFocus={() => setButtonText('取消追蹤')}
