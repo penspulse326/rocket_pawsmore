@@ -1,22 +1,12 @@
 import { IconPhoto, IconMovie, IconMedal } from '@tabler/icons-react';
 import { useState } from 'react';
 
-import useToken from '@/common/hooks/useToken';
 import UploadView from '@/containers/UploadView';
 
-interface PropsType {
-  getList: () => void;
-}
-
-function PawkBtn({ getList }: PropsType) {
-  const { token } = useToken();
+function PawkBtn() {
   const [isUploadViewOpen, setIsUploadViewOpen] = useState(false);
 
   const handleClick = () => {
-    if (!token) {
-      alert('請先登入');
-      return;
-    }
     setIsUploadViewOpen(!isUploadViewOpen);
   };
 
@@ -28,9 +18,7 @@ function PawkBtn({ getList }: PropsType) {
         onClick={handleClick}
         className='w-full cursor-pointer rounded-[30px] border border-stroke px-8 pb-6 pt-8 outline-none duration-300 hover:bg-stroke'
       >
-        {isUploadViewOpen && (
-          <UploadView onClose={() => setIsUploadViewOpen(false)} getList={getList} />
-        )}
+        {isUploadViewOpen && <UploadView onClose={() => setIsUploadViewOpen(false)} />}
         <div className='rounded-[30px] border border-stroke px-8 py-4 text-left text-note outline-none'>
           在想些什麼呢？
         </div>
