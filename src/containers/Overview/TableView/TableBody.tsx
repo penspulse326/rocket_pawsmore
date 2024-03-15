@@ -1,27 +1,20 @@
+import moment from 'moment';
+import Image from 'next/image';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import Image from 'next/image';
-import moment from 'moment';
 
-import NoContent from '@/components/NoContent';
-
-import { RootState } from '@/common/redux/store';
-import {
-  DailyCardDataType,
-  MedicalCardDataType,
-  MomentCardDataType,
-} from '@/common/constants/types';
-
+import { MedicalCardDataType, MomentCardDataType } from '@/common/constants/types';
 import {
   RecordCardType,
-  UrineType,
-  PooType,
-  VomitType,
   MedicalCardType,
   VisitType,
   MomentIdType,
   MomentCategoryType,
 } from '@/common/constants/types/enums';
+import { RootState } from '@/common/redux/store';
+import NoContent from '@/components/NoContent';
+
+import Daily from '../TableBody/Daily';
 
 interface TableBodyProps {
   cardType: RecordCardType;
@@ -29,7 +22,7 @@ interface TableBodyProps {
 
 const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
   const petRecord = useSelector((state: RootState) => state.petRecord);
-  const data = petRecord.data;
+  const { data } = petRecord;
 
   const bodyContent = (cardType: RecordCardType) => {
     switch (cardType) {
@@ -42,129 +35,7 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
     }
   };
 
-  const Daily = () => {
-    return (
-      <>
-        {data
-          .filter((event) => event.card === RecordCardType.日常紀錄)
-          .map((event, index) => {
-            const {
-              targetDate,
-              water,
-              weight,
-              food,
-              urine,
-              poo,
-              vomit,
-              deworming,
-              medicine,
-              injection,
-              rehab,
-              remark,
-              symptom,
-            } = event as DailyCardDataType;
-
-            interface FoodDataType {
-              type: string;
-              amount: number;
-            }
-
-            const formattedWeight = () => {
-              if (weight) {
-                if (weight.length > 0 && weight.startsWith('0')) {
-                  return '-';
-                } else {
-                  return weight.replace('.', ' ');
-                }
-              } else {
-                return '-';
-              }
-            };
-
-            const formattedSymptom = () => {
-              if (symptom) {
-                if (symptom !== '[]') {
-                  return JSON.parse(symptom).join('、');
-                } else {
-                  return '-';
-                }
-              }
-            };
-
-            return (
-              <ul className='flex border-t border-stroke' key={index}>
-                <li className={`w-[116px] pb-3 pl-4 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                  {moment(targetDate).format('YYYY/M/D')}
-                </li>
-                {/* 一般 */}
-                <ul className='flex gap-x-2 border-l border-stroke px-4'>
-                  <li className={`w-[76px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {formattedWeight()}
-                  </li>
-                  <li className={`w-[76px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {water ? `${water} ml` : '-'}
-                  </li>
-                  <div className={`w-[76px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {food && food !== '[]'
-                      ? JSON.parse(food).map((item: FoodDataType, index: number) => (
-                          <ul className='flex' key={index}>
-                            <li>
-                              {item.type} {item.amount} g
-                            </li>
-                          </ul>
-                        ))
-                      : '-'}
-                  </div>
-                </ul>
-                {/* 異常 */}
-                <ul className='flex gap-x-2 border-l border-stroke px-4'>
-                  <li className={`w-[76px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {urine !== 0 ? UrineType[urine] : '-'}
-                  </li>
-                  <li className={`w-[76px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {poo !== 0 ? PooType[poo] : '-'}
-                  </li>
-                  <li className={`w-[76px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {vomit !== 0 ? VomitType[vomit] : '-'}
-                  </li>
-                  <li className={`w-[76px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {formattedSymptom()}
-                  </li>
-                </ul>
-                {/* 日常照護 */}
-                <ul className='flex gap-x-2 border-l border-stroke px-4'>
-                  <li className={`w-[76px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {deworming ? deworming : '-'}
-                  </li>
-                  <li className={`w-[76px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {medicine ? medicine : '-'}
-                  </li>
-                  <li className={`w-[76px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {injection ? injection : '-'}
-                  </li>
-                  <li className={`w-[76px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {rehab ? rehab : '-'}
-                  </li>
-                </ul>
-                {/* 備註 */}
-                <ul className='flex gap-x-2 border-l border-stroke'>
-                  <li className={`w-[228px] pb-3 pl-4 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {remark ? remark : '-'}
-                  </li>
-                </ul>
-              </ul>
-            );
-          })}
-        {data.filter((event) => event.card === RecordCardType.日常紀錄).length === 0 && (
-          <div className='border-t border-stroke'>
-            <NoContent />
-          </div>
-        )}
-      </>
-    );
-  };
-
-  const Medical = () => {
+  function Medical() {
     const costFormat = (number: number) => {
       if (!number) {
         return null;
@@ -212,16 +83,16 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
                     {visitType ? VisitType[visitType] : '-'}
                   </li>
                   <li className={`w-[119px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {hospital ? hospital : '-'}
+                    {hospital || '-'}
                   </li>
                   <li className={`w-[87px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {doctor ? doctor : '-'}
+                    {doctor || '-'}
                   </li>
                   <li className={`w-[119px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {medicine ? medicine : '-'}
+                    {medicine || '-'}
                   </li>
                   <li className={`w-[191px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {check ? check : '-'}
+                    {check || '-'}
                   </li>
                   <li className={`w-[191px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
                     {notice ? (
@@ -266,9 +137,9 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
         )}
       </>
     );
-  };
+  }
 
-  const Moment = () => {
+  function Moment() {
     return (
       <>
         {data
@@ -305,7 +176,7 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
                     )}
                   </li>
                   <li className={`w-[344px] pb-3 ${index === 0 ? 'pt-6' : 'pt-3'}`}>
-                    {desc ? desc : '-'}
+                    {desc || '-'}
                   </li>
                 </ol>
               </ul>
@@ -318,7 +189,7 @@ const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
         )}
       </>
     );
-  };
+  }
 
   return <div className='text-left'>{bodyContent(cardType)}</div>;
 };
