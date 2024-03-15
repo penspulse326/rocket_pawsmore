@@ -2,13 +2,17 @@ import '@/styles/globals.css';
 import '@/styles/animations.css';
 import '@/styles/loadings.css';
 
+import moment from 'moment';
 import { AppProps } from 'next/app';
 import { Noto_Sans_TC } from 'next/font/google';
 import Head from 'next/head';
 import { Provider } from 'react-redux';
 
 import { store } from '@/common/redux/store';
+import 'moment/locale/zh-tw';
 import Navbar from '@/components/navbar/Navbar';
+
+moment.locale('zh-TW');
 
 const notos = Noto_Sans_TC({
   weight: ['400', '600', '700'],
