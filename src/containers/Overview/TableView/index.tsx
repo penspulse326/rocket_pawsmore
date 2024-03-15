@@ -1,16 +1,16 @@
 import { useState } from 'react';
 
-import Tabs from './Tabs';
-import TableTitle from './TableTitle';
-import TableBody from './TableBody';
-
 import { RecordCardType } from '@/common/constants/types/enums';
 
-const Table: React.FC = () => {
+import TableBody from './TableBody';
+import TableTitle from './TableTitle';
+import Tabs from './Tabs';
+
+function TableView() {
   const [cardType, setCardType] = useState<RecordCardType>(0);
 
-  const handleCardTypeChange = (cardType: RecordCardType) => {
-    setCardType(cardType);
+  const handleCardTypeChange = (prop: RecordCardType) => {
+    setCardType(prop);
   };
 
   return (
@@ -22,6 +22,6 @@ const Table: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Table;
+export default TableView;
