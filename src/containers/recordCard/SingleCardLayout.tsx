@@ -4,7 +4,7 @@ import React, { createContext, useContext, useMemo, useState } from 'react';
 import { CardUnionDataType, MedicalCardDataType } from '@/common/constants/types';
 import { RecordEventType, MedicalCardType } from '@/common/constants/types/enums';
 import Mask from '@/components/hint/Mask';
-import UploadView from '@/containers/Social/UploadView';
+import UploadView from '@/containers/UploadView';
 import { PetIdContext } from '@/pages/record_dashboard';
 
 import ShareBtn from './card/ShareBtn';

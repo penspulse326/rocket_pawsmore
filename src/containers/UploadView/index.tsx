@@ -7,11 +7,11 @@ import { mediaUpload } from '@/common/fetch/mediaManager';
 import { fetchAddPost } from '@/common/fetch/post';
 import useToken from '@/common/hooks/useToken';
 
-import Loading from '../../../components/hint/Loading';
-import Mask from '../../../components/hint/Mask';
-import List from '../../../components/milestone/List';
-import AccountList from '../../../components/petInfo/AccountList';
-import CardData from '../../../components/post/CardData';
+import Loading from '../../components/hint/Loading';
+import Mask from '../../components/hint/Mask';
+import List from '../../components/milestone/List';
+import AccountList from '../../components/petInfo/AccountList';
+import CardData from '../../components/post/CardData';
 
 import UploadInput from './UploadInput';
 
