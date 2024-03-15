@@ -32,7 +32,7 @@ function UploadView({ onClose, card, petId }: PropsType) {
   const [postContent, setPostContent] = useState('');
 
   // 寵物相關
-  const [selectedPetId, setSelectedPetId] = useState<number | null>(null);
+  const [selectedPetId, setSelectedPetId] = useState<number | null>(petId || null);
   const [isMilestoneOpen, setIsMilestoneOpen] = useState(false);
 
   // 提示
@@ -151,7 +151,7 @@ function UploadView({ onClose, card, petId }: PropsType) {
                   className='flex w-full max-w-[250px] flex-grow gap-8'
                 >
                   {/* 寵物列表 */}
-                  <PetSelect petId={petId} setId={setSelectedPetId} />
+                  <PetSelect onSelect={(id: number) => setSelectedPetId(id)} />
                   {/* 送出 */}
                   <button
                     type='submit'
