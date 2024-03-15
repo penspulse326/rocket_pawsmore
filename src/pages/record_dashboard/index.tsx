@@ -102,7 +102,7 @@ const RecordDashboard: React.FC = () => {
             </div>
             <div className='flex w-full max-w-[480px] flex-col gap-y-8'>
               <div className='flex justify-between'>
-                <AccountList />
+                {/* <AccountList /> */}
                 <Link
                   href='/record_dashboard/overview'
                   className='flex items-center rounded-[30px] border border-stroke px-8 py-4 font-bold text-primary duration-300 hover:bg-primary hover:text-white'

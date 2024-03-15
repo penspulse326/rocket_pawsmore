@@ -3,7 +3,11 @@ import { useState } from 'react';
 
 import UploadView from '@/containers/UploadView';
 
-function PawkBtn() {
+interface PropsType {
+  getPosts: () => void;
+}
+
+function PawkBtn({ getPosts }: PropsType) {
   const [isUploadViewOpen, setIsUploadViewOpen] = useState(false);
 
   const handleClick = () => {
@@ -18,7 +22,9 @@ function PawkBtn() {
         onClick={handleClick}
         className='w-full cursor-pointer rounded-[30px] border border-stroke px-8 pb-6 pt-8 outline-none duration-300 hover:bg-stroke'
       >
-        {isUploadViewOpen && <UploadView onClose={() => setIsUploadViewOpen(false)} />}
+        {isUploadViewOpen && (
+          <UploadView onClose={() => setIsUploadViewOpen(false)} getPosts={getPosts} />
+        )}
         <div className='rounded-[30px] border border-stroke px-8 py-4 text-left text-note outline-none'>
           在想些什麼呢？
         </div>

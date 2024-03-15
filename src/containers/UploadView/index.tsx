@@ -1,5 +1,4 @@
 import { IconChevronLeft, IconMedal, IconX } from '@tabler/icons-react';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { AddPostType, CardUnionDataType } from '@/common/constants/types';
@@ -19,12 +18,11 @@ import UploadInput from './UploadInput';
 interface PropsType {
   onClose: () => void;
   card?: CardUnionDataType;
-  petId?: number;
+  getPosts?: () => void;
 }
 
-function UploadView({ onClose, card, petId }: PropsType) {
+function UploadView({ onClose, card, getPosts }: PropsType) {
   const { token } = useToken();
-  const router = useRouter();
 
   // 表單相關
   const [file, setFile] = useState<File | null>(null);
@@ -32,7 +30,7 @@ function UploadView({ onClose, card, petId }: PropsType) {
   const [postContent, setPostContent] = useState('');
 
   // 寵物相關
-  const [selectedPetId, setSelectedPetId] = useState<number | null>(petId || null);
+  const [selectedPetId, setSelectedPetId] = useState<number | null>(null);
   const [isMilestoneOpen, setIsMilestoneOpen] = useState(false);
 
   // 提示
@@ -93,7 +91,11 @@ function UploadView({ onClose, card, petId }: PropsType) {
       }
 
       setIsLoading(false);
-      router.push('/');
+      onClose();
+
+      if (getPosts) {
+        getPosts();
+      }
     } catch (error) {
       alert('上傳失敗，請稍後再試');
       setIsLoading(false);
@@ -191,7 +193,7 @@ function UploadView({ onClose, card, petId }: PropsType) {
 
 UploadView.defaultProps = {
   card: null,
-  petId: null,
+  getPosts: () => {},
 };
 
 export default UploadView;
