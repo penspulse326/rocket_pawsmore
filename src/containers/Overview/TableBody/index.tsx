@@ -1,8 +1,8 @@
 import { RecordCardType } from '@/common/constants/types/enums';
 
-import Daily from '../TableBody/Daily';
-import Medical from '../TableBody/Medical';
-import Moment from '../TableBody/Moment';
+import Daily from './Daily';
+import Medical from './Medical';
+import Moment from './Moment';
 
 interface PropsType {
   cardType: RecordCardType;
