@@ -1,33 +1,28 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-
 import { RecordCardType } from '@/common/constants/types/enums';
-import { RootState } from '@/common/redux/store';
 
 import Daily from '../TableBody/Daily';
 import Medical from '../TableBody/Medical';
 import Moment from '../TableBody/Moment';
 
-interface TableBodyProps {
+interface PropsType {
   cardType: RecordCardType;
 }
 
-const TableBody: React.FC<TableBodyProps> = ({ cardType }) => {
-  const petRecord = useSelector((state: RootState) => state.petRecord);
-  const { data } = petRecord;
-
-  const bodyContent = (cardType: RecordCardType) => {
-    switch (cardType) {
+function TableBody({ cardType }: PropsType) {
+  const bodyContent = (prop: RecordCardType) => {
+    switch (prop) {
       case RecordCardType.日常紀錄:
         return <Daily />;
       case RecordCardType.醫療紀錄:
         return <Medical />;
       case RecordCardType.重要時刻:
         return <Moment />;
+      default:
+        return null;
     }
   };
 
   return <div className='text-left'>{bodyContent(cardType)}</div>;
-};
+}
 
 export default TableBody;
