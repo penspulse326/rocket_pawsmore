@@ -1,15 +1,16 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import Card from './Card';
+import { DailyCardDataType } from '@/common/constants/types';
+import { RootState } from '@/common/redux/store';
 import NoContent from '@/components/NoContent';
 
-import { RootState } from '@/common/redux/store';
-import { DailyCardDataType } from '@/common/constants/types';
+import Card from './Card';
 
-const Explanation: React.FC = () => {
+function Explanation() {
   const petRecord = useSelector((state: RootState) => state.petRecord);
 
+  // 找出最新一筆有異常情況的紀錄
   const currentRecord = petRecord.data.find((event) => {
     const { card, urine, poo, vomit, symptom } = event as DailyCardDataType;
     return card === 0 && (urine !== 0 || poo !== 0 || vomit !== 0 || symptom !== '[]');
@@ -32,14 +33,15 @@ const Explanation: React.FC = () => {
   const symptomList = [];
   const { urine, poo, vomit, symptom } = currentRecord as DailyCardDataType;
 
+  // 排除無異常、勾選「其他」的情況
   if (urine !== 0 && urine !== 5) {
-    symptomList.push({ urine: urine });
+    symptomList.push({ urine });
   }
   if (poo !== 0 && poo !== 7) {
-    symptomList.push({ poo: poo });
+    symptomList.push({ poo });
   }
   if (vomit !== 0 && vomit !== 12) {
-    symptomList.push({ vomit: vomit });
+    symptomList.push({ vomit });
   }
   const parsedSymptom = JSON.parse(symptom);
   if (parsedSymptom.length !== 0 && parsedSymptom[0] !== '其他') {
@@ -55,8 +57,8 @@ const Explanation: React.FC = () => {
         <span className='text-note'>僅供參考，如有異常狀況請及早就醫。</span>
       </div>
       <ul className='scrollbar-none mt-4 flex max-h-[334px] flex-col gap-4 overflow-y-scroll rounded-[30px] border border-stroke p-6'>
-        {symptomList.map((item, index) => (
-          <React.Fragment key={index}>
+        {symptomList.map((item) => (
+          <React.Fragment key={JSON.stringify(Object.keys(item))}>
             <Card data={item} />
           </React.Fragment>
         ))}
@@ -64,6 +66,6 @@ const Explanation: React.FC = () => {
       </ul>
     </section>
   );
-};
+}
 
 export default Explanation;
