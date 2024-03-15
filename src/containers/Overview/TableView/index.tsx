@@ -2,7 +2,8 @@ import { useState } from 'react';
 
 import { RecordCardType } from '@/common/constants/types/enums';
 
-import TableBody from './TableBody';
+import TableBody from '../TableBody';
+
 import TableTitle from './TableTitle';
 import Tabs from './Tabs';
 
