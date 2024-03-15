@@ -12,7 +12,7 @@ interface CardProps {
   data: Symptom;
 }
 
-const Card: React.FC<CardProps> = ({ data }) => {
+function Card({ data }: CardProps) {
   const { urine, poo, vomit, symptom } = data;
 
   const urineType = symptomInfo.urine.find((item) => item.type === urine)?.type;
@@ -50,6 +50,6 @@ const Card: React.FC<CardProps> = ({ data }) => {
       </div>
     </li>
   );
-};
+}
 
 export default Card;
