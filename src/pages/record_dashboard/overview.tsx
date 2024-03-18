@@ -1,16 +1,17 @@
-import Overview from "@/containers/overview";
-import { NextPage } from "next";
+import Footer from '@/components/Footer';
+import Overview from '@/containers/Overview';
 
-const OverviewPage: NextPage = () => {
+function OverviewPage() {
   return (
-    <section className="pt-16 w-full">
-      <section className="outter">
-        <div className="inner">
+    <section className='w-full pt-16'>
+      <section className='outter'>
+        <div className='inner flex flex-col gap-y-[72px]'>
           <Overview />
+          <Footer />
         </div>
       </section>
     </section>
   );
-};
+}
 
 export default OverviewPage;
