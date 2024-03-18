@@ -86,7 +86,7 @@ function Posts({ all, following }: PropsType) {
 
   return (
     <div className='w-full max-w-[658px] border-x border-stroke bg-white px-8 pt-24'>
-      <PawkButton getList={getFollowingPosts} />
+      <PawkButton getPosts={getFollowingPosts} />
       {/* 貼文列表 */}
       {followingPosts?.recentPosts?.length !== 0 && (
         <>

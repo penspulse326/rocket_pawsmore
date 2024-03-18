@@ -6,23 +6,22 @@ import { MediaType, RecordCardType } from '@/common/constants/types/enums';
 import { mediaUpload } from '@/common/fetch/mediaManager';
 import { fetchAddPost } from '@/common/fetch/post';
 import useToken from '@/common/hooks/useToken';
+import PetSelect from '@/components/petInfo/PetSelect';
 
-import Loading from '../../../components/hint/Loading';
-import Mask from '../../../components/hint/Mask';
-import List from '../../../components/milestone/List';
-import AccountList from '../../../components/petInfo/AccountList';
-import CardData from '../../../components/post/CardData';
+import Loading from '../../components/hint/Loading';
+import Mask from '../../components/hint/Mask';
+import List from '../../components/milestone/List';
+import CardData from '../../components/post/CardData';
 
 import UploadInput from './UploadInput';
 
 interface PropsType {
   onClose: () => void;
-  getList?: () => void;
   card?: CardUnionDataType;
-  petId?: number;
+  getPosts?: () => void;
 }
 
-function UploadView({ onClose, getList, card, petId }: PropsType) {
+function UploadView({ onClose, card, getPosts }: PropsType) {
   const { token } = useToken();
 
   // 表單相關
@@ -36,8 +35,6 @@ function UploadView({ onClose, getList, card, petId }: PropsType) {
 
   // 提示
   const [isLoading, setIsLoading] = useState(false);
-
-  // 按鈕樣式
   const isBtnDisabled = !file || !postContent || !selectedPetId;
 
   // 處理檔案選擇
@@ -47,8 +44,7 @@ function UploadView({ onClose, getList, card, petId }: PropsType) {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    if (!token) {
-      alert('請先登入');
+    if (!token || isLoading) {
       return;
     }
     event.preventDefault();
@@ -87,23 +83,23 @@ function UploadView({ onClose, getList, card, petId }: PropsType) {
       }
 
       const addPostResponse = await fetchAddPost(token, data, selectedPetId!);
+
       if (!addPostResponse.ok) {
         alert('上傳失敗，請稍後再試');
         setIsLoading(false);
         return;
       }
+
+      setIsLoading(false);
+      onClose();
+
+      if (getPosts) {
+        getPosts();
+      }
     } catch (error) {
       alert('上傳失敗，請稍後再試');
       setIsLoading(false);
-      return;
     }
-
-    if (getList) {
-      getList();
-    }
-
-    setIsLoading(false);
-    onClose();
   };
 
   const handleClose = () => {
@@ -130,6 +126,7 @@ function UploadView({ onClose, getList, card, petId }: PropsType) {
             <section className='relative flex max-w-[469px] flex-grow flex-col'>
               {/* 文字輸入 */}
               <textarea
+                name='postContent'
                 value={postContent}
                 onChange={(e) => setPostContent(e.target.value)}
                 className='scrollbar-none min-h-[150px] w-full flex-grow resize-none rounded-[30px] border border-stroke p-8 outline-note'
@@ -156,7 +153,7 @@ function UploadView({ onClose, getList, card, petId }: PropsType) {
                   className='flex w-full max-w-[250px] flex-grow gap-8'
                 >
                   {/* 寵物列表 */}
-                  <AccountList petId={petId} setId={setSelectedPetId} />
+                  <PetSelect onSelect={(id: number) => setSelectedPetId(id)} />
                   {/* 送出 */}
                   <button
                     type='submit'
@@ -195,9 +192,8 @@ function UploadView({ onClose, getList, card, petId }: PropsType) {
 }
 
 UploadView.defaultProps = {
-  getList: () => {},
   card: null,
-  petId: null,
+  getPosts: () => {},
 };
 
 export default UploadView;
