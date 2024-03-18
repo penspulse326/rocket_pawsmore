@@ -1,12 +1,12 @@
-import Dot from '@/components/icon/Dot';
 import { RecordCardType } from '@/common/constants/types/enums';
+import Dot from '@/components/icon/Dot';
 
 interface PropsType {
   cardType: RecordCardType;
   setCardType: (type: RecordCardType) => void;
 }
 
-const Tabs: React.FC<PropsType> = ({ cardType, setCardType }) => {
+function Tabs({ cardType, setCardType }: PropsType) {
   const btnStyle = (type: RecordCardType) => {
     return cardType === type
       ? 'flex items-center px-4 py-2 rounded-full border border-primary bg-primary text-white duration-300'
@@ -44,6 +44,6 @@ const Tabs: React.FC<PropsType> = ({ cardType, setCardType }) => {
       </div>
     </div>
   );
-};
+}
 
 export default Tabs;

@@ -1,16 +1,14 @@
-import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 
-import NoContent from '@/components/NoContent';
-
-import { formatSymptom } from '@/common/helpers/formatMedicalData';
-import getPetAge from '@/common/helpers/getPetAge';
-
-import { RootState } from '@/common/redux/store';
 import { DailyCardDataType } from '@/common/constants/types';
 import { PooType, UrineType, VomitType } from '@/common/constants/types/enums';
+import { formatSymptom } from '@/common/helpers/formatMedicalData';
+import getPetAge from '@/common/helpers/getPetAge';
+import { RootState } from '@/common/redux/store';
+import NoContent from '@/components/NoContent';
 
-const RecentCondition: React.FC = () => {
+function RecentCondition() {
   const petList = useSelector((state: RootState) => state.petList);
   const petRecord = useSelector((state: RootState) => state.petRecord);
 
@@ -47,23 +45,27 @@ const RecentCondition: React.FC = () => {
       <div className='mt4 h-[335px] overflow-y-scroll rounded-[30px] border border-stroke px-6 py-4'>
         <div className='flex items-center justify-between'>
           <div className='flex items-center'>
-            <span className='inline-block h-[6px] w-[6px] rounded-full bg-daily'></span>
+            <span className='inline-block h-[6px] w-[6px] rounded-full bg-daily' />
             <span className='ml-1 font-bold'>日常紀錄</span>
             {/* 卡片時間 */}
             <span className='ml-2 text-note'>{moment(targetDate).format('YYYY/M/D')}</span>
           </div>
-          <span className='text-note'>{getPetAge(selectedPet?.birthday!)}</span>
+          <span className='text-note'>{selectedPet && getPetAge(selectedPet.birthday)}</span>
         </div>
         <ul className='mt-6 flex w-full max-w-[449px] flex-col gap-2'>
           <li className='text-note'>異常</li>
           {sickList
             .filter((item) => item.value)
-            .map((item, index) => (
-              <li key={`${index}-${item.name}`} className='flex w-full gap-7'>
-                <span className='w-8 font-semibold'>{item.name}</span>
-                <span className='max-w-[385px]'>{item.value}</span>
-              </li>
-            ))}
+            .map((item) => {
+              const { name, value } = item;
+
+              return (
+                <li key={name} className='flex w-full gap-7'>
+                  <span className='w-8 font-semibold'>{name}</span>
+                  <span className='max-w-[385px]'>{value}</span>
+                </li>
+              );
+            })}
         </ul>
         <hr className='mt-2' />
         <div className='mt-4'>
@@ -73,6 +75,6 @@ const RecentCondition: React.FC = () => {
       </div>
     </section>
   );
-};
+}
 
 export default RecentCondition;
