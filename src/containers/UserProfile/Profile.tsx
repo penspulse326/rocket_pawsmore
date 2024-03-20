@@ -37,22 +37,23 @@ function Profile({ userData, isMe, userAccount }: PropsType) {
     setShowFollowing(true);
   };
 
+  const handleShowAlert = () => {
+    setShowAlert(true);
+  };
+
   const Report = memo(function ReportComponent() {
-    return (
-      <>
-        <button
-          className='absolute -bottom-[61.5px] -right-[120px] rounded-3xl bg-white px-6 py-4 text-error shadow-[0_0_10px_0_rgba(0,0,0,0.15)] hover:cursor-pointer'
-          type='button'
-          onClick={() => setShowAlert(true)}
-        >
-          檢舉個人檔案
-        </button>
-        {showAlert && (
-          <Mask onClose={handleCloseAll}>
-            <AlertCard setIsDisplayed={setShowAlert} cardType='reportUser' />
-          </Mask>
-        )}
-      </>
+    return showAlert ? (
+      <Mask onClose={handleCloseAll}>
+        <AlertCard setIsDisplayed={setShowAlert} cardType='reportUser' />
+      </Mask>
+    ) : (
+      <button
+        className='absolute -bottom-[61.5px] -right-[120px] rounded-3xl bg-white px-6 py-4 text-error shadow-[0_0_10px_0_rgba(0,0,0,0.15)]'
+        type='button'
+        onClick={handleShowAlert}
+      >
+        檢舉個人檔案
+      </button>
     );
   });
 
