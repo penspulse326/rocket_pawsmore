@@ -24,6 +24,15 @@ function Profile({ userData, isMe, userAccount }: PropsType) {
   const htmlIntro = introduction?.split('\n');
   const htmlLink = link && link.length > 35 ? `${link.slice(0, 33)}⋯` : link;
 
+  const handleCloseAll = () => {
+    setShowAlert(false);
+    setShowReport(false);
+  };
+
+  const handleCloseList = () => {
+    setShowFollowing(false);
+  };
+
   const handleShowList = () => {
     setShowFollowing(true);
   };
@@ -39,7 +48,7 @@ function Profile({ userData, isMe, userAccount }: PropsType) {
           檢舉個人檔案
         </button>
         {showAlert && (
-          <Mask setIsOpen={setShowAlert} maskType='report'>
+          <Mask onClose={handleCloseAll}>
             <AlertCard setIsDisplayed={setShowAlert} cardType='reportUser' />
           </Mask>
         )}
@@ -117,7 +126,7 @@ function Profile({ userData, isMe, userAccount }: PropsType) {
         </div>
       )}
       {following && showFollowing && (
-        <Mask setIsOpen={setShowFollowing} maskType='fans'>
+        <Mask onClose={handleCloseList}>
           <NetworkList
             type='following'
             isClosed={showFollowing}
