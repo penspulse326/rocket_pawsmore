@@ -3,11 +3,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState, memo } from 'react';
 
-import handleFreezeScroll from '@/common/helpers/handleFreezeScroll';
+import { RequestedUserInfoType } from '@/common/constants/types';
 import AlertCard from '@/components/hint/AlertCard';
 import Mask from '@/components/hint/Mask';
 import NetworkList from '@/components/NetworkList';
-import { RequestedUserInfoType } from '@/common/constants/types';
 
 interface PropsType {
   userData: RequestedUserInfoType | undefined;
@@ -39,7 +38,6 @@ function Profile({ userData, isMe, userAccount }: PropsType) {
 
   const handleShowList = () => {
     setShowFollowing(true);
-    handleFreezeScroll(true);
   };
 
   const Report = memo(function ReportComponent() {
