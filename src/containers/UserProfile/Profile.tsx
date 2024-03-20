@@ -29,6 +29,10 @@ function Profile({ userData, isMe, userAccount }: PropsType) {
     setShowReport(false);
   };
 
+  const handleCloseReport = () => {
+    setShowReport(false);
+  };
+
   const handleCloseList = () => {
     setShowFollowing(false);
   };
@@ -111,13 +115,19 @@ function Profile({ userData, isMe, userAccount }: PropsType) {
           編輯個人檔案
         </Link>
       ) : (
-        <div className='relative flex items-center gap-x-4'>
-          <button
-            className='w-full rounded-full bg-primary py-2 text-center text-white'
-            type='button'
-          >
+        <div
+          className='relative flex items-center gap-x-4'
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) {
+              handleCloseReport();
+            }
+          }}
+          tabIndex={0}
+          role='button'
+        >
+          <div className='w-full rounded-full bg-primary py-2 text-center text-white hover:cursor-pointer'>
             發送訊息
-          </button>
+          </div>
           <IconDotsVertical
             size={24}
             className='hover:cursor-pointer'
