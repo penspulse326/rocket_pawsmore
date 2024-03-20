@@ -45,7 +45,7 @@ function NetworkList({ type, userList, isClosed, setIsClosed }: PropsType) {
   };
 
   const handleCloseCard = () => {
-    setIsClosed(!isClosed);
+    setIsClosed(false);
   };
 
   return (
@@ -59,7 +59,7 @@ function NetworkList({ type, userList, isClosed, setIsClosed }: PropsType) {
           onClick={handleCloseCard}
         />
       </div>
-      <ul className='flex h-full max-h-[304px] flex-col gap-y-4 overflow-y-auto'>
+      <ul className='flex h-full max-h-[304px] flex-col gap-y-4 overflow-y-auto text-left'>
         {userList.length > 0 ? (
           userList.map((user) => {
             const { name, account, photo } = user;

@@ -1,13 +1,12 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import useToken from '@/common/hooks/useToken';
-import { RootState } from '@/common/redux/store';
-
-import PetList from '@/containers/UserProfile/PetList';
-import Profile from '@/containers/UserProfile/Profile';
 
 import { PetDataType, RequestedUserInfoType } from '@/common/constants/types';
+import useToken from '@/common/hooks/useToken';
+import { RootState } from '@/common/redux/store';
+import PetList from '@/containers/UserProfile/PetList';
+import Profile from '@/containers/UserProfile/Profile';
 
 interface PropsType {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
