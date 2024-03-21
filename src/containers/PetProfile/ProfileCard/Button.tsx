@@ -24,7 +24,8 @@ function Button({ token, isMyPet, isFollowing, handleFollow }: PropsType) {
   const { petId } = profile as PetDataType;
 
   const [showReport, setShowReport] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
+  const [showFollowAlert, setShowFollowAlert] = useState(false);
+  const [showReportAlert, setShowReportAlert] = useState(false);
   const [buttonText, setButtonText] = useState('追蹤中');
 
   const handleEditPet = (prop: number) => {
@@ -33,29 +34,30 @@ function Button({ token, isMyPet, isFollowing, handleFollow }: PropsType) {
 
   const handleFollowButton = () => {
     if (isFollowing) {
-      setShowAlert(!showAlert);
+      setShowFollowAlert(!showFollowAlert);
     } else if (token) {
       handleFollow();
     }
   };
 
   const handleCloseAlert = () => {
-    setShowAlert(false);
+    setShowFollowAlert(false);
+    setShowReportAlert(false);
   };
-  
+
   const Report = memo(function ReportComponent() {
     return (
       <>
         <button
           className='absolute -bottom-[61.5px] -right-[120px] rounded-3xl bg-white px-6 py-4 text-error shadow-[0_0_10px_0_rgba(0,0,0,0.15)]'
           type='button'
-          onClick={() => setShowAlert(true)}
+          onClick={() => setShowReportAlert(true)}
         >
           檢舉寵物檔案
         </button>
-        {showAlert && (
+        {showReportAlert && (
           <Mask onClose={handleCloseAlert}>
-            <AlertCard setIsDisplayed={setShowAlert} cardType='reportPet' />
+            <AlertCard setIsDisplayed={setShowReportAlert} cardType='reportPet' />
           </Mask>
         )}
       </>
@@ -100,10 +102,10 @@ function Button({ token, isMyPet, isFollowing, handleFollow }: PropsType) {
       />
       {showReport && <Report />}
       {/* unFollow alert */}
-      {showAlert && (
+      {showFollowAlert && (
         <Mask onClose={handleCloseAlert}>
           <AlertCard
-            setIsDisplayed={setShowAlert}
+            setIsDisplayed={setShowFollowAlert}
             cardType='unFollow'
             handleUnFollow={handleFollow}
           />
