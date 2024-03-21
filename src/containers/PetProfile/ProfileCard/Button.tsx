@@ -40,27 +40,29 @@ function Button({ token, isMyPet, isFollowing, handleFollow }: PropsType) {
     }
   };
 
+  const handleReport = () => {
+    setShowReportAlert(true);
+  };
+
   const handleCloseAlert = () => {
     setShowFollowAlert(false);
     setShowReportAlert(false);
+    setShowReport(false);
   };
 
   const Report = memo(function ReportComponent() {
-    return (
-      <>
-        <button
-          className='absolute -bottom-[61.5px] -right-[120px] rounded-3xl bg-white px-6 py-4 text-error shadow-[0_0_10px_0_rgba(0,0,0,0.15)]'
-          type='button'
-          onClick={() => setShowReportAlert(true)}
-        >
-          檢舉寵物檔案
-        </button>
-        {showReportAlert && (
-          <Mask onClose={handleCloseAlert}>
-            <AlertCard setIsDisplayed={setShowReportAlert} cardType='reportPet' />
-          </Mask>
-        )}
-      </>
+    return showReportAlert ? (
+      <Mask onClose={handleCloseAlert}>
+        <AlertCard setIsDisplayed={setShowReportAlert} cardType='reportPet' />
+      </Mask>
+    ) : (
+      <button
+        className='absolute -bottom-[61.5px] -right-[120px] rounded-3xl bg-white px-6 py-4 text-error shadow-[0_0_10px_0_rgba(0,0,0,0.15)]'
+        type='button'
+        onClick={handleReport}
+      >
+        檢舉寵物檔案
+      </button>
     );
   });
 
