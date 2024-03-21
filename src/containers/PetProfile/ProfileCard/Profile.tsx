@@ -1,13 +1,12 @@
 import Image from 'next/image';
 import React, { useContext, useState } from 'react';
 
+import { PetDataType, UserListDataType } from '@/common/constants/types';
+import { PetGenderType, SpeciesType } from '@/common/constants/types/enums';
 import getPetAge from '@/common/helpers/getPetAge';
-import handleFreezeScroll from '@/common/helpers/handleFreezeScroll';
 import Mask from '@/components/hint/Mask';
 import NetworkList from '@/components/NetworkList';
 import { PetDataContext } from '@/containers/PetProfile';
-import { PetDataType, UserListDataType } from '@/common/constants/types';
-import { PetGenderType, SpeciesType } from '@/common/constants/types/enums';
 
 interface PropsType {
   petAccount: string | string[] | undefined;
@@ -26,7 +25,10 @@ function Profile({ petAccount, petsfollowers }: PropsType) {
 
   const handleShowFollower = () => {
     setShowFollower(!showFollower);
-    handleFreezeScroll(true);
+  };
+
+  const handleCloseFollower = () => {
+    setShowFollower(false);
   };
 
   return (
@@ -82,7 +84,7 @@ function Profile({ petAccount, petsfollowers }: PropsType) {
           )}
           {/* show fans list */}
           {showFollower && (
-            <Mask setIsOpen={setShowFollower} maskType='fans'>
+            <Mask onClose={handleCloseFollower}>
               <NetworkList
                 type='follower'
                 isClosed={showFollower}
