@@ -8,8 +8,6 @@ import AlertCard from '@/components/hint/AlertCard';
 import Mask from '@/components/hint/Mask';
 import { PetDataContext } from '@/containers/PetProfile';
 
-import handleFreezeScroll from '@/common/helpers/handleFreezeScroll';
-
 // 是否為自己的寵物、追蹤狀態的 useState hook
 // 追蹤/取消追蹤 api
 interface PropsType {
@@ -36,7 +34,6 @@ function Button({ token, isMyPet, isFollowing, handleFollow }: PropsType) {
   const handleFollowButton = () => {
     if (isFollowing) {
       setShowAlert(!showAlert);
-      handleFreezeScroll(true);
     } else if (token) {
       handleFollow();
     }
