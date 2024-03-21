@@ -27,6 +27,10 @@ function Profile({ petAccount, petsfollowers }: PropsType) {
     setShowFollower(!showFollower);
   };
 
+  const handleCloseFollower = () => {
+    setShowFollower(false);
+  };
+
   return (
     <div className='flex gap-x-[56px]'>
       <div className='h-[272px] w-[272px]'>
@@ -80,7 +84,7 @@ function Profile({ petAccount, petsfollowers }: PropsType) {
           )}
           {/* show fans list */}
           {showFollower && (
-            <Mask setIsOpen={setShowFollower} maskType='fans'>
+            <Mask onClose={handleCloseFollower}>
               <NetworkList
                 type='follower'
                 isClosed={showFollower}

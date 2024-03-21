@@ -38,6 +38,10 @@ function Posts() {
     setSelectedPost(post);
   };
 
+  const handleCloseMask = () => {
+    setIsMaskOpen(false);
+  };
+
   return (
     <>
       {postList ? (
@@ -103,7 +107,7 @@ function Posts() {
       )}
       {/* expand post */}
       {isMaskOpen && (
-        <Mask setIsOpen={setIsMaskOpen} maskType='post'>
+        <Mask onClose={handleCloseMask}>
           <PostView data={selectedPost!} getPost={fetchPost} onClose={() => setIsMaskOpen(false)} />
         </Mask>
       )}
