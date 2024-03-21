@@ -73,7 +73,16 @@ function Button({ token, isMyPet, isFollowing, handleFollow }: PropsType) {
       編輯寵物檔案
     </button>
   ) : (
-    <div className='relative flex w-full items-center gap-x-[15px]'>
+    <div
+      className='relative flex w-full items-center gap-x-[15px]'
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+          setShowReport(false);
+        }
+      }}
+      role='button'
+      tabIndex={0}
+    >
       <button
         className={`w-full max-w-[157px] rounded-[300px] py-2 ${
           isFollowing
