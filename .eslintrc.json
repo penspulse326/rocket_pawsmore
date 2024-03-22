@@ -5,10 +5,8 @@
   },
   "extends": [
     "airbnb",
-    "airbnb/hooks",
+    "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "plugin:jsx-a11y/recommended",
     "plugin:prettier/recommended",
     "prettier"
   ],
@@ -17,11 +15,9 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "prettier"],
   "rules": {
-    "camelcase": ["off", { "properties": ["Noto_Sans_TC"] }],
     "no-console": "warn",
-    "no-shadow": "off",
+    "camelcase": ["off", { "properties": ["Noto_Sans_TC"] }], // avoid camelcase when use next-font
     "@typescript-eslint/no-shadow": ["error"],
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/explicit-module-boundary-types": "off", // Allows you to skip explicit return types in TypeScript
