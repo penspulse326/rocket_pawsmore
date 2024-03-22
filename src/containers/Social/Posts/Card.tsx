@@ -13,7 +13,7 @@ import CommentList from '@/components/comment/CommentList';
 import InputComment from '@/components/comment/InputComment';
 import LikeBtn from '@/components/post/LikeBtn';
 import Menu from '@/components/post/PostMenu';
-import PostView from '@/components/post/PostView';
+import PostView from '@/containers/PostView';
 
 import RecordCardTag from './RecordCardTag';
 
