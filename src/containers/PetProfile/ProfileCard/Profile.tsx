@@ -85,12 +85,7 @@ function Profile({ petAccount, petsfollowers }: PropsType) {
           {/* show fans list */}
           {showFollower && (
             <Mask onClose={handleCloseFollower}>
-              <NetworkList
-                type='follower'
-                isClosed={showFollower}
-                setIsClosed={setShowFollower}
-                userList={petsfollowers}
-              />
+              <NetworkList type='follower' onClose={handleCloseFollower} userList={petsfollowers} />
             </Mask>
           )}
         </ol>
