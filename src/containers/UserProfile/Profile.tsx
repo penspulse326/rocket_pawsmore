@@ -138,12 +138,7 @@ function Profile({ userData, isMe, userAccount }: PropsType) {
       )}
       {following && showFollowing && (
         <Mask onClose={handleCloseList}>
-          <NetworkList
-            type='following'
-            isClosed={showFollowing}
-            setIsClosed={setShowFollowing}
-            userList={following}
-          />
+          <NetworkList type='following' onClose={handleCloseList} userList={following} />
         </Mask>
       )}
     </div>

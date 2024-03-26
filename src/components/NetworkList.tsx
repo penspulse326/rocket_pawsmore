@@ -8,8 +8,7 @@ import { UserListDataType } from '@/common/constants/types';
 interface PropsType {
   type: 'following' | 'follower';
   userList: UserListDataType[];
-  isClosed: boolean;
-  setIsClosed: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose: () => void;
 }
 
 interface CardContentDataType {
@@ -18,7 +17,7 @@ interface CardContentDataType {
   CONTENT: string;
 }
 
-function NetworkList({ type, userList, isClosed, setIsClosed }: PropsType) {
+function NetworkList({ type, userList, onClose }: PropsType) {
   const router = useRouter();
 
   const cardContent: CardContentDataType[] = [
@@ -45,7 +44,7 @@ function NetworkList({ type, userList, isClosed, setIsClosed }: PropsType) {
   };
 
   const handleCloseCard = () => {
-    setIsClosed(false);
+    onClose();
   };
 
   return (
@@ -87,6 +86,7 @@ function NetworkList({ type, userList, isClosed, setIsClosed }: PropsType) {
             );
           })
         ) : (
+          // 無追蹤中帳號/粉絲
           <div className='flex h-full flex-col items-center gap-y-4'>
             <Image src='/icons/icon-paw-gradient.svg' width={162} height={162} alt='no followers' />
             <span className='text-lg'>{selectedCard?.CONTENT}</span>
