@@ -48,7 +48,7 @@ function Profile({ userData, isMe, userAccount }: PropsType) {
   const Report = memo(function ReportComponent() {
     return showAlert ? (
       <Mask onClose={handleCloseAll}>
-        <AlertCard setIsDisplayed={setShowAlert} cardType='reportUser' />
+        <AlertCard onClose={handleCloseAll} cardType='reportUser' />
       </Mask>
     ) : (
       <button

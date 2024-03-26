@@ -9,8 +9,8 @@ interface ContentType {
   handleButton?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-interface AlertCardPropsType {
-  setIsDisplayed: React.Dispatch<React.SetStateAction<boolean>>;
+interface PropsType {
+  onClose: () => void;
   handleUnFollow?: () => void;
   setPostView?: React.Dispatch<React.SetStateAction<boolean>>;
   cardType:
@@ -23,13 +23,13 @@ interface AlertCardPropsType {
     | 'deletePost';
 }
 
-function AlertCard({ setIsDisplayed, setPostView, handleUnFollow, cardType }: AlertCardPropsType) {
+function AlertCard({ onClose, setPostView, handleUnFollow, cardType }: PropsType) {
   const [isReported, setIsReported] = useState(false);
 
   function handleUnFollowAndClose() {
     if (handleUnFollow) {
       handleUnFollow();
-      setIsDisplayed(false);
+      onClose();
     }
   }
 
@@ -86,13 +86,13 @@ function AlertCard({ setIsDisplayed, setPostView, handleUnFollow, cardType }: Al
 
   const selectedCard = cardContent.find((item) => item.type === cardType);
 
-  const report = () => {
+  const handleReport = () => {
     setIsReported(false);
-    setIsDisplayed(false);
+    onClose();
   };
 
   const handleClose = () => {
-    setIsDisplayed(false);
+    onClose();
   };
 
   const ReportSucceed = memo(function ReportSucceedComponent() {
@@ -100,7 +100,7 @@ function AlertCard({ setIsDisplayed, setPostView, handleUnFollow, cardType }: Al
       <ul className='flex max-w-[288px] flex-col gap-y-6 rounded-[30px] bg-white p-8'>
         <ol className='flex justify-between'>
           <li className='font-bold'>檢舉</li>
-          <IconX size={24} className='hover:cursor-pointer' onClick={() => report()} />
+          <IconX size={24} className='hover:cursor-pointer' onClick={handleReport} />
         </ol>
         <ol className='flex flex-col items-center gap-y-2'>
           <IconCircleCheck size={48} color='#203170' />
@@ -112,7 +112,7 @@ function AlertCard({ setIsDisplayed, setPostView, handleUnFollow, cardType }: Al
         <button
           className='self-center rounded-[30px] bg-primary px-8 py-2 text-white'
           type='button'
-          onClick={() => report()}
+          onClick={handleReport}
         >
           關閉
         </button>
@@ -161,5 +161,10 @@ function AlertCard({ setIsDisplayed, setPostView, handleUnFollow, cardType }: Al
     </>
   );
 }
+
+AlertCard.defaultProps = {
+  handleUnFollow: () => {},
+  setPostView: '',
+};
 
 export default AlertCard;
