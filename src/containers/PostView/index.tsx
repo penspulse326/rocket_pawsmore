@@ -76,12 +76,9 @@ function PostView({ data, getPost, onClose }: PropsType) {
             />
           )}
           {mediaType === MediaType.video && (
-            <video
-              src={media}
-              controls
-              autoPlay
-              className='h-full w-full bg-black object-contain'
-            />
+            <video src={media} controls autoPlay className='h-full w-full bg-black object-contain'>
+              <track kind='captions' srcLang='en' label='English captions' />
+            </video>
           )}
           {/* 按讚 */}
           <LikeBtn userId={userId} postId={postId} isLiked={isLiked} getPost={getPost} />
