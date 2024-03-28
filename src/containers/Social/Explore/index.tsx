@@ -2,35 +2,18 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
+import { MediaType, SpeciesType } from '@/common/constants/types/enums';
 import { fetchGetSpeciesPosts } from '@/common/fetch/post';
 import Mask from '@/components/hint/Mask';
-import PostView from '@/components/Post/PostView';
-import { MediaType, SpeciesType } from '@/common/constants/types/enums';
+import PostView from '@/containers/PostView';
+
+import { speciesData } from './data';
 
 import type { PostDataType } from '@/common/constants/types';
 
 interface PropsType {
   posts: PostDataType[];
 }
-
-const speciesData = {
-  [SpeciesType.狗]: {
-    name: '狗',
-    src: '/images/exp-dog.png',
-  },
-  [SpeciesType.貓]: {
-    name: '貓',
-    src: '/images/exp-cat.png',
-  },
-  [SpeciesType.倉鼠]: {
-    name: '倉鼠',
-    src: '/images/exp-rice.png',
-  },
-  [SpeciesType.其他]: {
-    name: '其他',
-    src: '/images/exp-more-lg.jpg',
-  },
-};
 
 // 將貼文分成多個批次，每個批次 12 個
 const batchPosts = (posts: PostDataType[], batchSize: number) => {
@@ -44,7 +27,8 @@ const batchPosts = (posts: PostDataType[], batchSize: number) => {
   return batches;
 };
 
-const Explore: React.FC<PropsType> = ({ posts }) => {
+function Explore({ posts }: PropsType) {
+  // 取出 url
   const router = useRouter();
   const species: SpeciesType = Number(router.query.species);
   const [postBatches, setPostBatches] = useState<PostDataType[][]>(
@@ -62,20 +46,26 @@ const Explore: React.FC<PropsType> = ({ posts }) => {
     const response = await fetchGetSpeciesPosts(species);
     const { data } = response;
     setPostBatches(batchPosts(data, 12));
-    const newSelectedPost = data.filter((post) => post.postId === selectedPost?.postId)[0];
+    const newSelectedPost = data.filter(
+      (post: PostDataType) => post.postId === selectedPost?.postId
+    )[0];
     setSelectedPost(newSelectedPost);
   };
 
+  // 物種改變時重新取得貼文
   useEffect(() => {
     getPosts();
   }, [species]);
 
   return (
     <>
-      {/* 點擊彈出貼文 */}
-      {isMaskOpen && (
-        <Mask maskType='post' setIsOpen={setIsMaskOpen}>
-          <PostView data={selectedPost!} getPost={getPosts} onClose={() => setIsMaskOpen(false)} />
+      {selectedPost && (
+        <Mask onClose={() => setIsMaskOpen(false)}>
+          <PostView
+            data={selectedPost}
+            getPost={() => getPosts()}
+            onClose={() => setIsMaskOpen(false)}
+          />
         </Mask>
       )}
       <div className='flex w-full max-w-[658px] flex-col border-x border-stroke bg-white px-8 py-24'>
@@ -92,11 +82,11 @@ const Explore: React.FC<PropsType> = ({ posts }) => {
         <h2 className='mb-8 mt-4 text-center text-2xl'>{speciesData[species]?.name}</h2>
         <section className='flex flex-col gap-2'>
           {postBatches?.map((batch, batchIndex) => (
-            <div key={batchIndex} className='grid grid-cols-3 gap-2'>
+            <div key={postBatches[batchIndex]?.[0]?.postId} className='grid grid-cols-3 gap-2'>
               {batch?.map((post, index) => (
                 <button
                   type='button'
-                  key={`${batchIndex}-${index}-${post.postId}`}
+                  key={`${post.postId}`}
                   onClick={() => handleClickPost(post)}
                   className={`${
                     (index + 1) % 5 === 0 && index % 3 !== 2
@@ -132,6 +122,6 @@ const Explore: React.FC<PropsType> = ({ posts }) => {
       </div>
     </>
   );
-};
+}
 
 export default Explore;
