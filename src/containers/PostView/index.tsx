@@ -48,7 +48,9 @@ function PostView({ data, getPost, onClose }: PropsType) {
 
   const getComments = async () => {
     const response = await fetchGetComment(postId);
-    if (response.ok) setComments(response.data);
+    if (response.ok) {
+      setComments(response.data);
+    }
   };
 
   // 讀取留言
@@ -61,7 +63,7 @@ function PostView({ data, getPost, onClose }: PropsType) {
 
   return (
     <Mask onClose={onClose}>
-      <section className='flex h-full max-h-[594px] gap-8 rounded-[32px] bg-white p-8'>
+      <div className='flex h-full max-h-[594px] gap-8 rounded-[32px] bg-white p-8'>
         {/* 多媒體區 */}
         <section className='relative h-[530px] max-h-[530px] w-[530px] max-w-[530px] overflow-hidden rounded-[30px]'>
           {mediaType === MediaType.image && (
@@ -71,8 +73,7 @@ function PostView({ data, getPost, onClose }: PropsType) {
               priority={false}
               fill
               sizes='100%'
-              style={{ objectFit: 'cover' }}
-              className='h-auto w-auto'
+              className='h-auto w-auto object-cover'
             />
           )}
           {mediaType === MediaType.video && (
@@ -149,7 +150,7 @@ function PostView({ data, getPost, onClose }: PropsType) {
           </div>
           <InputComment postId={postId} getComments={getComments} />
         </section>
-      </section>
+      </div>
     </Mask>
   );
 }
