@@ -53,7 +53,7 @@ function Button({ token, isMyPet, isFollowing, handleFollow }: PropsType) {
   const Report = memo(function ReportComponent() {
     return showReportAlert ? (
       <Mask onClose={handleCloseAlert}>
-        <AlertCard setIsDisplayed={setShowReportAlert} cardType='reportPet' />
+        <AlertCard onClose={handleCloseAlert} cardType='reportPet' />
       </Mask>
     ) : (
       <button
@@ -115,11 +115,7 @@ function Button({ token, isMyPet, isFollowing, handleFollow }: PropsType) {
       {/* unFollow alert */}
       {showFollowAlert && (
         <Mask onClose={handleCloseAlert}>
-          <AlertCard
-            setIsDisplayed={setShowFollowAlert}
-            cardType='unFollow'
-            handleUnFollow={handleFollow}
-          />
+          <AlertCard onClose={handleCloseAlert} cardType='unFollow' handleUnFollow={handleFollow} />
         </Mask>
       )}
     </div>

@@ -48,7 +48,7 @@ function Profile({ userData, isMe, userAccount }: PropsType) {
   const Report = memo(function ReportComponent() {
     return showAlert ? (
       <Mask onClose={handleCloseAll}>
-        <AlertCard setIsDisplayed={setShowAlert} cardType='reportUser' />
+        <AlertCard onClose={handleCloseAll} cardType='reportUser' />
       </Mask>
     ) : (
       <button
@@ -138,12 +138,7 @@ function Profile({ userData, isMe, userAccount }: PropsType) {
       )}
       {following && showFollowing && (
         <Mask onClose={handleCloseList}>
-          <NetworkList
-            type='following'
-            isClosed={showFollowing}
-            setIsClosed={setShowFollowing}
-            userList={following}
-          />
+          <NetworkList type='following' onClose={handleCloseList} userList={following} />
         </Mask>
       )}
     </div>
