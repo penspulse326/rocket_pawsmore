@@ -1,10 +1,9 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { MediaType, SpeciesType } from '@/common/constants/types/enums';
-import { fetchGetSpeciesPosts } from '@/common/fetch/post';
-import Mask from '@/components/hint/Mask';
+import batchPosts from '@/common/helpers/batchPosts';
 import PostView from '@/containers/PostView';
 
 import { speciesData } from './data';
@@ -15,59 +14,22 @@ interface PropsType {
   posts: PostDataType[];
 }
 
-// 將貼文分成多個批次，每個批次 12 個
-const batchPosts = (posts: PostDataType[], batchSize: number) => {
-  if (!posts) {
-    return [];
-  }
-  const batches = [];
-  for (let i = 0; i < posts.length; i += batchSize) {
-    batches.push(posts.slice(i, i + batchSize));
-  }
-  return batches;
-};
-
 function Explore({ posts }: PropsType) {
   // 取出 url
   const router = useRouter();
   const species: SpeciesType = Number(router.query.species);
-  const [postBatches, setPostBatches] = useState<PostDataType[][]>(
-    posts ? batchPosts(posts, 12) : []
-  );
+  const postBatches = posts ? batchPosts(posts, 12) : [];
+
   const [isMaskOpen, setIsMaskOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<PostDataType>();
 
   const handleClickPost = (data: PostDataType) => {
-    setIsMaskOpen(!isMaskOpen);
+    setIsMaskOpen(true);
     setSelectedPost(data);
   };
 
-  const getPosts = async () => {
-    const response = await fetchGetSpeciesPosts(species);
-    const { data } = response;
-    setPostBatches(batchPosts(data, 12));
-    const newSelectedPost = data.filter(
-      (post: PostDataType) => post.postId === selectedPost?.postId
-    )[0];
-    setSelectedPost(newSelectedPost);
-  };
-
-  // 物種改變時重新取得貼文
-  useEffect(() => {
-    getPosts();
-  }, [species]);
-
   return (
     <>
-      {selectedPost && (
-        <Mask onClose={() => setIsMaskOpen(false)}>
-          <PostView
-            data={selectedPost}
-            getPost={() => getPosts()}
-            onClose={() => setIsMaskOpen(false)}
-          />
-        </Mask>
-      )}
       <div className='flex w-full max-w-[658px] flex-col border-x border-stroke bg-white px-8 py-24'>
         <h1 className='text-[32px]'>探索貼文</h1>
         <div className='relative mx-auto h-[144px] max-h-[144px] w-full max-w-[144px] overflow-hidden rounded-full'>
@@ -120,6 +82,13 @@ function Explore({ posts }: PropsType) {
           ))}
         </section>
       </div>
+      {isMaskOpen && (
+        <PostView
+          data={selectedPost}
+          getPost={() => getPosts()}
+          onClose={() => setIsMaskOpen(false)}
+        />
+      )}
     </>
   );
 }
