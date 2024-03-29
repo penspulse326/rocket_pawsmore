@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { MediaType, SpeciesType } from '@/common/constants/types/enums';
+import { fetchGetSpeciesPosts } from '@/common/fetch/post';
 import batchPosts from '@/common/helpers/batchPosts';
 import PostView from '@/containers/PostView';
 
@@ -18,8 +19,11 @@ function Explore({ posts }: PropsType) {
   // 取出 url
   const router = useRouter();
   const species: SpeciesType = Number(router.query.species);
-  const postBatches = posts ? batchPosts(posts, 12) : [];
 
+  // 切割貼文
+  const [postBatches, setPostBatches] = useState<PostDataType[][]>(
+    posts ? batchPosts(posts, 12) : []
+  );
   const [isMaskOpen, setIsMaskOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<PostDataType>();
 
@@ -28,8 +32,30 @@ function Explore({ posts }: PropsType) {
     setSelectedPost(data);
   };
 
+  const getPosts = async () => {
+    const response = await fetchGetSpeciesPosts(species);
+    const { data } = response;
+    setPostBatches(batchPosts(data, 12));
+    const newSelectedPost = data.filter(
+      (post: PostDataType) => post.postId === selectedPost?.postId
+    )[0];
+    setSelectedPost(newSelectedPost);
+  };
+
+  // 物種改變時重新取得貼文
+  useEffect(() => {
+    getPosts();
+  }, [species]);
+
   return (
     <>
+      {isMaskOpen && selectedPost && (
+        <PostView
+          data={selectedPost}
+          getPosts={() => getPosts()}
+          onClose={() => setIsMaskOpen(false)}
+        />
+      )}
       <div className='flex w-full max-w-[658px] flex-col border-x border-stroke bg-white px-8 py-24'>
         <h1 className='text-[32px]'>探索貼文</h1>
         <div className='relative mx-auto h-[144px] max-h-[144px] w-full max-w-[144px] overflow-hidden rounded-full'>
@@ -82,13 +108,6 @@ function Explore({ posts }: PropsType) {
           ))}
         </section>
       </div>
-      {isMaskOpen && (
-        <PostView
-          data={selectedPost}
-          getPost={() => getPosts()}
-          onClose={() => setIsMaskOpen(false)}
-        />
-      )}
     </>
   );
 }

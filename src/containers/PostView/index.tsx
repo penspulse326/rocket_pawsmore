@@ -20,15 +20,13 @@ import type { RootState } from '@/common/redux/store';
 
 interface PropsType {
   data: PostDataType;
-  getPost: () => void;
+  getPosts: () => void;
   onClose: () => void;
 }
 
-function PostView({ data, getPost, onClose }: PropsType) {
+function PostView({ data, getPosts, onClose }: PropsType) {
   const { userId } = useSelector((state: RootState) => state.userInfo);
-  const [postData, setPostData] = useState<PostDataType>(data);
   const [comments, setComments] = useState<CommentDataType[]>([]);
-
   const {
     userId: authorId,
     postId,
@@ -42,7 +40,7 @@ function PostView({ data, getPost, onClose }: PropsType) {
     dailyRecordData,
     medicalRecordData,
     momentData,
-  } = postData;
+  } = data;
 
   const isLiked = likes.some((like) => like.userId === userId);
 
@@ -56,7 +54,6 @@ function PostView({ data, getPost, onClose }: PropsType) {
   // 讀取留言
   useEffect(() => {
     if (data) {
-      setPostData(data);
       getComments();
     }
   }, [data]);
@@ -82,7 +79,7 @@ function PostView({ data, getPost, onClose }: PropsType) {
             </video>
           )}
           {/* 按讚 */}
-          <LikeBtn userId={userId} postId={postId} isLiked={isLiked} getPost={getPost} />
+          <LikeBtn userId={userId} postId={postId} isLiked={isLiked} getPost={getPosts} />
         </section>
         {/* 文字區 */}
         <section className='text-left'>
@@ -120,7 +117,7 @@ function PostView({ data, getPost, onClose }: PropsType) {
               isAuthor={userId === authorId}
               media={media}
               mediaType={MediaType.image}
-              getList={getPost || (() => {})}
+              getList={getPosts || (() => {})}
               onClose={onClose}
             />
           </div>
