@@ -44,8 +44,8 @@ Pawsmore 結合社交網站與數據記錄功能，提供飼主分享生活點�
 
 ## 專案資料架構
 ```
-- public // 靜態圖片資源
- -src
+ public // 靜態圖片資源
+ src
   ├── common
   │   └── fetch // 封裝 Next Api Route
   │   └── helpers // 封裝各類資料格式化方法
