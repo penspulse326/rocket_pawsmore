@@ -1,29 +1,31 @@
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
-import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
+import { memo, useRef, useState } from 'react';
 import { EffectCards } from 'swiper/modules';
+import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/effect-cards';
-import { useRef, useState } from 'react';
 
 import PetCard from './PetCard';
 
 import type { PetDataType } from '@/common/constants/types';
 
-const SwiperList: React.FC<{ list: PetDataType[] }> = ({ list }) => {
+const SwiperList = memo(({ list }: { list: PetDataType[] }) => {
   const swiperRef = useRef<SwiperClass>();
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <div className='relative flex-grow'>
       <Swiper
-        effect={'cards'}
+        effect='cards'
         modules={[EffectCards]}
         cardsEffect={{
           slideShadows: false,
           perSlideRotate: 3,
           perSlideOffset: 10,
         }}
-        onSwiper={(swiper) => (swiperRef.current = swiper)}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+        }}
         onTransitionEnd={(swiper) => setActiveIndex(swiper.activeIndex)}
         className='absolute z-50'
       >
@@ -41,13 +43,13 @@ const SwiperList: React.FC<{ list: PetDataType[] }> = ({ list }) => {
             <IconChevronLeft />
           </button>
           <div className='flex items-center gap-2'>
-            {list.map((data: PetDataType, index) => (
+            {list.map((data: PetDataType, index: number) => (
               <span
                 key={data.petAccount}
                 className={`${
                   activeIndex === index ? 'bg-primary' : 'bg-stroke'
                 } inline-block h-[10px] w-[10px] rounded-full duration-100`}
-              ></span>
+              />
             ))}
           </div>
           <button type='button' onClick={() => swiperRef.current?.slideNext()}>
@@ -57,6 +59,7 @@ const SwiperList: React.FC<{ list: PetDataType[] }> = ({ list }) => {
       )}
     </div>
   );
-};
+});
 
+SwiperList.displayName = 'SwiperList';
 export default SwiperList;
