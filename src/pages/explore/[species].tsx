@@ -1,12 +1,9 @@
 import type { GetServerSideProps } from 'next';
 
+import { PostDataType } from '@/common/constants/types';
 import { fetchGetSpeciesPosts } from '@/common/fetch/post';
 import Explore from '@/containers/Social/Explore';
 import Layout from '@/containers/Social/Layout';
-import { PostDataType } from '@/common/constants/types';
-
-import type { NextPageWithLayout } from '../_app';
-import type { ReactElement } from 'react';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { species } = context.query;
@@ -28,12 +25,12 @@ export interface PropsType {
   posts: PostDataType[];
 }
 
-const ExplorePage: NextPageWithLayout<PropsType> = ({ posts }) => {
-  return <Explore posts={posts} />;
-};
-
-ExplorePage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
+function ExplorePage({ posts }: PropsType) {
+  return (
+    <Layout>
+      <Explore posts={posts} />
+    </Layout>
+  );
+}
 
 export default ExplorePage;
