@@ -54,8 +54,13 @@
         "pathGroups": [
           {
             "pattern": "next",
-            "group": "external",
+            "group": "builtin",
             "position": "before"
+          },
+          {
+            "pattern": "react",
+            "group": "builtin",
+            "position": "after"
           },
           {
             "pattern": "^@/components",
