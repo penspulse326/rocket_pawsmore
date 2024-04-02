@@ -1,16 +1,13 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { fetchGetPetList } from '@/common/fetch/petProfile';
-import { setPetList } from '@/common/redux/petListSlice';
 import SwiperList from '@/components/petInfo/SwiperList';
 import MoreMenu from '@/containers/Social/LeftBar/MoreMenu';
 
 import type { RootState } from '@/common/redux/store';
 
-const LeftBar: React.FC = () => {
+function LeftBar() {
   const router = useRouter();
   const { username, account, headShot } = useSelector((state: RootState) => state.userInfo);
   const petList = useSelector((state: RootState) => state.petList);
@@ -27,9 +24,10 @@ const LeftBar: React.FC = () => {
       {/* 寵物檔案卡片 */}
       <SwiperList list={petList} />
       {/* 個人連結 */}
-      <div
+      <button
+        type='button'
         onClick={() => handleCheckProfile(account)}
-        className='flex gap-4 rounded-[30px] border border-stroke bg-white p-4 duration-300 hover:cursor-pointer hover:bg-stroke'
+        className='flex gap-4 rounded-[30px] border border-stroke bg-white p-4 text-left duration-300 hover:cursor-pointer hover:bg-stroke'
       >
         <div className='relative h-[48px] w-[48px] overflow-hidden rounded-full'>
           <Image
@@ -46,11 +44,11 @@ const LeftBar: React.FC = () => {
           <p>{username}</p>
           <p className='text-note'>@{account}</p>
         </div>
-      </div>
+      </button>
       {/* 選單 */}
       <MoreMenu />
     </aside>
   );
-};
+}
 
 export default LeftBar;
