@@ -27,7 +27,7 @@ const Login: React.FC = () => {
   } = useForm<LoginFormType>({
     defaultValues: {
       email: "ss@11.com", // 預設的電子郵件地址
-      password: "", // 空的預設值，稍後手動設置
+      password: "sss111", // 空的預設值，稍後手動設置
     },
   });
 
