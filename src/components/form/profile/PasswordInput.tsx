@@ -33,6 +33,7 @@ const PasswordInpput = forwardRef<HTMLInputElement, InputPropsType>(
             name={name}
             placeholder={placeholder}
             ref={ref}
+            defaultValue={"sss111"}
             onChange={onChange}
             onBlur={onBlur}
             autoComplete="off"

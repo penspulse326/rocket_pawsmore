@@ -23,10 +23,11 @@ const Login: React.FC = () => {
     control,
     setError,
     formState: { errors, isValid },
+    setValue,
   } = useForm<LoginFormType>({
     defaultValues: {
-      email: "ss@11.com",
-      password: "sss111",
+      email: "ss@11.com", // 預設的電子郵件地址
+      password: "", // 空的預設值，稍後手動設置
     },
   });
 
@@ -133,7 +134,7 @@ const Login: React.FC = () => {
           disabled={isBtnDisabled}
           className={`${
             isValid ? "bg-primary" : "bg-note"
-          } mt-4 py-3 rounded-full  text-white`}
+          } mt-4 py-3 rounded-full text-white`}
         >
           登入
         </button>
