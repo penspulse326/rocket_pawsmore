@@ -23,7 +23,12 @@ const Login: React.FC = () => {
     control,
     setError,
     formState: { errors, isValid },
-  } = useForm<LoginFormType>();
+  } = useForm<LoginFormType>({
+    defaultValues: {
+      email: "ss@11.com",
+      password: "sss111",
+    },
+  });
 
   const { updateUser } = useToken();
   const router = useRouter();
